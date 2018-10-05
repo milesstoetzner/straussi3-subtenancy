@@ -1,0 +1,11 @@
+.form-control, .custom-select, .btn, .card {
+     border-radius: 0rem;
+}
+
+.container-fluid {
+    padding: 0;
+}
+
+.card {
+    border: 0;
+}

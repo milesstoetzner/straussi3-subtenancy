@@ -1,0 +1,22 @@
+{% extends "public/base.html" %}
+{% block title %}Hauptmieter registrieren{% endblock %}
+
+{% block content %}
+    <form action="" method="post">
+
+        {% csrf_token %}
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Hauptmieter Registrierung</h5>
+
+                {{ form.as_p }}
+
+                <button class="btn btn-primary btn-block">Registrieren</button>
+
+            </div>
+
+        </div>
+
+    </form>
+{% endblock %}

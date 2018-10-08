@@ -1,0 +1,50 @@
+{% extends "public/base.html" %}
+{% block title %}Anfragenliste{% endblock %}
+
+{% block content %}
+
+
+    <div class="card">
+        <div class="card-body">
+
+            <h5 class="card-title">Anfragenliste</h5>
+
+
+            <p class="card-text">Such dir die IDs der für dich infrage kommenden Anfragen heraus und besuche uns in der
+                Sprechstunde, damit wir dir die Kontaktdaten geben können.
+
+                <br>Die Liste ist zunächst nach Beginn und dann nach Ende sortiert.</p>
+
+            <table class="table">
+
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Beginn der Untermiete</th>
+                    <th>Ende der Untermiete</th>
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for request in object_list %}
+
+                    <tr>
+
+                        <td>{{ request.id }}</td>
+                        <td>{{ request.begin_subtenancy }}</td>
+                        <td>{{ request.end_subtenancy }}</td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+{% endblock %}

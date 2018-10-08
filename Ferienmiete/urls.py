@@ -19,5 +19,8 @@ from public import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('hauptmieter/', views.MainTenant)
+    path('hauptmieter/', views.MainTenantCreate.as_view(), name='MainTenantCreate'),
+    path('untermieter/', views.SubTenantCreate.as_view(), name='SubTenantCreate'),
+    path('anfragenliste/', views.Requests.as_view(), name='Anfragenliste'),
+    path('impressum/', views.Impressum, name='Impressum')
 ]

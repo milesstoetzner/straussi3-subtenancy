@@ -27,10 +27,6 @@
             <a class="btn btn-primary" href="/anfragenliste">Anfragenliste</a>
         </li>
         <li class="nav-item">
-            <a class="btn btn-primary" href="/login">Login</a>
-        </li>
-
-        <li class="nav-item">
             <a class="btn btn-primary" href="/impressum">Impressum</a>
         </li>
     </ul>
@@ -68,6 +64,17 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="wiedereinzug">Wohnheim</label>
+                    <select class="custom-select" id="wiedereinzug" aria-describedby="wiedereinzugHilfe">
+                        <option disabled selected value style="display: none"></option>
+                        <option value="str1">Straußäcker 1</option>
+                        <option value="str2">Straußäcker 2</option>
+                        <option value="str3">Straußäcker 3</option>
+                    </select>
+                </div>
+
+
+                <div class="form-group">
                     <label for="beginnMietvertrag">Beginn Mietvertrag</label>
                     <input type="date" class="form-control" id="beginnMietvertrag">
                 </div>
@@ -98,7 +105,8 @@
                 <div class="form-group">
                     <label for="hausnummer">Hausnummer</label>
                     <select class="custom-select" id="hausnummer">
-                        <option value="3C" selected>3C</option>
+                        <option disabled selected value style="display: none"></option>
+                        <option value="3C">3C</option>
                         <option value="3D">3D</option>
                         <option value="3E">3E</option>
                         <option value="3F">3F</option>
@@ -111,6 +119,7 @@
                 <div class="form-group">
                     <label for="zimmernummer">Zimmernummer</label>
                     <select class="custom-select" id="zimmernummer">
+                        <option disabled selected value style="display: none"></option>
                     </select>
                 </div>
 
@@ -145,8 +154,8 @@
                 <div class="form-group">
                     <label for="zustand">Ist das Zimmer in einem ordnungsgemäßen Zustand?</label>
                     <select class="custom-select" id="zustand">
-                        <option value="Nein" selected>Nein</option>
-                        <option value="Ja">Ja</option>
+                        <option value="false" selected>Nein</option>
+                        <option value="true">Ja</option>
                     </select>
                 </div>
 

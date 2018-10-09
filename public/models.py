@@ -27,6 +27,8 @@ class MainTenant(models.Model):
 
     active = models.BooleanField(default=True)
 
+    # TODO: add created, updated fields?!
+
     def get_absolute_url(self):
         return reverse('MainTenant', kwargs={'pk': self.pk})  # TODO: remove this
 
@@ -57,9 +59,9 @@ class SubTenant(models.Model):
     city = models.CharField('Ort', max_length=250)
     country = models.CharField('Land', max_length=250)
 
-    active = models.BooleanField(default=True) # TODO: exclude from Form
+    active = models.BooleanField(default=True)
 
-    # TODO: Sub Tenant Validation
+    # TODO: add created, updated fields?!
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name + '(' + str(self.birthday) + ')'

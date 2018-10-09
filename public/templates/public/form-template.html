@@ -12,8 +12,8 @@
 
         {{ field }}
 
-        <div class="invalid-feedback">{{ field.errors.0 }}</div>
-        <div class="valid-feedback">Alles in Ordnung :)</div>
+        <div class="invalid-feedback">{{ field.errors.0 }} <i class="far fa-frown"></i></div>
+        <div class="valid-feedback">Alles in Ordnung! <i class="far fa-smile"></i></div>
 
         {% if field.errors %}
             <script>

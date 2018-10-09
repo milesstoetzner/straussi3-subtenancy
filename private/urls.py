@@ -1,8 +1,10 @@
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
 
+    path('ferienmiete/', views.ContractCreate.as_view(), name="Ferienmiete"),
     path('assistent/', views.Assistant, name="Assistant")
     # TODO: Hauptmieter ansehen
     # TODO: Hauptmieter ändern
@@ -11,5 +13,6 @@ urlpatterns = [
     # TODO: Verträge ansehen
     # TODO: Verträge ändern?
     # TODO: Aktive Ferienmiete
+    # TODO: login
 
 ]

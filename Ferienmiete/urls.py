@@ -24,5 +24,5 @@ urlpatterns = [
     path('untermieter/', views.SubTenantCreate.as_view(), name='SubTenantCreate'),
     path('anfragenliste/', views.Requests.as_view(), name='Requests'),
     path('impressum/', views.Impressum, name='Impressum'),
-    path('', include('private.urls'))
+    path('private/', include('private.urls'))
 ]

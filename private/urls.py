@@ -1,8 +1,9 @@
 from django.urls import path
+from . import views
 
 urlpatterns = [
 
-    # TODO: Assistent
+    path('assistent', views.Assistant, name="Assistant")
     # TODO: Hauptmieter ansehen
     # TODO: Hauptmieter ändern
     # TODO: Untermieter ansehen

@@ -1,8 +1,51 @@
 from django.forms import ModelForm, TextInput, DateInput, EmailInput, Select, NumberInput, CheckboxInput
 from .models import MainTenant, SubTenant
+from .residential_homes import RESIDENTIAL_HOMES
 
 
 class MainTenantForm(ModelForm):
+
+    def clean(self):
+        cleaned_date = super().clean()
+        first_name = cleaned_date.get('title')
+        begin_rent_agreement = cleaned_date.get('begin_rent_agreement')
+        end_rent_agreement = cleaned_date.get('end_rent_agreement')
+        residential_home = cleaned_date.get('residential_home')
+        house_number = cleaned_date.get('house_number')
+        room_number = cleaned_date.get('room_number')
+        begin_subtenancy = cleaned_date.get('begin_subtenancy')
+        end_subtenancy = cleaned_date.get('end_subtenancy')
+        room_condition = cleaned_date.get('room_condition')
+
+        # begin_rent_agreement < end_rent_agreement
+        if begin_rent_agreement and end_rent_agreement:
+            if begin_rent_agreement >= end_rent_agreement:
+                self.add_error('end_rent_agreement', 'Ende des Mietvertrages muss nach Beginn sein!')
+
+        # todo: validate phone_number
+
+        # house_number of residential_home
+        if residential_home and house_number:
+            if house_number not in RESIDENTIAL_HOMES[residential_home].get('house_numbers'):
+                self.add_error('house_number', 'Diese Hausnummer existiert nicht. Erlaubt sind: ' + str(
+                    RESIDENTIAL_HOMES[residential_home].get('house_numbers')))
+
+        # room_number of residential_home
+        if residential_home and room_number:
+            if int(room_number) not in RESIDENTIAL_HOMES[residential_home].get('room_numbers'):
+                self.add_error('room_number', 'Diese Zimmernummer existiert nicht. Erlaubt sind: ' + str(
+                    RESIDENTIAL_HOMES[residential_home].get('room_numbers')))
+
+        # begin_subtenancy < today < end_subtenancy
+        if begin_subtenancy and end_subtenancy:
+            if begin_subtenancy >= end_subtenancy:
+                self.add_error('end_subtenancy', 'Ende des Untermietvertrages muss nach Beginn sein!')
+
+        # room_condition is true
+        if room_condition:
+            if room_condition != 'Ja':
+                self.add_error('room_condition', 'Dein Zimmer muss in einem ordnungsgemäßen Zustand sein!')
+
     class Meta:
         model = MainTenant
         exclude = ['active']
@@ -13,7 +56,7 @@ class MainTenantForm(ModelForm):
             'first_name': TextInput(attrs={'class': 'form-control'}),
             'last_name': TextInput(attrs={'class': 'form-control'}),
             'tenant_id': NumberInput(attrs={'class': 'form-control'}),
-            'begin_rent_agreement':  DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'begin_rent_agreement': DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'end_rent_agreement': DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'email': EmailInput(attrs={'class': 'form-control'}),
             'phone_number': TextInput(attrs={'class': 'form-control'}),

@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
 
-    path('assistent', views.Assistant, name="Assistant")
+    path('assistent/', views.Assistant, name="Assistant")
     # TODO: Hauptmieter ansehen
     # TODO: Hauptmieter ändern
     # TODO: Untermieter ansehen

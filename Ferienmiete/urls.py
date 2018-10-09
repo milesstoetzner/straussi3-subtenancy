@@ -18,6 +18,7 @@ from django.urls import include, path
 from public import views
 
 urlpatterns = [
+    path('', views.Index, name='Index'),
     path('admin/', admin.site.urls),
     path('hauptmieter/', views.MainTenantCreate.as_view(), name='MainTenantCreate'),
     path('untermieter/', views.SubTenantCreate.as_view(), name='SubTenantCreate'),

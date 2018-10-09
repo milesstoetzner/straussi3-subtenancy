@@ -8,7 +8,9 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{%  static 'public/style.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'public/style.css' %}">
     <link rel="shortcut icon" href="{% static 'public/favicon.ico' %}">
 </head>
 <body>
@@ -16,26 +18,28 @@
 <header style="text-align: center; padding-top: 1rem">
 
     <div style="display: none">
-        <a href="/"><img src="{% static 'public/logo.svg' %}" style="width: 60px; padding-top: 1rem; padding-bottom: 1rem"></a>
+        <a href="/"><img src="{% static 'public/logo.svg' %}"
+                         style="width: 60px; padding-top: 1rem; padding-bottom: 1rem"></a>
         <h4>Straußäcker 3</h4>
-    <h5 class="text-muted">Ferienmiete</h5>
+        <h5 class="text-muted">Ferienmiete</h5>
     </div>
 
-    <a href="/"><img src="{% static 'public/neues_logo.svg' %}" style="width: 75px; padding-top: 1rem; padding-bottom: 1rem"></a>
+    <a href="/"><img src="{% static 'public/neues_logo.svg' %}"
+                     style="width: 75px; padding-top: 1rem; padding-bottom: 1rem"></a>
     <h5>Ferienmiete<br>Studierendenwohnheime<br>Stuttgart</h5>
 
     <ul class="nav justify-content-center bg-primary" style="margin-top: 1.5rem; margin-bottom: 1rem">
         <li class="nav-item">
-            <a class="btn btn-primary" href="/hauptmieter" id="/hauptmieter/">Hauptmieter</a>
+            <a class="btn btn-primary" href="/hauptmieter" id="/hauptmieter/"><i class="fas fa-user-edit icon-text"></i>Hauptmieter</a>
         </li>
         <li class="nav-item">
-            <a class="btn btn-primary" href="/untermieter" id="/untermieter/">Untermieter</a>
+            <a class="btn btn-primary" href="/untermieter" id="/untermieter/"><i class="fas fa-user-edit icon-text"></i>Untermieter</a>
         </li>
         <li class="nav-item">
-            <a class="btn btn-primary" href="/anfragenliste" id="/anfragenliste/">Anfragenliste</a>
+            <a class="btn btn-primary" href="/anfragenliste" id="/anfragenliste/"><i class="fas fa-file-alt icon-text"></i>Anfragenliste</a>
         </li>
         <li class="nav-item">
-            <a class="btn btn-primary" href="/impressum" id="/impressum/">Impressum</a>
+            <a class="btn btn-primary" href="/impressum" id="/impressum/"><i class="fas fa-info-circle icon-text"></i>Impressum</a>
         </li>
     </ul>
 

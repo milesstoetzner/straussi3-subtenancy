@@ -1,7 +1,36 @@
 {% for field in form %}
+
+    {% if field.id_for_label == 'id_residential_home' %}
+        <h6 class="card-subtitle mb-2 text-muted" style="padding-top: 2rem">Informationen über die
+            Untermiete</h6>
+    {% elif field.id_for_label == 'id_name' %}
+                <h6 class="card-subtitle mb-2 text-muted" style="padding-top: 2rem">Korrespondenzadresse</h6>
+    {% endif %}
+
     <div class="form-group">
-        <p>{{ field.errors }}</p>
         <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
+
         {{ field }}
+
+        <div class="invalid-feedback">{{ field.errors.0 }}</div>
+        <div class="valid-feedback">Alles in Ordnung :)</div>
+
+        {% if field.errors %}
+            <script>
+                document.getElementById('{{ field.id_for_label }}').classList.add('is-invalid');
+            </script>
+        {% elif not first %}
+            <script>
+                document.getElementById('{{ field.id_for_label }}').classList.add('is-valid');
+            </script>
+        {% endif %}
+
+        {% if field.help_text %}
+            <small id="{{ field.id_for_label }}_help"
+                   class="form-text text-muted">{{ field.help_text }}</small>
+        {% endif %}
     </div>
+
+
+
 {% endfor %}

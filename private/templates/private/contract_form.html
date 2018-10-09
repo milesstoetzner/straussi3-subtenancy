@@ -1,0 +1,27 @@
+{% extends "public/base.html" %}
+{% block title %}Ferienmiete{% endblock %}
+
+
+{% block content %}
+
+    <form action="" method="post" name="main">
+
+        {% csrf_token %}
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Ferienmiete</h5>
+
+                <h6 class="card-subtitle mb-2 text-muted">Verträge erstellen</h6>
+
+                    {% include 'public/form-template.html' %}
+
+                <button class="btn btn-primary btn-block">Registrieren</button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+{% endblock %}

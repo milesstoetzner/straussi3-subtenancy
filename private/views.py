@@ -1,3 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+def Assistant(request):
+    return render(request, 'private/assistent.html')

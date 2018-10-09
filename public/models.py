@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
+from .residential_homes import RESIDENTIAL_HOME_TYPE_CHOICES
 
-RESIDENTIAL_HOME_TYPE_CHOICES = (('str1', 'Straußäcker 1'), ('str2', 'Straußäcker 2'), ('str3', 'Straußäcker 3'),)
 BOOLEAN_CHOICES = (('Nein', 'Nein'), ('Ja', 'Ja')) #TODO: bad practice?!
 
 
@@ -29,8 +29,6 @@ class MainTenant(models.Model):
 
     def get_absolute_url(self):
         return reverse('MainTenant', kwargs={'pk': self.pk})  # TODO: remove this
-
-    # TODO: Main Tenant Validation
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name + ' (' + str(self.tenant_id) + ')'

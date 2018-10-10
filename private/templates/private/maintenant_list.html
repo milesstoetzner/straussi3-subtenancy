@@ -3,6 +3,8 @@
 
 {% block content %}
 
+    <script>document.getElementById('custom-container').style.maxWidth = null</script>
+
     <div class="card">
         <div class="card-body">
 
@@ -43,7 +45,7 @@
                 {% for maintenant in object_list %}
 
                     <tr>
-                        <td class="align-middle"><a href="#"><i class="fas fa-sliders-h btn btn-primary"></i></a></td>
+                        <td class="align-middle"><a href=" {% url 'private:MainTenantUpdate' maintenant.id %}"><i class="fas fa-sliders-h btn btn-primary"></i></a></td>
                         <td class="align-middle">{{ maintenant.id }}</td>
                         <td class="align-middle">{{ maintenant.active }}</td>
                         <td class="align-middle">{{ maintenant.first_name }}</td>

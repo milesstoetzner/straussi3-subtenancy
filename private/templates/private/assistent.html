@@ -51,8 +51,10 @@
                         }
 
                         if (noResults) {
+                            input.classList.remove('is-valid');
                             input.classList.add('is-invalid');
                         } else {
+                            input.classList.remove('is-invalid');
                             input.classList.add('is-valid');
                         }
 

@@ -66,8 +66,14 @@ class MainTenantForm(ModelForm):
             'end_subtenancy': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'comeback': Select(attrs={'class': 'form-control'}),
             'rent': NumberInput(attrs={'class': 'form-control'}),
-            'room_condition': Select(attrs={'class': 'form-control'})
+            'room_condition': Select(attrs={'class': 'form-control'}),
+            'active': Select(attrs={'class': 'form-control'}),
         }
+
+
+class MainTenantUpdateForm(MainTenantForm):
+    class Meta(MainTenantForm.Meta):
+        exclude = []
 
 
 class SubTenantForm(ModelForm):
@@ -101,5 +107,11 @@ class SubTenantForm(ModelForm):
             'house_number': TextInput(attrs={'class': 'form-control'}),
             'postcode': NumberInput(attrs={'class': 'form-control'}),
             'city': TextInput(attrs={'class': 'form-control'}),
-            'country': TextInput(attrs={'class': 'form-control'})
+            'country': TextInput(attrs={'class': 'form-control'}),
+            'active': Select(attrs={'class': 'form-control'}),
         }
+
+
+class SubTenantUpdateForm(SubTenantForm):
+    class Meta(SubTenantForm.Meta):
+        exclude = []

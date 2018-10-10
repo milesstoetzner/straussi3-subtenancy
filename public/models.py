@@ -30,7 +30,7 @@ class MainTenant(models.Model):
     # TODO: add created, updated fields?!
 
     def get_absolute_url(self):
-        return reverse('MainTenant', kwargs={'pk': self.pk})  # TODO: remove this
+        return reverse('private:MainTenantUpdate', kwargs={'pk': self.pk})
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name + ' (' + str(self.tenant_id) + ')'

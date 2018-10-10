@@ -53,7 +53,7 @@ class Requests(ListView):
     template_name = 'public/requests.html'
 
     def get_queryset(self):
-        return SubTenant.objects.filter(active=True, end_subtenancy__gt=datetime.datetime.now()).order_by('begin_subtenancy','end_subtenancy')
+        return SubTenant.objects.filter(active='Ja', end_subtenancy__gt=datetime.datetime.now()).order_by('begin_subtenancy','end_subtenancy')
 
 
 def Index(request):

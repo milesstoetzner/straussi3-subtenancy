@@ -3,6 +3,7 @@ from django.urls import reverse
 from .residential_homes import RESIDENTIAL_HOME_TYPE_CHOICES
 
 BOOLEAN_CHOICES = (('Nein', 'Nein'), ('Ja', 'Ja')) #TODO: bad practice?!
+# TODO: rename 'active' to 'is_active' in MainTenant, SubTenant and Contract
 
 
 class MainTenant(models.Model):
@@ -22,7 +23,7 @@ class MainTenant(models.Model):
     begin_subtenancy = models.DateField('Beginn der Untermiete')
     end_subtenancy = models.DateField('Ende der Untermiete')
     comeback = models.CharField('Ist ein Wiedereinzug ins Zimmer geplant?', max_length=10, choices=BOOLEAN_CHOICES)
-    rent = models.PositiveIntegerField('Monatliche Miete in Euro')
+    rent = models.FloatField('Tagesmiete in Euro')  # TODO: request daily or monthly rent!?
     room_condition = models.CharField('Ist das Zimmer in einem ordnungsgemäßen Zustand?', max_length=10, choices=BOOLEAN_CHOICES)
 
     active = models.CharField('Ist dieser Account aktiv?', max_length=10, choices=BOOLEAN_CHOICES, default='Ja')
@@ -33,7 +34,7 @@ class MainTenant(models.Model):
         return reverse('private:MainTenantUpdate', kwargs={'pk': self.pk})
 
     def __str__(self):
-        return self.first_name + ' ' + self.last_name + ' (' + str(self.tenant_id) + ')'
+        return str(self.pk) + ': '+ self.first_name + ' ' + self.last_name + ' (' + str(self.tenant_id) + ')'
 
 
 class SubTenant(models.Model):
@@ -67,4 +68,4 @@ class SubTenant(models.Model):
         return reverse('private:SubTenantUpdate', kwargs={'pk': self.pk})
 
     def __str__(self):
-        return self.first_name + ' ' + self.last_name + '(' + str(self.birthday) + ')'
+        return str(self.pk) + ': ' + self.first_name + ' ' + self.last_name + ' (' + str(self.birthday) + ')'

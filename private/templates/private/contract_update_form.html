@@ -1,0 +1,24 @@
+{% extends "public/base.html" %}
+{% block title %}Vertrag Bearbeiten{% endblock %}
+
+{% block content %}
+
+    <form action="" method="post" name="main">
+
+        {% csrf_token %}
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Vertrag Bearbeiten</h5>
+
+                    {% include 'public/form-template.html' %}
+
+                <button class="btn btn-success btn-block">Änderungen speichern</button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+{% endblock %}

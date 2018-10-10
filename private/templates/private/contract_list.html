@@ -43,10 +43,10 @@
                                     class="fas fa-file-signature btn btn-danger"></i></a></td>
                             <td class="align-middle">{{ contract.id }}</td>
                             <td class="align-middle">{{ contract.active }}</td>
-                            <td class="align-middle"><a href=" {% url 'private:MainTenantUpdate' contract.main_tenant.id %}" class="icon-text"><i
-                                    class="fas fa-user-edit btn btn-info"></i></a> {{ contract.main_tenant }}</td>
-                            <td class="align-middle"><a href=" {% url 'private:SubTenantUpdate' contract.sub_tenant.id %}" class="icon-text"><i
-                                    class="fas fa-user-edit btn btn-info"></i></a>{{ contract.sub_tenant }}</td>
+                            <td class="align-middle"><a href=" {% url 'private:MainTenantUpdate' contract.main_tenant.id %}" class="btn btn-info btn-block"><i
+                                    class="fas fa-user-edit icon-text"></i>{{ contract.main_tenant }}</a></td>
+                            <td class="align-middle"><a href=" {% url 'private:SubTenantUpdate' contract.sub_tenant.id %}" class="btn btn-info btn-block"><i
+                                    class="fas fa-user-edit icon-text"></i>{{ contract.sub_tenant }}</a></td>
                             <td class="align-middle">{{ contract.main_tenant.residential_home }}</td>
                             <td class="align-middle">{{ contract.main_tenant.house_number }}</td>
                             <td class="align-middle">{{ contract.main_tenant.room_number }}</td>

@@ -12,9 +12,10 @@ urlpatterns = [
     path('untermieter/', views.SubTenantList.as_view(), name='SubTenantList'),
     path('untermieter/<int:pk>/', views.SubTenantUpdate.as_view(), name='SubTenantUpdate'),
     path('vertraege/', views.ContractList.as_view(), name='ContractList'),
-    path('vertraege/<int:pk>', views.ContractUpdate.as_view(), name='ContractUpdate'),
-    path('vertraege/<int:pk>/preview', views.ContractPreview, name='ContractPreview')
+    path('vertraege/<int:pk>/', views.ContractUpdate.as_view(), name='ContractUpdate'),
+    path('vertraege/<int:pk>/preview/', views.ContractPreview, name='ContractPreview'),
+    path('aktiveFerienmiete', views.ContractsRunning.as_view(), name='ContractsRunning')
 
-    # TODO: Aktive Ferienmiete
+
     # TODO: login
 ]

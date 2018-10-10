@@ -25,9 +25,9 @@ class MainTenant(models.Model):
     rent = models.PositiveIntegerField('Monatliche Miete in Euro')
     room_condition = models.CharField('Ist das Zimmer in einem ordnungsgemäßen Zustand?', max_length=10, choices=BOOLEAN_CHOICES)
 
-    active = models.BooleanField(default=True)
+    active = models.CharField('Ist dieser Account aktiv?', max_length=10, choices=BOOLEAN_CHOICES, default='Ja')
 
-    # TODO: add created, updated fields?!
+    # TODO: add created, last_updated fields?!
 
     def get_absolute_url(self):
         return reverse('private:MainTenantUpdate', kwargs={'pk': self.pk})
@@ -59,9 +59,12 @@ class SubTenant(models.Model):
     city = models.CharField('Ort', max_length=250)
     country = models.CharField('Land', max_length=250)
 
-    active = models.BooleanField(default=True)
+    active = models.CharField('Ist dieser Account aktiv?', max_length=10, choices=BOOLEAN_CHOICES, default='Ja')
 
-    # TODO: add created, updated fields?!
+    # TODO: add created, last_updated fields?!
+
+    def get_absolute_url(self):
+        return reverse('private:SubTenantUpdate', kwargs={'pk': self.pk})
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name + '(' + str(self.birthday) + ')'

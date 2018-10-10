@@ -1,0 +1,26 @@
+{% extends "public/base.html" %}
+{% block title %}Untermieter Bearbeiten{% endblock %}
+
+{% block content %}
+
+    <form action="" method="post" name="main">
+
+        {% csrf_token %}
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Untermieter Bearbeiten</h5>
+
+                <h6 class="card-subtitle mb-2 text-muted">Informationen über den Untermieter</h6>
+
+                    {% include 'public/form-template.html' %}
+
+                <button class="btn btn-success btn-block">Änderungen speichern</button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+{% endblock %}

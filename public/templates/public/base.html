@@ -74,6 +74,14 @@
 
 <div class="container-fluid" style="max-width: 600px" id="custom-container">
 
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert bg-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %} text-white text-center" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
     {% block content %}
     {% endblock %}
 

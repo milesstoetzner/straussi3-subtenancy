@@ -12,61 +12,64 @@
 
             <!-- TODO: add search/filter -->
 
-            <table class="table table-striped table-responsive" style="white-space: nowrap; text-align: center">
+            <div class="table-responsive">
+                <table class="table table-striped" style="white-space: nowrap; text-align: center">
 
-                <thead>
-                <tr>
-                    <th class="align-middle"></th>
-                    <th class="align-middle">ID</th>
-                    <th class="align-middle">Aktiv</th>
-                    <th class="align-middle">Vorname</th>
-                    <th class="align-middle">Nachname</th>
-                    <th class="align-middle">Mieternummer</th>
-                    <th class="align-middle">Beginn der Mietvertrages</th>
-                    <th class="align-middle">Ende des Mietvertrages</th>
-                    <th class="align-middle">Email</th>
-                    <th class="align-middle">Telefonnummer</th>
-                    <th class="align-middle">Wohnheim</th>
-                    <th class="align-middle">Hausnummer</th>
-                    <th class="align-middle">Zimmernummer</th>
-                    <th class="align-middle">Beginn der Untermiete</th>
-                    <th class="align-middle">Ende der Untermiete</th>
-                    <th class="align-middle">Wiedereinzug</th>
-                    <th class="align-middle">Miete</th>
-                    <th class="align-middle">Zimmerzustand</th>
-                </tr>
-
-                </thead>
-
-                <tbody>
-
-                {% for maintenant in object_list %}
-
+                    <thead>
                     <tr>
-                        <td class="align-middle"><a href=" {% url 'private:MainTenantUpdate' maintenant.id %}"><i class="fas fa-sliders-h btn btn-primary"></i></a></td>
-                        <td class="align-middle">{{ maintenant.id }}</td>
-                        <td class="align-middle">{{ maintenant.active }}</td>
-                        <td class="align-middle">{{ maintenant.first_name }}</td>
-                        <td class="align-middle">{{ maintenant.last_name }}</td>
-                        <td class="align-middle">{{ maintenant.tenant_id }}</td>
-                        <td class="align-middle">{{ maintenant.begin_rent_agreement }}</td>
-                        <td class="align-middle">{{ maintenant.end_rent_agreement }}</td>
-                        <td class="align-middle">{{ maintenant.email }}</td>
-                        <td class="align-middle">{{ maintenant.phone_number }}</td>
-                        <td class="align-middle">{{ maintenant.residential_home }}</td>
-                        <td class="align-middle">{{ maintenant.house_number }}</td>
-                        <td class="align-middle">{{ maintenant.room_number }}</td>
-                        <td class="align-middle">{{ maintenant.begin_subtenancy }}</td>
-                        <td class="align-middle">{{ maintenant.end_subtenancy }}</td>
-                        <td class="align-middle">{{ maintenant.comeback }}</td>
-                        <td class="align-middle">{{ maintenant.rent }}</td>
-                        <td class="align-middle">{{ maintenant.room_condition }}</td>
+                        <th class="align-middle"></th>
+                        <th class="align-middle">ID</th>
+                        <th class="align-middle">Aktiv</th>
+                        <th class="align-middle">Vorname</th>
+                        <th class="align-middle">Nachname</th>
+                        <th class="align-middle">Mieternummer</th>
+                        <th class="align-middle">Beginn der Mietvertrages</th>
+                        <th class="align-middle">Ende des Mietvertrages</th>
+                        <th class="align-middle">Email</th>
+                        <th class="align-middle">Telefonnummer</th>
+                        <th class="align-middle">Wohnheim</th>
+                        <th class="align-middle">Hausnummer</th>
+                        <th class="align-middle">Zimmernummer</th>
+                        <th class="align-middle">Beginn der Untermiete</th>
+                        <th class="align-middle">Ende der Untermiete</th>
+                        <th class="align-middle">Wiedereinzug</th>
+                        <th class="align-middle">Miete</th>
+                        <th class="align-middle">Zimmerzustand</th>
                     </tr>
 
-                {% endfor %}
+                    </thead>
 
-                </tbody>
-            </table>
+                    <tbody>
+
+                    {% for maintenant in object_list %}
+
+                        <tr>
+                            <td class="align-middle"><a href=" {% url 'private:MainTenantUpdate' maintenant.id %}"><i
+                                    class="fas fa-sliders-h btn btn-primary"></i></a></td>
+                            <td class="align-middle">{{ maintenant.id }}</td>
+                            <td class="align-middle">{{ maintenant.active }}</td>
+                            <td class="align-middle">{{ maintenant.first_name }}</td>
+                            <td class="align-middle">{{ maintenant.last_name }}</td>
+                            <td class="align-middle">{{ maintenant.tenant_id }}</td>
+                            <td class="align-middle">{{ maintenant.begin_rent_agreement }}</td>
+                            <td class="align-middle">{{ maintenant.end_rent_agreement }}</td>
+                            <td class="align-middle">{{ maintenant.email }}</td>
+                            <td class="align-middle">{{ maintenant.phone_number }}</td>
+                            <td class="align-middle">{{ maintenant.residential_home }}</td>
+                            <td class="align-middle">{{ maintenant.house_number }}</td>
+                            <td class="align-middle">{{ maintenant.room_number }}</td>
+                            <td class="align-middle">{{ maintenant.begin_subtenancy }}</td>
+                            <td class="align-middle">{{ maintenant.end_subtenancy }}</td>
+                            <td class="align-middle">{{ maintenant.comeback }}</td>
+                            <td class="align-middle">{{ maintenant.rent }}</td>
+                            <td class="align-middle">{{ maintenant.room_condition }}</td>
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
 
         </div>
 

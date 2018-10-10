@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views.generic import CreateView, ListView, UpdateView, DetailView
 from .models import Contract
 from public.models import MainTenant, SubTenant
@@ -22,8 +21,11 @@ class ContractCreate(CreateView):
         return context
 
 
-def Assistant(request):
-    return render(request, 'private/assistent.html')
+class Assistant(ListView):
+    template_name = 'private/assistent.html'
+
+    def get_queryset(self):
+        return SubTenant.objects.all()
 
 
 # OPTIMIZATION: not hardcoded view

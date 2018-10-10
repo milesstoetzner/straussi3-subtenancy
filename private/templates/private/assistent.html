@@ -3,14 +3,103 @@
 
 {% block content %}
 
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Assistent</h5>
+    <script>document.getElementById('custom-container').style.maxWidth = '800px'</script>
 
-                <!-- TODO: Assistent -->
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Assistent</h5>
 
+            <div class="form-group">
+                <input type="text" onkeyup="search('contactDetails', 0)" class="form-control" id="searchContactDetailsInput"
+                       aria-describedby="searchContactDetailsHelp" placeholder="Gesuchte IDs eingeben ...">
+
+                <div class="invalid-feedback">Keinen Untermieter mit den gegeben IDs gefunden! <i
+                        class="far fa-frown"></i></div>
+                <div class="valid-feedback">Es wurde mindestens ein Untermieter gefunden! <i class="far fa-smile"></i></div>
+
+
+                <script>
+
+                    function search(tableId, col) {
+                        let noResults = true;
+                        let input = document.getElementById("searchContactDetailsInput");
+                        let filters = input.value.split(',');
+                        let table = document.getElementById(tableId);
+                        let tr = table.getElementsByTagName('tr');
+
+                        if (!input.value) {
+                            for (let i= 0; i < tr.length; i++) {
+                                tr[i].style.display="";
+                            }
+                            return
+                        }
+
+                        for (let i = 0; i < filters.length; i++) {
+                            console.log(parseInt(filters[i]))
+                        }
+
+                        outer: for (let i = 1; i < tr.length; i++) {
+                            let td = tr[i].getElementsByTagName("td")[col];
+                            for (let j = 0; j < filters.length; j++) {
+                                if (filters[j] && td. innerHTML.indexOf(parseInt(filters[j])) > -1 ) {
+                                    tr[i].style.display = "";
+                                    noResults = false;
+                                    continue outer
+                                }
+                            }
+                            tr[i].style.display = "none";
+                        }
+
+                        if (noResults) {
+                            input.classList.add('is-invalid');
+                        } else {
+                            input.classList.add('is-valid');
+                        }
+
+                    }
+                </script>
+
+                <small id="searchContactDetailsHelp"
+                       class="form-text text-muted">Es kann nach mehreren IDs gleichzeitig gesucht werden. Dafür müssen
+                    die einzelnen IDs mit einem Komma getrennt werden.
+                </small>
             </div>
 
+            <div class="table-responsive">
+                <table class="table table-striped" style="white-space: nowrap; text-align: center" id="contactDetails">
+
+                    <thead>
+                    <tr>
+                        <th class="align-middle">ID</th>
+                        <th class="align-middle">Aktiv</th>
+                        <th class="align-middle">Vorname</th>
+                        <th class="align-middle">Nachname</th>
+                        <th class="align-middle">Email</th>
+                        <th class="align-middle">Telefonnummer</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for maintenant in object_list %}
+
+                        <tr>
+                            <td class="align-middle">{{ maintenant.id }}</td>
+                            <td class="align-middle">{{ maintenant.active }}</td>
+                            <td class="align-middle">{{ maintenant.first_name }}</td>
+                            <td class="align-middle">{{ maintenant.last_name }}</td>
+                            <td class="align-middle">{{ maintenant.email }}</td>
+                            <td class="align-middle">{{ maintenant.phone_number }}</td>
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
         </div>
+
+    </div>
 
 {% endblock %}

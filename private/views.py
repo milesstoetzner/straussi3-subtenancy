@@ -4,6 +4,8 @@ from .models import Contract
 from public.models import MainTenant, SubTenant
 from public.forms import MainTenantForm, MainTenantUpdateForm, SubTenantForm, SubTenantUpdateForm
 from .forms import ContractForm
+from django.contrib.messages.views import SuccessMessageMixin
+
 
 # TODO: authenticated and residential home scope! view, create, update, delete of contracts and main-/subtenants
 
@@ -32,12 +34,12 @@ class MainTenantList(ListView):
         return MainTenant.objects.all()
 
 
-class MainTenantUpdate(UpdateView):
+class MainTenantUpdate(SuccessMessageMixin, UpdateView):
     model = MainTenant
     form_class = MainTenantUpdateForm
     template_name = 'private/maintenant_update_form.html'
 
-    # add success url
+    success_message = 'Änderungen erfolgreich übernommen!'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -54,12 +56,12 @@ class SubTenantList(ListView):
         return SubTenant.objects.all()
 
 
-class SubTenantUpdate(UpdateView):
+class SubTenantUpdate(SuccessMessageMixin, UpdateView):
     model = SubTenant
     form_class = SubTenantUpdateForm
     template_name = 'private/subtenant_update_form.html'
 
-    # add success url
+    success_message = 'Änderungen erfolgreich übernommen!'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

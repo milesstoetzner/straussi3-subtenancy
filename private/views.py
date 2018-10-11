@@ -4,6 +4,8 @@ from public.models import MainTenant, SubTenant
 from public.forms import MainTenantForm, MainTenantUpdateForm, SubTenantForm, SubTenantUpdateForm
 from .forms import ContractForm, ContractUpdateForm
 from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse
+from django.core import serializers
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
@@ -24,10 +26,12 @@ class ContractCreate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
 
     # TODO: success url zur pdf
     # TODO: message ändern
-    success_url = '/'
     success_message = 'Vertrag erfolgreich erstellt!'
 
     #TODO: scope!
+
+    def get_success_url(self):
+        return reverse('private:ContractRender', args=(self.object.id,))
 
     def test_func(self):
         return self.request.user.groups.filter(name='Assistants').exists()
@@ -66,17 +70,18 @@ class ContractUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
 
 # TODO: create contract templates
-class ContractRender(LoginRequiredMixin, UserPassesTestMixin, View):
+class ContractRender(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     # TODO: scope!
+    model = Contract
 
     def test_func(self):
         return self.request.user.groups.filter(name='Assistants').exists()
 
     def get(self, request, *args, **kwargs):
         data = {
-            'id': self.kwargs['pk']
+            'contract': self.get_object()
         }
-        pdf = render_to_pdf('private/contracts/contract_test.html', data)
+        pdf = render_to_pdf('private/contracts/' + self.get_object().main_tenant.residential_home + '.html', data)
         return HttpResponse(pdf, content_type='application/pdf')
 
 

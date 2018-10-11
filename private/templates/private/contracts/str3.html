@@ -9,7 +9,12 @@
 </head>
 <body>
 
-<h1>Vertrag_ID {{ id }}</h1>
+{% with main=contract.main_tenant sub=contract.sub_tenant%}
 
+<h1>Vertrag: {{ contract }}</h1>
+<h1>Hauptmieter: {{ main }}</h1>
+<h1>Untermieter: {{ sub }}</h1>
+
+{% endwith %}
 </body>
 </html>

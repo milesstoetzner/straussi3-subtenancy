@@ -1,7 +1,8 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 from public.models import MainTenant, SubTenant
-from public.models import BOOLEAN_CHOICES
+from public.models import BOOLEAN_CHOICES, RESIDENTIAL_HOME_TYPE_CHOICES
 
 
 # TODO: nullabel - why does this model need null=True while MainTenant does not?!
@@ -24,3 +25,11 @@ class Contract(models.Model):
 
     def __str__(self):
         return str(self.pk) + ': ' + self.main_tenant.first_name + ' ' + self.main_tenant.last_name + ' (' + str(self.main_tenant.pk) + ')' + ' & ' + self.sub_tenant.first_name + ' ' + self.sub_tenant.last_name + ' (' + str(self.sub_tenant.pk) + ')'
+
+
+class Administrative(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    residential_home = models.CharField(max_length=10, choices=RESIDENTIAL_HOME_TYPE_CHOICES)
+
+    def __str__(self):
+        return self.residential_home

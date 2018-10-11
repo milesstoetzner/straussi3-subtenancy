@@ -33,7 +33,7 @@
                         <tr>
                             <td class="align-middle">{{ contract.main_tenant.first_name }} {{ contract.main_tenant.last_name }}</td>
                             <td class="align-middle">{{ contract.sub_tenant.first_name }} {{ contract.main_tenant.last_name }}</td>
-                            <td class="align-middle">{{ contract.main_tenant.residential_home }}</td>
+                            <td class="align-middle">{{ contract.main_tenant.get_residential_home_display }}</td>
                             <td class="align-middle">{{ contract.main_tenant.house_number }}</td>
                             <td class="align-middle">{{ contract.main_tenant.room_number }}</td>
                             <td class="align-middle">{{ contract.begin }} ({{ contract.begin | date:"W" }})</td>

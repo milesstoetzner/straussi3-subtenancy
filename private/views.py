@@ -17,7 +17,7 @@ from .utils import render_to_pdf
 # TODO: display rent?!
 # TODO: display donation?!
 # TODO: display main_tenant details und sub_tenant details
-class ContractCreate(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class ContractCreate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = Contract
     form_class = ContractForm
     form_class.use_required_attribute = False
@@ -28,6 +28,9 @@ class ContractCreate(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_message = 'Vertrag erfolgreich erstellt!'
 
     #TODO: scope!
+
+    def test_func(self):
+        return self.request.user.groups.filter(name='Assistants').exists()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -40,7 +43,7 @@ class ContractList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'private/contract_list.html'
 
     def test_func(self):
-        return self.request.user.administrative.is_assistant
+        return self.request.user.groups.filter(name='Assistants').exists()
 
     def get_queryset(self):
         return Contract.objects.filter(main_tenant__residential_home=self.request.user.administrative.residential_home).order_by('-id')
@@ -63,8 +66,12 @@ class ContractUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
 
 # TODO: create contract templates
-class ContractRender(View):
+class ContractRender(LoginRequiredMixin, UserPassesTestMixin, View):
     # TODO: scope!
+
+    def test_func(self):
+        return self.request.user.groups.filter(name='Assistants').exists()
+
     def get(self, request, *args, **kwargs):
         data = {
             'id': self.kwargs['pk']
@@ -77,7 +84,7 @@ class Assistant(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'private/assistent.html'
 
     def test_func(self):
-        return self.request.user.administrative.is_assistant
+        return self.request.user.groups.filter(name='Assistants').exists()
 
     def get_queryset(self):
         return SubTenant.objects.filter()
@@ -88,7 +95,7 @@ class MainTenantList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'private/maintenant_list.html'
 
     def test_func(self):
-        return self.request.user.administrative.is_assistant
+        return self.request.user.groups.filter(name='Assistants').exists()
 
     def get_queryset(self):
         return MainTenant.objects.filter(residential_home=self.request.user.administrative.residential_home).order_by('-id')
@@ -115,7 +122,7 @@ class SubTenantList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'private/subtenant_list.html'
 
     def test_func(self):
-        return self.request.user.administrative.is_assistant
+        return self.request.user.groups.filter(name='Assistants').exists()
 
     def get_queryset(self):
         return SubTenant.objects.all().order_by('-id')
@@ -128,8 +135,6 @@ class SubTenantUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     success_message = 'Änderungen erfolgreich übernommen!'
 
-    # TODO: scope!
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.method == 'GET':
@@ -141,7 +146,7 @@ class ContractsRunning(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'private/contracts_running_list.html'
 
     def test_func(self):
-        return self.request.user.administrative.is_external
+        return self.request.user.groups.filter(name='Assistants').exists() or self.request.user.groups.filter(name='External').exists()
 
     def get_queryset(self):
         return Contract.objects.filter(active='Ja', main_tenant__residential_home=self.request.user.administrative.residential_home)\

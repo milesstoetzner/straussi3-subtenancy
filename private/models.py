@@ -21,7 +21,7 @@ class Contract(models.Model):
     active = models.CharField('Ist dieser Vertrag aktiv?', max_length=10, choices=BOOLEAN_CHOICES, default='Ja')
 
     def get_absolute_url(self):
-        return reverse('private:ContractUpdate', kwargs={'pk': self.pk})
+        return reverse('private:ContractUpdate', kwargs={'pk': self.pk})  # TODO: scope?!
 
     def __str__(self):
         return str(self.pk) + ': ' + self.main_tenant.first_name + ' ' + self.main_tenant.last_name + ' (' + str(self.main_tenant.pk) + ')' + ' & ' + self.sub_tenant.first_name + ' ' + self.sub_tenant.last_name + ' (' + str(self.sub_tenant.pk) + ')'
@@ -30,8 +30,8 @@ class Contract(models.Model):
 class Administrative(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     residential_home = models.CharField('Wohnheim', max_length=10, choices=RESIDENTIAL_HOME_TYPE_CHOICES)  # TODO: superuser needs a proptery?!
-    is_assistant = models.BooleanField('Ist ein Account der Sprechstunde')
-    is_external = models.BooleanField('Ist ein Account des Hausmeister oder SWS')
+    is_assistant = models.BooleanField('Ist ein Account der Sprechstunde')  # TODO: remove this?!
+    is_external = models.BooleanField('Ist ein Account des Hausmeister oder SWS')  # TODO: remove this?!
 
     def __str__(self):
         return self.residential_home

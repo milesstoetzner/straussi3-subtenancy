@@ -4,8 +4,8 @@ RESIDENTIAL_HOME_TYPE_CHOICES = (('str1', 'Straußäcker 1'), ('str2', 'Strauß�
 
 RESIDENTIAL_HOMES = {
     'str1': {
-        'house_numbers': [],
-        'room_numbers': []
+        'house_numbers': ['te'],
+        'room_numbers': [42]
     },
     'str2': {
         'house_numbers': [],

@@ -29,7 +29,9 @@ class Contract(models.Model):
 
 class Administrative(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    residential_home = models.CharField(max_length=10, choices=RESIDENTIAL_HOME_TYPE_CHOICES)
+    residential_home = models.CharField('Wohnheim', max_length=10, choices=RESIDENTIAL_HOME_TYPE_CHOICES)  # TODO: superuser needs a proptery?!
+    is_assistant = models.BooleanField('Ist ein Account der Sprechstunde')
+    is_external = models.BooleanField('Ist ein Account des Hausmeister oder SWS')
 
     def __str__(self):
         return self.residential_home

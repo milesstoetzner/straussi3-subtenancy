@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class AdministrativeInline(admin.StackedInline):
     model = Administrative
     can_delete = False
-    verbose_name_plural = 'Wohnheim'
+    verbose_name_plural = 'Wohnheimscope'
 
 
 class UserAdmin(BaseUserAdmin):

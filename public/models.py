@@ -17,7 +17,7 @@ class MainTenant(models.Model):
     phone_number = models.CharField('Telefonnummer', max_length=15)
 
     # Information about subtenancy
-    residential_home = models.CharField('Wohnheim', max_length=10, choices=RESIDENTIAL_HOME_TYPE_CHOICES)
+    residential_home = models.CharField('Wohnheim', max_length=100, choices=RESIDENTIAL_HOME_TYPE_CHOICES)
     house_number = models.CharField('Hausnummer', max_length=2)
     room_number = models.CharField('Zimmernummer', max_length=3)
     begin_subtenancy = models.DateField('Beginn der Untermiete')

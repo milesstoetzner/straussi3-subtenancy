@@ -5,7 +5,7 @@ from public.forms import MainTenantForm, MainTenantUpdateForm, SubTenantForm, Su
 from .forms import ContractForm, ContractUpdateForm
 from django.contrib.messages.views import SuccessMessageMixin
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from django.http import HttpResponse
 from .utils import render_to_pdf
@@ -17,7 +17,7 @@ from .utils import render_to_pdf
 # TODO: display rent?!
 # TODO: display donation?!
 # TODO: display main_tenant details und sub_tenant details
-class ContractCreate(SuccessMessageMixin, CreateView):
+class ContractCreate(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Contract
     form_class = ContractForm
     form_class.use_required_attribute = False
@@ -27,6 +27,8 @@ class ContractCreate(SuccessMessageMixin, CreateView):
     success_url = '/'
     success_message = 'Vertrag erfolgreich erstellt!'
 
+    #TODO: scope!
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.method == 'GET':
@@ -34,19 +36,24 @@ class ContractCreate(SuccessMessageMixin, CreateView):
         return context
 
 
-class ContractList(LoginRequiredMixin, ListView):
+class ContractList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'private/contract_list.html'
 
+    def test_func(self):
+        return self.request.user.administrative.is_assistant
+
     def get_queryset(self):
-        return Contract.objects.all().order_by('-id')
+        return Contract.objects.filter(main_tenant__residential_home=self.request.user.administrative.residential_home).order_by('-id')
 
 
-class ContractUpdate(SuccessMessageMixin, UpdateView):
+class ContractUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Contract
     form_class = ContractUpdateForm
     template_name = 'private/contract_update_form.html'
 
     success_message = 'Änderungen erfolgreich übernommen!'
+
+    # TODO: scope!
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -57,6 +64,7 @@ class ContractUpdate(SuccessMessageMixin, UpdateView):
 
 # TODO: create contract templates
 class ContractRender(View):
+    # TODO: scope!
     def get(self, request, *args, **kwargs):
         data = {
             'id': self.kwargs['pk']
@@ -65,28 +73,36 @@ class ContractRender(View):
         return HttpResponse(pdf, content_type='application/pdf')
 
 
-class Assistant(ListView):
+class Assistant(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'private/assistent.html'
 
+    def test_func(self):
+        return self.request.user.administrative.is_assistant
+
     def get_queryset(self):
-        return SubTenant.objects.all()
+        return SubTenant.objects.filter()
 
 
 # OPTIMIZATION: not hardcoded view
-class MainTenantList(ListView):
+class MainTenantList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'private/maintenant_list.html'
 
+    def test_func(self):
+        return self.request.user.administrative.is_assistant
+
     def get_queryset(self):
-        return MainTenant.objects.all().order_by('-id')
+        return MainTenant.objects.filter(residential_home=self.request.user.administrative.residential_home).order_by('-id')
 
 
-class MainTenantUpdate(SuccessMessageMixin, UpdateView):
+class MainTenantUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = MainTenant
     form_class = MainTenantUpdateForm
     template_name = 'private/maintenant_update_form.html'
 
     success_message = 'Änderungen erfolgreich übernommen!'
 
+    #TODO: scope
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.method == 'GET':
@@ -95,19 +111,24 @@ class MainTenantUpdate(SuccessMessageMixin, UpdateView):
 
 
 # OPTIMIZATION: not hardcoded view
-class SubTenantList(ListView):
+class SubTenantList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'private/subtenant_list.html'
+
+    def test_func(self):
+        return self.request.user.administrative.is_assistant
 
     def get_queryset(self):
         return SubTenant.objects.all().order_by('-id')
 
 
-class SubTenantUpdate(SuccessMessageMixin, UpdateView):
+class SubTenantUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = SubTenant
     form_class = SubTenantUpdateForm
     template_name = 'private/subtenant_update_form.html'
 
     success_message = 'Änderungen erfolgreich übernommen!'
+
+    # TODO: scope!
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -116,10 +137,12 @@ class SubTenantUpdate(SuccessMessageMixin, UpdateView):
         return context
 
 
-class ContractsRunning(ListView):
+class ContractsRunning(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'private/contracts_running_list.html'
 
+    def test_func(self):
+        return self.request.user.administrative.is_external
+
     def get_queryset(self):
-        return Contract.objects.filter(active='Ja').order_by('main_tenant__residential_home',
-                                                             'main_tenant__house_number',
-                                                             'main_tenant__room_number')
+        return Contract.objects.filter(active='Ja', main_tenant__residential_home=self.request.user.administrative.residential_home)\
+            .order_by('main_tenant__residential_home', 'main_tenant__house_number', 'main_tenant__room_number')

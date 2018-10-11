@@ -1,16 +1,9 @@
 # Permissions and Authorization
 
-## Groups
+### is_assistant
 
-- Assistants
-- External
-- Staff
-- Superuser
-
-### Assistants
-
-- Each residential home owns one (or more) account(s) of this group
-- Users of this group are scoped to their residential home
+- Each residential home owns one (or more) account(s) with this flag
+- Users with this flag are scoped to their residential home
 - Permissions: 
     - view contracts
     - add contracts
@@ -24,10 +17,10 @@
     - update subtenants
     - delete subtenants
     
-### External
+### is_external
 
-- Each residential home janitor and contact person at the SWS owns one account of this group
-- Users of this group are scoped to their residential home
+- Each residential home janitor and contact person at the SWS owns one account with this flag
+- Users with this flag are scoped to their residential home
 - Permissions:
     - view running contracts
 

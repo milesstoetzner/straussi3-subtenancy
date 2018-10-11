@@ -13,9 +13,8 @@ urlpatterns = [
     path('untermieter/<int:pk>/', views.SubTenantUpdate.as_view(), name='SubTenantUpdate'),
     path('vertraege/', views.ContractList.as_view(), name='ContractList'),
     path('vertraege/<int:pk>/', views.ContractUpdate.as_view(), name='ContractUpdate'),
-    path('vertraege/<int:pk>/preview/', views.ContractPreview, name='ContractPreview'),
-    path('aktiveFerienmiete', views.ContractsRunning.as_view(), name='ContractsRunning')
-
+    path('vertraege/<int:pk>/render/', views.ContractRender.as_view(), name='ContractRender'),
+    path('aktiveFerienmiete', views.ContractsRunning.as_view(), name='ContractsRunning'),
 
     # TODO: login
 ]

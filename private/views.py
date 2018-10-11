@@ -116,6 +116,8 @@ class SubTenantUpdate(SuccessMessageMixin, UpdateView):
 class ContractsRunning(ListView):
     template_name = 'private/contracts_running_list.html'
 
+    # TODO: display 'Straußäcker 3' and not 'str3'
+
     def get_queryset(self):
         return Contract.objects.filter(active='Ja').order_by('main_tenant__residential_home',
                                                              'main_tenant__house_number',

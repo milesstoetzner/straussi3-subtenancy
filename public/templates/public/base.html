@@ -18,7 +18,7 @@
 <header style="text-align: center;">
 
     {% if user.is_authenticated %}
-        <div class="bg-light text-center" style="font-size: 12px">Als {{ user.username }} eingeloggt. Bist das nicht du? <a class="" href="{% url 'logout' %}" id="/private/logout/">Logout</div>
+        <div class="bg-light text-center" style="font-size: 12px">Als {{ user.username }} eingeloggt. Das ist nicht dein Account? <a class="" href="{% url 'logout' %}" id="/private/logout/">Logout</div>
     {% endif %}
 
     <div style="padding-top: 1rem; margin-bottom: 1.5rem;">

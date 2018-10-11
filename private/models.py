@@ -6,8 +6,8 @@ from public.models import BOOLEAN_CHOICES
 
 # TODO: nullabel - why does this model need null=True while MainTenant does not?!
 class Contract(models.Model):
-    main_tenant = models.ForeignKey(MainTenant, on_delete=models.CASCADE, null=True, verbose_name='Hauptmieter', limit_choices_to={'active': 'Ja'})  # TODO: on_delete!?
-    sub_tenant = models.ForeignKey(SubTenant, on_delete=models.CASCADE, null=True, verbose_name='Untermieter', limit_choices_to={'active': 'Ja'})  # TODO: on_delete!?
+    main_tenant = models.ForeignKey(MainTenant, on_delete=models.PROTECT, null=True, verbose_name='Hauptmieter', limit_choices_to={'active': 'Ja'})  # TODO: on_delete!?
+    sub_tenant = models.ForeignKey(SubTenant, on_delete=models.PROTECT, null=True, verbose_name='Untermieter', limit_choices_to={'active': 'Ja'})  # TODO: on_delete!?
     begin = models.DateField('Beginn des Untermietvertrages', null=True)
     end = models.DateField('Ende des Untermietvertrages', null=True)
     caution = models.FloatField('Höhe der Kaution in Euro', null=True)

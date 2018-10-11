@@ -17,6 +17,10 @@
 
 <header style="text-align: center;">
 
+    {% if user.is_authenticated %}
+        <div class="bg-light text-center" style="font-size: 12px">Als {{ user.username }} eingeloggt. Bist das nicht du? <a class="" href="{% url 'logout' %}" id="/private/logout/">Logout</div>
+    {% endif %}
+
     <div style="padding-top: 1rem; margin-bottom: 1.5rem;">
     <div style="display: none">
         <a href="/"><img src="{% static 'public/logo.svg' %}"
@@ -50,7 +54,9 @@
         </li>
     </ul>
 
-    <!-- TODO: hard coded urls und ids entfernen -->
+    {% if user.is_authenticated %}
+
+        <!-- TODO: different views: sprechstunde vs sws/janitor -->
 
     <ul class="nav justify-content-center bg-dark" style="margin-bottom: 1rem">
         <li class="nav-item">
@@ -71,11 +77,9 @@
         <li class="nav-item">
             <a class="btn btn-dark" href="{% url 'private:ContractsRunning' %}" id="{% url 'private:ContractsRunning' %}"><i class="fas fa-home icon-text"></i>Aktive Ferienmiete</a>
         </li>
-        <li class="nav-item">
-            <a class="btn btn-dark" href="/private/logout" id="/private/logout/"><i class="fas fa-times-circle icon-text"></i>Logout</a>
-        </li>
     </ul>
 
+    {% endif %}
 </header>
 
 <div class="container-fluid" style="max-width: 600px" id="custom-container">

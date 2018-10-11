@@ -16,5 +16,4 @@ urlpatterns = [
     path('vertraege/<int:pk>/render/', views.ContractRender.as_view(), name='ContractRender'),
     path('aktiveFerienmiete', views.ContractsRunning.as_view(), name='ContractsRunning'),
 
-    # TODO: login
 ]

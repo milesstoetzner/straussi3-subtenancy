@@ -1,0 +1,61 @@
+{% extends "public/base.html" %}
+{% block title %}Einloggen{% endblock %}
+
+
+{% block content %}
+
+    <form action="" method="post" name="main">
+
+        {% csrf_token %}
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Einloggen</h5>
+
+
+                {% if form.errors %}
+                    <div class="alert bg-danger text-white text-center" role="alert">Your username and password didn't
+                        match. Please try again.
+                    </div>
+                {% endif %}
+
+                {% if next %}
+                    <div class="alert bg-danger text-white text-center" role="alert">
+                        {% if user.is_authenticated %}
+                            Your account doesn't have access to this page. To proceed,
+                            please login with an account that has access.
+                        {% else %}
+                            Please login to see this page.
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="{{ form.username.id_for_label }}">{{ form.username.label_tag }}</label>
+                        <input type="text" class="form-control {% if form.username.errors %}is-invalid{% endif %}" name="username" id="{{ form.username.id_for_label }}" autofocus>
+                        <div class="invalid-feedback">{{ form.username.errors.0 }} <i class="far fa-frown"></i></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="{{ form.password.id_for_label }}">{{ form.password.label_tag }}</label>
+                        <input type="password" class="form-control {% if form.password.errors %}is-invalid{% endif %}" name="password" id="{{ form.password.id_for_label }}" autofocus>
+                        <div class="invalid-feedback">{{ form.password.errors.0 }} <i class="far fa-frown"></i></div>
+                    </div>
+
+                    <button class="btn btn-block btn-success">Login</button>
+                    <input type="hidden" name="next" value="{{ next }}">
+                </form>
+
+                {# Assumes you setup the password_reset view in your URLconf #}
+                <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+
+            </div>
+
+        </div>
+
+    </form>
+
+{% endblock %}

@@ -4,6 +4,9 @@ from public.models import MainTenant, SubTenant
 from public.forms import MainTenantForm, MainTenantUpdateForm, SubTenantForm, SubTenantUpdateForm
 from .forms import ContractForm, ContractUpdateForm
 from django.contrib.messages.views import SuccessMessageMixin
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.http import HttpResponse
 from .utils import render_to_pdf
 
@@ -31,7 +34,7 @@ class ContractCreate(SuccessMessageMixin, CreateView):
         return context
 
 
-class ContractList(ListView):
+class ContractList(LoginRequiredMixin, ListView):
     template_name = 'private/contract_list.html'
 
     def get_queryset(self):
@@ -115,8 +118,6 @@ class SubTenantUpdate(SuccessMessageMixin, UpdateView):
 
 class ContractsRunning(ListView):
     template_name = 'private/contracts_running_list.html'
-
-    # TODO: display 'Straußäcker 3' and not 'str3'
 
     def get_queryset(self):
         return Contract.objects.filter(active='Ja').order_by('main_tenant__residential_home',

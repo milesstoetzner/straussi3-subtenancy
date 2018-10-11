@@ -1,12 +1,15 @@
-from django.views.generic import CreateView, ListView, UpdateView, DetailView
+from django.views.generic import View, CreateView, ListView, UpdateView, DetailView
 from .models import Contract
 from public.models import MainTenant, SubTenant
 from public.forms import MainTenantForm, MainTenantUpdateForm, SubTenantForm, SubTenantUpdateForm
 from .forms import ContractForm, ContractUpdateForm
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponse
+from .utils import render_to_pdf
 
 
 # TODO: authenticated and residential home scope for users, SWS and caretaker! (view, create, update, delete of contracts and main-/subtenants)
+
 
 # TODO: display rent?!
 # TODO: display donation?!
@@ -49,9 +52,14 @@ class ContractUpdate(SuccessMessageMixin, UpdateView):
         return context
 
 
-# TODO: generate PDF
-def ContractPreview():
-    pass
+# TODO: create contract templates
+class ContractRender(View):
+    def get(self, request, *args, **kwargs):
+        data = {
+            'id': self.kwargs['pk']
+        }
+        pdf = render_to_pdf('private/contracts/contract_test.html', data)
+        return HttpResponse(pdf, content_type='application/pdf')
 
 
 class Assistant(ListView):

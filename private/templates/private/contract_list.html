@@ -36,8 +36,10 @@
 
                     {% for contract in object_list %}
 
+                        <!-- TODO: open links in new tab? -->
+
                         <tr>
-                            <td class="align-middle"><a href=" {% url 'private:ContractPreview' contract.id %}"><i
+                            <td class="align-middle"><a href=" {% url 'private:ContractRender' contract.id %}"><i
                                     class="fas fa-file-pdf btn btn-success"></i></a></td>
                             <td class="align-middle"><a href=" {% url 'private:ContractUpdate' contract.id %}"><i
                                     class="fas fa-file-signature btn btn-danger"></i></a></td>

@@ -6,6 +6,7 @@ from .forms import ContractForm, ContractUpdateForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
@@ -21,10 +22,15 @@ class ContractCreate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     form_class = ContractForm
     form_class.use_required_attribute = False
 
-    # TODO: message ändern
-    success_message = 'Vertrag erfolgreich erstellt!'
+    # TODO: scope of main and sub!
 
-    #TODO: scope of main and sub!
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.main_tenant.active = 'Nein'
+        self.object.main_tenant.save()
+        self.object.sub_tenant.active = 'Nein'
+        self.object.sub_tenant.save()
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         return reverse('private:ContractRender', args=(self.object.id,))

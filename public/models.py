@@ -18,8 +18,8 @@ class MainTenant(models.Model):
 
     # Information about subtenancy
     residential_home = models.CharField('Wohnheim', max_length=100, choices=RESIDENTIAL_HOME_TYPE_CHOICES)
-    house_number = models.CharField('Hausnummer', max_length=2)
-    room_number = models.CharField('Zimmernummer', max_length=3)
+    house_number = models.CharField('Hausnummer', max_length=10)
+    room_number = models.CharField('Zimmernummer', max_length=10)
     begin_subtenancy = models.DateField('Beginn der Untermiete')
     end_subtenancy = models.DateField('Ende der Untermiete')
     comeback = models.CharField('Ist ein Wiedereinzug ins Zimmer geplant?', max_length=10, choices=BOOLEAN_CHOICES)
@@ -31,10 +31,14 @@ class MainTenant(models.Model):
     # TODO: add created, last_updated fields?!
 
     def get_absolute_url(self):
-        return reverse('private:MainTenantUpdate', kwargs={'pk': self.pk})
+        return reverse('private:MainTenantUpdate', kwargs={'pk': self.pk})  # TODO: scope und auth?!
 
     def __str__(self):
         return str(self.pk) + ': '+ self.first_name + ' ' + self.last_name + ' (' + str(self.tenant_id) + ')'
+
+    class Meta:
+        verbose_name = 'Hauptmieter'
+        verbose_name_plural = 'Haupmieter'
 
 
 class SubTenant(models.Model):
@@ -65,7 +69,11 @@ class SubTenant(models.Model):
     # TODO: add created, last_updated fields?!
 
     def get_absolute_url(self):
-        return reverse('private:SubTenantUpdate', kwargs={'pk': self.pk})
+        return reverse('private:SubTenantUpdate', kwargs={'pk': self.pk})  # TODO: scope und auth?!
 
     def __str__(self):
         return str(self.pk) + ': ' + self.first_name + ' ' + self.last_name + ' (' + str(self.birthday) + ')'
+
+    class Meta:
+        verbose_name = 'Untermieter'
+        verbose_name_plural = 'Untermieter'

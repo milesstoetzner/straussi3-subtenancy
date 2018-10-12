@@ -17,76 +17,98 @@
 
 <header style="text-align: center;">
 
-    {% if user.is_authenticated %}
-        <div class="bg-light text-center" style="font-size: 12px">Als {{ user.username }} eingeloggt. Das ist nicht dein Account? <a class="" href="{% url 'logout' %}" id="/private/logout/">Logout</div>
-    {% endif %}
 
-    <div style="padding-top: 1rem; margin-bottom: 1.5rem;">
-    <div style="display: none">
-        <a href="/"><img src="{% static 'public/logo.svg' %}"
-                         style="width: 60px; padding-top: 1rem; padding-bottom: 1rem"></a>
-        <h4>Straußäcker 3</h4>
-        <h5 class="text-muted">Ferienmiete</h5>
+    <div class="bg-light text-center" style="font-size: 12px; padding-right: 1rem">
+        {% if user.is_authenticated %}
+            Als {{ user.username }} eingeloggt. <a class="" href="{% url 'logout' %}" id="{% url 'logout' %}">Logout</a>
+        {% else %}
+            Als Sprechstunde einloggen. <a class="" href="{% url 'login' %}" id="{% url 'login' %}">Login</a>
+        {% endif %}
     </div>
 
-    <a href="/"><img src="{% static 'public/neues_logo.svg' %}"
-                     style="width: 75px; padding-top: 1rem; padding-bottom: 1rem"></a>
-    <h5>Ferienmiete<br>Studierendenwohnheime<br>Stuttgart</h5>
+    <div style="padding-top: 1rem; margin-bottom: 1.5rem;">
+        <div style="display: none">
+            <a href="/"><img src="{% static 'public/logo.svg' %}"
+                             style="width: 60px; padding-top: 1rem; padding-bottom: 1rem"></a>
+            <h4>Straußäcker 3</h4>
+            <h5 class="text-muted">Ferienmiete</h5>
+        </div>
+
+        <a href="/"><img src="{% static 'public/neues_logo.svg' %}"
+                         style="width: 75px; padding-top: 1rem; padding-bottom: 1rem"></a>
+        <h5>Ferienmiete<br>Studierendenwohnheime<br>Stuttgart</h5>
     </div>
 
 
     <ul class="nav justify-content-center bg-primary">
         <li class="nav-item">
-            <a class="btn btn-primary" href="{% url 'Index' %}" id="{% url 'Index' %}"><i class="fas fa-check-circle icon-text"></i>Start</a>
+            <a class="btn btn-primary" href="{% url 'Index' %}" id="{% url 'Index' %}"><i
+                    class="fas fa-check-circle icon-text"></i>Start</a>
         </li>
         <li class="nav-item">
-            <a class="btn btn-primary" href="{% url 'MainTenantCreate' %}" id="{% url 'MainTenantCreate' %}"><i class="fas fa-user-edit icon-text"></i>Hauptmieter</a>
+            <a class="btn btn-primary" href="{% url 'MainTenantCreate' %}" id="{% url 'MainTenantCreate' %}"><i
+                    class="fas fa-user-edit icon-text"></i>Hauptmieter</a>
         </li>
         <li class="nav-item">
-            <a class="btn btn-primary" href="{% url 'SubTenantCreate' %}" id="{% url 'SubTenantCreate' %}"><i class="fas fa-user-edit icon-text"></i>Untermieter</a>
+            <a class="btn btn-primary" href="{% url 'SubTenantCreate' %}" id="{% url 'SubTenantCreate' %}"><i
+                    class="fas fa-user-edit icon-text"></i>Untermieter</a>
         </li>
         <li class="nav-item">
             <a class="btn btn-primary" href="{% url 'Requests' %}" id="{% url 'Requests' %}"><i
                     class="fas fa-file-alt icon-text"></i>Anfragenliste</a>
         </li>
         <li class="nav-item">
-            <a class="btn btn-primary" href="{% url 'Impressum' %}" id="{% url 'Impressum' %}"><i class="fas fa-info-circle icon-text"></i>Impressum</a>
+            <a class="btn btn-primary" href="{% url 'Impressum' %}" id="{% url 'Impressum' %}"><i
+                    class="fas fa-info-circle icon-text"></i>Impressum</a>
         </li>
     </ul>
 
     {% if user.is_authenticated %}
 
-        <!-- TODO: different views: sprechstunde vs sws/janitor -->
+        <ul class="nav justify-content-center bg-dark" style="margin-bottom: 1rem">
+                {% if perms.private.change_contract %}
+                    <li class="nav-item">
+                        <a class="btn btn-dark" href="{% url 'private:Ferienmiete' %}"
+                           id="{% url 'private:Ferienmiete' %}"><i class="fas fa-file-signature icon-text"></i>Ferienmiete</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-dark" href="{% url 'private:Assistant' %}" id="{% url 'private:Assistant' %}"><i
+                                class="fas fa-envelope icon-text"></i>Assistent</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-dark" href="{% url 'private:MainTenantList' %}"
+                           id="{% url 'private:MainTenantList' %}"><i class="fas fa-users icon-text"></i>Hauptmieter</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-dark" href="{% url 'private:SubTenantList' %}"
+                           id="{% url 'private:SubTenantList' %}"><i class="fas fa-users icon-text"></i>Untermieter</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-dark" href="{% url 'private:ContractList' %}"
+                           id="{% url 'private:ContractList' %}"><i class="fas fa-file-contract icon-text"></i>Verträge</a>
+                    </li>
 
-    <ul class="nav justify-content-center bg-dark" style="margin-bottom: 1rem">
-        <li class="nav-item">
-            <a class="btn btn-dark" href="{% url 'private:Ferienmiete' %}" id="{% url 'private:Ferienmiete' %}"><i class="fas fa-file-signature icon-text"></i>Ferienmiete</a>
-        </li>
-        <li class="nav-item">
-            <a class="btn btn-dark" href="{% url 'private:Assistant' %}" id="{% url 'private:Assistant' %}"><i class="fas fa-envelope icon-text"></i>Assistent</a>
-        </li>
-        <li class="nav-item">
-            <a class="btn btn-dark" href="{% url 'private:MainTenantList' %}" id="{% url 'private:MainTenantList' %}"><i class="fas fa-users icon-text"></i>Hauptmieter</a>
-        </li>
-        <li class="nav-item">
-            <a class="btn btn-dark" href="{% url 'private:SubTenantList' %}" id="{% url 'private:SubTenantList' %}"><i class="fas fa-users icon-text"></i>Untermieter</a>
-        </li>
-        <li class="nav-item">
-            <a class="btn btn-dark" href="{% url 'private:ContractList' %}" id="{% url 'private:ContractList' %}"><i class="fas fa-file-contract icon-text"></i>Verträge</a>
-        </li>
-        <li class="nav-item">
-            <a class="btn btn-dark" href="{% url 'private:ContractsRunning' %}" id="{% url 'private:ContractsRunning' %}"><i class="fas fa-home icon-text"></i>Aktive Ferienmiete</a>
-        </li>
-    </ul>
+                {% endif %}
+
+                {% if perms.private.view_contract %}
+                    <li class="nav-item">
+                        <a class="btn btn-dark" href="{% url 'private:ContractsRunning' %}"
+                           id="{% url 'private:ContractsRunning' %}"><i class="fas fa-home icon-text"></i>Aktive
+                            Ferienmiete</a>
+                    </li>
+                {% endif %}
+        </ul>
 
     {% endif %}
+
 </header>
 
 <div class="container-fluid" style="max-width: 600px" id="custom-container">
 
     {% if messages %}
         {% for message in messages %}
-            <div class="alert bg-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %} text-white text-center" role="alert">
+            <div class="alert bg-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %} text-white text-center"
+                 role="alert">
                 {{ message }}
             </div>
         {% endfor %}

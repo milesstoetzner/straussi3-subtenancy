@@ -1,4 +1,5 @@
 from django.forms import ModelForm, TextInput, Textarea, DateInput, Select, NumberInput
+from django.db import models
 from .models import Contract
 from public.models import MainTenant, SubTenant
 
@@ -23,7 +24,8 @@ class ContractForm(ModelForm):
         if main_tenant and begin:
             if main_tenant.begin_rent_agreement:
                 if main_tenant.begin_rent_agreement > begin:
-                    self.add_error('begin', 'Der Begin des Untermietvertrages ist vor dem Beginn des Hauptmietvertrages!')
+                    self.add_error('begin',
+                                   'Der Begin des Untermietvertrages ist vor dem Beginn des Hauptmietvertrages!')
 
         # main_tenant.end_rent_agreement >= end
         if main_tenant and end:
@@ -50,8 +52,6 @@ class ContractForm(ModelForm):
         if donation:
             if donation < 0:
                 self.add_error('donation', 'Die Spende darf nicht negativ sein!')
-
-        # TODO: set main_tenant and sub_tenant to inactive
 
     class Meta:
         model = Contract

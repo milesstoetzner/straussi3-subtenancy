@@ -1,5 +1,3 @@
-# TODO: als table in database?!
-
 RESIDENTIAL_HOME_TYPE_CHOICES = (('str1', 'Straußäcker 1'), ('str2', 'Straußäcker 2'), ('str3', 'Straußäcker 3'),)
 
 RESIDENTIAL_HOMES = {

@@ -1,5 +1,4 @@
 {% extends "public/base.html" %}
-{% block title %}Hauptmieter Übersicht{% endblock %}
 
 {% block content %}
 
@@ -10,7 +9,7 @@
 
             <h5 class="card-title" style="text-align: center">Verträge Übersicht</h5>
 
-            <!-- TODO: add search/filter -->
+            <!-- OPTIMIZE: add search/filter -->
 
             <div class="table-responsive">
                 <table class="table table-striped" style="white-space: nowrap; text-align: center">
@@ -36,7 +35,7 @@
 
                     {% for contract in object_list %}
 
-                        <!-- TODO: open links in new tab? -->
+                        <!-- OPTIMIZE: open links in new tab? -->
 
                         <tr>
                             <td class="align-middle"><a href=" {% url 'private:ContractRender' contract.id %}" target="_blank"><i

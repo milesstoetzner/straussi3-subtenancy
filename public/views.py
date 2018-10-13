@@ -9,6 +9,7 @@ import datetime
 
 class MainTenantCreate(SuccessMessageMixin, CreateView):
     model = MainTenant
+    title = 'Hauptmieter Registrierung'
     form_class = MainTenantForm
     form_class.use_required_attribute = False
 
@@ -30,6 +31,7 @@ class MainTenantCreate(SuccessMessageMixin, CreateView):
 
 class SubTenantCreate(SuccessMessageMixin, CreateView):
     model = SubTenant
+    title = 'Untemieter Registrierung'
     form_class = SubTenantForm
     form_class.use_required_attribute = False
 
@@ -50,6 +52,7 @@ class SubTenantCreate(SuccessMessageMixin, CreateView):
 
 
 class Requests(ListView):
+    title = 'Anfragenliste'
     template_name = 'public/requests.html'
 
     def get_queryset(self):
@@ -57,8 +60,8 @@ class Requests(ListView):
 
 
 def Index(request):
-    return render(request, 'public/index.html')
+    return render(request, 'public/index.html', {'title': 'Startseite'})
 
 
 def Impressum(request):
-    return render(request, 'public/impressum.html')
+    return render(request, 'public/impressum.html', {'title': 'Impressum'})

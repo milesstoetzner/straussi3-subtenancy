@@ -22,7 +22,7 @@ class MainTenantForm(ModelForm):
             if begin_rent_agreement >= end_rent_agreement:
                 self.add_error('end_rent_agreement', 'Das Ende des Mietvertrages muss nach dem Beginn sein!')
 
-        # todo: validate phone_number
+        # TODO: validate phone_number
 
         # house_number of residential_home
         if residential_home and house_number:
@@ -54,6 +54,9 @@ class MainTenantForm(ModelForm):
     class Meta:
         model = MainTenant
         exclude = ['active']
+        labels = {
+            'test': 'ich bin ein label'
+        }
         help_texts = {
             'comeback': 'Sofern kein Wiedereinzug geplant ist und der Hauptmieter somit vollständig auszieht, wird die Kaution über den Hausmeister zurückerstattet.',
             'rent': 'Die Tagesmiete entspricht der Monatsmiete geteilt durch 30. Beispiel: Die Monatsmiete beträgt 300€, daher beträgt die Tagesmiete 300€/30 = 10€'

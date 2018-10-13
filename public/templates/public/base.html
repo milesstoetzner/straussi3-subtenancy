@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %}</title>
+    <title>{{ view.title }}{{ title }}</title>
 
     {% load staticfiles %}
 
@@ -22,7 +22,7 @@
         {% if user.is_authenticated %}
             Als {{ user.username }} eingeloggt. <a class="" href="{% url 'logout' %}" id="{% url 'logout' %}">Logout</a>
         {% else %}
-            Als Sprechstunde einloggen. <a class="" href="{% url 'login' %}" id="{% url 'login' %}">Login</a>
+            Als Sprechstunde oder External einloggen. <a class="" href="{% url 'login' %}" id="{% url 'login' %}">Login</a>
         {% endif %}
     </div>
 

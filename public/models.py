@@ -31,7 +31,7 @@ class MainTenant(models.Model):
     # TODO: add created, last_updated fields?!
 
     def get_absolute_url(self):
-        return reverse('private:MainTenantUpdate', kwargs={'pk': self.pk})  # TODO: scope und auth?!
+        return reverse('private:MainTenantUpdate', kwargs={'pk': self.pk})
 
     def __str__(self):
         return str(self.pk) + ': '+ self.first_name + ' ' + self.last_name + ' (' + str(self.tenant_id) + ')'
@@ -69,7 +69,7 @@ class SubTenant(models.Model):
     # TODO: add created, last_updated fields?!
 
     def get_absolute_url(self):
-        return reverse('private:SubTenantUpdate', kwargs={'pk': self.pk})  # TODO: scope und auth?!
+        return reverse('private:SubTenantUpdate', kwargs={'pk': self.pk})
 
     def __str__(self):
         return str(self.pk) + ': ' + self.first_name + ' ' + self.last_name + ' (' + str(self.birthday) + ')'

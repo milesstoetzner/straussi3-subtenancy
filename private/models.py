@@ -30,6 +30,7 @@ class Contract(models.Model):
         verbose_name_plural = 'Vertäge'
 
 
+# TODO: bad practice?!
 class Administrative(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     residential_home = models.CharField('Wohnheim', max_length=10, choices=RESIDENTIAL_HOME_TYPE_CHOICES)  # TODO: superuser needs a proptery?! better as list or regex?

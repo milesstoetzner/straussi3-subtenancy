@@ -32,6 +32,8 @@ class ContractCreate(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessage
 
     # TODO: scope of main and sub!
 
+    # TODO: save contracts as pdf?
+
     def form_valid(self, form):
         self.object = form.save()  # TODO: was bedeutet 'Instance attribute object defined outside __init__'?!
         self.object.main_tenant.active = 'Nein'

@@ -65,6 +65,7 @@ class SubTenant(models.Model):
     country = models.CharField('Land', max_length=250)
 
     active = models.CharField('Ist dieser Account aktiv?', max_length=10, choices=BOOLEAN_CHOICES, default='Ja')
+    residential_home = models.CharField('Untermieter gehört zu folgendem Wohnheim', max_length=10, choices=RESIDENTIAL_HOME_TYPE_CHOICES, default='', blank=True)
 
     # TODO: add created, last_updated fields?!
 

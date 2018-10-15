@@ -5,11 +5,11 @@ from public.forms import MainTenantForm, MainTenantUpdateForm, SubTenantForm, Su
 from .forms import ContractForm, ContractUpdateForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse
-from django.shortcuts import render
 from django.core import serializers
-from django.forms.models import model_to_dict
 from django.http import HttpResponseRedirect
 import json
+
+from django.db.models import Q
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required, permission_required
@@ -141,16 +141,20 @@ class SubTenantList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = 'public.view_subtenant'
 
     def get_queryset(self):
-        return SubTenant.objects.all().order_by('-id')
+        return SubTenant.objects.filter(Q(residential_home='') | Q(residential_home=self.request.user.administrative.residential_home)).order_by('-id')
 
 
-class SubTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+class SubTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     model = SubTenant
     title = 'Untermieter ändern'
     form_class = SubTenantUpdateForm
     template_name = 'private/update_form.html'
     success_message = 'Änderungen erfolgreich übernommen!'
     permission_required = 'public.change_subtenant'
+
+    def test_func(self):
+        residential_home = self.get_object().residential_home
+        return residential_home == '' or residential_home == self.request.user.administrative.residential_home
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

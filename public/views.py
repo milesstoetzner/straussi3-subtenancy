@@ -7,6 +7,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 import datetime
 
 
+# OPTIMIZE: send email with id to main tenant
 class MainTenantCreate(SuccessMessageMixin, CreateView):
     model = MainTenant
     title = 'Hauptmieter Registrierung'
@@ -29,6 +30,7 @@ class MainTenantCreate(SuccessMessageMixin, CreateView):
         return context
 
 
+# OPTIMIZE: send email with id to sub tenant
 class SubTenantCreate(SuccessMessageMixin, CreateView):
     model = SubTenant
     title = 'Untemieter Registrierung'

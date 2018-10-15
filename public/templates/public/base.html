@@ -22,23 +22,46 @@
         {% if user.is_authenticated %}
             Als {{ user.username }} eingeloggt. <a class="" href="{% url 'logout' %}" id="{% url 'logout' %}">Logout</a>
         {% else %}
-            Als Sprechstunde oder External einloggen. <a class="" href="{% url 'login' %}" id="{% url 'login' %}">Login</a>
+            Als Sprechstunde oder External einloggen.
+            <a class="" href="{% url 'login' %}" id="{% url 'login' %}">Login</a>
         {% endif %}
     </div>
 
-    <div style="padding-top: 1rem; margin-bottom: 1.5rem;">
-        <div style="display: none">
-            <a href="/"><img src="{% static 'public/logo.svg' %}"
-                             style="width: 60px; padding-top: 1rem; padding-bottom: 1rem"></a>
-            <h4>Straußäcker 3</h4>
-            <h5 class="text-muted">Ferienmiete</h5>
+    {% if user.is_authenticated %}
+        <div style="padding-top: 1rem; margin-bottom: 1rem;">
+
+            <div class="clearfix" style="max-width: 200px; margin: auto">
+                <a href="/" class="float-left"><img src="{% static 'public/logo.svg' %}"
+                                                    style="width: 60px"></a>
+                <h5 class="float-right">Straußäcker 3<br>Ferienmiete</h5>
+
+            </div>
+
+
+            <div style="display: none">
+                <a href="/"><img src="{% static 'public/neues_logo.svg' %}"
+                                 style="width: 75px; padding-top: 1rem; padding-bottom: 1rem"></a>
+                <h5>Ferienmiete<br>Studierendenwohnheime<br>Stuttgart</h5>
+            </div>
         </div>
 
-        <a href="/"><img src="{% static 'public/neues_logo.svg' %}"
-                         style="width: 75px; padding-top: 1rem; padding-bottom: 1rem"></a>
-        <h5>Ferienmiete<br>Studierendenwohnheime<br>Stuttgart</h5>
-    </div>
+    {% else %}
 
+        <div style="padding-top: 1rem; margin-bottom: 1.5rem;">
+            <div style="">
+                <a href="/"><img src="{% static 'public/logo.svg' %}"
+                                 style="width: 60px; padding-top: 1rem; padding-bottom: 1rem"></a>
+                <h5>Straußäcker 3<br>Ferienmiete</h5>
+            </div>
+
+            <div style="display: none">
+                <a href="/"><img src="{% static 'public/neues_logo.svg' %}"
+                                 style="width: 75px; padding-top: 1rem; padding-bottom: 1rem"></a>
+                <h5>Ferienmiete<br>Studierendenwohnheime<br>Stuttgart</h5>
+            </div>
+        </div>
+
+    {% endif %}
 
     <ul class="nav justify-content-center bg-primary">
         <li class="nav-item">
@@ -66,37 +89,38 @@
     {% if user.is_authenticated %}
 
         <ul class="nav justify-content-center bg-dark" style="margin-bottom: 1rem">
-                {% if perms.private.change_contract %}
-                    <li class="nav-item">
-                        <a class="btn btn-dark" href="{% url 'private:Ferienmiete' %}"
-                           id="{% url 'private:Ferienmiete' %}"><i class="fas fa-file-signature icon-text"></i>Ferienmiete</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-dark" href="{% url 'private:Assistant' %}" id="{% url 'private:Assistant' %}"><i
-                                class="fas fa-envelope icon-text"></i>Assistent</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-dark" href="{% url 'private:MainTenantList' %}"
-                           id="{% url 'private:MainTenantList' %}"><i class="fas fa-users icon-text"></i>Hauptmieter</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-dark" href="{% url 'private:SubTenantList' %}"
-                           id="{% url 'private:SubTenantList' %}"><i class="fas fa-users icon-text"></i>Untermieter</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-dark" href="{% url 'private:ContractList' %}"
-                           id="{% url 'private:ContractList' %}"><i class="fas fa-file-contract icon-text"></i>Verträge</a>
-                    </li>
+            {% if perms.private.change_contract %}
+                <li class="nav-item">
+                    <a class="btn btn-dark" href="{% url 'private:Ferienmiete' %}"
+                       id="{% url 'private:Ferienmiete' %}"><i
+                            class="fas fa-file-signature icon-text"></i>Ferienmiete</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-dark" href="{% url 'private:Assistant' %}" id="{% url 'private:Assistant' %}"><i
+                            class="fas fa-envelope icon-text"></i>Assistent</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-dark" href="{% url 'private:MainTenantList' %}"
+                       id="{% url 'private:MainTenantList' %}"><i class="fas fa-users icon-text"></i>Hauptmieter</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-dark" href="{% url 'private:SubTenantList' %}"
+                       id="{% url 'private:SubTenantList' %}"><i class="fas fa-users icon-text"></i>Untermieter</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-dark" href="{% url 'private:ContractList' %}"
+                       id="{% url 'private:ContractList' %}"><i class="fas fa-file-contract icon-text"></i>Verträge</a>
+                </li>
 
-                {% endif %}
+            {% endif %}
 
-                {% if perms.private.view_contract %}
-                    <li class="nav-item">
-                        <a class="btn btn-dark" href="{% url 'private:ContractsRunning' %}"
-                           id="{% url 'private:ContractsRunning' %}"><i class="fas fa-home icon-text"></i>Aktive
-                            Ferienmiete</a>
-                    </li>
-                {% endif %}
+            {% if perms.private.view_contract %}
+                <li class="nav-item">
+                    <a class="btn btn-dark" href="{% url 'private:ContractsRunning' %}"
+                       id="{% url 'private:ContractsRunning' %}"><i class="fas fa-home icon-text"></i>Aktive
+                        Ferienmiete</a>
+                </li>
+            {% endif %}
         </ul>
 
     {% endif %}

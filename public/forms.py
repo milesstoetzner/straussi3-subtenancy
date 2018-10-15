@@ -100,7 +100,7 @@ class SubTenantForm(ModelForm):
 
     class Meta:
         model = SubTenant
-        exclude = ['active']
+        exclude = ['active', 'residential_home']
         widgets = {
             'first_name': TextInput(attrs={'class': 'form-control'}),
             'last_name': TextInput(attrs={'class': 'form-control'}),
@@ -119,6 +119,7 @@ class SubTenantForm(ModelForm):
             'city': TextInput(attrs={'class': 'form-control'}),
             'country': TextInput(attrs={'class': 'form-control'}),
             'active': Select(attrs={'class': 'form-control'}),
+            'residential_home': Select(attrs={'class': 'form-control'}),
         }
 
 

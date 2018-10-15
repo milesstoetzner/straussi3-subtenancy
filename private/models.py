@@ -6,8 +6,8 @@ from public.models import BOOLEAN_CHOICES, RESIDENTIAL_HOME_TYPE_CHOICES
 
 
 class Contract(models.Model):
-    main_tenant = models.ForeignKey(MainTenant, on_delete=models.PROTECT, verbose_name='Hauptmieter')  # TODO: on_delete!?  # TODO: OneToOne?!
-    sub_tenant = models.ForeignKey(SubTenant, on_delete=models.PROTECT, verbose_name='Untermieter')  # TODO: on_delete!?  # TODO: OneToOne?!
+    main_tenant = models.ForeignKey(MainTenant, on_delete=models.PROTECT, verbose_name='Hauptmieter')  # TODO: on_delete!?  # TODO: OneToOne?! # TODO: limit to: residential_home, active
+    sub_tenant = models.ForeignKey(SubTenant, on_delete=models.PROTECT, verbose_name='Untermieter')  # TODO: on_delete!?  # TODO: OneToOne?! # TODO: limit to: residential_home='', residential_home, active
     begin = models.DateField('Beginn des Untermietvertrages')
     end = models.DateField('Ende des Untermietvertrages')
     caution = models.FloatField('Höhe der Kaution in Euro')

@@ -30,34 +30,18 @@
     {% if user.is_authenticated %}
         <div style="padding-top: 1rem; margin-bottom: 1rem;">
 
-            <div class="clearfix" style="max-width: 200px; margin: auto">
-                <a href="/" class="float-left"><img src="{% static 'public/logo.svg' %}"
-                                                    style="width: 60px"></a>
-                <h5 class="float-right">Straußäcker 3<br>Ferienmiete</h5>
+            <h5 style="text-align: center">Ferienmiete Studierendenwohnheime Stuttgart</h5>
 
-            </div>
-
-
-            <div style="display: none">
-                <a href="/"><img src="{% static 'public/neues_logo.svg' %}"
-                                 style="width: 75px; padding-top: 1rem; padding-bottom: 1rem"></a>
-                <h5>Ferienmiete<br>Studierendenwohnheime<br>Stuttgart</h5>
-            </div>
         </div>
 
     {% else %}
 
         <div style="padding-top: 1rem; margin-bottom: 1.5rem;">
             <div style="">
-                <a href="/"><img src="{% static 'public/logo.svg' %}"
-                                 style="width: 60px; padding-top: 1rem; padding-bottom: 1rem"></a>
-                <h5>Straußäcker 3<br>Ferienmiete</h5>
-            </div>
-
-            <div style="display: none">
                 <a href="/"><img src="{% static 'public/neues_logo.svg' %}"
-                                 style="width: 75px; padding-top: 1rem; padding-bottom: 1rem"></a>
+                                                    style="width: 60px"></a>
                 <h5>Ferienmiete<br>Studierendenwohnheime<br>Stuttgart</h5>
+
             </div>
         </div>
 

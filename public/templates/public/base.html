@@ -28,21 +28,17 @@
     </div>
 
     {% if user.is_authenticated %}
-        <div style="padding-top: 1rem; margin-bottom: 1rem;">
 
-            <h5 style="text-align: center">Ferienmiete Studierendenwohnheime Stuttgart</h5>
-
-        </div>
+            <h5 style="text-align: center; padding-top: 1rem; margin-bottom: 1rem;">Ferienmiete Studierendenwohnheime Stuttgart</h5>
 
     {% else %}
 
         <div style="padding-top: 1rem; margin-bottom: 1.5rem;">
-            <div style="">
-                <a href="/"><img src="{% static 'public/neues_logo.svg' %}"
-                                                    style="width: 60px"></a>
+                <a href="/"><img src="{% static 'public/logo_rom.svg' %}"
+                                                    style="width: 60px; margin: 1rem 0 1rem 0"></a>
+
                 <h5>Ferienmiete<br>Studierendenwohnheime<br>Stuttgart</h5>
 
-            </div>
         </div>
 
     {% endif %}
@@ -91,9 +87,17 @@
                     <a class="btn btn-dark" href="{% url 'private:SubTenantList' %}"
                        id="{% url 'private:SubTenantList' %}"><i class="fas fa-users icon-text"></i>Untermieter</a>
                 </li>
-                <li class="nav-item">
+
+                <li class="btn-group bg-dark">
                     <a class="btn btn-dark" href="{% url 'private:ContractList' %}"
                        id="{% url 'private:ContractList' %}"><i class="fas fa-file-contract icon-text"></i>Verträge</a>
+    <button type="button" class="btn btn-dark dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+      <span class="sr-only">Toggle Dropdown</span>
+    </button>
+                    <div class="dropdown-menu bg-dark">
+                        <a class="dropdown-item text-white bg-dark" href="{% url 'private:ContractList' %}"><i class="fas fa-clock icon-text" style="color: white"></i><i class="fas fa-running"></i>Aktuell</a>
+                        <a class="dropdown-item text-white bg-dark" href="{% url 'private:ContractListArchive' %}"><i class="fas fa-archive"></i> Archiv</a>
+                    </div>
                 </li>
 
             {% endif %}
@@ -115,8 +119,8 @@
 
     {% if messages %}
         {% for message in messages %}
-            <div class="alert bg-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %} text-white text-center"
-                 role="alert">
+            <div class="alert bg-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}
+            text-white text-center" role="alert">
                 {{ message }}
             </div>
         {% endfor %}

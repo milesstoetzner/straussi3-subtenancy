@@ -20,6 +20,7 @@ from .utils import render_to_pdf
 
 # OPTIMIZE: nur ein create_form.html
 
+# TODO: remove old submenants without contracts
 
 # TODO: display main_tenant details und sub_tenant details
 class ContractCreate(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
@@ -53,13 +54,29 @@ class ContractCreate(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessage
 
 
 class ContractList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    title = 'Verträge Überischt'
+    title = 'Verträge Übersicht'
     template_name = 'private/contract_list.html'
     permission_required = 'private.view_contract'
     paginate_by = 50
 
+    # TODO: current filter
+
     def get_queryset(self):
-        return Contract.objects.filter(main_tenant__residential_home=self.request.user.administrative.residential_home).order_by('-id')
+        return Contract.objects.filter(
+            main_tenant__residential_home=self.request.user.administrative.residential_home).order_by('-id')
+
+
+class ContractListArchive(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    title = 'Verträge Übersicht Archiv'
+    template_name = 'private/contract_list.html'
+    permission_required = 'private.view_contract'
+    paginate_by = 50
+
+    # TODO: archive filter
+
+    def get_queryset(self):
+        return Contract.objects.filter(
+            main_tenant__residential_home=self.request.user.administrative.residential_home).order_by('-id')
 
 
 class ContractUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
@@ -114,10 +131,12 @@ class MainTenantList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     paginate_by = 50
 
     def get_queryset(self):
-        return MainTenant.objects.filter(residential_home=self.request.user.administrative.residential_home).order_by('-id')
+        return MainTenant.objects.filter(residential_home=self.request.user.administrative.residential_home).order_by(
+            '-id')
 
 
-class MainTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+class MainTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
+                       UpdateView):
     model = MainTenant
     title = 'Hauptmieter ändern'
     form_class = MainTenantUpdateForm
@@ -144,10 +163,13 @@ class SubTenantList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     paginate_by = 50
 
     def get_queryset(self):
-        return SubTenant.objects.filter(Q(residential_home='') | Q(residential_home=self.request.user.administrative.residential_home)).order_by('-id')
+        return SubTenant.objects.filter(
+            Q(residential_home='') | Q(residential_home=self.request.user.administrative.residential_home)).order_by(
+            '-id')
 
 
-class SubTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+class SubTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
+                      UpdateView):
     model = SubTenant
     title = 'Untermieter ändern'
     form_class = SubTenantUpdateForm
@@ -171,8 +193,11 @@ class ContractsRunning(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = 'private/contracts_running_list.html'
     permission_required = 'private.view_contract'
 
+    # TODO: running filter
+
     def get_queryset(self):
-        return Contract.objects.filter(active='Ja', main_tenant__residential_home=self.request.user.administrative.residential_home)\
+        return Contract.objects.filter(active='Ja',
+                                       main_tenant__residential_home=self.request.user.administrative.residential_home) \
             .order_by('main_tenant__residential_home', 'main_tenant__house_number', 'main_tenant__room_number')
 
 

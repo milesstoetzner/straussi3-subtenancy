@@ -56,6 +56,7 @@ class ContractList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     title = 'Verträge Überischt'
     template_name = 'private/contract_list.html'
     permission_required = 'private.view_contract'
+    paginate_by = 50
 
     def get_queryset(self):
         return Contract.objects.filter(main_tenant__residential_home=self.request.user.administrative.residential_home).order_by('-id')
@@ -110,6 +111,7 @@ class MainTenantList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     title = 'Hauptmieter Übersicht'
     template_name = 'private/maintenant_list.html'
     permission_required = 'public.view_maintenant'
+    paginate_by = 50
 
     def get_queryset(self):
         return MainTenant.objects.filter(residential_home=self.request.user.administrative.residential_home).order_by('-id')
@@ -139,6 +141,7 @@ class SubTenantList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     title = 'Untermieter Übersicht'
     template_name = 'private/subtenant_list.html'
     permission_required = 'public.view_subtenant'
+    paginate_by = 50
 
     def get_queryset(self):
         return SubTenant.objects.filter(Q(residential_home='') | Q(residential_home=self.request.user.administrative.residential_home)).order_by('-id')

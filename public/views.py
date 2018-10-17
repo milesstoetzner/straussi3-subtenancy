@@ -13,6 +13,7 @@ class MainTenantCreate(SuccessMessageMixin, CreateView):
     title = 'Hauptmieter Registrierung'
     form_class = MainTenantForm
     form_class.use_required_attribute = False
+    max_width = '600px'
 
     success_url = '/'
     success_message = 'Du hast dich erfolgreich als Hauptmieter registriert. Deine ID lautet: %(pk)s'
@@ -36,6 +37,7 @@ class SubTenantCreate(SuccessMessageMixin, CreateView):
     title = 'Untemieter Registrierung'
     form_class = SubTenantForm
     form_class.use_required_attribute = False
+    max_width = '600px'
 
     success_url = '/'
     success_message = 'Du hast dich erfolgreich als Untermieter registriert. Deine ID lautet: %(pk)s'
@@ -56,14 +58,15 @@ class SubTenantCreate(SuccessMessageMixin, CreateView):
 class Requests(ListView):
     title = 'Anfragenliste'
     template_name = 'public/requests.html'
+    max_width = '600px'
 
     def get_queryset(self):
         return SubTenant.objects.filter(active='Ja', end_subtenancy__gt=datetime.datetime.now()).order_by('begin_subtenancy','end_subtenancy')
 
 
 def Index(request):
-    return render(request, 'public/index.html', {'title': 'Startseite'})
+    return render(request, 'public/index.html', {'title': 'Startseite', 'max_width': '600px'})
 
 
 def Impressum(request):
-    return render(request, 'public/impressum.html', {'title': 'Impressum'})
+    return render(request, 'public/impressum.html', {'title': 'Impressum', 'max_width': '600px'})

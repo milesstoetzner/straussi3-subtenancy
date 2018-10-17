@@ -20,7 +20,7 @@ urlpatterns = [
     path('contracts/<int:pk>/render/', views.ContractRender.as_view(), name='ContractRender'),
 
     # for external
-    path('external', views.ContractsRunning.as_view(), name='ContractsRunning'),
-    path('external/archive', views.ContractsRunningArchive.as_view(), name='ContractsRunningArchive')
+    path('external', views.ContractExternalList.as_view(), name='ContractExternalList'),
+    path('external/archive', views.ContractExternalArchive.as_view(), name='ContractExternalArchive')
 
 ]

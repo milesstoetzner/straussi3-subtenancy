@@ -103,14 +103,14 @@
 
             {% if user|has_group:'External' %}
                 <li class="nav-item">
-                    <a class="btn btn-dark" href="{% url 'private:ContractsRunning' %}"
-                       id="{% url 'private:ContractsRunning' %}"><i class="fas fa-home icon-text"></i>Aktive
+                    <a class="btn btn-dark" href="{% url 'private:ContractExternalList' %}"
+                       id="{% url 'private:ContractExternalList' %}"><i class="fas fa-home icon-text"></i>Aktive
                         Ferienmiete</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="btn btn-dark" href="{% url 'private:ContractsRunningArchive' %}"
-                       id="{% url 'private:ContractsRunningArchive' %}"><i class="fas fa-archive icon-text"></i>Archiv</a>
+                    <a class="btn btn-dark" href="{% url 'private:ContractExternalArchive' %}"
+                       id="{% url 'private:ContractExternalArchive' %}"><i class="fas fa-archive icon-text"></i>Archiv</a>
                 </li>
             {% endif %}
 

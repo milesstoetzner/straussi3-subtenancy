@@ -185,9 +185,9 @@ class SubTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTes
         return context
 
 
-class ContractsRunning(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class ContractExternalList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     title = 'Aktive Ferienmiete'
-    template_name = 'private/contracts_running_list.html'
+    template_name = 'private/contract_external_list.html'
     permission_required = 'private.view_contract'
     paginate_by = 50
 
@@ -197,9 +197,9 @@ class ContractsRunning(LoginRequiredMixin, PermissionRequiredMixin, ListView):
             .order_by('main_tenant__residential_home', 'main_tenant__house_number', 'main_tenant__room_number')
 
 
-class ContractsRunningArchive(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class ContractExternalArchive(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     title = 'Ferienmiete Archiv'
-    template_name = 'private/contracts_running_list.html'
+    template_name = 'private/contract_external_list.html'
     permission_required = 'private.view_contract'
     paginate_by = 50
 

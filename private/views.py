@@ -7,7 +7,9 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse
 from django.core import serializers
 from django.http import HttpResponseRedirect
+
 import json
+import datetime
 
 from django.db.models import Q
 
@@ -37,7 +39,7 @@ class ContractCreate(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessage
 
     def form_valid(self, form):
         self.object = form.save()  # TODO: was bedeutet 'Instance attribute object defined outside __init__'?!
-        self.object.main_tenant.active = 'Nein'
+        self.object.main_tenant.active = 'Nein' # TODO: removet this?!
         self.object.main_tenant.save()
         self.object.sub_tenant.active = 'Nein'
         self.object.sub_tenant.save()
@@ -54,29 +56,25 @@ class ContractCreate(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessage
 
 
 class ContractList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    title = 'Verträge Übersicht'
+    title = 'Aktive Verträge'
     template_name = 'private/contract_list.html'
     permission_required = 'private.view_contract'
     paginate_by = 50
 
-    # TODO: current filter
-
     def get_queryset(self):
         return Contract.objects.filter(
-            main_tenant__residential_home=self.request.user.administrative.residential_home).order_by('-id')
+            main_tenant__residential_home=self.request.user.administrative.residential_home, end__gte=datetime.datetime.now()).order_by('-id')
 
 
 class ContractListArchive(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    title = 'Verträge Übersicht Archiv'
+    title = 'Verträge Archiv'
     template_name = 'private/contract_list.html'
     permission_required = 'private.view_contract'
     paginate_by = 50
 
-    # TODO: archive filter
-
     def get_queryset(self):
         return Contract.objects.filter(
-            main_tenant__residential_home=self.request.user.administrative.residential_home).order_by('-id')
+            main_tenant__residential_home=self.request.user.administrative.residential_home, end__lt=datetime.datetime.now()).order_by('-id')
 
 
 class ContractUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
@@ -154,7 +152,6 @@ class MainTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTe
         return context
 
 
-# TODO: scope?
 # OPTIMIZE: not hardcoded view
 class SubTenantList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     title = 'Untermieter Übersicht'
@@ -192,12 +189,24 @@ class ContractsRunning(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     title = 'Aktive Ferienmiete'
     template_name = 'private/contracts_running_list.html'
     permission_required = 'private.view_contract'
-
-    # TODO: running filter
+    paginate_by = 50
 
     def get_queryset(self):
         return Contract.objects.filter(active='Ja',
-                                       main_tenant__residential_home=self.request.user.administrative.residential_home) \
+                                       main_tenant__residential_home=self.request.user.administrative.residential_home, end__gte=datetime.datetime.now()) \
+            .order_by('main_tenant__residential_home', 'main_tenant__house_number', 'main_tenant__room_number')
+
+
+class ContractsRunningArchive(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    title = 'Ferienmiete Archiv'
+    template_name = 'private/contracts_running_list.html'
+    permission_required = 'private.view_contract'
+    paginate_by = 50
+
+    def get_queryset(self):
+        return Contract.objects.filter(active='Ja',
+                                       main_tenant__residential_home=self.request.user.administrative.residential_home,
+                                       end__lt=datetime.datetime.now()) \
             .order_by('main_tenant__residential_home', 'main_tenant__house_number', 'main_tenant__room_number')
 
 

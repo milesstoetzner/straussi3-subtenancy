@@ -22,7 +22,7 @@
 - Each residential home janitor and contact person at the SWS owns one account of this group
 - Users of this group are scoped to their residential home
 - Permissions:
-    - view running contracts
+    - view contracts (including PDF)
 
 ### Staff
 undefined

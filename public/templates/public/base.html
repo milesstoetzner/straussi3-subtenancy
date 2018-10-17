@@ -1,3 +1,5 @@
+{% load private_extras %}
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -69,7 +71,8 @@
     {% if user.is_authenticated %}
 
         <ul class="nav justify-content-center bg-dark" style="margin-bottom: 1rem">
-            {% if perms.private.change_contract %}
+
+            {% if user|has_group:'Assistants' %}
                 <li class="nav-item">
                     <a class="btn btn-dark" href="{% url 'private:Ferienmiete' %}"
                        id="{% url 'private:Ferienmiete' %}"><i
@@ -87,33 +90,36 @@
                     <a class="btn btn-dark" href="{% url 'private:SubTenantList' %}"
                        id="{% url 'private:SubTenantList' %}"><i class="fas fa-users icon-text"></i>Untermieter</a>
                 </li>
-
-                <li class="btn-group bg-dark">
+                <li class="nav-item">
                     <a class="btn btn-dark" href="{% url 'private:ContractList' %}"
                        id="{% url 'private:ContractList' %}"><i class="fas fa-file-contract icon-text"></i>Verträge</a>
-    <button type="button" class="btn btn-dark dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
-      <span class="sr-only">Toggle Dropdown</span>
-    </button>
-                    <div class="dropdown-menu bg-dark">
-                        <a class="dropdown-item text-white bg-dark" href="{% url 'private:ContractList' %}"><i class="fas fa-clock icon-text" style="color: white"></i><i class="fas fa-running"></i>Aktuell</a>
-                        <a class="dropdown-item text-white bg-dark" href="{% url 'private:ContractListArchive' %}"><i class="fas fa-archive"></i> Archiv</a>
-                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-dark" href="{% url 'private:ContractListArchive' %}"
+                       id="{% url 'private:ContractListArchive' %}"><i class="fas fa-archive icon-text"></i>Archiv</a>
                 </li>
 
             {% endif %}
 
-            {% if perms.private.view_contract %}
+            {% if user|has_group:'External' %}
                 <li class="nav-item">
                     <a class="btn btn-dark" href="{% url 'private:ContractsRunning' %}"
                        id="{% url 'private:ContractsRunning' %}"><i class="fas fa-home icon-text"></i>Aktive
                         Ferienmiete</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="btn btn-dark" href="{% url 'private:ContractsRunningArchive' %}"
+                       id="{% url 'private:ContractsRunningArchive' %}"><i class="fas fa-archive icon-text"></i>Archiv</a>
+                </li>
             {% endif %}
+
         </ul>
 
     {% endif %}
 
 </header>
+
 
 <div class="container-fluid" style="max-width: 600px" id="custom-container">
 
@@ -147,9 +153,7 @@
         crossorigin="anonymous"></script>
 
 <script>
-
     document.getElementById(window.location.pathname).classList.add('active');
-
 </script>
 
 </body>

@@ -31,15 +31,16 @@
 
     {% if user.is_authenticated %}
 
-            <h5 style="text-align: center; padding-top: 1rem; margin-bottom: 1rem;">Ferienmiete Studierendenwohnheime Stuttgart</h5>
+        <h5 style="text-align: center; padding-top: 1rem; margin-bottom: 1rem;">Ferienmiete Studierendenwohnheime
+            Stuttgart</h5>
 
     {% else %}
 
         <div style="padding-top: 1rem; margin-bottom: 1.5rem;">
-                <a href="/"><img src="{% static 'public/logo_rom.svg' %}"
-                                                    style="width: 60px; margin: 1rem 0 1rem 0"></a>
+            <a href="/"><img src="{% static 'public/logo_rom.svg' %}"
+                             style="width: 60px; margin: 1rem 0 1rem 0"></a>
 
-                <h5>Ferienmiete<br>Studierendenwohnheime<br>Stuttgart</h5>
+            <h5>Ferienmiete<br>Studierendenwohnheime<br>Stuttgart</h5>
 
         </div>
 
@@ -70,9 +71,11 @@
 
     {% if user.is_authenticated %}
 
-        <ul class="nav justify-content-center bg-dark" style="margin-bottom: 1rem">
+        {% if user|has_group:'Assistants' %}
 
-            {% if user|has_group:'Assistants' %}
+            <ul class="nav justify-content-center bg-dark">
+
+
                 <li class="nav-item">
                     <a class="btn btn-dark" href="{% url 'private:Ferienmiete' %}"
                        id="{% url 'private:Ferienmiete' %}"><i
@@ -99,9 +102,14 @@
                        id="{% url 'private:ContractListArchive' %}"><i class="fas fa-archive icon-text"></i>Archiv</a>
                 </li>
 
-            {% endif %}
+            </ul>
 
-            {% if user|has_group:'External' %}
+        {% endif %}
+
+        {% if user|has_group:'External' %}
+
+            <ul class="nav justify-content-center bg-dark">
+
                 <li class="nav-item">
                     <a class="btn btn-dark" href="{% url 'private:ContractExternalList' %}"
                        id="{% url 'private:ContractExternalList' %}"><i class="fas fa-home icon-text"></i>Aktive
@@ -110,18 +118,21 @@
 
                 <li class="nav-item">
                     <a class="btn btn-dark" href="{% url 'private:ContractExternalArchive' %}"
-                       id="{% url 'private:ContractExternalArchive' %}"><i class="fas fa-archive icon-text"></i>Archiv</a>
+                       id="{% url 'private:ContractExternalArchive' %}"><i
+                            class="fas fa-archive icon-text"></i>Archiv</a>
                 </li>
-            {% endif %}
 
-        </ul>
+            </ul>
+
+        {% endif %}
+
 
     {% endif %}
 
 </header>
 
 
-<div class="container-fluid" style="max-width: 600px" id="custom-container">
+<div class="container-fluid" style="max-width: {{ view.max_width }}{{ max_width }}" id="custom-container">
 
     {% if messages %}
         {% for message in messages %}

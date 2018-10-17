@@ -32,6 +32,7 @@ class ContractCreate(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessage
     form_class = ContractForm
     form_class.use_required_attribute = False
     permission_required = 'private.add_contract'
+    max_width = '600px'
 
     # TODO: scope of main and sub!
 
@@ -60,6 +61,7 @@ class ContractList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = 'private/contract_list.html'
     permission_required = 'private.view_contract'
     paginate_by = 50
+    max_width = '100%'
 
     def get_queryset(self):
         return Contract.objects.filter(
@@ -71,6 +73,7 @@ class ContractListArchive(LoginRequiredMixin, PermissionRequiredMixin, ListView)
     template_name = 'private/contract_list.html'
     permission_required = 'private.view_contract'
     paginate_by = 50
+    max_width = '100%'
 
     def get_queryset(self):
         return Contract.objects.filter(
@@ -84,6 +87,7 @@ class ContractUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTest
     template_name = 'private/update_form.html'
     success_message = 'Änderungen erfolgreich übernommen!'
     permission_required = 'private.change_contract'
+    max_width = '600px'
 
     # TODO: scope test bad practice?
     def test_func(self):
@@ -116,6 +120,7 @@ class Assistant(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     title = 'Assistent'
     template_name = 'private/assistant.html'
     permission_required = 'public.view_subtenant'
+    max_width = '800px'
 
     def get_queryset(self):
         return SubTenant.objects.filter()
@@ -127,6 +132,7 @@ class MainTenantList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = 'private/maintenant_list.html'
     permission_required = 'public.view_maintenant'
     paginate_by = 50
+    max_width = '100%'
 
     def get_queryset(self):
         return MainTenant.objects.filter(residential_home=self.request.user.administrative.residential_home).order_by(
@@ -141,6 +147,7 @@ class MainTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTe
     template_name = 'private/update_form.html'
     success_message = 'Änderungen erfolgreich übernommen!'
     permission_required = 'public.change_maintenant'
+    max_width = '600px'
 
     def test_func(self):
         return self.get_object().residential_home == self.request.user.administrative.residential_home
@@ -158,6 +165,7 @@ class SubTenantList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = 'private/subtenant_list.html'
     permission_required = 'public.view_subtenant'
     paginate_by = 50
+    max_width = '100%'
 
     def get_queryset(self):
         return SubTenant.objects.filter(
@@ -173,6 +181,7 @@ class SubTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTes
     template_name = 'private/update_form.html'
     success_message = 'Änderungen erfolgreich übernommen!'
     permission_required = 'public.change_subtenant'
+    max_width = '600px'
 
     def test_func(self):
         residential_home = self.get_object().residential_home
@@ -190,6 +199,7 @@ class ContractExternalList(LoginRequiredMixin, PermissionRequiredMixin, ListView
     template_name = 'private/contract_external_list.html'
     permission_required = 'private.view_contract'
     paginate_by = 50
+    max_width = '100%'
 
     def get_queryset(self):
         return Contract.objects.filter(active='Ja',
@@ -202,6 +212,7 @@ class ContractExternalArchive(LoginRequiredMixin, PermissionRequiredMixin, ListV
     template_name = 'private/contract_external_list.html'
     permission_required = 'private.view_contract'
     paginate_by = 50
+    max_width = '100%'
 
     def get_queryset(self):
         return Contract.objects.filter(active='Ja',

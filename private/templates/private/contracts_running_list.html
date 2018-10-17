@@ -7,7 +7,7 @@
     <div class="card">
         <div class="card-body">
 
-            <h5 class="card-title" style="text-align: center">Aktive Ferienmiete</h5>
+            <h5 class="card-title" style="text-align: center">{{ view.title }}</h5>
 
             <div class="table-responsive">
                 <table class="table table-striped" style="white-space: nowrap; text-align: center">
@@ -46,6 +46,8 @@
             </div>
 
         </div>
+
+            {% include 'private/pagination.html' %}
 
     </div>
 

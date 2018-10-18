@@ -1,8 +1,8 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
-from public.models import MainTenant, SubTenant
-from public.models import BOOLEAN_CHOICES, RESIDENTIAL_HOME_TYPE_CHOICES
+from public.models import MainTenant, SubTenant, ResidentialHome
+from public.models import BOOLEAN_CHOICES
 
 
 class Contract(models.Model):
@@ -33,7 +33,7 @@ class Contract(models.Model):
 # TODO: bad practice?!
 class Administrative(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    residential_home = models.CharField('Wohnheim', max_length=10, choices=RESIDENTIAL_HOME_TYPE_CHOICES)  # TODO: superuser needs a proptery?! better as list or regex?
+    residential_home = models.ForeignKey(ResidentialHome, on_delete=models.PROTECT, verbose_name='Wohnheim')
 
     def __str__(self):
-        return self.residential_home
+        return str(self.residential_home)

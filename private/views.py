@@ -169,7 +169,7 @@ class SubTenantList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         return SubTenant.objects.filter(
-            Q(residential_home='') | Q(residential_home=self.request.user.administrative.residential_home)).order_by(
+            Q(residential_home__isnull=True) | Q(residential_home=self.request.user.administrative.residential_home)).order_by(
             '-id')
 
 
@@ -185,7 +185,7 @@ class SubTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTes
 
     def test_func(self):
         residential_home = self.get_object().residential_home
-        return residential_home == '' or residential_home == self.request.user.administrative.residential_home
+        return not residential_home or residential_home == self.request.user.administrative.residential_home
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

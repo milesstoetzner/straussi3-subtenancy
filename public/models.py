@@ -1,9 +1,26 @@
 from django.db import models
 from django.urls import reverse
-from .residential_homes import RESIDENTIAL_HOME_TYPE_CHOICES
 
 BOOLEAN_CHOICES = (('Nein', 'Nein'), ('Ja', 'Ja')) #TODO: bad practice?!
 # TODO: rename 'active' to 'is_active' in MainTenant, SubTenant and Contract
+
+
+class ResidentialHome(models.Model):
+    name = models.CharField('Name', max_length=250)
+    short = models.CharField('Abkürzung', max_length=4)
+    street = models.CharField('Straße', max_length=250)
+    house_numbers = models.CharField('Hausnummern', max_length=1000)
+    room_numbers = models.CharField('Zimmernummern', max_length=1000)
+    postcode = models.CharField('Postleitzahl', max_length=25)
+    city = models.CharField('Ort', max_length=250)
+    country = models.CharField('Land', max_length=250)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Wohnheim'
+        verbose_name_plural = 'Wohnheime'
 
 
 class MainTenant(models.Model):
@@ -17,13 +34,13 @@ class MainTenant(models.Model):
     phone_number = models.CharField('Telefonnummer', max_length=15)
 
     # Information about subtenancy
-    residential_home = models.CharField('Wohnheim', max_length=100, choices=RESIDENTIAL_HOME_TYPE_CHOICES)
+    residential_home = models.ForeignKey(ResidentialHome, on_delete=models.PROTECT, verbose_name='Wohnheim')
     house_number = models.CharField('Hausnummer', max_length=10)
     room_number = models.CharField('Zimmernummer', max_length=10)
     begin_subtenancy = models.DateField('Beginn der Untermiete')
     end_subtenancy = models.DateField('Ende der Untermiete')
     comeback = models.CharField('Ist ein Wiedereinzug ins Zimmer geplant?', max_length=10, choices=BOOLEAN_CHOICES)
-    rent = models.FloatField('Tagesmiete in Euro')  # TODO: request daily or monthly rent!?
+    rent = models.FloatField('Monatsmiete in Euro')
     room_condition = models.CharField('Ist das Zimmer in einem ordnungsgemäßen Zustand?', max_length=10, choices=BOOLEAN_CHOICES)
 
     active = models.CharField('Ist dieser Account aktiv?', max_length=10, choices=BOOLEAN_CHOICES, default='Ja')
@@ -65,7 +82,7 @@ class SubTenant(models.Model):
     country = models.CharField('Land', max_length=250)
 
     active = models.CharField('Ist dieser Account aktiv?', max_length=10, choices=BOOLEAN_CHOICES, default='Ja')
-    residential_home = models.CharField('Untermieter gehört zu folgendem Wohnheim', max_length=10, choices=RESIDENTIAL_HOME_TYPE_CHOICES, default='', blank=True)
+    residential_home = models.ForeignKey(ResidentialHome, on_delete=models.PROTECT, blank=True, null=True, verbose_name='Wohnheim')
 
     # TODO: add created, last_updated fields?!
 

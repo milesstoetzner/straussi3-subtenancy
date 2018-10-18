@@ -1,6 +1,15 @@
 from django.forms import ModelForm, TextInput, DateInput, EmailInput, Select, NumberInput
-from .models import MainTenant, SubTenant
-from .residential_homes import RESIDENTIAL_HOMES
+from .models import MainTenant, SubTenant, ResidentialHome
+
+
+class ResidentialHomeForm(ModelForm):
+    class Meta:
+        model = ResidentialHome
+        fields = '__all__'
+        help_texts = {
+            'house_numbers': "Liste der Form: 'a', 'b', 'c'",
+            'room_numbers': "Liste der Form:  1, 2, 3"
+        }
 
 
 class MainTenantForm(ModelForm):
@@ -26,15 +35,13 @@ class MainTenantForm(ModelForm):
 
         # house_number of residential_home
         if residential_home and house_number:
-            if house_number not in RESIDENTIAL_HOMES[residential_home].get('house_numbers'):
-                self.add_error('house_number', 'Diese Hausnummer existiert nicht. Erlaubt sind: ' + str(
-                    RESIDENTIAL_HOMES[residential_home].get('house_numbers')))
+            if house_number not in residential_home.house_numbers.split(","):
+                self.add_error('house_number', 'Diese Hausnummer existiert nicht. Erlaubt sind: ' + residential_home.house_numbers)
 
         # room_number of residential_home
         if residential_home and room_number:
-            if int(room_number) not in RESIDENTIAL_HOMES[residential_home].get('room_numbers'):
-                self.add_error('room_number', 'Diese Zimmernummer existiert nicht. Erlaubt sind: ' + str(
-                    RESIDENTIAL_HOMES[residential_home].get('room_numbers')))
+            if room_number not in residential_home.room_numbers.split(","):
+                self.add_error('room_number', 'Diese Zimmernummer existiert nicht. Erlaubt sind: ' + residential_home.room_numbers)
 
         # begin_subtenancy < end_subtenancy
         if begin_subtenancy and end_subtenancy:

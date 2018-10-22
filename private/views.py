@@ -65,19 +65,29 @@ class ContractList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         return Contract.objects.filter(
-            main_tenant__residential_home=self.request.user.administrative.residential_home, end__gte=datetime.datetime.now()).order_by('-id')
+            main_tenant__residential_home=self.request.user.administrative.residential_home).order_by('-id')
 
 
-class ContractListArchive(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    title = 'Verträge Archiv'
-    template_name = 'private/contract_list.html'
+class ContractView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = Contract
+    context_object_name = 'object'
+    form_class = ContractUpdateForm
+    template_name = 'private/view.html'
     permission_required = 'private.view_contract'
-    paginate_by = 50
-    max_width = '100%'
+    http_method_names = 'get'
+    max_width = '600px'
 
-    def get_queryset(self):
-        return Contract.objects.filter(
-            main_tenant__residential_home=self.request.user.administrative.residential_home, end__lt=datetime.datetime.now()).order_by('-id')
+    def test_func(self):
+        return self.get_object().main_tenant.residential_home == self.request.user.administrative.residential_home
+
+    def get_success_url(self):
+        return reverse_lazy('private:SubTenantView', args=(self.object.id,))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = str(self.get_object())
+        context['type'] = 'contract'
+        return context
 
 
 class ContractUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
@@ -89,7 +99,6 @@ class ContractUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTest
     permission_required = 'private.change_contract'
     max_width = '600px'
 
-    # TODO: scope test bad practice?
     def test_func(self):
         return self.get_object().main_tenant.residential_home == self.request.user.administrative.residential_home
 
@@ -126,6 +135,7 @@ class Assistant(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         return SubTenant.objects.filter()
 
 
+# TODO: remove
 # OPTIMIZE: not hardcoded view
 class MainTenantList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     title = 'Hauptmieter Übersicht'
@@ -141,8 +151,9 @@ class MainTenantList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
 class MainTenantView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = MainTenant
+    context_object_name = 'object'
     form_class = MainTenantUpdateForm
-    template_name = 'private/detail_form.html'
+    template_name = 'private/view.html'
     permission_required = 'public.view_maintenant'
     http_method_names = 'get'
     max_width = '600px'
@@ -153,6 +164,7 @@ class MainTenantView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = str(self.get_object())
+        context['type'] = 'maintenant'
         return context
 
 
@@ -169,9 +181,6 @@ class MainTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTe
     def test_func(self):
         return self.get_object().residential_home == self.request.user.administrative.residential_home
 
-    def get_success_url(self):
-        return reverse_lazy('private:MainTenantView', args=(self.object.id,))
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.method == 'GET':
@@ -179,6 +188,7 @@ class MainTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTe
         return context
 
 
+# TODO: remove
 # OPTIMIZE: not hardcoded view
 class SubTenantList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     title = 'Untermieter Übersicht'
@@ -193,6 +203,26 @@ class SubTenantList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
             '-id')
 
 
+class SubTenantView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = SubTenant
+    context_object_name = 'object'
+    form_class = SubTenantUpdateForm
+    template_name = 'private/view.html'
+    permission_required = 'public.view_subtenant'
+    http_method_names = 'get'
+    max_width = '600px'
+
+    def test_func(self):
+        residential_home = self.get_object().residential_home
+        return not residential_home or residential_home == self.request.user.administrative.residential_home
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = str(self.get_object())
+        context['type'] = 'subtenant'
+        return context
+    
+    
 class SubTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
                       UpdateView):
     model = SubTenant

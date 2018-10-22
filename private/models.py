@@ -20,6 +20,9 @@ class Contract(models.Model):
     active = models.CharField('Ist dieser Vertrag aktiv?', max_length=10, choices=BOOLEAN_CHOICES, default='Ja')
 
     def get_absolute_url(self):
+        return reverse('private:ContractView', kwargs={'pk': self.pk})
+
+    def get_update_url(self):
         return reverse('private:ContractUpdate', kwargs={'pk': self.pk})
 
     def __str__(self):

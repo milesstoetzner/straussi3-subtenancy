@@ -48,7 +48,14 @@ class MainTenant(models.Model):
     # TODO: add created, last_updated fields?!
 
     def get_absolute_url(self):
-        return reverse('private:MainTenantUpdate', kwargs={'pk': self.pk})
+        return reverse('private:MainTenantView', kwargs={'pk': self.pk})
+
+    def get_all_contracts(self):
+        return self.contract_set.all()
+
+    # TODO: implement comments
+    def get_all_comments(self):
+        return ['ich bin ein Dummy Kommentar', 'Fake it, till u make it!']
 
     def __str__(self):
         return str(self.pk) + ': '+ self.first_name + ' ' + self.last_name + ' (' + str(self.tenant_id) + ')'

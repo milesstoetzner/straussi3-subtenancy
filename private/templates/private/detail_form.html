@@ -1,0 +1,79 @@
+{% extends "public/base.html" %}
+
+{% block content %}
+
+    <form>
+    <fieldset disabled>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ view.title }}{{ title }}
+                <td class="align-middle"><a class="float-right" href=" {% url 'private:MainTenantUpdate' maintenant.id %}"><i
+                                    class="fas fa-user-edit btn btn-danger"></i></a></td></h5>
+
+                {% include 'public/view_field.html' %}
+
+
+            </div>
+
+        </div>
+    </fieldset>
+    </form>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Verträge</h5>
+
+                <div class="table-responsive">
+                <table class="table table-striped" style="white-space: nowrap; text-align: center">
+
+                    <thead>
+                    <tr>
+                        <th class="align-middle"></th>
+                        <th class="align-middle">ID</th>
+                        <th class="align-middle">Aktiv</th>
+                        <th class="align-middle">Untermieter</th>
+                        <th class="align-middle">Beginn</th>
+                        <th class="align-middle">Ende</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+            {% for contract in maintenant.get_all_contracts %}
+
+                        <!-- OPTIMIZE: open links in new tab? -->
+
+                        <tr>
+                            <td class="align-middle"><a href=" {% url 'private:ContractRender' contract.id %}" target="_blank"><i
+                                    class="fas fa-file-pdf btn btn-success"></i></a></td>
+                            <td class="align-middle">{{ contract.id }}</td>
+                            <td class="align-middle">{{ contract.active }}</td>
+                            <td class="align-middle">{{ contract.sub_tenant }}</td>
+                            <td class="align-middle">{{ contract.begin }}</td>
+                            <td class="align-middle">{{ contract.end }}</td>
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Kommentare</h5>
+
+            {% for comment in maintenant.get_all_comments %}
+                {{ comment }} <br>
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+{% endblock %}

@@ -97,10 +97,6 @@
                     <a class="btn btn-dark" href="{% url 'private:ContractList' %}"
                        id="{% url 'private:ContractList' %}"><i class="fas fa-file-contract icon-text"></i>Verträge</a>
                 </li>
-                <li class="nav-item">
-                    <a class="btn btn-dark" href="{% url 'private:ContractListArchive' %}"
-                       id="{% url 'private:ContractListArchive' %}"><i class="fas fa-archive icon-text"></i>Archiv</a>
-                </li>
 
             </ul>
 
@@ -108,16 +104,16 @@
 
         {% if user|has_group:'External' %}
 
-            <ul class="nav justify-content-center bg-dark">
+            <ul class="nav justify-content-center bg-orange">
 
                 <li class="nav-item">
-                    <a class="btn btn-dark" href="{% url 'private:ContractExternalList' %}"
+                    <a class="btn btn-orange" href="{% url 'private:ContractExternalList' %}"
                        id="{% url 'private:ContractExternalList' %}"><i class="fas fa-home icon-text"></i>Aktive
                         Ferienmiete</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="btn btn-dark" href="{% url 'private:ContractExternalArchive' %}"
+                    <a class="btn btn-orange" href="{% url 'private:ContractExternalArchive' %}"
                        id="{% url 'private:ContractExternalArchive' %}"><i
                             class="fas fa-archive icon-text"></i>Archiv</a>
                 </li>
@@ -136,10 +132,16 @@
 
     {% if messages %}
         {% for message in messages %}
-            <div class="alert bg-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}
+
+            <div style="margin-top: 1rem">
+
+                <div class="alert bg-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}
             text-white text-center" role="alert">
-                {{ message }}
+                    {{ message }}
+                </div>
+
             </div>
+
         {% endfor %}
     {% endif %}
 

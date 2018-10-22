@@ -4,7 +4,7 @@ from public.models import MainTenant, SubTenant
 from public.forms import MainTenantForm, MainTenantUpdateForm, SubTenantForm, SubTenantUpdateForm
 from .forms import ContractForm, ContractUpdateForm
 from django.contrib.messages.views import SuccessMessageMixin
-from django.urls import reverse
+from django.urls import reverse_lazy
 from django.core import serializers
 from django.http import HttpResponseRedirect
 
@@ -47,7 +47,7 @@ class ContractCreate(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessage
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse('private:ContractRender', args=(self.object.id,))
+        return reverse_lazy('private:ContractRender', args=(self.object.id,))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -112,7 +112,7 @@ class ContractRender(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTest
         data = {
             'contract': self.get_object()
         }
-        pdf = render_to_pdf('private/contracts/' + self.get_object().main_tenant.residential_home + '.html', data)
+        pdf = render_to_pdf('private/contracts/' + self.get_object().main_tenant.residential_home.short + '.html', data)
         return HttpResponse(pdf, content_type='application/pdf')
 
 
@@ -139,6 +139,23 @@ class MainTenantList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
             '-id')
 
 
+class MainTenantView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = MainTenant
+    form_class = MainTenantUpdateForm
+    template_name = 'private/detail_form.html'
+    permission_required = 'public.view_maintenant'
+    http_method_names = 'get'
+    max_width = '600px'
+
+    def test_func(self):
+        return self.get_object().residential_home == self.request.user.administrative.residential_home
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = str(self.get_object())
+        return context
+
+
 class MainTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
                        UpdateView):
     model = MainTenant
@@ -151,6 +168,9 @@ class MainTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTe
 
     def test_func(self):
         return self.get_object().residential_home == self.request.user.administrative.residential_home
+
+    def get_success_url(self):
+        return reverse_lazy('private:MainTenantView', args=(self.object.id,))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

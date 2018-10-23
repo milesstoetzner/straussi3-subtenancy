@@ -233,10 +233,9 @@ class SubTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTes
         return context
 
 
-#@login_required
-#@permission_required(['public.view_maintenant', 'public.view_subtenant', 'private.view_contract'])
-#@require_POST
-@csrf_exempt
+@login_required
+@permission_required(['public.view_maintenant', 'public.view_subtenant', 'private.view_contract'])
+@require_POST
 def search(request):
     query = request.POST['query']
 
@@ -255,7 +254,7 @@ def search(request):
 
 @login_required
 @permission_required('public.view_maintenant')
-def MainTenantJSON(request, pk):
+def main_tenant_json(request, pk):
     obj = MainTenant.objects.get(pk=pk)
     data = serializers.serialize('json', [obj, ])
     struct = json.loads(data)
@@ -266,7 +265,7 @@ def MainTenantJSON(request, pk):
 
 @login_required
 @permission_required('public.view_subtenant')
-def SubTenantJSON(request, pk):
+def sub_tenant_json(request, pk):
     obj = SubTenant.objects.get(pk=pk)
     data = serializers.serialize('json', [obj, ])
     struct = json.loads(data)

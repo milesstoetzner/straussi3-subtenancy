@@ -33,7 +33,7 @@ class MainTenant(models.Model):
     # Information about main tenant
     first_name = models.CharField('Vorname', max_length=250)
     last_name = models.CharField('Nachname', max_length=250)
-    tenant_id = models.PositiveIntegerField('Mieternummer')
+    tenant_id = models.PositiveIntegerField('Mieternummer', unique=True)
     begin_rent_agreement = models.DateField('Beginn des Mietvertrages')
     end_rent_agreement = models.DateField('Ende des Mietvertrages')
     email = models.EmailField('Email')

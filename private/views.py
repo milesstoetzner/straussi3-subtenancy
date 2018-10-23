@@ -8,7 +8,6 @@ from django.urls import reverse_lazy
 from django.core import serializers
 from django.http import HttpResponseRedirect
 from django.views.decorators.http import require_POST
-from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 
 import json
@@ -22,16 +21,16 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
 from .utils import render_to_pdf
 
+# TODO: remove residential home scope!
 
-# OPTIMIZE: nur ein create_form.html
+# TODO: remove old subtenants without contracts
 
-# TODO: remove old submenants without contracts
 
 # TODO: display main_tenant details und sub_tenant details
 class ContractCreate(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     model = Contract
     title = 'Vertrag erstellen'
-    template_name = 'private/create_form.html'
+    template_name = 'private/contract_create_form.html'
     form_class = ContractForm
     form_class.use_required_attribute = False
     permission_required = 'private.add_contract'
@@ -239,7 +238,7 @@ class SubTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTes
 def search(request):
     query = request.POST['query']
 
-    #TODO: komplexe query! full name, birthday, tenant_id
+    # TODO: complex query! full name, birthday, tenant_id
     main_tenants = MainTenant.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
     sub_tenants = SubTenant.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
 

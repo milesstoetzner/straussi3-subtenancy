@@ -11,6 +11,7 @@ import datetime
 class MainTenantCreate(SuccessMessageMixin, CreateView):
     model = MainTenant
     title = 'Hauptmieter Registrierung'
+    template_name = 'public/tenant_form.html'
     form_class = MainTenantForm
     form_class.use_required_attribute = False
     max_width = '600px'
@@ -35,6 +36,7 @@ class MainTenantCreate(SuccessMessageMixin, CreateView):
 class SubTenantCreate(SuccessMessageMixin, CreateView):
     model = SubTenant
     title = 'Untemieter Registrierung'
+    template_name = 'public/tenant_form.html'
     form_class = SubTenantForm
     form_class.use_required_attribute = False
     max_width = '600px'
@@ -64,9 +66,9 @@ class Requests(ListView):
         return SubTenant.objects.filter(active='Ja', end_subtenancy__gt=datetime.datetime.now()).order_by('begin_subtenancy','end_subtenancy')
 
 
-def Index(request):
+def index(request):
     return render(request, 'public/index.html', {'title': 'Startseite', 'max_width': '600px'})
 
 
-def Impressum(request):
+def impressum(request):
     return render(request, 'public/impressum.html', {'title': 'Impressum', 'max_width': '600px'})

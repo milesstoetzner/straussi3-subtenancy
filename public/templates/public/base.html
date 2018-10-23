@@ -82,8 +82,8 @@
                             class="fas fa-file-signature icon-text"></i>Ferienmiete</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-dark" href="{% url 'private:Assistant' %}" id="{% url 'private:Assistant' %}"><i
-                            class="fas fa-envelope icon-text"></i>Assistent</a>
+                    <a class="btn btn-dark" href="{% url 'private:Contacts' %}" id="{% url 'private:Contacts' %}"><i
+                            class="fas fa-envelope icon-text"></i>Kontaktdaten</a>
                 </li>
                 <li>
                     <input class="form-control" type="search" placeholder="Suchen" aria-label="Search"
@@ -198,8 +198,6 @@
 
     $('#searchInput').keyup(function () {
 
-        console.log(document.getElementById('searchInput').value);
-
         let searchResult = document.getElementById('searchResult');
 
         $.ajax({
@@ -210,12 +208,9 @@
                 csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken').value
             },
             error: function (req, status, error) {
-                console.log(error);
-                console.log(status);
-
-                searchResult.innerHTML = 'Ein Fehler ist aufgetreten';
+                alert('Ein Fehler ist während der Suche aufgetreten: ' + error);
             },
-            success: function (data) {
+            success: function (data, status) {
                 searchResult.innerHTML = data;
             }
         });

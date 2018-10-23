@@ -142,9 +142,10 @@ class ContractExternalArchive(LoginRequiredMixin, PermissionRequiredMixin, ListV
             .order_by('main_tenant__residential_home', 'main_tenant__house_number', 'main_tenant__room_number')
 
 
-class Assistant(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    title = 'Assistent'
-    template_name = 'private/assistant.html'
+# TODO: make this serverside!
+class Contacts(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    title = 'Kontaktdaten der Untermieter'
+    template_name = 'private/contacts.html'
     permission_required = 'public.view_subtenant'
     max_width = '800px'
 

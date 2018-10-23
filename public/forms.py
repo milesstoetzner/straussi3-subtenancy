@@ -35,12 +35,12 @@ class MainTenantForm(ModelForm):
 
         # house_number of residential_home
         if residential_home and house_number:
-            if house_number not in residential_home.house_numbers.split(","):
+            if house_number not in residential_home.get_house_numbers_as_list():
                 self.add_error('house_number', 'Diese Hausnummer existiert nicht. Erlaubt sind: ' + residential_home.house_numbers)
 
         # room_number of residential_home
         if residential_home and room_number:
-            if room_number not in residential_home.room_numbers.split(","):
+            if room_number not in residential_home.get_room_numbers_as_list():
                 self.add_error('room_number', 'Diese Zimmernummer existiert nicht. Erlaubt sind: ' + residential_home.room_numbers)
 
         # begin_subtenancy < end_subtenancy

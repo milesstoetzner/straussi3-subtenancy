@@ -7,6 +7,9 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.core import serializers
 from django.http import HttpResponseRedirect
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render
 
 import json
 import datetime
@@ -54,18 +57,6 @@ class ContractCreate(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessage
         if self.request.method == 'GET':
             context['first'] = True  # TODO: better way to indicate first time resp. not validated form?
         return context
-
-
-class ContractList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    title = 'Aktive Verträge'
-    template_name = 'private/contract_list.html'
-    permission_required = 'private.view_contract'
-    paginate_by = 50
-    max_width = '100%'
-
-    def get_queryset(self):
-        return Contract.objects.filter(
-            main_tenant__residential_home=self.request.user.administrative.residential_home).order_by('-id')
 
 
 class ContractView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
@@ -125,6 +116,33 @@ class ContractRender(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTest
         return HttpResponse(pdf, content_type='application/pdf')
 
 
+class ContractExternalList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    title = 'Aktive Ferienmiete'
+    template_name = 'private/contract_external_list.html'
+    permission_required = 'private.view_contract'
+    paginate_by = 50
+    max_width = '100%'
+
+    def get_queryset(self):
+        return Contract.objects.filter(active='Ja',
+                                       main_tenant__residential_home=self.request.user.administrative.residential_home, end__gte=datetime.datetime.now()) \
+            .order_by('main_tenant__residential_home', 'main_tenant__house_number', 'main_tenant__room_number')
+
+
+class ContractExternalArchive(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    title = 'Ferienmiete Archiv'
+    template_name = 'private/contract_external_list.html'
+    permission_required = 'private.view_contract'
+    paginate_by = 50
+    max_width = '100%'
+
+    def get_queryset(self):
+        return Contract.objects.filter(active='Ja',
+                                       main_tenant__residential_home=self.request.user.administrative.residential_home,
+                                       end__lt=datetime.datetime.now()) \
+            .order_by('main_tenant__residential_home', 'main_tenant__house_number', 'main_tenant__room_number')
+
+
 class Assistant(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     title = 'Assistent'
     template_name = 'private/assistant.html'
@@ -133,20 +151,6 @@ class Assistant(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         return SubTenant.objects.filter()
-
-
-# TODO: remove
-# OPTIMIZE: not hardcoded view
-class MainTenantList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    title = 'Hauptmieter Übersicht'
-    template_name = 'private/maintenant_list.html'
-    permission_required = 'public.view_maintenant'
-    paginate_by = 50
-    max_width = '100%'
-
-    def get_queryset(self):
-        return MainTenant.objects.filter(residential_home=self.request.user.administrative.residential_home).order_by(
-            '-id')
 
 
 class MainTenantView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
@@ -186,21 +190,6 @@ class MainTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTe
         if self.request.method == 'GET':
             context['first'] = True  # TODO: better way to indicate first time resp. not validated form?
         return context
-
-
-# TODO: remove
-# OPTIMIZE: not hardcoded view
-class SubTenantList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    title = 'Untermieter Übersicht'
-    template_name = 'private/subtenant_list.html'
-    permission_required = 'public.view_subtenant'
-    paginate_by = 50
-    max_width = '100%'
-
-    def get_queryset(self):
-        return SubTenant.objects.filter(
-            Q(residential_home__isnull=True) | Q(residential_home=self.request.user.administrative.residential_home)).order_by(
-            '-id')
 
 
 class SubTenantView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
@@ -244,31 +233,24 @@ class SubTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTes
         return context
 
 
-class ContractExternalList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    title = 'Aktive Ferienmiete'
-    template_name = 'private/contract_external_list.html'
-    permission_required = 'private.view_contract'
-    paginate_by = 50
-    max_width = '100%'
+#@login_required
+#@permission_required(['public.view_maintenant', 'public.view_subtenant', 'private.view_contract'])
+#@require_POST
+@csrf_exempt
+def search(request):
+    query = request.POST['query']
 
-    def get_queryset(self):
-        return Contract.objects.filter(active='Ja',
-                                       main_tenant__residential_home=self.request.user.administrative.residential_home, end__gte=datetime.datetime.now()) \
-            .order_by('main_tenant__residential_home', 'main_tenant__house_number', 'main_tenant__room_number')
+    #TODO: komplexe query! full name, birthday, tenant_id
+    main_tenants = MainTenant.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
+    sub_tenants = SubTenant.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
 
+    context = {
+        'main_tenants': main_tenants,
+        'sub_tenants': sub_tenants,
+        'query': query
+    }
 
-class ContractExternalArchive(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    title = 'Ferienmiete Archiv'
-    template_name = 'private/contract_external_list.html'
-    permission_required = 'private.view_contract'
-    paginate_by = 50
-    max_width = '100%'
-
-    def get_queryset(self):
-        return Contract.objects.filter(active='Ja',
-                                       main_tenant__residential_home=self.request.user.administrative.residential_home,
-                                       end__lt=datetime.datetime.now()) \
-            .order_by('main_tenant__residential_home', 'main_tenant__house_number', 'main_tenant__room_number')
+    return render(request, 'private/search_result.html', context)
 
 
 @login_required

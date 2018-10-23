@@ -9,7 +9,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">{{ view.title }}
-                    <a class="float-right" onclick="window.history.back()"><i class="far fa-times-circle btn btn-danger"></i></a>
+                    <a class="float-right btn btn-danger" href="{{ object.get_absolute_url }}"><i class="far fa-times-circle icon-text"></i>Zurück</a>
                 </h5>
 
                 {% include 'public/update_field.html' %}

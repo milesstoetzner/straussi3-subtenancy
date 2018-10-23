@@ -85,17 +85,12 @@
                     <a class="btn btn-dark" href="{% url 'private:Assistant' %}" id="{% url 'private:Assistant' %}"><i
                             class="fas fa-envelope icon-text"></i>Assistent</a>
                 </li>
-                <li class="nav-item">
-                    <a class="btn btn-dark" href="{% url 'private:MainTenantList' %}"
-                       id="{% url 'private:MainTenantList' %}"><i class="fas fa-users icon-text"></i>Hauptmieter</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-dark" href="{% url 'private:SubTenantList' %}"
-                       id="{% url 'private:SubTenantList' %}"><i class="fas fa-users icon-text"></i>Untermieter</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-dark" href="{% url 'private:ContractList' %}"
-                       id="{% url 'private:ContractList' %}"><i class="fas fa-file-contract icon-text"></i>Verträge</a>
+                <li>
+
+                    <input class="form-control" type="search" placeholder="Suchen" aria-label="Search" id="searchInput" style="border-radius: 0">
+                    <div id="searchResult"></div>
+                    {{ csrf }}
+
                 </li>
 
             </ul>
@@ -155,9 +150,7 @@
 </footer>
 
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
         integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
@@ -166,7 +159,38 @@
         crossorigin="anonymous"></script>
 
 <script>
-    document.getElementById(window.location.pathname).classList.add('active');
+    "use strict";
+
+    let active = document.getElementById(window.location.pathname);
+    if (active) {
+        active.classList.add('active');
+    }
+
+    $('#searchInput').keyup(function () {
+
+        console.log(document.getElementById('searchInput').value);
+
+        let searchResult = document.getElementById('searchResult');
+
+        $.ajax({
+            url: '{% url 'private:Search' %}',
+            type: 'POST',
+            data: {
+                query: document.getElementById('searchInput').value,
+                csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken').value
+            },
+            error: function (req, status, error) {
+                console.log(error);
+                console.log(status);
+
+                searchResult.innerHTML = 'Ein Fehler ist aufgetreten';
+            },
+            success: function (data) {
+                searchResult.innerHTML = data;
+            }
+        });
+
+    })
 </script>
 
 </body>

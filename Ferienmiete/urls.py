@@ -10,6 +10,6 @@ urlpatterns = [
     path('untermieter/', views.SubTenantCreate.as_view(), name='SubTenantCreate'),
     path('angebote/', views.Offers.as_view(), name='Offers'),
     path('anfragen/', views.Requests.as_view(), name='Requests'),
-    path('impressum/', views.impressum, name='Impressum'),
+    path('impressum/', views.legal_notice, name='Impressum'),
     path('private/', include('private.urls'))
 ]

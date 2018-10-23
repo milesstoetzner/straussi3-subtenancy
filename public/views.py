@@ -78,5 +78,6 @@ class Requests(ListView):
 def index(request):
     return render(request, 'public/index.html', {'title': 'Startseite', 'max_width': '600px'})
 
-def impressum(request):
-    return render(request, 'public/impressum.html', {'title': 'Impressum', 'max_width': '600px'})
+
+def legal_notice(request):
+    return render(request, 'public/legal_notice.html', {'title': 'Impressum', 'max_width': '600px'})

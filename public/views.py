@@ -57,8 +57,17 @@ class SubTenantCreate(SuccessMessageMixin, CreateView):
         return context
 
 
+class Offers(ListView):
+    title = 'Angebote von Hauptmietern'
+    template_name = 'public/requests.html'
+    max_width = '600px'
+
+    def get_queryset(self):
+        return MainTenant.objects.filter(active='Ja', end_subtenancy__gt=datetime.datetime.now()).order_by('begin_subtenancy','end_subtenancy')
+
+
 class Requests(ListView):
-    title = 'Anfragenliste'
+    title = 'Anfragen von Untermietern'
     template_name = 'public/requests.html'
     max_width = '600px'
 
@@ -68,7 +77,6 @@ class Requests(ListView):
 
 def index(request):
     return render(request, 'public/index.html', {'title': 'Startseite', 'max_width': '600px'})
-
 
 def impressum(request):
     return render(request, 'public/impressum.html', {'title': 'Impressum', 'max_width': '600px'})

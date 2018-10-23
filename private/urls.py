@@ -7,19 +7,17 @@ urlpatterns = [
 
     # assistant
     path('assistant/', views.Assistant.as_view(), name="Assistant"),
+    path('search/', views.search, name='Search'),
 
     # maintenants
-    path('maintenants/', views.MainTenantList.as_view(), name='MainTenantList'),
     path('maintenants/<int:pk>/view', views.MainTenantView.as_view(), name='MainTenantView'),
     path('maintenants/<int:pk>/update', views.MainTenantUpdate.as_view(), name='MainTenantUpdate'),
 
     # subtenants
-    path('subtenants/', views.SubTenantList.as_view(), name='SubTenantList'),
     path('subtenants/<int:pk>/view', views.SubTenantView.as_view(), name='SubTenantView'),
     path('subtenants/<int:pk>/update', views.SubTenantUpdate.as_view(), name='SubTenantUpdate'),
 
     # contracts
-    path('contracts/', views.ContractList.as_view(), name='ContractList'),
     path('contracts/create', views.ContractCreate.as_view(), name="Ferienmiete"),
     path('contracts/maintenant/<int:pk>', views.MainTenantJSON, name='MainTenantJSON'),
     path('contracts/subtenant/<int:pk>', views.SubTenantJSON, name='SubTenantJSON'),

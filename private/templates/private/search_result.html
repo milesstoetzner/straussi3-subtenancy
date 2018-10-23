@@ -1,0 +1,37 @@
+<div class="dropdown">
+
+    <div class="dropdown-menu {% if query %} show {% endif %}">
+
+        <li><p class="dropdown-item disabled text-muted" style="margin-bottom: 0">Hauptmieter</p></li>
+
+        {% if not sub_tenants %}
+            <li><p class="dropdown-item disabled text-danger" style="margin-bottom: 0">Keine Suchergebnisse! <i class="far fa-frown"></i></p></li>
+        {% endif %}
+
+        {% for main_tenant in main_tenants %}
+
+            <li><a class="dropdown-item" href="{{ main_tenant.get_absolute_url }}">{{ main_tenant }}</a></li>
+
+        {% endfor %}
+
+        <div class="dropdown-divider"></div>
+
+        <li><p class="dropdown-item disabled text-muted" style="margin-bottom: 0">Untermieter</p></li>
+
+        {% if not sub_tenants %}
+            <li><p class="dropdown-item disabled text-danger" style="margin-bottom: 0">Keine Suchergebnisse! <i class="far fa-frown"></i></p></li>
+        {% endif %}
+
+        {% for sub_tenant in sub_tenants %}
+
+            <li><a class="dropdown-item" href="{{ sub_tenant.get_absolute_url }}">{{ sub_tenant }}</a></li>
+
+        {% endfor %}
+
+
+    </div>
+
+</div>
+
+
+

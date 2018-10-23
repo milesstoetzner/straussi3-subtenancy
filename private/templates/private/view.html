@@ -3,25 +3,30 @@
 {% block content %}
 
     <form>
-        <fieldset disabled>
 
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ view.title }}{{ title }}
-                        <a class="float-right" href="{{ object.get_update_url }}"><i
-                                class="fas fa-user-edit btn btn-danger"></i></a>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ view.title }}{{ title }}
+                </h5>
 
-                        <a class="float-right" style="padding-right: 0.5rem" href="{% url 'private:ContractRender' object.id %}" target="_blank"><i
-                                class="fas fa-file-pdf btn btn-success"></i></a>
-                    </h5>
+                <fieldset disabled>
 
                     {% include 'public/view_field.html' %}
 
+                </fieldset>
 
-                </div>
+                <a class="btn btn-block btn-danger" href="{{ object.get_update_url }}"><i
+                        class="fas fa-user-edit icon-text"></i>Änderungen vornehmen</a>
+
+                {% if type == 'contract' %}
+                    <a class="btn btn-block btn-success" style="padding-right: 0.5rem"
+                       href="{% url 'private:ContractRender' object.id %}" target="_blank"><i
+                            class="fas fa-file-pdf icon-text"></i>PDF betrachten</a>
+                {% endif %}
 
             </div>
-        </fieldset>
+
+        </div>
     </form>
 
 

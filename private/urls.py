@@ -6,7 +6,7 @@ app_name = 'private'
 urlpatterns = [
 
     # assistant
-    path('assistant/', views.Assistant.as_view(), name="Assistant"),
+    path('contacts/', views.Contacts.as_view(), name="Contacts"),
     path('search/', views.search, name='Search'),
 
     # maintenants

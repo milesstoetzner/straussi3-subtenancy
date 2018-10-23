@@ -15,6 +15,12 @@ class ResidentialHome(models.Model):
     city = models.CharField('Ort', max_length=250)
     country = models.CharField('Land', max_length=250)
 
+    def get_house_numbers_as_list(self):
+        return self.house_numbers.replace(' ', '').split(",")
+
+    def get_room_numbers_as_list(self):
+        return self.room_numbers.replace(' ', '').split(",")
+
     def __str__(self):
         return self.name
 

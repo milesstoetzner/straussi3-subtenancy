@@ -8,11 +8,9 @@
 
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Hauptmieter Registrierung</h5>
+                <h5 class="card-title">{{ view.title }}</h5>
 
-                <h6 class="card-subtitle mb-2 text-muted">Informationen über den Hauptmieter</h6>
-
-                    {% include 'public/update_field.html' %}
+                    {% include 'public/create_update_field.html' %}
 
                 <button class="btn btn-success btn-block">Registrieren</button>
 

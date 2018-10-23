@@ -19,8 +19,8 @@ urlpatterns = [
 
     # contracts
     path('contracts/create', views.ContractCreate.as_view(), name="Ferienmiete"),
-    path('contracts/maintenant/<int:pk>', views.MainTenantJSON, name='MainTenantJSON'),
-    path('contracts/subtenant/<int:pk>', views.SubTenantJSON, name='SubTenantJSON'),
+    path('contracts/maintenant/<int:pk>', views.main_tenant_json, name='MainTenantJSON'),
+    path('contracts/subtenant/<int:pk>', views.sub_tenant_json, name='SubTenantJSON'),
     path('contracts/<int:pk>/view', views.ContractView.as_view(), name='ContractView'),
     path('contracts/<int:pk>/update', views.ContractUpdate.as_view(), name='ContractUpdate'),
     path('contracts/<int:pk>/render/', views.ContractRender.as_view(), name='ContractRender'),

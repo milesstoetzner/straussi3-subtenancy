@@ -6,8 +6,8 @@ from public.models import BOOLEAN_CHOICES
 
 
 class Contract(models.Model):
-    main_tenant = models.ForeignKey(MainTenant, on_delete=models.PROTECT, verbose_name='Hauptmieter')  # TODO: on_delete!?  # TODO: OneToOne?! # TODO: limit to: residential_home, active
-    sub_tenant = models.ForeignKey(SubTenant, on_delete=models.PROTECT, verbose_name='Untermieter')  # TODO: on_delete!?  # TODO: OneToOne?! # TODO: limit to: residential_home='', residential_home, active
+    main_tenant = models.ForeignKey(MainTenant, on_delete=models.PROTECT, verbose_name='Hauptmieter')  # TODO: limit to: residential_home, active
+    sub_tenant = models.ForeignKey(SubTenant, on_delete=models.PROTECT, verbose_name='Untermieter')  # TODO: limit to: residential_home='', residential_home, active
     begin = models.DateField('Beginn des Untermietvertrages')
     end = models.DateField('Ende des Untermietvertrages')
     caution = models.FloatField('Höhe der Kaution in Euro')
@@ -16,6 +16,8 @@ class Contract(models.Model):
     matriculation = models.CharField('Immatrikulationsbescheinigung kontrolliert?', max_length=10, choices=BOOLEAN_CHOICES)
     donation = models.FloatField('Freiwillige Spende in Euro')
     # TODO: Zimmer Checkliste
+
+
 
     active = models.CharField('Ist dieser Vertrag aktiv?', max_length=10, choices=BOOLEAN_CHOICES, default='Ja')
 

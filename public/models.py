@@ -49,7 +49,7 @@ class MainTenant(models.Model):
     rent = models.FloatField('Monatsmiete in Euro')
     room_condition = models.CharField('Ist das Zimmer in einem ordnungsgemäßen Zustand?', max_length=10, choices=BOOLEAN_CHOICES)
 
-    active = models.CharField('Ist dieser Account aktiv?', max_length=10, choices=BOOLEAN_CHOICES, default='Ja')
+    active = models.CharField('Ich bin aktiv auf der Suche nach einer Untermiete', max_length=10, choices=BOOLEAN_CHOICES, default='Ja')
 
     # TODO: add created, last_updated fields?!
 

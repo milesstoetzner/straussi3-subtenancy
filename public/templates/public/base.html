@@ -207,9 +207,7 @@
             url: '{% url 'private:Search' %}',
             type: 'POST',
             data: {
-                query: document.getElementById('searchInput').value,
-                csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken').value
-            },
+                query: document.getElementById('searchInput').value},
             error: function (req, status, error) {
                 alert('Ein Fehler ist während der Suche aufgetreten: ' + error);
             },

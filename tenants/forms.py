@@ -1,5 +1,6 @@
 from django.forms import ModelForm, TextInput, DateInput, EmailInput, Select, NumberInput, CheckboxInput
-from .models import MainTenant, SubTenant, ResidentialHome
+from .models import User, MainTenant, SubTenant, ResidentialHome
+from django.contrib.auth.forms import UserCreationForm
 
 
 class ResidentialHomeForm(ModelForm):
@@ -10,6 +11,13 @@ class ResidentialHomeForm(ModelForm):
             'house_numbers': "Liste der Form: 'a', 'b', 'c'",
             'room_numbers': "Liste der Form:  1, 2, 3"
         }
+
+
+class UserForm(UserCreationForm):
+
+    class Meta:
+        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'birthday', 'phone_number', 'residential_home']
+        model = User
 
 
 class MainTenantForm(ModelForm):
@@ -60,10 +68,7 @@ class MainTenantForm(ModelForm):
 
     class Meta:
         model = MainTenant
-        exclude = []
-        labels = {
-            'test': 'ich bin ein label'
-        }
+        exclude = ['user']
         help_texts = {
             'is_returning': 'Sofern kein Wiedereinzug geplant ist und der Hauptmieter somit vollständig auszieht, wird die Kaution über den Hausmeister zurückerstattet.',
         }

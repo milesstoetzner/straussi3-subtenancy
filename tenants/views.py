@@ -1,10 +1,39 @@
 from django.shortcuts import render
 from django.views.generic import CreateView, ListView
-from tenants.models import MainTenant, SubTenant
-from tenants.forms import MainTenantForm, SubTenantForm
+from tenants.models import User, MainTenant, SubTenant
+from tenants.forms import UserForm, MainTenantForm, SubTenantForm
 from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse
+from django.shortcuts import redirect, render
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_protect
 
 import datetime
+
+
+@csrf_protect
+@require_http_methods(["GET", "POST"])
+def create_maintenant(request):
+    if request.method == 'POST':
+        user_form = UserForm(request.POST)
+        maintenant_form = MainTenantForm(request.POST)
+
+        if user_form.is_valid() and maintenant_form.is_valid():
+            user = user_form.save(False)
+            user.is_maintenant = True
+            user.save()
+
+            maintenant = maintenant_form.save(False)
+            maintenant.user = user
+            maintenant.save()
+
+            return redirect(reverse('Index'))
+
+    else:
+        user_form = UserForm()
+        maintenant_form = MainTenantForm()
+
+    return render(request, 'tenants/tenant_form.html', {'user_form': user_form, 'maintenant_form': maintenant_form})
 
 
 # OPTIMIZE: send email with id to main tenant

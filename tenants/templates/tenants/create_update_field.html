@@ -1,14 +1,5 @@
 {% for field in form %}
 
-    <!-- TODO: represent Subtitles in model as field? -->
-    {% if field.id_for_label == 'id_first_name' %}
-        <h6 class="card-subtitle mb-2 text-muted">Informationen über den Mieter</h6>
-    {% elif field.id_for_label == 'id_residential_home' %}
-        <h6 class="card-subtitle mb-2 text-muted" style="padding-top: 2rem">Informationen über die
-            Untermiete</h6>
-    {% elif field.id_for_label == 'id_name' %}
-        <h6 class="card-subtitle mb-2 text-muted" style="padding-top: 2rem">Korrespondenzadresse</h6>
-    {% endif %}
 
     <div class="form-group">
         {{ field.label_tag }}

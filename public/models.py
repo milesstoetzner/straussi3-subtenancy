@@ -1,8 +1,6 @@
 from django.db import models
 from django.urls import reverse
-
-BOOLEAN_CHOICES = (('Nein', 'Nein'), ('Ja', 'Ja')) #TODO: bad practice?!
-# TODO: rename 'active' to 'is_active' in MainTenant, SubTenant and Contract
+from django.contrib.auth.models import AbstractUser
 
 
 class ResidentialHome(models.Model):
@@ -29,27 +27,30 @@ class ResidentialHome(models.Model):
         verbose_name_plural = 'Wohnheime'
 
 
+class User(AbstractUser):
+    birthday = models.DateField('Geburtstag', default='1111-11-11')
+    phone_number = models.CharField('Telefonnummer', max_length=15, default='')
+    residential_home = models.ForeignKey(ResidentialHome, on_delete=models.PROTECT, verbose_name='Wohnheim', null=True, blank=True)
+    is_maintenant = models.BooleanField('Hauptmieter', default=False)
+    is_subtenant = models.BooleanField('Untermieter', default=False)
+    # TODO: exclusive is_maintenant, is_subtenant, is_staff, is_superuser
+
+
 class MainTenant(models.Model):
     # Information about main tenant
-    first_name = models.CharField('Vorname', max_length=250)
-    last_name = models.CharField('Nachname', max_length=250)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     tenant_id = models.PositiveIntegerField('Mieternummer', unique=True)
     begin_rent_agreement = models.DateField('Beginn des Mietvertrages')
     end_rent_agreement = models.DateField('Ende des Mietvertrages')
-    email = models.EmailField('Email')
-    phone_number = models.CharField('Telefonnummer', max_length=15)
 
     # Information about subtenancy
-    residential_home = models.ForeignKey(ResidentialHome, on_delete=models.PROTECT, verbose_name='Wohnheim')
     house_number = models.CharField('Hausnummer', max_length=10)
     room_number = models.CharField('Zimmernummer', max_length=10)
     begin_subtenancy = models.DateField('Beginn der Untermiete')
     end_subtenancy = models.DateField('Ende der Untermiete')
-    comeback = models.CharField('Ist ein Wiedereinzug ins Zimmer geplant?', max_length=10, choices=BOOLEAN_CHOICES)
     rent = models.FloatField('Monatsmiete in Euro')
-    room_condition = models.CharField('Ist das Zimmer in einem ordnungsgemäßen Zustand?', max_length=10, choices=BOOLEAN_CHOICES)
-
-    active = models.CharField('Ist dieser Account aktiv?', max_length=10, choices=BOOLEAN_CHOICES, default='Ja')
+    is_returning = models.BooleanField('Ist ein Wiedereinzug ins Zimmer geplant?')
+    is_room_appropriate = models.BooleanField('Ist das Zimmer in einem ordnungsgemäßen Zustand?')
 
     # TODO: add created, last_updated fields?!
 
@@ -67,7 +68,7 @@ class MainTenant(models.Model):
         return []
 
     def __str__(self):
-        return str(self.pk) + ': '+ self.first_name + ' ' + self.last_name + ' (' + str(self.tenant_id) + ')'
+        return str(self.pk) + ': ' + self.user.first_name + ' ' + self.user.last_name + ' (' + str(self.user.birthday) + ')' + ' (' + str(self.tenant_id) + ')'
 
     class Meta:
         verbose_name = 'Hauptmieter'
@@ -75,15 +76,12 @@ class MainTenant(models.Model):
 
 
 class SubTenant(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+
     # Information about sub tenant
-    first_name = models.CharField('Vorname', max_length=250)
-    last_name = models.CharField('Nachname', max_length=250)
-    birthday = models.DateField('Geburtstag')
     nationality = models.CharField('Nationalität', max_length=100)
-    eu = models.CharField('Ist dein Herkunftsland in der EU?', max_length=10, choices=BOOLEAN_CHOICES)
-    student_id = models.PositiveIntegerField('Matrikelnummer')
-    email = models.EmailField('Email')
-    phone_number = models.CharField('Telefonnummer', max_length=15)
+    is_eu = models.BooleanField('Ist dein Herkunftsland in der EU?')
+    student_id = models.PositiveIntegerField('Matrikelnummer', unique=True)
 
     # Information about subtenancy
     begin_subtenancy = models.DateField('Beginn der Untermiete')
@@ -96,9 +94,6 @@ class SubTenant(models.Model):
     postcode = models.PositiveIntegerField('Postleitzahl')
     city = models.CharField('Ort', max_length=250)
     country = models.CharField('Land', max_length=250)
-
-    active = models.CharField('Ist dieser Account aktiv?', max_length=10, choices=BOOLEAN_CHOICES, default='Ja')
-    residential_home = models.ForeignKey(ResidentialHome, on_delete=models.PROTECT, blank=True, null=True, verbose_name='Wohnheim')
 
     # TODO: add created, last_updated fields?!
 
@@ -116,7 +111,7 @@ class SubTenant(models.Model):
         return []
 
     def __str__(self):
-        return str(self.pk) + ': ' + self.first_name + ' ' + self.last_name + ' (' + str(self.birthday) + ')'
+        return str(self.pk) + ': ' + self.user.first_name + ' ' + self.user.last_name + ' (' + str(self.user.birthday) + ')' + ' (' + str(self.student_id) + ')'
 
     class Meta:
         verbose_name = 'Untermieter'

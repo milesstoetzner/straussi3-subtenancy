@@ -1,4 +1,4 @@
-from django.forms import ModelForm, TextInput, DateInput, EmailInput, Select, NumberInput
+from django.forms import ModelForm, TextInput, DateInput, EmailInput, Select, NumberInput, CheckboxInput
 from .models import MainTenant, SubTenant, ResidentialHome
 
 
@@ -60,31 +60,30 @@ class MainTenantForm(ModelForm):
 
     class Meta:
         model = MainTenant
-        exclude = ['active']
+        exclude = ['user']
         labels = {
             'test': 'ich bin ein label'
         }
         help_texts = {
-            'comeback': 'Sofern kein Wiedereinzug geplant ist und der Hauptmieter somit vollständig auszieht, wird die Kaution über den Hausmeister zurückerstattet.',
-            'rent': 'Die Tagesmiete entspricht der Monatsmiete geteilt durch 30. Beispiel: Die Monatsmiete beträgt 300€, daher beträgt die Tagesmiete 300€/30 = 10€'
+            'is_returning': 'Sofern kein Wiedereinzug geplant ist und der Hauptmieter somit vollständig auszieht, wird die Kaution über den Hausmeister zurückerstattet.',
         }
         widgets = {
-            'first_name': TextInput(attrs={'class': 'form-control'}),
-            'last_name': TextInput(attrs={'class': 'form-control'}),
+            # 'first_name': TextInput(attrs={'class': 'form-control'}),
+            # 'last_name': TextInput(attrs={'class': 'form-control'}),
             'tenant_id': NumberInput(attrs={'class': 'form-control'}),
             'begin_rent_agreement': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'end_rent_agreement': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
-            'email': EmailInput(attrs={'class': 'form-control'}),
-            'phone_number': TextInput(attrs={'class': 'form-control'}),
+            # 'email': EmailInput(attrs={'class': 'form-control'}),
+            # 'phone_number': TextInput(attrs={'class': 'form-control'}),
             'residential_home': Select(attrs={'class': 'custom-select'}),
             'house_number': TextInput(attrs={'class': 'form-control'}),
             'room_number': NumberInput(attrs={'class': 'form-control'}),
             'begin_subtenancy': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'end_subtenancy': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
-            'comeback': Select(attrs={'class': 'form-control'}),
+            # 'is_returning': Select(attrs={'class': 'form-control'}),
             'rent': NumberInput(attrs={'class': 'form-control'}),
-            'room_condition': Select(attrs={'class': 'form-control'}),
-            'active': Select(attrs={'class': 'form-control'}),
+            # 'is_room_appropriate': Select(attrs={'class': 'form-control'}),
+            # 'active': Select(attrs={'class': 'form-control'}),
         }
 
 
@@ -109,14 +108,14 @@ class SubTenantForm(ModelForm):
         model = SubTenant
         exclude = ['active', 'residential_home']
         widgets = {
-            'first_name': TextInput(attrs={'class': 'form-control'}),
-            'last_name': TextInput(attrs={'class': 'form-control'}),
-            'birthday': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
+            # 'first_name': TextInput(attrs={'class': 'form-control'}),
+            # 'last_name': TextInput(attrs={'class': 'form-control'}),
+            # 'birthday': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'nationality': TextInput(attrs={'class': 'form-control'}),
-            'eu': Select(attrs={'class': 'form-control'}),
+            'is_eu': Select(attrs={'class': 'form-control'}),
             'student_id': NumberInput(attrs={'class': 'form-control'}),
-            'email': EmailInput(attrs={'class': 'form-control'}),
-            'phone_number': TextInput(attrs={'class': 'form-control'}),
+            # 'email': EmailInput(attrs={'class': 'form-control'}),
+            # 'phone_number': TextInput(attrs={'class': 'form-control'}),
             'begin_subtenancy': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'end_subtenancy': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'name': TextInput(attrs={'class': 'form-control'}),
@@ -125,8 +124,8 @@ class SubTenantForm(ModelForm):
             'postcode': NumberInput(attrs={'class': 'form-control'}),
             'city': TextInput(attrs={'class': 'form-control'}),
             'country': TextInput(attrs={'class': 'form-control'}),
-            'active': Select(attrs={'class': 'form-control'}),
-            'residential_home': Select(attrs={'class': 'form-control'}),
+            # 'active': Select(attrs={'class': 'form-control'}),
+            # 'residential_home': Select(attrs={'class': 'form-control'}),
         }
 
 

@@ -11,8 +11,8 @@ class ContractForm(ModelForm):
         begin = cleaned_date.get('begin')
         end = cleaned_date.get('end')
         caution = cleaned_date.get('caution')
-        photo_identification = cleaned_date.get('photo_identification')
-        matriculation = cleaned_date.get('matriculation')
+        is_identified = cleaned_date.get('is_identified')
+        is_matriculated = cleaned_date.get('is_matriculated')
         donation = cleaned_date.get('donation')
 
         # begin < end
@@ -38,15 +38,13 @@ class ContractForm(ModelForm):
             if caution < 0:
                 self.add_error('caution', 'Die Kaution muss positiv sein!')
 
-        # photo_identification
-        if photo_identification:
-            if photo_identification != 'Ja':
-                self.add_error('photo_identification', 'Lichtbildausweis muss kontrolliert werden!')
+        # is_identified
+        if not is_identified:
+                self.add_error('is_identified', 'Lichtbildausweis muss kontrolliert werden!')
 
-        # matriculation
-        if matriculation:
-            if matriculation != 'Ja':
-                self.add_error('matriculation', 'Immatrikulationsbescheinigung muss kontrolliert werden!')
+        # is_matriculated
+        if not is_matriculated:
+                self.add_error('is_matriculated', 'Immatrikulationsbescheinigung muss kontrolliert werden!')
 
         # positive donation
         if donation:
@@ -63,10 +61,10 @@ class ContractForm(ModelForm):
             'end': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'caution': NumberInput(attrs={'class': 'form-control'}),
             'caution_comment': Textarea(attrs={'class': 'form-control', 'rows': 1}),
-            'photo_identification': Select(attrs={'class': 'form-control'}),
-            'matriculation': Select(attrs={'class': 'form-control'}),
+            'is_identified': Select(attrs={'class': 'form-control'}),
+            'is_matriculated': Select(attrs={'class': 'form-control'}),
             'donation': NumberInput(attrs={'class': 'form-control'}),
-            'active': Select(attrs={'class': 'form-control'}),
+            'is_active': Select(attrs={'class': 'form-control'}),
         }
 
 

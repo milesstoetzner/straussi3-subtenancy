@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <form action="" method="post" name="main">
+    <form action="{% url 'MainTenantCreate' %}" method="post">
 
         {% csrf_token %}
 
@@ -10,7 +10,14 @@
             <div class="card-body">
                 <h5 class="card-title">{{ view.title }}</h5>
 
-                    {% include 'tenants/create_update_field.html' %}
+                <!-- {% include 'tenants/create_update_field.html' %} -->
+                <h6 class="card-subtitle mb-2 text-muted" style="padding-top: 2rem">Account</h6>
+
+                {{ user_form.as_p }}
+
+                <h6 class="card-subtitle mb-2 text-muted" style="padding-top: 2rem">Hauptmieter</h6>
+
+                {{ maintenant_form.as_p }}
 
                 <button class="btn btn-success btn-block">Registrieren</button>
 

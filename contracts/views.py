@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from django.core import serializers
 from django.http import HttpResponseRedirect
 from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import render
 
 import json
@@ -233,6 +234,7 @@ class SubTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTes
         return context
 
 
+@csrf_protect
 @login_required
 @permission_required(['tenants.view_maintenant', 'tenants.view_subtenant', 'contracts.view_contract'])
 @require_POST

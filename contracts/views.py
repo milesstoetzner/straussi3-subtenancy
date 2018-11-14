@@ -1,0 +1,274 @@
+from django.views.generic import View, CreateView, ListView, UpdateView, DetailView
+from .models import Contract
+from tenants.models import MainTenant, SubTenant
+from tenants.forms import MainTenantForm, MainTenantUpdateForm, SubTenantForm, SubTenantUpdateForm
+from .forms import ContractForm, ContractUpdateForm
+from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
+from django.core import serializers
+from django.http import HttpResponseRedirect
+from django.views.decorators.http import require_POST
+from django.shortcuts import render
+
+import json
+import datetime
+
+from django.db.models import Q
+
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required, permission_required
+
+from django.http import HttpResponse
+from .utils import render_to_pdf
+
+# TODO: remove residential home scope!
+
+# TODO: remove old subtenants without contracts
+
+
+# TODO: display main_tenant details und sub_tenant details
+class ContractCreate(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Contract
+    title = 'Vertrag erstellen'
+    template_name = 'contracts/contract_create_form.html'
+    form_class = ContractForm
+    form_class.use_required_attribute = False
+    permission_required = 'contracts.add_contract'
+    max_width = '600px'
+
+    # TODO: scope of main and sub!
+
+    # TODO: save contracts as pdf?
+
+    def form_valid(self, form):
+        self.object = form.save()  # TODO: was bedeutet 'Instance attribute object defined outside __init__'?!
+        self.object.main_tenant.active = 'Nein' # TODO: removet this?!
+        self.object.main_tenant.save()
+        self.object.sub_tenant.active = 'Nein'
+        self.object.sub_tenant.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse_lazy('contracts:ContractRender', args=(self.object.id,))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.method == 'GET':
+            context['first'] = True  # TODO: better way to indicate first time resp. not validated form?
+        return context
+
+
+class ContractView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = Contract
+    context_object_name = 'object'
+    form_class = ContractUpdateForm
+    template_name = 'contracts/view.html'
+    permission_required = 'contracts.view_contract'
+    http_method_names = 'get'
+    max_width = '600px'
+
+    def test_func(self):
+        return self.get_object().main_tenant.residential_home == self.request.user.administrative.residential_home
+
+    def get_success_url(self):
+        return reverse_lazy('contracts:SubTenantView', args=(self.object.id,))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = str(self.get_object())
+        context['type'] = 'contract'
+        return context
+
+
+class ContractUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+    model = Contract
+    title = 'Vertrag ändern'
+    form_class = ContractUpdateForm
+    template_name = 'contracts/update_form.html'
+    success_message = 'Änderungen erfolgreich übernommen!'
+    permission_required = 'contracts.change_contract'
+    max_width = '600px'
+
+    def test_func(self):
+        return self.get_object().main_tenant.residential_home == self.request.user.administrative.residential_home
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.method == 'GET':
+            context['first'] = True  # TODO: better way to indicate first time resp. not validated form?
+        return context
+
+
+# TODO: create contract templates
+class ContractRender(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, DetailView):
+    model = Contract
+    permission_required = 'contracts.view_contract'
+
+    def test_func(self):
+        return self.get_object().main_tenant.residential_home == self.request.user.administrative.residential_home
+
+    def get(self, request, *args, **kwargs):
+        data = {
+            'contract': self.get_object()
+        }
+        pdf = render_to_pdf('contracts/contracts/' + self.get_object().main_tenant.residential_home.short + '.html', data)
+        return HttpResponse(pdf, content_type='application/pdf')
+
+
+class ContractExternalList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    title = 'Aktive subtenancy'
+    template_name = 'contracts/contract_external_list.html'
+    permission_required = 'contracts.view_contract'
+    paginate_by = 50
+    max_width = '100%'
+
+    def get_queryset(self):
+        return Contract.objects.filter(active='Ja',
+                                       main_tenant__residential_home=self.request.user.administrative.residential_home, end__gte=datetime.datetime.now()) \
+            .order_by('main_tenant__residential_home', 'main_tenant__house_number', 'main_tenant__room_number')
+
+
+class ContractExternalArchive(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    title = 'subtenancy Archiv'
+    template_name = 'contracts/contract_external_list.html'
+    permission_required = 'contracts.view_contract'
+    paginate_by = 50
+    max_width = '100%'
+
+    def get_queryset(self):
+        return Contract.objects.filter(active='Ja',
+                                       main_tenant__residential_home=self.request.user.administrative.residential_home,
+                                       end__lt=datetime.datetime.now()) \
+            .order_by('main_tenant__residential_home', 'main_tenant__house_number', 'main_tenant__room_number')
+
+
+# TODO: make this serverside!
+class Contacts(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    title = 'Kontaktdaten der Untermieter'
+    template_name = 'contracts/contacts.html'
+    permission_required = 'tenants.view_subtenant'
+    max_width = '800px'
+
+    def get_queryset(self):
+        return SubTenant.objects.filter()
+
+
+class MainTenantView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = MainTenant
+    context_object_name = 'object'
+    form_class = MainTenantUpdateForm
+    template_name = 'contracts/view.html'
+    permission_required = 'tenants.view_maintenant'
+    http_method_names = 'get'
+    max_width = '600px'
+
+    def test_func(self):
+        return self.get_object().residential_home == self.request.user.administrative.residential_home
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = str(self.get_object())
+        context['type'] = 'maintenant'
+        return context
+
+
+class MainTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
+                       UpdateView):
+    model = MainTenant
+    title = 'Hauptmieter ändern'
+    form_class = MainTenantUpdateForm
+    template_name = 'contracts/update_form.html'
+    success_message = 'Änderungen erfolgreich übernommen!'
+    permission_required = 'tenants.change_maintenant'
+    max_width = '600px'
+
+    def test_func(self):
+        return self.get_object().residential_home == self.request.user.administrative.residential_home
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.method == 'GET':
+            context['first'] = True  # TODO: better way to indicate first time resp. not validated form?
+        return context
+
+
+class SubTenantView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = SubTenant
+    context_object_name = 'object'
+    form_class = SubTenantUpdateForm
+    template_name = 'contracts/view.html'
+    permission_required = 'tenants.view_subtenant'
+    http_method_names = 'get'
+    max_width = '600px'
+
+    def test_func(self):
+        residential_home = self.get_object().residential_home
+        return not residential_home or residential_home == self.request.user.administrative.residential_home
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = str(self.get_object())
+        context['type'] = 'subtenant'
+        return context
+    
+    
+class SubTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
+                      UpdateView):
+    model = SubTenant
+    title = 'Untermieter ändern'
+    form_class = SubTenantUpdateForm
+    template_name = 'contracts/update_form.html'
+    success_message = 'Änderungen erfolgreich übernommen!'
+    permission_required = 'tenants.change_subtenant'
+    max_width = '600px'
+
+    def test_func(self):
+        residential_home = self.get_object().residential_home
+        return not residential_home or residential_home == self.request.user.administrative.residential_home
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.method == 'GET':
+            context['first'] = True  # TODO: better way to indicate first time resp. not validated form?
+        return context
+
+
+@login_required
+@permission_required(['tenants.view_maintenant', 'tenants.view_subtenant', 'contracts.view_contract'])
+@require_POST
+def search(request):
+    query = request.POST['query']
+
+    # TODO: complex query! full name, birthday, tenant_id
+    main_tenants = MainTenant.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
+    sub_tenants = SubTenant.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
+
+    context = {
+        'main_tenants': main_tenants,
+        'sub_tenants': sub_tenants,
+        'query': query
+    }
+
+    return render(request, 'contracts/search_result.html', context)
+
+
+@login_required
+@permission_required('tenants.view_maintenant')
+def main_tenant_json(request, pk):
+    obj = MainTenant.objects.get(pk=pk)
+    data = serializers.serialize('json', [obj, ])
+    struct = json.loads(data)
+    data = json.dumps(struct[0])
+
+    return HttpResponse(data, content_type='application/json')
+
+
+@login_required
+@permission_required('tenants.view_subtenant')
+def sub_tenant_json(request, pk):
+    obj = SubTenant.objects.get(pk=pk)
+    data = serializers.serialize('json', [obj, ])
+    struct = json.loads(data)
+    data = json.dumps(struct[0])
+
+    return HttpResponse(data, content_type='application/json')

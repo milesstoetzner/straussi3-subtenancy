@@ -1,0 +1,46 @@
+{% extends "tenants/base.html" %}
+
+{% block content %}
+
+    <form action="" method="post" id="updateForm" name="main" onsubmit="event.preventDefault(); document.getElementById('modalButton').click()">
+
+        {% csrf_token %}
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ view.title }}
+                    <a class="float-right btn btn-danger" href="{{ object.get_absolute_url }}"><i class="far fa-times-circle icon-text"></i>Zurück</a>
+                </h5>
+
+                {% include 'tenants/create_update_field.html' %}
+
+                <!-- Button trigger modal -->
+                <button class="btn btn-success btn-block" data-toggle="modal" data-target="#updateModal" onclick="" id="modalButton">
+                    {{ view.title }}
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="updateModal" tabindex="-1" role="dialog"
+                     aria-labelledby="updateModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="updateModalLabel">Änderungen</h5>
+                            </div>
+                            <div class="modal-body">
+                                Möchtest du die Änderungen wirklich speichern?
+                            </div>
+                            <div class="modal-footer">
+                                    <button class="btn btn-danger float-left" data-dismiss="modal">Abbrechen</button>
+                                    <button class="btn btn-success float-right" onclick="document.getElementById('updateForm').submit()">{{ view.title }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
+{% endblock %}

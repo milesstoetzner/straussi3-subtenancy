@@ -1,0 +1,52 @@
+{% extends "tenants/base.html" %}
+
+{% block content %}
+
+    <div class="card">
+        <div class="card-body">
+
+            <h5 class="card-title" style="text-align: center">{{ view.title }}</h5>
+
+            <div class="table-responsive">
+                <table class="table table-striped" style="white-space: nowrap; text-align: center">
+
+                    <thead>
+                    <tr>
+                        <th class="align-middle">Hauptmieter</th>
+                        <th class="align-middle">Untermieter</th>
+                        <th class="align-middle">Wohnheim</th>
+                        <th class="align-middle">Hausnummer</th>
+                        <th class="align-middle">Zimmernummer</th>
+                        <th class="align-middle">Beginn</th>
+                        <th class="align-middle">Ende</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for contract in object_list %}
+
+                        <tr>
+                            <td class="align-middle">{{ contract.main_tenant.first_name }} {{ contract.main_tenant.last_name }}</td>
+                            <td class="align-middle">{{ contract.sub_tenant.first_name }} {{ contract.main_tenant.last_name }}</td>
+                            <td class="align-middle">{{ contract.main_tenant.residential_home }}</td>
+                            <td class="align-middle">{{ contract.main_tenant.house_number }}</td>
+                            <td class="align-middle">{{ contract.main_tenant.room_number }}</td>
+                            <td class="align-middle">{{ contract.begin }} ({{ contract.begin | date:"W" }})</td>
+                            <td class="align-middle">{{ contract.end }} ({{ contract.end | date:"W" }})</td>
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+            {% include 'contracts/pagination.html' %}
+
+    </div>
+
+{% endblock %}

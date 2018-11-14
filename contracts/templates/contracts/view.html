@@ -1,0 +1,122 @@
+{% extends "tenants/base.html" %}
+
+{% block content %}
+
+    <form>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ view.title }}{{ title }}
+                </h5>
+
+                <fieldset disabled>
+
+                    {% include 'tenants/view_field.html' %}
+
+                </fieldset>
+
+                <a class="btn btn-block btn-danger" href="{{ object.get_update_url }}"><i
+                        class="fas fa-user-edit icon-text"></i>Änderungen vornehmen</a>
+
+                {% if type == 'contract' %}
+                    <a class="btn btn-block btn-success" style="padding-right: 0.5rem"
+                       href="{% url 'contracts:ContractRender' object.id %}" target="_blank"><i
+                            class="fas fa-file-pdf icon-text"></i>PDF betrachten</a>
+                {% endif %}
+
+            </div>
+
+        </div>
+    </form>
+
+
+    {% if type != 'contract' %}
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Verträge</h5>
+
+                {% if not object.get_all_contracts %}
+
+                    <div class="alert bg-danger text-white text-center" role="alert">
+                        Es existieren keine Verträge.
+                    </div>
+
+                {% else %}
+
+                    <div class="table-responsive">
+                        <table class="table table-striped" style="white-space: nowrap; text-align: center">
+
+                            <thead>
+                            <tr>
+                                <th class="align-middle"></th>
+                                <th class="align-middle">ID</th>
+                                <th class="align-middle">Aktiv</th>
+                                <th class="align-middle">Hauptmieter</th>
+                                <th class="align-middle">Untermieter</th>
+                                <th class="align-middle">Beginn</th>
+                                <th class="align-middle">Ende</th>
+                            </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                            {% for contract in object.get_all_contracts %}
+
+                                <!-- OPTIMIZE: open links in new tab? -->
+
+                                <tr>
+                                    <td class="align-middle"><a href=" {% url 'contracts:ContractRender' contract.id %}"
+                                                                target="_blank"><i
+                                            class="fas fa-file-pdf btn btn-success"></i></a></td>
+                                    <td class="align-middle">{{ contract.id }}</td>
+                                    <td class="align-middle">{{ contract.active }}</td>
+                                    <td class="align-middle"><a href="{{ contract.main_tenant.get_absolute_url }}"
+                                                                class="btn btn-info btn-block"><i
+                                            class="fas fa-user icon-text"></i>{{ contract.main_tenant }}</a></td>
+                                    <td class="align-middle"><a href="{{ contract.sub_tenant.get_absolute_url }}"
+                                                                class="btn btn-info btn-block"><i
+                                            class="fas fa-user icon-text"></i>{{ contract.sub_tenant }}</a></td>
+                                    <td class="align-middle">{{ contract.begin }}</td>
+                                    <td class="align-middle">{{ contract.end }}</td>
+                                </tr>
+
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Kommentare</h5>
+
+            {% if not object.get_all_comments %}
+
+                <div class="alert bg-danger text-white text-center" role="alert">
+                    Es existieren keine Kommentare.
+                </div>
+
+            {% else %}
+
+                {% for comment in object.get_all_comments %}
+                    {{ comment }} <br>
+                {% endfor %}
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+{% endblock %}

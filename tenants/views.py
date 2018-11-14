@@ -14,6 +14,9 @@ import datetime
 @csrf_protect
 @require_http_methods(["GET", "POST"])
 def create_maintenant(request):
+
+    context = {}
+
     if request.method == 'POST':
         user_form = UserForm(request.POST)
         maintenant_form = MainTenantForm(request.POST)
@@ -27,13 +30,21 @@ def create_maintenant(request):
             maintenant.user = user
             maintenant.save()
 
+            # add message
             return redirect(reverse('Index'))
 
     else:
         user_form = UserForm()
         maintenant_form = MainTenantForm()
+        context['first'] = True
 
-    return render(request, 'tenants/tenant_form.html', {'user_form': user_form, 'maintenant_form': maintenant_form})
+    context['title'] = 'Hauptmieter Registrierung'
+    context['max_width'] = '600px'
+    context['user_form'] = user_form
+    context['maintenant_form'] = maintenant_form
+    context['main'] = True
+
+    return render(request, 'tenants/tenant_form.html', context)
 
 
 # OPTIMIZE: send email with id to main tenant

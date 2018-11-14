@@ -1,4 +1,4 @@
-from django.forms import ModelForm, TextInput, DateInput, EmailInput, Select, NumberInput, CheckboxInput
+from django.forms import ModelForm, TextInput, DateInput, EmailInput, Select, NumberInput, CheckboxInput, PasswordInput
 from .models import User, MainTenant, SubTenant, ResidentialHome
 from django.contrib.auth.forms import UserCreationForm
 
@@ -16,8 +16,19 @@ class ResidentialHomeForm(ModelForm):
 class UserForm(UserCreationForm):
 
     class Meta:
-        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'birthday', 'phone_number', 'residential_home']
+        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'birthday', 'phone_number']
         model = User
+        use_required_attributes = False # TODO: funktioniert nicht
+        widgets = {
+            'username': TextInput(attrs={'class': 'form-control', 'required': False}),
+            'first_name': TextInput(attrs={'class': 'form-control'}),
+            'last_name': TextInput(attrs={'class': 'form-control'}),
+            'email': EmailInput(attrs={'class': 'form-control'}),
+            # 'password1': PasswordInput(attrs={'class': 'form-control'}),  # TODO: funktioniert nicht
+            # 'password2': PasswordInput(attrs={'class': 'form-control'}),  # TODO: funktioniert nicht
+            'birthday': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
+            'phone_number': TextInput(attrs={'class': 'form-control'})
+        }
 
 
 class MainTenantForm(ModelForm):
@@ -32,7 +43,7 @@ class MainTenantForm(ModelForm):
         begin_subtenancy = cleaned_date.get('begin_subtenancy')
         end_subtenancy = cleaned_date.get('end_subtenancy')
         rent = cleaned_date.get('rent')
-        room_condition = cleaned_date.get('room_condition')
+        is_room_appropriate = cleaned_date.get('is_room_appropriate')
 
         # begin_rent_agreement < end_rent_agreement
         if begin_rent_agreement and end_rent_agreement:
@@ -61,10 +72,9 @@ class MainTenantForm(ModelForm):
             if rent < 0:
                 self.add_error('rent', 'Die Tagesmiete muss positiv sein!')
 
-        # room_condition is true
-        if room_condition:
-            if room_condition != 'Ja':
-                self.add_error('room_condition', 'Dein Zimmer muss in einem ordnungsgemäßen Zustand sein!')
+        # is_room_appropriate is false
+        if not is_room_appropriate:
+                self.add_error('is_room_appropriate', 'Dein Zimmer muss in einem ordnungsgemäßen Zustand sein!')
 
     class Meta:
         model = MainTenant
@@ -73,13 +83,9 @@ class MainTenantForm(ModelForm):
             'is_returning': 'Sofern kein Wiedereinzug geplant ist und der Hauptmieter somit vollständig auszieht, wird die Kaution über den Hausmeister zurückerstattet.',
         }
         widgets = {
-            # 'first_name': TextInput(attrs={'class': 'form-control'}),
-            # 'last_name': TextInput(attrs={'class': 'form-control'}),
             'tenant_id': NumberInput(attrs={'class': 'form-control'}),
             'begin_rent_agreement': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'end_rent_agreement': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
-            # 'email': EmailInput(attrs={'class': 'form-control'}),
-            # 'phone_number': TextInput(attrs={'class': 'form-control'}),
             'residential_home': Select(attrs={'class': 'custom-select'}),
             'house_number': TextInput(attrs={'class': 'form-control'}),
             'room_number': NumberInput(attrs={'class': 'form-control'}),
@@ -88,7 +94,7 @@ class MainTenantForm(ModelForm):
             # 'is_returning': Select(attrs={'class': 'form-control'}),
             'rent': NumberInput(attrs={'class': 'form-control'}),
             # 'is_room_appropriate': Select(attrs={'class': 'form-control'}),
-            # 'active': Select(attrs={'class': 'form-control'}),
+            # 'is_active': Select(attrs={'class': 'form-control'}),
         }
 
 
@@ -113,14 +119,9 @@ class SubTenantForm(ModelForm):
         model = SubTenant
         exclude = ['active', 'residential_home']
         widgets = {
-            # 'first_name': TextInput(attrs={'class': 'form-control'}),
-            # 'last_name': TextInput(attrs={'class': 'form-control'}),
-            # 'birthday': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'nationality': TextInput(attrs={'class': 'form-control'}),
             'is_eu': Select(attrs={'class': 'form-control'}),
             'student_id': NumberInput(attrs={'class': 'form-control'}),
-            # 'email': EmailInput(attrs={'class': 'form-control'}),
-            # 'phone_number': TextInput(attrs={'class': 'form-control'}),
             'begin_subtenancy': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'end_subtenancy': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'name': TextInput(attrs={'class': 'form-control'}),
@@ -129,8 +130,7 @@ class SubTenantForm(ModelForm):
             'postcode': NumberInput(attrs={'class': 'form-control'}),
             'city': TextInput(attrs={'class': 'form-control'}),
             'country': TextInput(attrs={'class': 'form-control'}),
-            # 'active': Select(attrs={'class': 'form-control'}),
-            # 'residential_home': Select(attrs={'class': 'form-control'}),
+            # 'is_active': Select(attrs={'class': 'form-control'}),
         }
 
 

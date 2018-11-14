@@ -28,9 +28,12 @@ class ResidentialHome(models.Model):
 
 
 class User(AbstractUser):
-    birthday = models.DateField('Geburtstag', default='1111-11-11')
-    phone_number = models.CharField('Telefonnummer', max_length=15, default='')
-    residential_home = models.ForeignKey(ResidentialHome, on_delete=models.PROTECT, verbose_name='Wohnheim', null=True, blank=True)
+    # TODO: anderen attritbue sind nicht required!
+    first_name = models.CharField('Vorname', max_length=150)
+    last_name = models.CharField('Nachname', max_length=150)
+    email = models.EmailField('Email Adresse', max_length=150)
+    birthday = models.DateField('Geburtstag')
+    phone_number = models.CharField('Telefonnummer', max_length=15)
     is_maintenant = models.BooleanField('Hauptmieter', default=False)
     is_subtenant = models.BooleanField('Untermieter', default=False)
     # TODO: exclusive is_maintenant, is_subtenant, is_staff, is_superuser
@@ -44,6 +47,7 @@ class MainTenant(models.Model):
     end_rent_agreement = models.DateField('Ende des Mietvertrages')
 
     # Information about subtenancy
+    residential_home = models.ForeignKey(ResidentialHome, on_delete=models.PROTECT, verbose_name='Wohnheim')
     house_number = models.CharField('Hausnummer', max_length=10)
     room_number = models.CharField('Zimmernummer', max_length=10)
     begin_subtenancy = models.DateField('Beginn der Untermiete')

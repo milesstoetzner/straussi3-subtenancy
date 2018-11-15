@@ -8,9 +8,10 @@
 | /logout | | | 
 | | | |
 | /tenants/create/\<string:type> | |  |
-| /tenants/view/\<int:pk> | | is_staff or is_user |
-| /tenants/update/\<int:pk> | | is_staff or is_user |
-| /tenants/delete/\<int:pk> | | is_staff or is_user |
+| /tenants/view/\<int:pk> | | is_staff or is_owner |
+| /tenants/update/\<int:pk> | | is_staff or is_owner |
+| /tenants/delete/\<int:pk> | | is_staff or is_owner |
+| /tenants/contact/\<int:pk> | | is_maintenant or is_subtenant |
 | | | |
 | /contracts/create | | is_staff |
 | /contracts/view/\<int:pk> | | is_staff |

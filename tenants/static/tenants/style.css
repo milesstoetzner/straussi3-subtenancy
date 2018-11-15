@@ -33,6 +33,10 @@ body {
     opacity: 1;
 }
 
+.bg-error {
+    background-color: #dc3545 !important
+}
+
 /* BUTTON ORANGE */
 
 .bg-orange {
@@ -41,8 +45,8 @@ body {
 }
 
 .btn-orange {
-  color: #ffffff;
-  background-color: #FFA500;
+    color: #ffffff;
+    background-color: #FFA500;
 }
 
 .btn-orange:hover,
@@ -50,14 +54,14 @@ body {
 .btn-orange:active,
 .btn-orange.active,
 .open .dropdown-toggle.btn-orange {
-  color: #ffffff;
-  background-color: #C48208;
+    color: #ffffff;
+    background-color: #C48208;
 }
 
 .btn-orange:active,
 .btn-orange.active,
 .open .dropdown-toggle.btn-orange {
-  background-image: none;
+    background-image: none;
 }
 
 .btn-orange.disabled,
@@ -75,11 +79,11 @@ fieldset[disabled] .btn-orange:active,
 .btn-orange.disabled.active,
 .btn-orange[disabled].active,
 fieldset[disabled] .btn-orange.active {
-  background-color: #FFA500;
-  border-color: #FFA500;
+    background-color: #FFA500;
+    border-color: #FFA500;
 }
 
 .btn-orange .badge {
-  color: #FFA500;
-  background-color: #ffffff;
+    color: #FFA500;
+    background-color: #ffffff;
 }

@@ -59,20 +59,20 @@ def create_tenant(request, is_maintenant):
 @require_http_methods(["GET"])
 def view_tenant(request, pk):
 
-    if not request.user.is_staff and request.user.id != pk:
+    if not request.user.is_assistant and request.user.id != pk:
         return HttpResponseForbidden()
 
-    user = get_object_or_404(User, pk=pk)
+    tenant = get_object_or_404(User, pk=pk)
 
     context = {}
     context['get'] = True
-    context['user_form'] = UserUpdateForm(instance=user)
-    context['tenant'] = user
-    context['title'] = str(user)
+    context['user_form'] = UserUpdateForm(instance=tenant)
+    context['tenant'] = tenant
+    context['title'] = str(tenant)
 
-    if user.is_maintenant or user.is_subtenant:
+    if tenant.is_maintenant or tenant.is_subtenant:
         context['tenant_form'] = MainTenantUpdateForm(
-            instance=user.maintenant) if user.is_maintenant else SubTenantUpdateForm(instance=user.subtenant)
+            instance=tenant.maintenant) if tenant.is_maintenant else SubTenantUpdateForm(instance=tenant.subtenant)
 
     return render(request, 'tenants/view.html', context)
 
@@ -83,37 +83,43 @@ def view_tenant(request, pk):
 def update_tenant(request, pk):
     context = {}
 
-    if not request.user.is_staff and request.user.id != pk:
+    # only assistants or the owner can update tenant
+    if not request.user.is_assistant and request.user.id != pk:
         return HttpResponseForbidden()
 
-    user = get_object_or_404(User, pk=pk)
+    tenant = get_object_or_404(User, pk=pk)
 
-    if not user.is_maintenant and not user.is_subtenant:
+    # only tenants can be updated
+    if not (tenant.is_maintenant or tenant.is_subtenant):
         return HttpResponseForbidden()
 
     if request.method == 'POST':
-        user_form = UserUpdateForm(request.POST, instance=user)
+
+        # validate and save tenant
+        user_form = UserUpdateForm(request.POST, instance=tenant)
         tenant_form = MainTenantUpdateForm(request.POST,
-                                           instance=user.maintenant) if user.is_maintenant else SubTenantUpdateForm(
-            request.POST, instance=user.subtenant)
+                                           instance=tenant.maintenant) if tenant.is_maintenant else SubTenantUpdateForm(
+            request.POST, instance=tenant.subtenant)
 
         if user_form.is_valid() and tenant_form.is_valid():
             user_form.save()
             tenant_form.save()
 
             messages.success(request, 'Änderungen wurden erfoglreich übernommen!')
-            return redirect(reverse('tenants:TenantView', kwargs={'pk': user.pk}))
+            return redirect(reverse('tenants:TenantView', kwargs={'pk': tenant.pk}))
 
     else:
-        user_form = UserUpdateForm(instance=user)
-        tenant_form = MainTenantUpdateForm(instance=user.maintenant) if user.is_maintenant else SubTenantUpdateForm(
-            instance=user.subtenant)
+
+        # display update form
+        user_form = UserUpdateForm(instance=tenant)
+        tenant_form = MainTenantUpdateForm(instance=tenant.maintenant) if tenant.is_maintenant else SubTenantUpdateForm(
+            instance=tenant.subtenant)
         context['get'] = True
 
-    context['title'] = str(user) + ' aktualisieren'
+    context['title'] = str(tenant) + ' aktualisieren'
     context['user_form'] = user_form
     context['tenant_form'] = tenant_form
-    context['tenant'] = user
+    context['tenant'] = tenant
 
     return render(request, 'tenants/update.html', context)
 
@@ -152,23 +158,37 @@ def delete_tenant(request, pk):
 @require_http_methods(["GET", "POST"])
 def contact_tenant(request, pk):
 
-    user = get_object_or_404(User, pk=pk)
+    tenant = get_object_or_404(User, pk=pk)
 
-    if not (user.is_maintenant or user.is_subtenant):
+    # only tenants can be contacted
+    if not (tenant.is_maintenant or tenant.is_subtenant):
         return HttpResponseForbidden()
 
+    # only searching maintenants can be contacted
+    if tenant.is_maintenant and not tenant.maintenant.is_searching:
+        return HttpResponseForbidden()
+
+    # only searching subtenants can be contacted
+    if tenant.is_subtenant and not tenant.subtenant.is_searching:
+        return HttpResponseForbidden()
+
+    # only tenants can contact each other
     if not (request.user.is_maintenant or request.user.is_subtenant):
         return HttpResponseForbidden()
 
-    if user.is_maintenant and request.user.is_maintenant:
+    # only maintenants can contact subtenants
+    if tenant.is_maintenant and request.user.is_maintenant:
         messages.error(request, 'Als Hauptmieter kannst du keine Hautpmieter kontaktieren')
         return redirect('Offers')
 
-    if user.is_subtenant and request.user.is_subtenant:
+    # only subtenants can contact maintenants
+    if tenant.is_subtenant and request.user.is_subtenant:
         messages.error(request, 'Als Untermieter kannst du keine Untermieter kontaktieren')
         return redirect('Requests')
 
     if request.method == 'POST':
+
+        # send email
         # TODO: send contact email
         if request.user.is_maintenant:
             messages.success(request, 'Untermieter wurde erfolgreich kontaktiert!')
@@ -178,8 +198,10 @@ def contact_tenant(request, pk):
             return redirect('Offers')
 
     else:
+
+        # ask for consent
         context = {}
-        context['tenant'] = user
+        context['tenant'] = tenant
         context['title'] = 'Kontaktaufnahme'
         return render(request, 'tenants/contact.html', context)
 

@@ -39,12 +39,6 @@ class User(AbstractUser):
     is_external = models.BooleanField('SWS oder Hausmeister', default=False)
     is_assistant = models.BooleanField('Sprechstunde', default=False)
 
-    def get_absolute_url(self):
-        return reverse('tenants:TenantView', kwargs={'pk': self.pk})
-
-    def get_update_url(self):
-        return reverse('tenants:TenantUpdate', kwargs={'pk': self.pk})
-
     def __str__(self):
         return self.first_name + ' ' + self.last_name + ' (' + str(self.pk) + ')'
 

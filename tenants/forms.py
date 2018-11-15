@@ -101,7 +101,8 @@ class MainTenantForm(ModelForm):
             'end_subtenancy': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'is_returning': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES),
             'rent': NumberInput(attrs={'class': 'form-control'}),
-            'is_room_appropriate': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES)
+            'is_room_appropriate': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES),
+            'is_searching': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES)
         }
 
 
@@ -137,6 +138,7 @@ class SubTenantForm(ModelForm):
             'postcode': NumberInput(attrs={'class': 'form-control'}),
             'city': TextInput(attrs={'class': 'form-control'}),
             'country': TextInput(attrs={'class': 'form-control'}),
+            'is_searching': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES)
         }
 
 

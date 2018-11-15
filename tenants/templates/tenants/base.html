@@ -134,7 +134,7 @@
 </header>
 
 
-<div class="container-fluid" style="max-width: {{ view.max_width }}{{ max_width }}" id="custom-container">
+<div class="container-fluid" style="max-width: {% if view.max_width or max_width %}{{ view.max_width }}{{ max_width }}{% else %}600px{% endif %}" id="custom-container">
 
     {% if messages %}
         {% for message in messages %}

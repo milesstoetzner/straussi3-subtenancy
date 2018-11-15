@@ -9,8 +9,11 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound
 from django.db.models import ProtectedError
+from django.contrib import messages
 
 import datetime
+
+# TODO: permission using flags is shit
 
 
 @csrf_protect
@@ -32,9 +35,11 @@ def create_tenant(request, is_maintenant):
             tenant.user = user
             tenant.save()
 
-            # OPTIMIZE: send email with id to main tenant and email verification
+            # TODO: send email with id etc
+            # TODO: need confirmation?
 
-            # TODO: add success msg with id
+            messages.success(request, 'Registrierung war erfolgreich. Du kannst dich nun einloggen')
+            messages.success(request, 'Bei Kommunikation mit unserer Sprechstunde gebe bitte immer deine ID an. Deine ID lautet: ' + str(user.pk))
             return redirect(reverse('login'))
 
     else:
@@ -53,19 +58,19 @@ def create_tenant(request, is_maintenant):
 @login_required
 @require_http_methods(["GET"])
 def view_tenant(request, pk):
-    context = {}
-    context['get'] = True
 
     if not request.user.is_staff and request.user.id != pk:
         return HttpResponseForbidden()
 
     user = get_object_or_404(User, pk=pk)
 
+    context = {}
+    context['get'] = True
     context['user_form'] = UserUpdateForm(instance=user)
     context['tenant'] = user
-    context['update_url'] = user.get_update_url()
+    context['title'] = str(user)
 
-    if not user.is_staff:
+    if user.is_maintenant or user.is_subtenant:
         context['tenant_form'] = MainTenantUpdateForm(
             instance=user.maintenant) if user.is_maintenant else SubTenantUpdateForm(instance=user.subtenant)
 
@@ -73,6 +78,7 @@ def view_tenant(request, pk):
 
 
 @csrf_protect
+@login_required
 @require_http_methods(["GET", "POST"])
 def update_tenant(request, pk):
     context = {}
@@ -95,7 +101,7 @@ def update_tenant(request, pk):
             user_form.save()
             tenant_form.save()
 
-            # TODO: add message
+            messages.success(request, 'Änderungen wurden erfoglreich übernommen!')
             return redirect(reverse('tenants:TenantView', kwargs={'pk': user.pk}))
 
     else:
@@ -113,6 +119,7 @@ def update_tenant(request, pk):
 
 
 @csrf_protect
+@login_required
 @require_http_methods(["GET", "POST"])
 def delete_tenant(request, pk):
     if not request.user.is_staff and request.user.id != pk:
@@ -127,9 +134,10 @@ def delete_tenant(request, pk):
         try:
             user.delete()
         except ProtectedError:
-            # TODO: add error msgg
+            messages.error(request, 'Der Account kann nicht gelöscht werden. Das ist beispielsweise der Fall, wenn mindestens ein Vertrag mit diesem Account abgeschlossen wurde!')
             return redirect(reverse('tenants:TenantView', kwargs={'pk': user.pk}))
-        # TODO: add success msg
+
+        messages.success(request, 'Der Account wurde erfolgreich gelöscht!')
         return redirect('Index')
 
     else:
@@ -137,6 +145,43 @@ def delete_tenant(request, pk):
         context['tenant'] = user
         context['title'] = str(user) + ' löschen'
         return render(request, 'tenants/delete.html', context)
+
+
+@csrf_protect
+@login_required
+@require_http_methods(["GET", "POST"])
+def contact_tenant(request, pk):
+
+    user = get_object_or_404(User, pk=pk)
+
+    if not (user.is_maintenant or user.is_subtenant):
+        return HttpResponseForbidden()
+
+    if not (request.user.is_maintenant or request.user.is_subtenant):
+        return HttpResponseForbidden()
+
+    if user.is_maintenant and request.user.is_maintenant:
+        messages.error(request, 'Als Hauptmieter kannst du keine Hautpmieter kontaktieren')
+        return redirect('Offers')
+
+    if user.is_subtenant and request.user.is_subtenant:
+        messages.error(request, 'Als Untermieter kannst du keine Untermieter kontaktieren')
+        return redirect('Requests')
+
+    if request.method == 'POST':
+        # TODO: send contact email
+        if request.user.is_maintenant:
+            messages.success(request, 'Untermieter wurde erfolgreich kontaktiert!')
+            return redirect('Requests')
+        else:
+            messages.success(request, 'Hauptmieter wurde erfolgreich kontaktiert!')
+            return redirect('Offers')
+
+    else:
+        context = {}
+        context['tenant'] = user
+        context['title'] = 'Kontaktaufnahme'
+        return render(request, 'tenants/contact.html', context)
 
 
 class Offers(ListView):
@@ -153,7 +198,7 @@ class Requests(ListView):
     template_name = 'tenants/requests.html'
 
     def get_queryset(self):
-        return SubTenant.objects.filter(user__is_active=True, end_subtenancy__gt=datetime.datetime.now()).order_by(
+        return SubTenant.objects.filter(is_searching=True, end_subtenancy__gt=datetime.datetime.now()).order_by(
             'begin_subtenancy', 'end_subtenancy')
 
 

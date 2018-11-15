@@ -10,5 +10,6 @@ urlpatterns = [
     path('view/<int:pk>', views.view_tenant, name='TenantView'),
     path('update/<int:pk>', views.update_tenant, name='TenantUpdate'),
     path('delete/<int:pk>', views.delete_tenant, name='TenantDelete'),
+    path('contact/<int:pk>', views.contact_tenant, name='TenantContact')
 
 ]

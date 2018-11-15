@@ -1,0 +1,44 @@
+{% extends "tenants/base.html" %}
+
+{% block content %}
+
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ title }}</h5>
+
+            <p>Möchstest du folgende Nachricht an die Person mit der ID {{ tenant.pk }} senden?</p>
+
+            <div class="alert bg-light" role="alert">
+                <p>Hey,</p>
+
+                {% if tenant.is_maintenant %}
+                    <p>ich interessiere mich für dein Angebot in dem Zeitraum {{ tenant.maintenant.begin_subtenancy }} bis {{ tenant.maintenant.end_subtenancy }}.</p>
+                {% else %}
+                    <p>ich interessiere mich für deine Anfrage in dem Zeitraum {{ tenant.subtenant.begin_subtenancy }} bis {{ tenant.subtenant.end_subtenancy }}.</p>
+                {% endif %}
+
+                <p>Du kannst mich über folgende Email kontaktieren: {{ user.email }}</p>
+                <p>Grüße,<br>{{ user.first_name }} {{ user.last_name }}</p>
+            </div>
+
+            <form action="{% url 'tenants:TenantContact' tenant.pk %}" method="POST">
+
+                {% csrf_token %}
+
+                <button class="btn btn-success btn-block">Kontaktieren</button>
+
+
+                {% if user.is_maintenant %}
+                    <a href="{% url 'Requests' %}" class="btn btn-danger btn-block">Abbrechen</a>
+                {% else %}
+                    <a href="{% url 'Offers' %}" class="btn btn-danger btn-block">Abbrechen</a>
+                {% endif %}
+            </form>
+
+        </div>
+
+    </div>
+
+
+{% endblock %}

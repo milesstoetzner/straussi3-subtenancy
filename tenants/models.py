@@ -46,7 +46,7 @@ class User(AbstractUser):
         return reverse('tenants:TenantUpdate', kwargs={'pk': self.pk})
 
     def __str__(self):
-        return self.first_name + ' ' + self.last_name
+        return self.first_name + ' ' + self.last_name + ' (' + str(self.pk) + ')'
 
 
 class MainTenant(models.Model):

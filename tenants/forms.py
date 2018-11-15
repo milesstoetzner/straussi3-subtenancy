@@ -128,7 +128,7 @@ class SubTenantForm(ModelForm):
         exclude = ['user', 'is_searching']
         widgets = {
             'nationality': TextInput(attrs={'class': 'form-control'}),
-            'is_eu': Select(attrs={'class': 'form-control'}),
+            'is_eu': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES),
             'student_id': NumberInput(attrs={'class': 'form-control'}),
             'begin_subtenancy': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'end_subtenancy': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),

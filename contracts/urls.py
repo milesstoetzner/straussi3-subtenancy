@@ -6,7 +6,6 @@ app_name = 'contracts'
 urlpatterns = [
 
     # assistant
-    path('contacts', views.Contacts.as_view(), name="Contacts"),
     path('search/', views.search, name='Search'),
 
     # contracts

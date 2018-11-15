@@ -144,60 +144,6 @@ class ContractsArchive(LoginRequiredMixin, UserPassesTestMixin, ListView):
             .order_by('main_tenant__residential_home', 'main_tenant__house_number', 'main_tenant__room_number')
 
 
-# TODO: make this serverside!
-class Contacts(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    title = 'Kontaktdaten der Untermieter'
-    template_name = 'contracts/contacts.html'
-    permission_required = 'tenants.view_subtenant'
-    max_width = '800px'
-
-    def get_queryset(self):
-        return SubTenant.objects.filter()
-
-
-# TODO: remove
-class MainTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
-                       UpdateView):
-    model = MainTenant
-    title = 'Hauptmieter ändern'
-    form_class = MainTenantUpdateForm
-    template_name = 'contracts/update_form.html'
-    success_message = 'Änderungen erfolgreich übernommen!'
-    permission_required = 'tenants.change_maintenant'
-    max_width = '600px'
-
-    def test_func(self):
-        return self.get_object().residential_home == self.request.user.administrative.residential_home
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.method == 'GET':
-            context['get'] = True  # TODO: better way to indicate first time resp. not validated form?
-        return context
-
-
-# TODO: remove
-class SubTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
-                      UpdateView):
-    model = SubTenant
-    title = 'Untermieter ändern'
-    form_class = SubTenantUpdateForm
-    template_name = 'contracts/update_form.html'
-    success_message = 'Änderungen erfolgreich übernommen!'
-    permission_required = 'tenants.change_subtenant'
-    max_width = '600px'
-
-    def test_func(self):
-        residential_home = self.get_object().residential_home
-        return not residential_home or residential_home == self.request.user.administrative.residential_home
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.method == 'GET':
-            context['get'] = True  # TODO: better way to indicate first time resp. not validated form?
-        return context
-
-
 @csrf_protect
 @login_required
 @permission_required(['tenants.view_maintenant', 'tenants.view_subtenant', 'contracts.view_contract'])

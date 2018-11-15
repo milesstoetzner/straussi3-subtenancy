@@ -5,7 +5,7 @@
 
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">{{ tenant.first_name }} {{ tenant.last_name }}</h5>
+            <h5 class="card-title">{{ title }}</h5>
 
             <h6 class="card-subtitle mb-2 text-muted">Informationen über den Account</h6>
 
@@ -18,7 +18,7 @@
                 </fieldset>
 
             {% endwith %}
-            {% if tenant_form %}
+            {% if tenant.is_maintenant or tenant.is_subtenant %}
 
 
                 <h6 class="card-subtitle mb-2 text-muted" style="padding-top: 2rem">Informationen über den {% if tenant.is_maintenant %}

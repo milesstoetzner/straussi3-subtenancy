@@ -72,7 +72,6 @@ def view_tenant(request, pk):
     return render(request, 'tenants/view.html', context)
 
 
-# TODO: update_tenant route
 @csrf_protect
 @require_http_methods(["GET", "POST"])
 def update_tenant(request, pk):

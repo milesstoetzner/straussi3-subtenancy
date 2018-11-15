@@ -31,7 +31,7 @@ from .utils import render_to_pdf
 class ContractCreate(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     model = Contract
     title = 'Vertrag erstellen'
-    template_name = 'contracts/contract_create_form.html'
+    template_name = 'contracts/create.html'
     form_class = ContractForm
     form_class.use_required_attribute = False
     permission_required = 'contracts.add_contract'
@@ -85,7 +85,7 @@ class ContractUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTest
     model = Contract
     title = 'Vertrag ändern'
     form_class = ContractUpdateForm
-    template_name = 'contracts/update_form.html'
+    template_name = 'contracts/update.html'
     success_message = 'Änderungen erfolgreich übernommen!'
     permission_required = 'contracts.change_contract'
     max_width = '600px'
@@ -117,8 +117,8 @@ class ContractRender(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTest
 
 
 class ContractsActive(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    title = 'Aktive Untermiete'
-    template_name = 'contracts/contract_external_list.html'
+    title = 'Aktive Verträge'
+    template_name = 'contracts/list.html'
     paginate_by = 50
     max_width = '100%'
 
@@ -131,8 +131,8 @@ class ContractsActive(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 
 class ContractsArchive(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    title = 'Archiv Untermiete'
-    template_name = 'contracts/contract_external_list.html'
+    title = 'Archiv'
+    template_name = 'contracts/list.html'
     paginate_by = 50
     max_width = '100%'
 

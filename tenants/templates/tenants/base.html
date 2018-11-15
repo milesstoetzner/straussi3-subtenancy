@@ -55,7 +55,7 @@
         {% if user.is_authenticated %}
 
             <li class="nav-item">
-                <a class="btn btn-primary" href="{{ user.get_absolute_url }}" id="{{ user.get_absolute_url }}"><i
+                <a class="btn btn-primary" href="{% url 'tenants:TenantView' user.pk %}" id="{% url 'tenants:TenantView' user.pk %}"><i
                         class="fas fa-user icon-text"></i>Profil</a>
             </li>
 
@@ -93,13 +93,24 @@
 
     {% if user.is_authenticated %}
 
-        <ul class="nav justify-content-center bg-dark">
+        <ul class="nav justify-content-center bg-orange">
 
 
             <li class="nav-item">
-                <a class="btn btn-dark" href="{% url 'contracts:Ferienmiete' %}"
+                <a class="btn btn-orange" href="{% url 'contracts:Ferienmiete' %}"
                    id="{% url 'contracts:Ferienmiete' %}"><i
-                        class="fas fa-file-signature icon-text"></i>Ferienmiete</a>
+                        class="fas fa-file-signature icon-text"></i>Vertrag erstellen</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="btn btn-orange" href="{% url 'contracts:ContractsActive' %}"
+                   id="{% url 'contracts:ContractsActive' %}"><i class="fas fa-home icon-text"></i>Aktive Verträge</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="btn btn-orange" href="{% url 'contracts:ContractsArchive' %}"
+                   id="{% url 'contracts:ContractsArchive' %}"><i
+                        class="fas fa-archive icon-text"></i>Archiv</a>
             </li>
 
             <li>
@@ -107,23 +118,6 @@
                        id="searchInput"
                        style="border-radius: 0">
                 <div id="searchResult"></div>
-            </li>
-
-        </ul>
-
-
-        <ul class="nav justify-content-center bg-orange">
-
-            <li class="nav-item">
-                <a class="btn btn-orange" href="{% url 'contracts:ContractsActive' %}"
-                   id="{% url 'contracts:ContractsActive' %}"><i class="fas fa-home icon-text"></i>Aktive
-                    Ferienmiete</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="btn btn-orange" href="{% url 'contracts:ContractsArchive' %}"
-                   id="{% url 'contracts:ContractsArchive' %}"><i
-                        class="fas fa-archive icon-text"></i>Archiv</a>
             </li>
 
         </ul>

@@ -13,6 +13,9 @@ class ResidentialHome(models.Model):
     city = models.CharField('Ort', max_length=250)
     country = models.CharField('Land', max_length=250)
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     def get_house_numbers_as_list(self):
         return self.house_numbers.replace(' ', '').split(",")
 
@@ -28,7 +31,6 @@ class ResidentialHome(models.Model):
 
 
 class User(AbstractUser):
-    # TODO: anderen attritbue sind nicht required!
     first_name = models.CharField('Vorname', max_length=150)
     last_name = models.CharField('Nachname', max_length=150)
     email = models.EmailField('Email Adresse', max_length=150)
@@ -38,6 +40,9 @@ class User(AbstractUser):
     is_subtenant = models.BooleanField('Untermieter', default=False)
     is_external = models.BooleanField('SWS oder Hausmeister', default=False)
     is_assistant = models.BooleanField('Sprechstunde', default=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name + ' (' + str(self.pk) + ')'
@@ -61,7 +66,9 @@ class MainTenant(models.Model):
     is_room_appropriate = models.BooleanField('Ist das Zimmer in einem ordnungsgemäßen Zustand?')
 
     is_searching = models.BooleanField('Ich suche für den oben genannten Zeitraum einen Untermieter', default=True)
-    # TODO: add created, last_updated fields?!
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def get_all_contracts(self):
         return self.contract_set.all()
@@ -100,7 +107,8 @@ class SubTenant(models.Model):
 
     is_searching = models.BooleanField('Ich suche für den oben genannten Zeitraum ein Zimmer', default=True)
 
-    # TODO: add created, last_updated fields?!
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def get_all_contracts(self):
         return self.contract_set.all()

@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <form action="{% if is_maintenant %}{% url 'tenants:MainTenantCreate' %}{% else %}{% url 'tenants:SubTenantCreate' %}{% endif %}" method="post">
+    <form action="{% if is_maintenant %}{% url 'tenants:MainTenantCreate' %}{% else %}{% url 'tenants:SubTenantCreate' %}{% endif %}" method="post" novalidate>
 
         {% csrf_token %}
 

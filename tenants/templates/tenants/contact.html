@@ -19,7 +19,8 @@
                 {% endif %}
 
                 <p>Du kannst mich über folgende Email kontaktieren: {{ user.email }}</p>
-                <p>Grüße,<br>{{ user.first_name }} {{ user.last_name }}</p>
+                <p>Grüße,<br>{{ user }}</p>
+
             </div>
 
             <form action="{% url 'tenants:TenantContact' tenant.pk %}" method="POST">

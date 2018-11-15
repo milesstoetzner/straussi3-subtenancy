@@ -28,8 +28,8 @@
                     {% for contract in object_list %}
 
                         <tr>
-                            <td class="align-middle">{{ contract.main_tenant.first_name }} {{ contract.main_tenant.last_name }}</td>
-                            <td class="align-middle">{{ contract.sub_tenant.first_name }} {{ contract.main_tenant.last_name }}</td>
+                            <td class="align-middle">{{ contract.main_tenant.user.first_name }} {{ contract.main_tenant.user.last_name }}</td>
+                            <td class="align-middle">{{ contract.sub_tenant.user.first_name }} {{ contract.sub_tenant.user.last_name }}</td>
                             <td class="align-middle">{{ contract.main_tenant.residential_home }}</td>
                             <td class="align-middle">{{ contract.main_tenant.house_number }}</td>
                             <td class="align-middle">{{ contract.main_tenant.room_number }}</td>

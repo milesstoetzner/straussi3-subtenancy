@@ -21,8 +21,9 @@
             {% if tenant.is_maintenant or tenant.is_subtenant %}
 
 
-                <h6 class="card-subtitle mb-2 text-muted" style="padding-top: 2rem">Informationen über den {% if tenant.is_maintenant %}
-                    Hauptmieter{% else %}Untermieter{% endif %}</h6>
+                <h6 class="card-subtitle mb-2 text-muted" style="padding-top: 2rem">Informationen über den
+                    {% if tenant.is_maintenant %}
+                        Hauptmieter{% else %}Untermieter{% endif %}</h6>
 
                 {% with form=tenant_form %}
 
@@ -34,8 +35,12 @@
 
                 {% endwith %}
 
-                <a href="{% url 'tenants:TenantUpdate' tenant.id %}" class="btn btn-success btn-block">Informationen aktualisieren</a>
-                <a href="{% url 'tenants:TenantDelete' tenant.id %}" class="btn btn-danger btn-block">Account löschen</a>
+                <a href="{% url 'tenants:TenantUpdate' tenant.id %}" class="btn btn-success btn-block">Informationen
+                    aktualisieren</a>
+
+                {% if user.is_maintenant or user.is_subtenant %}
+                    <a href="{% url 'tenants:TenantDelete' tenant.id %}" class="btn btn-danger btn-block">Account löschen</a>
+                {% endif %}
 
             {% endif %}
 

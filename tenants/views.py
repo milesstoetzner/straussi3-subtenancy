@@ -1,14 +1,14 @@
-from django.shortcuts import render
 from django.views.generic import CreateView, ListView
 from tenants.models import User, MainTenant, SubTenant
-from tenants.forms import UserForm, UserUpdateForm, MainTenantForm, MainTenantUpdateForm, SubTenantForm, SubTenantUpdateForm
-from django.contrib.messages.views import SuccessMessageMixin
+from tenants.forms import UserForm, UserUpdateForm, MainTenantForm, MainTenantUpdateForm, SubTenantForm, \
+    SubTenantUpdateForm
 from django.urls import reverse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound
+from django.db.models import ProtectedError
 
 import datetime
 
@@ -16,7 +16,6 @@ import datetime
 @csrf_protect
 @require_http_methods(["GET", "POST"])
 def create_tenant(request, is_maintenant):
-
     context = {}
 
     if request.method == 'POST':
@@ -35,7 +34,7 @@ def create_tenant(request, is_maintenant):
 
             # OPTIMIZE: send email with id to main tenant and email verification
 
-            # add message with id
+            # TODO: add success msg with id
             return redirect(reverse('login'))
 
     else:
@@ -44,10 +43,9 @@ def create_tenant(request, is_maintenant):
         context['get'] = True
 
     context['title'] = 'Hauptmieter Registrierung' if is_maintenant else 'Untermieter Registrierung'
-    context['max_width'] = '600px'
     context['user_form'] = user_form
     context['tenant_form'] = tenant_form
-    context['main'] = is_maintenant
+    context['is_maintenant'] = is_maintenant
 
     return render(request, 'tenants/create.html', context)
 
@@ -56,21 +54,20 @@ def create_tenant(request, is_maintenant):
 @require_http_methods(["GET"])
 def view_tenant(request, pk):
     context = {}
-    context['max_width'] = '600px'
     context['get'] = True
 
     if not request.user.is_staff and request.user.id != pk:
         return HttpResponseForbidden()
 
-    user = User.objects.get(pk=pk)
+    user = get_object_or_404(User, pk=pk)
 
     context['user_form'] = UserUpdateForm(instance=user)
-    context['title'] = user.first_name + ' ' + user.last_name
-    context['main'] = user.is_maintenant
+    context['tenant'] = user
     context['update_url'] = user.get_update_url()
 
     if not user.is_staff:
-        context['tenant_form'] = MainTenantUpdateForm(instance=user.maintenant) if user.is_maintenant else SubTenantUpdateForm(instance=user.subtenant)
+        context['tenant_form'] = MainTenantUpdateForm(
+            instance=user.maintenant) if user.is_maintenant else SubTenantUpdateForm(instance=user.subtenant)
 
     return render(request, 'tenants/view.html', context)
 
@@ -79,20 +76,21 @@ def view_tenant(request, pk):
 @csrf_protect
 @require_http_methods(["GET", "POST"])
 def update_tenant(request, pk):
-
     context = {}
 
     if not request.user.is_staff and request.user.id != pk:
         return HttpResponseForbidden()
 
-    user = User.objects.get(pk=pk)
+    user = get_object_or_404(User, pk=pk)
 
     if not user.is_maintenant and not user.is_subtenant:
         return HttpResponseForbidden()
 
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=user)
-        tenant_form = MainTenantUpdateForm(request.POST, instance=user.maintenant) if user.is_maintenant else SubTenantUpdateForm(request.POST, instance=user.subtenant)
+        tenant_form = MainTenantUpdateForm(request.POST,
+                                           instance=user.maintenant) if user.is_maintenant else SubTenantUpdateForm(
+            request.POST, instance=user.subtenant)
 
         if user_form.is_valid() and tenant_form.is_valid():
             user_form.save()
@@ -103,53 +101,66 @@ def update_tenant(request, pk):
 
     else:
         user_form = UserUpdateForm(instance=user)
-        tenant_form = MainTenantUpdateForm(instance=user.maintenant) if user.is_maintenant else SubTenantUpdateForm(instance=user.subtenant)
+        tenant_form = MainTenantUpdateForm(instance=user.maintenant) if user.is_maintenant else SubTenantUpdateForm(
+            instance=user.subtenant)
         context['get'] = True
 
-    context['title'] = 'Informationen Aktualisieren'
-    context['max_width'] = '600px'
+    context['title'] = str(user) + ' aktualisieren'
     context['user_form'] = user_form
     context['tenant_form'] = tenant_form
-    context['update_url'] = user.get_update_url()
-    context['main'] = True
+    context['tenant'] = user
 
     return render(request, 'tenants/update.html', context)
 
 
-# TODO: delete_tenant route
 @csrf_protect
-@require_http_methods(["POST"])
+@require_http_methods(["GET", "POST"])
 def delete_tenant(request, pk):
-
     if not request.user.is_staff and request.user.id != pk:
         return HttpResponseForbidden()
 
-    User.objects.get(pk=pk).delete()
-    # TODO: add message
-    return redirect('Index')
+    user = get_object_or_404(User, pk=pk)
+
+    if not (user.is_maintenant or user.is_subtenant):
+        return HttpResponseForbidden()
+
+    if request.method == 'POST':
+        try:
+            user.delete()
+        except ProtectedError:
+            # TODO: add error msgg
+            return redirect(reverse('tenants:TenantView', kwargs={'pk': user.pk}))
+        # TODO: add success msg
+        return redirect('Index')
+
+    else:
+        context = {}
+        context['tenant'] = user
+        context['title'] = str(user) + ' löschen'
+        return render(request, 'tenants/delete.html', context)
 
 
 class Offers(ListView):
     title = 'Angebote von Hauptmietern'
     template_name = 'tenants/requests.html'
-    max_width = '600px'
 
     def get_queryset(self):
-        return MainTenant.objects.filter(is_searching=True, end_subtenancy__gt=datetime.datetime.now()).order_by('begin_subtenancy','end_subtenancy')
+        return MainTenant.objects.filter(is_searching=True, end_subtenancy__gt=datetime.datetime.now()).order_by(
+            'begin_subtenancy', 'end_subtenancy')
 
 
 class Requests(ListView):
     title = 'Anfragen von Untermietern'
     template_name = 'tenants/requests.html'
-    max_width = '600px'
 
     def get_queryset(self):
-        return SubTenant.objects.filter(user__is_active=True, end_subtenancy__gt=datetime.datetime.now()).order_by('begin_subtenancy','end_subtenancy')
+        return SubTenant.objects.filter(user__is_active=True, end_subtenancy__gt=datetime.datetime.now()).order_by(
+            'begin_subtenancy', 'end_subtenancy')
 
 
 def index(request):
-    return render(request, 'tenants/index.html', {'title': 'Startseite', 'max_width': '600px'})
+    return render(request, 'tenants/index.html', {'title': 'Startseite'})
 
 
 def legal_notice(request):
-    return render(request, 'tenants/legal_notice.html', {'title': 'Impressum', 'max_width': '600px'})
+    return render(request, 'tenants/legal_notice.html', {'title': 'Impressum'})

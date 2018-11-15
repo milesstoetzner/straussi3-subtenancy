@@ -1,0 +1,24 @@
+{% extends "tenants/base.html" %}
+
+{% block content %}
+
+    <form action="{% url 'tenants:TenantDelete' tenant.id %}" method="post">
+
+        {% csrf_token %}
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ tenant }} löschen</h5>
+
+                <p>Möchtest du wirklich {{ tenant }} löschen?</p>
+
+                <button class="btn btn-danger btn-block">Löschen</button>
+                <a href="{% url 'tenants:TenantView' tenant.id %}" class="btn btn-success btn-block">Abbrechen</a>
+
+            </div>
+
+        </div>
+
+    </form>
+
+{% endblock %}

@@ -19,7 +19,7 @@
                     {% endwith %}
 
 
-                <h6 class="card-subtitle mb-2 text-muted" style="padding-top: 2rem">Informationen über den {% if main %}Hauptmieter{% else %}Untermieter{% endif %}</h6>
+                <h6 class="card-subtitle mb-2 text-muted" style="padding-top: 2rem">Informationen über den {% if is_maintenant %}Hauptmieter{% else %}Untermieter{% endif %}</h6>
 
                     {% with form=tenant_form %}
 

@@ -37,15 +37,13 @@ class ContractCreate(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessage
     permission_required = 'contracts.add_contract'
     max_width = '600px'
 
-    # TODO: scope of main and sub!
-
     # TODO: save contracts as pdf?
 
     def form_valid(self, form):
-        self.object = form.save()  # TODO: was bedeutet 'Instance attribute object defined outside __init__'?!
-        self.object.main_tenant.active = 'Nein' # TODO: removet this?!
+        self.object = form.save()
+        self.object.main_tenant.is_searching = False
         self.object.main_tenant.save()
-        self.object.sub_tenant.active = 'Nein'
+        self.object.sub_tenant.is_searching = False
         self.object.sub_tenant.save()
         return HttpResponseRedirect(self.get_success_url())
 
@@ -67,9 +65,6 @@ class ContractView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = 'contracts.view_contract'
     http_method_names = 'get'
     max_width = '600px'
-
-    def test_func(self):
-        return self.get_object().main_tenant.residential_home == self.request.user.administrative.residential_home
 
     def get_success_url(self):
         return reverse_lazy('contracts:SubTenantView', args=(self.object.id,))
@@ -101,12 +96,11 @@ class ContractUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTest
 
 
 # TODO: create contract templates
-class ContractRender(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, DetailView):
+class ContractRender(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Contract
-    permission_required = 'contracts.view_contract'
 
     def test_func(self):
-        return self.get_object().main_tenant.residential_home == self.request.user.administrative.residential_home
+        return self.request.user.is_assistant
 
     def get(self, request, *args, **kwargs):
         data = {
@@ -152,12 +146,12 @@ def search(request):
     query = request.POST['query']
 
     # TODO: complex query! full name, birthday, tenant_id
-    main_tenants = MainTenant.objects.filter(Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query))
-    sub_tenants = SubTenant.objects.filter(Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query))
+    maintenants = MainTenant.objects.filter(Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query))
+    subtenants = SubTenant.objects.filter(Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query))
 
     context = {
-        'main_tenants': main_tenants,
-        'sub_tenants': sub_tenants,
+        'maintenants': maintenants,
+        'subtenants': subtenants,
         'query': query
     }
 

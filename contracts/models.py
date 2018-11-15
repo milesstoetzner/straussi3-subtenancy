@@ -5,9 +5,7 @@ from tenants.models import MainTenant, SubTenant, ResidentialHome
 
 
 class Contract(models.Model):
-    # TODO: on_delete!?  # TODO: OneToOne?! # TODO: limit to: residential_home, active
     main_tenant = models.ForeignKey(MainTenant, on_delete=models.PROTECT, verbose_name='Hauptmieter')
-    # TODO: on_delete!?  # TODO: OneToOne?! # TODO: limit to: residential_home='', residential_home, active
     sub_tenant = models.ForeignKey(SubTenant, on_delete=models.PROTECT, verbose_name='Untermieter')
     begin = models.DateField('Beginn des Untermietvertrages')
     end = models.DateField('Ende des Untermietvertrages')
@@ -15,8 +13,8 @@ class Contract(models.Model):
     caution_comment = models.CharField('Anmerkungen zur Kaution', max_length=500, blank=True)
     is_identified = models.BooleanField('Lichtbildausweis kontrolliert?')
     is_matriculated = models.BooleanField('Immatrikulationsbescheinigung kontrolliert?')
-    donation = models.FloatField('Freiwillige Spende in Euro')
-    is_active = models.BooleanField('Ist dieser Vertrag gültig?')
+    donation = models.FloatField('Freiwillige Spende in Euro', blank=True)
+    is_active = models.BooleanField('Ist dieser Vertrag gültig?', default=True)
 
     # TODO: Zimmer Checkliste
 

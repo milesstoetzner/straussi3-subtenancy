@@ -10,10 +10,10 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound
 from django.db.models import ProtectedError
 from django.contrib import messages
+from django.core.mail import EmailMessage
+from smtplib import SMTPException
 
 import datetime
-
-# TODO: permission using flags is shit
 
 
 @csrf_protect
@@ -128,13 +128,12 @@ def update_tenant(request, pk):
 @login_required
 @require_http_methods(["GET", "POST"])
 def delete_tenant(request, pk):
-    if not request.user.is_staff and request.user.id != pk:
+
+    # only tenant can delete his account
+    if not (request.user.is_maintenant or request.user.is_subtenant) and request.user.id != pk:
         return HttpResponseForbidden()
 
     user = get_object_or_404(User, pk=pk)
-
-    if not (user.is_maintenant or user.is_subtenant):
-        return HttpResponseForbidden()
 
     if request.method == 'POST':
         try:
@@ -174,7 +173,11 @@ def contact_tenant(request, pk):
 
     # only tenants can contact each other
     if not (request.user.is_maintenant or request.user.is_subtenant):
-        return HttpResponseForbidden()
+        messages.error(request, 'Nur Mieter können sich kontaktieren!')
+        if tenant.is_subtenant:
+            return redirect('Requests')
+        else:
+            return redirect('Offers')
 
     # only maintenants can contact subtenants
     if tenant.is_maintenant and request.user.is_maintenant:
@@ -190,7 +193,42 @@ def contact_tenant(request, pk):
 
         # send email
         # TODO: send contact email
-        if request.user.is_maintenant:
+
+        try:
+            msg = 'Hey,<br><br>'
+            if tenant.is_maintenant:
+                msg += 'ich interessiere mich für dein Angebot in dem Zeitraum ' + str(tenant.maintenant.begin_subtenancy) + ' bis ' + str(tenant.maintenant.end_subtenancy) + '.'
+            else:
+                msg += 'ich interessiere mich für dein Angebot in dem Zeitraum ' + str(tenant.subtenant.begin_subtenancy) + ' bis ' + str(tenant.subtenant.end_subtenancy) + '.'
+            msg += '<br>Du kannst mich über folgende Email kontaktieren: ' + tenant.email
+            msg += '<br><br>Grüße,<br>' + str(tenant)
+
+            mail = EmailMessage('Ferienmiete Straußäcker 3 Kontaktaufnahme',
+                msg,
+                'HmjyGTxWRP1vtcLT@web.de',
+                [tenant.email])
+
+            mail.content_subtype = "html"
+            mail.send()
+
+            """
+            send_mail('Ferienmiete Straußäcker 3 Kontaktaufnahme',
+                      msg,
+                      'HmjyGTxWRP1vtcLT@web.de',
+                      [tenant.email],
+                      fail_silently=False,
+                      html_message=msg)
+            """
+        except SMTPException as e:
+            print(e)
+            if tenant.is_subtenant:
+                messages.error(request, 'Untermieter konnte nicht kontaktiert werden!')
+                return redirect('Requests')
+            else:
+                messages.error(request, 'Hauptmieter konnte nicht kontaktiert werden!')
+                return redirect('Offers')
+
+        if tenant.is_subtenant:
             messages.success(request, 'Untermieter wurde erfolgreich kontaktiert!')
             return redirect('Requests')
         else:

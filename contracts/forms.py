@@ -1,5 +1,6 @@
 from django.forms import ModelForm, TextInput, Textarea, DateInput, Select, NumberInput
 from .models import Contract
+from tenants.forms import BOOLEAN_CHOICES
 
 
 class ContractForm(ModelForm):
@@ -36,9 +37,11 @@ class ContractForm(ModelForm):
             if caution < 0:
                 self.add_error('caution', 'Die Kaution muss positiv sein!')
 
+        """
         # is_identified
         if not is_identified:
                 self.add_error('is_identified', 'Lichtbildausweis muss kontrolliert werden!')
+        """
 
         # is_matriculated
         if not is_matriculated:
@@ -51,7 +54,7 @@ class ContractForm(ModelForm):
 
     class Meta:
         model = Contract
-        exclude = ['active']
+        exclude = ['is_active']
         widgets = {
             'main_tenant': Select(attrs={'class': 'form-control'}),
             'sub_tenant': Select(attrs={'class': 'form-control'}),
@@ -59,10 +62,10 @@ class ContractForm(ModelForm):
             'end': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'caution': NumberInput(attrs={'class': 'form-control'}),
             'caution_comment': Textarea(attrs={'class': 'form-control', 'rows': 1}),
-            'is_identified': Select(attrs={'class': 'form-control'}),
-            'is_matriculated': Select(attrs={'class': 'form-control'}),
+            'is_identified': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES),
+            'is_matriculated': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES),
             'donation': NumberInput(attrs={'class': 'form-control'}),
-            'is_active': Select(attrs={'class': 'form-control'}),
+            'is_active': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES),
         }
 
 

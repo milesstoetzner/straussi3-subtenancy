@@ -4,13 +4,13 @@
 
         <li><p class="dropdown-item disabled text-muted" style="margin-bottom: 0">Hauptmieter</p></li>
 
-        {% if not main_tenants %}
+        {% if not maintenants %}
             <li><p class="dropdown-item disabled text-danger" style="margin-bottom: 0">Keine Suchergebnisse! <i class="far fa-frown"></i></p></li>
         {% endif %}
 
-        {% for main_tenant in main_tenants %}
+        {% for maintenant in maintenants %}
 
-            <li><a class="dropdown-item" href="{{ main_tenant.get_absolute_url }}">{{ main_tenant }}</a></li>
+            <li><a class="dropdown-item" href="{% url 'tenants:TenantView' maintenant.pk %}">{{ maintenant }}</a></li>
 
         {% endfor %}
 
@@ -18,13 +18,13 @@
 
         <li><p class="dropdown-item disabled text-muted" style="margin-bottom: 0">Untermieter</p></li>
 
-        {% if not sub_tenants %}
+        {% if not subtenants %}
             <li><p class="dropdown-item disabled text-danger" style="margin-bottom: 0">Keine Suchergebnisse! <i class="far fa-frown"></i></p></li>
         {% endif %}
 
-        {% for sub_tenant in sub_tenants %}
+        {% for subtenant in subtenants %}
 
-            <li><a class="dropdown-item" href="{{ sub_tenant.get_absolute_url }}">{{ sub_tenant }}</a></li>
+            <li><a class="dropdown-item" href="{% url 'tenants:TenantView' subtenant.pk %}">{{ subtenant }}</a></li>
 
         {% endfor %}
 

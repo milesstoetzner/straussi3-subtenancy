@@ -20,7 +20,6 @@ class UserForm(UserCreationForm):
     class Meta:
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'birthday', 'phone_number']
         model = User
-        use_required_attributes = False # TODO: funktioniert nicht
         widgets = {
             'username': TextInput(attrs={'class': 'form-control', 'required': False}),
             'first_name': TextInput(attrs={'class': 'form-control'}),
@@ -57,8 +56,6 @@ class MainTenantForm(ModelForm):
         if begin_rent_agreement and end_rent_agreement:
             if begin_rent_agreement >= end_rent_agreement:
                 self.add_error('end_rent_agreement', 'Das Ende des Mietvertrages muss nach dem Beginn sein!')
-
-        # TODO: validate phone_number
 
         # house_number of residential_home
         if residential_home and house_number:

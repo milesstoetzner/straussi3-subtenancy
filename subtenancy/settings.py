@@ -125,3 +125,11 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/'
 
 LOGOUT_REDIRECT_URL = '/'
+
+
+# Email configuration
+EMAIL_HOST = 'smtp.web.de'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'HmjyGTxWRP1vtcLT'
+EMAIL_HOST_PASSWORD = '***REMOVED***'
+EMAIL_USE_TLS = True

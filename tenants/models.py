@@ -36,7 +36,14 @@ class User(AbstractUser):
     phone_number = models.CharField('Telefonnummer', max_length=15)
     is_maintenant = models.BooleanField('Hauptmieter', default=False)
     is_subtenant = models.BooleanField('Untermieter', default=False)
-    # TODO: exclusive is_maintenant, is_subtenant, is_staff, is_superuser
+    is_external = models.BooleanField('Untermieter', default=False)
+    is_assistant = models.BooleanField('Untermieter', default=False)
+
+    def get_absolute_url(self):
+        return reverse('tenants:TenantView', kwargs={'pk': self.pk})
+
+    def get_update_url(self):
+        return reverse('tenants:TenantUpdate', kwargs={'pk': self.pk})
 
 
 class MainTenant(models.Model):
@@ -56,13 +63,8 @@ class MainTenant(models.Model):
     is_returning = models.BooleanField('Ist ein Wiedereinzug ins Zimmer geplant?')
     is_room_appropriate = models.BooleanField('Ist das Zimmer in einem ordnungsgemäßen Zustand?')
 
+    is_searching = models.BooleanField('Ich suche für den oben genannten Zeitraum einen Untermieter', default=True)
     # TODO: add created, last_updated fields?!
-
-    def get_absolute_url(self):
-        return reverse('contracts:MainTenantView', kwargs={'pk': self.pk})
-
-    def get_update_url(self):
-        return reverse('contracts:MainTenantUpdate', kwargs={'pk': self.pk})
 
     def get_all_contracts(self):
         return self.contract_set.all()
@@ -99,13 +101,9 @@ class SubTenant(models.Model):
     city = models.CharField('Ort', max_length=250)
     country = models.CharField('Land', max_length=250)
 
+    is_searching = models.BooleanField('Ich suche für den oben genannten Zeitraum ein Zimmer', default=True)
+
     # TODO: add created, last_updated fields?!
-
-    def get_absolute_url(self):
-        return reverse('contracts:SubTenantView', kwargs={'pk': self.pk})
-
-    def get_update_url(self):
-        return reverse('contracts:SubTenantUpdate', kwargs={'pk': self.pk})
 
     def get_all_contracts(self):
         return self.contract_set.all()

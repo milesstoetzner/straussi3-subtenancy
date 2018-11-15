@@ -4,13 +4,11 @@ from tenants import views
 
 urlpatterns = [
     path('', views.index, name='Index'),
-    path('admin/', admin.site.urls),  # TODO: only login
-    path('accounts/', include('django.contrib.auth.urls')),
-    # path('hauptmieter/', views.MainTenantCreate.as_view(), name='MainTenantCreate'),
-    path('hauptmieter/', views.create_maintenant, name='MainTenantCreate'),
-    path('untermieter/', views.SubTenantCreate.as_view(), name='SubTenantCreate'),
-    path('angebote/', views.Offers.as_view(), name='Offers'),
-    path('anfragen/', views.Requests.as_view(), name='Requests'),
+    path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')), # TODO: only login
+    path('offers/', views.Offers.as_view(), name='Offers'),
+    path('requests/', views.Requests.as_view(), name='Requests'),
     path('impressum/', views.legal_notice, name='Impressum'),
+    path('tenants/', include('tenants.urls')),
     path('contracts/', include('contracts.urls'))
 ]

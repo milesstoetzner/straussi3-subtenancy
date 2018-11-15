@@ -22,9 +22,9 @@
 
     <div class="bg-light text-center" style="font-size: 12px; padding-right: 1rem">
         {% if user.is_authenticated %}
-            Als {{ user.username }} eingeloggt. <a class="" href="{% url 'logout' %}" id="{% url 'logout' %}">Logout</a>
+            Als {{ user.first_name }} {{ user.last_name }} eingeloggt. <a class="" href="{% url 'logout' %}" id="{% url 'logout' %}">Logout</a>
         {% else %}
-            Als Sprechstunde oder External einloggen.
+            Hier kannst du dich einloggen.
             <a class="" href="{% url 'login' %}" id="{% url 'login' %}">Login</a>
         {% endif %}
     </div>
@@ -51,14 +51,30 @@
             <a class="btn btn-primary" href="{% url 'Index' %}" id="{% url 'Index' %}"><i
                     class="fas fa-check-circle icon-text"></i>Start</a>
         </li>
-        <li class="nav-item">
-            <a class="btn btn-primary" href="{% url 'MainTenantCreate' %}" id="{% url 'MainTenantCreate' %}"><i
-                    class="fas fa-user-edit icon-text"></i>Hauptmieter</a>
-        </li>
-        <li class="nav-item">
-            <a class="btn btn-primary" href="{% url 'SubTenantCreate' %}" id="{% url 'SubTenantCreate' %}"><i
-                    class="fas fa-user-edit icon-text"></i>Untermieter</a>
-        </li>
+
+        {% if user.is_authenticated %}
+
+            <li class="nav-item">
+                <a class="btn btn-primary" href="{{ user.get_absolute_url }}" id="{{ user.get_absolute_url }}"><i
+                        class="fas fa-user icon-text"></i>Profil</a>
+            </li>
+
+        {% endif %}
+
+        {% if not user.is_maintenant and not user.is_subtenant %}
+
+            <li class="nav-item">
+                <a class="btn btn-primary" href="{% url 'tenants:MainTenantCreate' %}" id="{% url 'tenants:MainTenantCreate' %}"><i
+                        class="fas fa-user-edit icon-text"></i>Hauptmieter</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="btn btn-primary" href="{% url 'tenants:SubTenantCreate' %}" id="{% url 'tenants:SubTenantCreate' %}"><i
+                        class="fas fa-user-edit icon-text"></i>Untermieter</a>
+            </li>
+
+        {% endif %}
+
         <li class="nav-item">
             <a class="btn btn-primary" href="{% url 'Offers' %}" id="{% url 'Offers' %}"><i
                     class="fas fa-file-alt icon-text"></i>Angebote</a>
@@ -75,50 +91,43 @@
 
     {% if user.is_authenticated %}
 
-        {% if user|has_group:'Assistants' %}
-
-            <ul class="nav justify-content-center bg-dark">
+        <ul class="nav justify-content-center bg-dark">
 
 
-                <li class="nav-item">
-                    <a class="btn btn-dark" href="{% url 'contracts:Ferienmiete' %}"
-                       id="{% url 'contracts:Ferienmiete' %}"><i
-                            class="fas fa-file-signature icon-text"></i>Ferienmiete</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-dark" href="{% url 'contracts:Contacts' %}" id="{% url 'contracts:Contacts' %}"><i class="fas fa-mail-bulk icon-text"></i>Kontaktdaten</a>
-                </li>
-                <li>
-                    <input class="form-control" type="search" placeholder="Suchen" aria-label="Search"
-                           id="searchInput"
-                           style="border-radius: 0">
-                    <div id="searchResult"></div>
-                </li>
+            <li class="nav-item">
+                <a class="btn btn-dark" href="{% url 'contracts:Ferienmiete' %}"
+                   id="{% url 'contracts:Ferienmiete' %}"><i
+                        class="fas fa-file-signature icon-text"></i>Ferienmiete</a>
+            </li>
+            <li class="nav-item">
+                <a class="btn btn-dark" href="{% url 'contracts:Contacts' %}" id="{% url 'contracts:Contacts' %}"><i
+                        class="fas fa-mail-bulk icon-text"></i>Kontaktdaten</a>
+            </li>
+            <li>
+                <input class="form-control" type="search" placeholder="Suchen" aria-label="Search"
+                       id="searchInput"
+                       style="border-radius: 0">
+                <div id="searchResult"></div>
+            </li>
 
-            </ul>
+        </ul>
 
-        {% endif %}
 
-        {% if user|has_group:'External' %}
+        <ul class="nav justify-content-center bg-orange">
 
-            <ul class="nav justify-content-center bg-orange">
+            <li class="nav-item">
+                <a class="btn btn-orange" href="{% url 'contracts:ContractsActive' %}"
+                   id="{% url 'contracts:ContractsActive' %}"><i class="fas fa-home icon-text"></i>Aktive
+                    Ferienmiete</a>
+            </li>
 
-                <li class="nav-item">
-                    <a class="btn btn-orange" href="{% url 'contracts:ContractExternalList' %}"
-                       id="{% url 'contracts:ContractExternalList' %}"><i class="fas fa-home icon-text"></i>Aktive
-                        Ferienmiete</a>
-                </li>
+            <li class="nav-item">
+                <a class="btn btn-orange" href="{% url 'contracts:ContractsArchive' %}"
+                   id="{% url 'contracts:ContractsArchive' %}"><i
+                        class="fas fa-archive icon-text"></i>Archiv</a>
+            </li>
 
-                <li class="nav-item">
-                    <a class="btn btn-orange" href="{% url 'contracts:ContractExternalArchive' %}"
-                       id="{% url 'contracts:ContractExternalArchive' %}"><i
-                            class="fas fa-archive icon-text"></i>Archiv</a>
-                </li>
-
-            </ul>
-
-        {% endif %}
-
+        </ul>
 
     {% endif %}
 
@@ -207,7 +216,8 @@
             url: '{% url 'contracts:Search' %}',
             type: 'POST',
             data: {
-                query: document.getElementById('searchInput').value},
+                query: document.getElementById('searchInput').value
+            },
             error: function (req, status, error) {
                 alert('Ein Fehler ist während der Suche aufgetreten: ' + error);
             },

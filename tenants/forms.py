@@ -1,6 +1,8 @@
 from django.forms import ModelForm, TextInput, DateInput, EmailInput, Select, NumberInput, CheckboxInput, PasswordInput
 from .models import User, MainTenant, SubTenant, ResidentialHome
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+
+BOOLEAN_CHOICES = ((False, 'Nein'), (True, 'Ja'))
 
 
 class ResidentialHomeForm(ModelForm):
@@ -24,11 +26,17 @@ class UserForm(UserCreationForm):
             'first_name': TextInput(attrs={'class': 'form-control'}),
             'last_name': TextInput(attrs={'class': 'form-control'}),
             'email': EmailInput(attrs={'class': 'form-control'}),
-            # 'password1': PasswordInput(attrs={'class': 'form-control'}),  # TODO: funktioniert nicht
-            # 'password2': PasswordInput(attrs={'class': 'form-control'}),  # TODO: funktioniert nicht
+            'password1': PasswordInput(attrs={'class': 'form-control'}),  # TODO: funktioniert nicht
+            'password2': PasswordInput(attrs={'class': 'form-control'}),  # TODO: funktioniert nicht
             'birthday': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'phone_number': TextInput(attrs={'class': 'form-control'})
         }
+
+
+class UserUpdateForm(ModelForm):
+
+    class Meta(UserForm.Meta):
+        fields = ['username', 'first_name', 'last_name', 'email', 'birthday', 'phone_number']
 
 
 class MainTenantForm(ModelForm):
@@ -78,7 +86,7 @@ class MainTenantForm(ModelForm):
 
     class Meta:
         model = MainTenant
-        exclude = ['user']
+        exclude = ['user', 'is_searching']
         help_texts = {
             'is_returning': 'Sofern kein Wiedereinzug geplant ist und der Hauptmieter somit vollständig auszieht, wird die Kaution über den Hausmeister zurückerstattet.',
         }
@@ -86,21 +94,20 @@ class MainTenantForm(ModelForm):
             'tenant_id': NumberInput(attrs={'class': 'form-control'}),
             'begin_rent_agreement': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'end_rent_agreement': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
-            'residential_home': Select(attrs={'class': 'custom-select'}),
+            'residential_home': Select(attrs={'class': 'form-control'}),
             'house_number': TextInput(attrs={'class': 'form-control'}),
             'room_number': NumberInput(attrs={'class': 'form-control'}),
             'begin_subtenancy': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'end_subtenancy': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
-            # 'is_returning': Select(attrs={'class': 'form-control'}),
+            'is_returning': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES),
             'rent': NumberInput(attrs={'class': 'form-control'}),
-            # 'is_room_appropriate': Select(attrs={'class': 'form-control'}),
-            # 'is_active': Select(attrs={'class': 'form-control'}),
+            'is_room_appropriate': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES)
         }
 
 
 class MainTenantUpdateForm(MainTenantForm):
     class Meta(MainTenantForm.Meta):
-        exclude = []
+        exclude = ['user']
 
 
 class SubTenantForm(ModelForm):
@@ -117,7 +124,7 @@ class SubTenantForm(ModelForm):
 
     class Meta:
         model = SubTenant
-        exclude = ['active', 'residential_home']
+        exclude = ['user', 'is_searching']
         widgets = {
             'nationality': TextInput(attrs={'class': 'form-control'}),
             'is_eu': Select(attrs={'class': 'form-control'}),
@@ -130,10 +137,9 @@ class SubTenantForm(ModelForm):
             'postcode': NumberInput(attrs={'class': 'form-control'}),
             'city': TextInput(attrs={'class': 'form-control'}),
             'country': TextInput(attrs={'class': 'form-control'}),
-            # 'is_active': Select(attrs={'class': 'form-control'}),
         }
 
 
 class SubTenantUpdateForm(SubTenantForm):
     class Meta(SubTenantForm.Meta):
-        exclude = []
+        exclude = ['user']

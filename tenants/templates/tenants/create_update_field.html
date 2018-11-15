@@ -13,7 +13,7 @@
             <script>
                 document.getElementById('{{ field.id_for_label }}').classList.add('is-invalid');
             </script>
-        {% elif not first %}
+        {% elif not get %}
             <script>
                 document.getElementById('{{ field.id_for_label }}').classList.add('is-valid');
             </script>

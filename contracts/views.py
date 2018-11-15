@@ -55,7 +55,7 @@ class ContractCreate(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessage
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.method == 'GET':
-            context['first'] = True  # TODO: better way to indicate first time resp. not validated form?
+            context['get'] = True  # TODO: better way to indicate first time resp. not validated form?
         return context
 
 
@@ -96,7 +96,7 @@ class ContractUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTest
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.method == 'GET':
-            context['first'] = True  # TODO: better way to indicate first time resp. not validated form?
+            context['get'] = True  # TODO: better way to indicate first time resp. not validated form?
         return context
 
 
@@ -116,30 +116,31 @@ class ContractRender(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTest
         return HttpResponse(pdf, content_type='application/pdf')
 
 
-class ContractExternalList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    title = 'Aktive subtenancy'
+class ContractsActive(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    title = 'Aktive Untermiete'
     template_name = 'contracts/contract_external_list.html'
-    permission_required = 'contracts.view_contract'
     paginate_by = 50
     max_width = '100%'
 
+    def test_func(self):
+        return self.request.user.is_assistant or self.request.user.is_external or self.request.user.is_staff
+
     def get_queryset(self):
-        return Contract.objects.filter(active='Ja',
-                                       main_tenant__residential_home=self.request.user.administrative.residential_home, end__gte=datetime.datetime.now()) \
+        return Contract.objects.filter(is_active=True, end__gte=datetime.datetime.now()) \
             .order_by('main_tenant__residential_home', 'main_tenant__house_number', 'main_tenant__room_number')
 
 
-class ContractExternalArchive(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    title = 'subtenancy Archiv'
+class ContractsArchive(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    title = 'Archiv Untermiete'
     template_name = 'contracts/contract_external_list.html'
-    permission_required = 'contracts.view_contract'
     paginate_by = 50
     max_width = '100%'
 
+    def test_func(self):
+        return self.request.user.is_assistant or self.request.user.is_external or self.request.user.is_staff
+
     def get_queryset(self):
-        return Contract.objects.filter(active='Ja',
-                                       main_tenant__residential_home=self.request.user.administrative.residential_home,
-                                       end__lt=datetime.datetime.now()) \
+        return Contract.objects.filter(is_active=True, end__lt=datetime.datetime.now()) \
             .order_by('main_tenant__residential_home', 'main_tenant__house_number', 'main_tenant__room_number')
 
 
@@ -154,25 +155,7 @@ class Contacts(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         return SubTenant.objects.filter()
 
 
-class MainTenantView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    model = MainTenant
-    context_object_name = 'object'
-    form_class = MainTenantUpdateForm
-    template_name = 'contracts/view.html'
-    permission_required = 'tenants.view_maintenant'
-    http_method_names = 'get'
-    max_width = '600px'
-
-    def test_func(self):
-        return self.get_object().residential_home == self.request.user.administrative.residential_home
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = str(self.get_object())
-        context['type'] = 'maintenant'
-        return context
-
-
+# TODO: remove
 class MainTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
                        UpdateView):
     model = MainTenant
@@ -189,30 +172,11 @@ class MainTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTe
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.method == 'GET':
-            context['first'] = True  # TODO: better way to indicate first time resp. not validated form?
+            context['get'] = True  # TODO: better way to indicate first time resp. not validated form?
         return context
 
 
-class SubTenantView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    model = SubTenant
-    context_object_name = 'object'
-    form_class = SubTenantUpdateForm
-    template_name = 'contracts/view.html'
-    permission_required = 'tenants.view_subtenant'
-    http_method_names = 'get'
-    max_width = '600px'
-
-    def test_func(self):
-        residential_home = self.get_object().residential_home
-        return not residential_home or residential_home == self.request.user.administrative.residential_home
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = str(self.get_object())
-        context['type'] = 'subtenant'
-        return context
-    
-    
+# TODO: remove
 class SubTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
                       UpdateView):
     model = SubTenant
@@ -230,7 +194,7 @@ class SubTenantUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTes
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.method == 'GET':
-            context['first'] = True  # TODO: better way to indicate first time resp. not validated form?
+            context['get'] = True  # TODO: better way to indicate first time resp. not validated form?
         return context
 
 
@@ -242,8 +206,8 @@ def search(request):
     query = request.POST['query']
 
     # TODO: complex query! full name, birthday, tenant_id
-    main_tenants = MainTenant.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
-    sub_tenants = SubTenant.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
+    main_tenants = MainTenant.objects.filter(Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query))
+    sub_tenants = SubTenant.objects.filter(Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query))
 
     context = {
         'main_tenants': main_tenants,

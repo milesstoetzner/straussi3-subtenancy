@@ -6,7 +6,7 @@ from tenants.forms import BOOLEAN_CHOICES
 class ContractForm(ModelForm):
     def clean(self):
         cleaned_date = super().clean()
-        main_tenant = cleaned_date.get('main_tenant')
+        maintenant = cleaned_date.get('maintenant')
         begin = cleaned_date.get('begin')
         end = cleaned_date.get('end')
         caution = cleaned_date.get('caution')
@@ -19,17 +19,17 @@ class ContractForm(ModelForm):
             if begin >= end:
                 self.add_error('end', 'Das Ende des Untermietvertrages muss nach dem Beginn sein!')
 
-        # main_tenant.begin_rent_agreement <= begin
-        if main_tenant and begin:
-            if main_tenant.begin_rent_agreement:
-                if main_tenant.begin_rent_agreement > begin:
+        # maintenant.begin_rent_agreement <= begin
+        if maintenant and begin:
+            if maintenant.begin_rent_agreement:
+                if maintenant.begin_rent_agreement > begin:
                     self.add_error('begin',
                                    'Der Begin des Untermietvertrages ist vor dem Beginn des Hauptmietvertrages!')
 
-        # main_tenant.end_rent_agreement >= end
-        if main_tenant and end:
-            if main_tenant.end_rent_agreement:
-                if main_tenant.end_rent_agreement < end:
+        # maintenant.end_rent_agreement >= end
+        if maintenant and end:
+            if maintenant.end_rent_agreement:
+                if maintenant.end_rent_agreement < end:
                     self.add_error('end', 'Das Ende des Untermietvertrages ist nach dem Ende des Hauptmietvertrages!')
 
         # positive caution
@@ -54,10 +54,10 @@ class ContractForm(ModelForm):
 
     class Meta:
         model = Contract
-        exclude = ['is_active']
+        exclude = ['is_active', 'version']
         widgets = {
-            'main_tenant': Select(attrs={'class': 'form-control'}),
-            'sub_tenant': Select(attrs={'class': 'form-control'}),
+            'maintenant': Select(attrs={'class': 'form-control'}),
+            'subtenant': Select(attrs={'class': 'form-control'}),
             'begin': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'end': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'caution': NumberInput(attrs={'class': 'form-control'}),
@@ -71,4 +71,4 @@ class ContractForm(ModelForm):
 
 class ContractUpdateForm(ContractForm):
     class Meta(ContractForm.Meta):
-        exclude = []
+        exclude = ['version']

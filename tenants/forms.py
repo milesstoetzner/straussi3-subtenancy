@@ -21,7 +21,7 @@ class UserForm(UserCreationForm):
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'birthday', 'phone_number']
         model = User
         widgets = {
-            'username': TextInput(attrs={'class': 'form-control', 'required': False}),
+            'username': TextInput(attrs={'class': 'form-control'}),
             'first_name': TextInput(attrs={'class': 'form-control'}),
             'last_name': TextInput(attrs={'class': 'form-control'}),
             'email': EmailInput(attrs={'class': 'form-control'}),
@@ -35,7 +35,7 @@ class UserForm(UserCreationForm):
 class UserUpdateForm(ModelForm):
 
     class Meta(UserForm.Meta):
-        fields = ['username', 'first_name', 'last_name', 'email', 'birthday', 'phone_number']
+        fields = ['first_name', 'last_name', 'email', 'birthday', 'phone_number']
 
 
 class MainTenantForm(ModelForm):

@@ -28,6 +28,19 @@
 
         {% endfor %}
 
+        <div class="dropdown-divider"></div>
+
+        <li><p class="dropdown-item disabled text-muted" style="margin-bottom: 0">Verträge</p></li>
+
+        {% if not contracts %}
+            <li><p class="dropdown-item disabled text-danger" style="margin-bottom: 0">Keine Suchergebnisse! <i class="far fa-frown"></i></p></li>
+        {% endif %}
+
+        {% for contract in contracts %}
+
+            <li><a class="dropdown-item" href="{% url 'contracts:ContractView' contract.pk %}">{{ contract }}</a></li>
+
+        {% endfor %}
 
     </div>
 

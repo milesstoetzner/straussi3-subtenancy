@@ -12,6 +12,7 @@ from django.db.models import ProtectedError
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from smtplib import SMTPException
+from django.contrib.auth.views import PasswordChangeView, PasswordResetView
 
 import datetime
 
@@ -34,9 +35,6 @@ def create_tenant(request, is_maintenant):
             tenant = tenant_form.save(False)
             tenant.user = user
             tenant.save()
-
-            # TODO: send email with id etc
-            # TODO: need confirmation?
 
             messages.success(request, 'Registrierung war erfolgreich. Du kannst dich nun einloggen')
             messages.success(request, 'Bei Kommunikation mit unserer Sprechstunde gebe bitte immer deine ID an. Deine ID lautet: ' + str(user.pk))
@@ -189,38 +187,28 @@ def contact_tenant(request, pk):
         messages.error(request, 'Als Untermieter kannst du keine Untermieter kontaktieren')
         return redirect('Requests')
 
+    # email content
+    msg = 'Hey,<br><br>'
+    if tenant.is_maintenant:
+        msg += 'ich interessiere mich für dein Angebot in dem Zeitraum ' + str(
+            tenant.maintenant.begin_subtenancy) + ' bis ' + str(tenant.maintenant.end_subtenancy) + '.'
+    else:
+        msg += 'ich interessiere mich für dein Angebot in dem Zeitraum ' + str(
+            tenant.subtenant.begin_subtenancy) + ' bis ' + str(tenant.subtenant.end_subtenancy) + '.'
+    msg += '<br>Du kannst mich über folgende Email kontaktieren: ' + tenant.email
+    msg += '<br><br>Grüße,<br>' + str(tenant)
+
     if request.method == 'POST':
 
-        # send email
-        # TODO: send contact email
-
         try:
-            msg = 'Hey,<br><br>'
-            if tenant.is_maintenant:
-                msg += 'ich interessiere mich für dein Angebot in dem Zeitraum ' + str(tenant.maintenant.begin_subtenancy) + ' bis ' + str(tenant.maintenant.end_subtenancy) + '.'
-            else:
-                msg += 'ich interessiere mich für dein Angebot in dem Zeitraum ' + str(tenant.subtenant.begin_subtenancy) + ' bis ' + str(tenant.subtenant.end_subtenancy) + '.'
-            msg += '<br>Du kannst mich über folgende Email kontaktieren: ' + tenant.email
-            msg += '<br><br>Grüße,<br>' + str(tenant)
-
             mail = EmailMessage('Ferienmiete Straußäcker 3 Kontaktaufnahme',
                 msg,
                 'HmjyGTxWRP1vtcLT@web.de',
                 [tenant.email])
-
             mail.content_subtype = "html"
             mail.send()
 
-            """
-            send_mail('Ferienmiete Straußäcker 3 Kontaktaufnahme',
-                      msg,
-                      'HmjyGTxWRP1vtcLT@web.de',
-                      [tenant.email],
-                      fail_silently=False,
-                      html_message=msg)
-            """
         except SMTPException as e:
-            print(e)
             if tenant.is_subtenant:
                 messages.error(request, 'Untermieter konnte nicht kontaktiert werden!')
                 return redirect('Requests')
@@ -241,6 +229,7 @@ def contact_tenant(request, pk):
         context = {}
         context['tenant'] = tenant
         context['title'] = 'Kontaktaufnahme'
+        context['msg'] = msg
         return render(request, 'tenants/contact.html', context)
 
 

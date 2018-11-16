@@ -12,11 +12,10 @@
 
                     <thead>
                     <tr>
+                        <th class="align-middle"></th>
                         <th class="align-middle">Hauptmieter</th>
                         <th class="align-middle">Untermieter</th>
-                        <th class="align-middle">Wohnheim</th>
-                        <th class="align-middle">Hausnummer</th>
-                        <th class="align-middle">Zimmernummer</th>
+                        <th class="align-middle">Zimmer</th>
                         <th class="align-middle">Beginn</th>
                         <th class="align-middle">Ende</th>
                     </tr>
@@ -28,11 +27,10 @@
                     {% for contract in object_list %}
 
                         <tr>
-                            <td class="align-middle">{{ contract.main_tenant.user.first_name }} {{ contract.main_tenant.user.last_name }}</td>
-                            <td class="align-middle">{{ contract.sub_tenant.user.first_name }} {{ contract.sub_tenant.user.last_name }}</td>
-                            <td class="align-middle">{{ contract.main_tenant.residential_home }}</td>
-                            <td class="align-middle">{{ contract.main_tenant.house_number }}</td>
-                            <td class="align-middle">{{ contract.main_tenant.room_number }}</td>
+                            <td class="align-middle"><a href="{% url 'contracts:ContractView' contract.pk %}" class="btn btn-primary"><i class="fas fa-file-contract"></i></a></td>
+                            <td class="align-middle">{{ contract.maintenant.user.first_name }} {{ contract.maintenant.user.last_name }}</td>
+                            <td class="align-middle">{{ contract.subtenant.user.first_name }} {{ contract.subtenant.user.last_name }}</td>
+                            <td class="align-middle">{{ contract.maintenant.house_number }} {{ contract.maintenant.room_number }}</td>
                             <td class="align-middle">{{ contract.begin }} ({{ contract.begin | date:"W" }})</td>
                             <td class="align-middle">{{ contract.end }} ({{ contract.end | date:"W" }})</td>
                         </tr>

@@ -1,3 +1,7 @@
+import contracts, os
+from django.apps import apps
+from django.urls import reverse
+from django.shortcuts import redirect
 from django.views.generic import View, CreateView, ListView, UpdateView, DetailView
 from .models import Contract
 from tenants.models import MainTenant, SubTenant
@@ -6,10 +10,11 @@ from .forms import ContractForm, ContractUpdateForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.core import serializers
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseNotFound
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import render
+from django.core.files.storage import FileSystemStorage
 
 import json
 import datetime
@@ -22,13 +27,11 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
 from .utils import render_to_pdf
 
-# TODO: remove residential home scope!
-
-# TODO: remove old subtenants without contracts
+# TODO: permissions einführen - nicht über flags
 
 
-# TODO: display main_tenant details und sub_tenant details
-class ContractCreate(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
+# TODO: display maintenant details und subtenant details
+class ContractCreate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = Contract
     title = 'Vertrag erstellen'
     template_name = 'contracts/create.html'
@@ -39,12 +42,15 @@ class ContractCreate(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessage
 
     # TODO: save contracts as pdf?
 
+    def test_func(self):
+        return self.request.user.is_assistant
+
     def form_valid(self, form):
         self.object = form.save()
-        self.object.main_tenant.is_searching = False
-        self.object.main_tenant.save()
-        self.object.sub_tenant.is_searching = False
-        self.object.sub_tenant.save()
+        self.object.maintenant.is_searching = False
+        self.object.maintenant.save()
+        self.object.subtenant.is_searching = False
+        self.object.subtenant.save()
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
@@ -57,14 +63,16 @@ class ContractCreate(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessage
         return context
 
 
-class ContractView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class ContractView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Contract
     context_object_name = 'object'
     form_class = ContractUpdateForm
     template_name = 'contracts/view.html'
-    permission_required = 'contracts.view_contract'
     http_method_names = 'get'
     max_width = '600px'
+
+    def test_func(self):
+        return self.request.user.is_assistant
 
     def get_success_url(self):
         return reverse_lazy('contracts:SubTenantView', args=(self.object.id,))
@@ -72,21 +80,20 @@ class ContractView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = str(self.get_object())
-        context['type'] = 'contract'
+        context['is_latest'] = self.object.is_latest()
         return context
 
 
-class ContractUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+class ContractUpdate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     model = Contract
     title = 'Vertrag ändern'
     form_class = ContractUpdateForm
     template_name = 'contracts/update.html'
     success_message = 'Änderungen erfolgreich übernommen!'
-    permission_required = 'contracts.change_contract'
     max_width = '600px'
 
     def test_func(self):
-        return self.get_object().main_tenant.residential_home == self.request.user.administrative.residential_home
+        return self.request.user.is_assistant
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -95,8 +102,7 @@ class ContractUpdate(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTest
         return context
 
 
-# TODO: create contract templates
-class ContractRender(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+class ContractPreviewPDF(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Contract
 
     def test_func(self):
@@ -106,8 +112,59 @@ class ContractRender(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         data = {
             'contract': self.get_object()
         }
-        pdf = render_to_pdf('contracts/contracts/' + self.get_object().main_tenant.residential_home.short + '.html', data)
+        pdf = render_to_pdf('contracts/contracts/' + self.get_object().maintenant.residential_home.short + '.html', data)
         return HttpResponse(pdf, content_type='application/pdf')
+
+
+# TODO: create contract templates
+class ContractRenderPDF(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = Contract
+
+    def test_func(self):
+        return self.request.user.is_assistant
+
+    def post(self, request, *args, **kwargs):
+        # TODO render new version of pdf
+        # TODO set newest version in contract.version
+
+        fs = FileSystemStorage()
+        self.get_object().version += 1
+        self.get_object().save()
+
+        filename = self.get_object().get_filename()
+        data = {
+            'contract': self.get_object()
+        }
+        pdf = render_to_pdf('contracts/contracts/' + self.get_object().maintenant.residential_home.short + '.html', data)
+
+        print('nach pdf')
+
+        path = os.path.join(apps.get_app_config('contracts').path, 'contracts', filename)
+
+        print('nach path')
+
+        fs.save(filename, pdf)
+
+        return redirect(reverse('contracts:ContractViewPDF'))
+
+
+class ContractViewPDF(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = Contract
+
+    def test_func(self):
+        return self.request.user.is_assistant
+
+    def get(self, request, *args, **kwargs):
+        fs = FileSystemStorage()
+        filename = self.get_object().get_filename()
+        path = os.path.join(apps.get_app_config('contracts').path, 'contracts', filename)
+        if fs.exists(path):
+            with fs.open(path) as pdf:
+                response = HttpResponse(pdf, content_type='application/pdf')
+                response['Content-Disposition'] = 'inline; filename=' + filename
+                return response
+        else:
+            return HttpResponseNotFound()
 
 
 class ContractsActive(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -121,7 +178,7 @@ class ContractsActive(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_queryset(self):
         return Contract.objects.filter(is_active=True, end__gte=datetime.datetime.now()) \
-            .order_by('main_tenant__residential_home', 'main_tenant__house_number', 'main_tenant__room_number')
+            .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number')
 
 
 class ContractsArchive(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -135,7 +192,7 @@ class ContractsArchive(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_queryset(self):
         return Contract.objects.filter(is_active=True, end__lt=datetime.datetime.now()) \
-            .order_by('main_tenant__residential_home', 'main_tenant__house_number', 'main_tenant__room_number')
+            .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number')
 
 
 @csrf_protect
@@ -149,9 +206,12 @@ def search(request):
     maintenants = MainTenant.objects.filter(Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query))
     subtenants = SubTenant.objects.filter(Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query))
 
+    # TODO: vertrag query hinzufügen
+
     context = {
         'maintenants': maintenants,
         'subtenants': subtenants,
+        'contracts': {},
         'query': query
     }
 

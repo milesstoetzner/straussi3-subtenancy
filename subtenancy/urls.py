@@ -11,4 +11,6 @@ urlpatterns = [
     path('impressum/', views.legal_notice, name='Impressum'),
     path('tenants/', include('tenants.urls')),
     path('contracts/', include('contracts.urls'))
+
+    # TODO: report bug
 ]

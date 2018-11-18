@@ -54,7 +54,7 @@ class ContractForm(ModelForm):
 
     class Meta:
         model = Contract
-        exclude = ['is_active', 'version']
+        exclude = ['is_active', 'version', 'is_changed']
         widgets = {
             'maintenant': Select(attrs={'class': 'form-control'}),
             'subtenant': Select(attrs={'class': 'form-control'}),
@@ -71,4 +71,4 @@ class ContractForm(ModelForm):
 
 class ContractUpdateForm(ContractForm):
     class Meta(ContractForm.Meta):
-        exclude = ['version']
+        exclude = ['version', 'is_changed']

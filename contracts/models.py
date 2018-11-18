@@ -19,6 +19,8 @@ class Contract(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    is_changed = models.BooleanField(default=True) # TODO: implement logic
+
     version = models.IntegerField(default=1)
 
     # TODO: Zimmer Checkliste
@@ -30,10 +32,14 @@ class Contract(models.Model):
         return reverse('contracts:ContractUpdate', kwargs={'pk': self.pk})
 
     def is_latest(self):
-        return self.updated_at >= self.maintenant.updated_at and self.updated_at >= self.subtenant.updated_at
+        return self.is_changed and self.updated_at >= self.maintenant.updated_at and self.updated_at >= self.subtenant.updated_at
 
-    def get_filename(self):
-        return 'contract_' + str(self.pk) + '_version_' + str(self.version) + '.pdf'
+    def get_filename(self, version=None):
+        v = version if version else self.version
+        return 'contract_' + str(self.pk) + '_version_' + str(v) + '.pdf'
+
+    def get_versions(self):
+        return list(range(self.version , 0, -1))
 
     def __str__(self):
         return str(

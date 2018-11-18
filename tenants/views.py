@@ -12,9 +12,12 @@ from django.db.models import ProtectedError
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from smtplib import SMTPException
-from django.contrib.auth.views import PasswordChangeView, PasswordResetView
 
 import datetime
+
+# TODO: change password
+# TODO: reset password
+# TODO: permissions
 
 
 @csrf_protect

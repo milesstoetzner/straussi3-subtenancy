@@ -5,7 +5,6 @@ from django.shortcuts import redirect
 from django.views.generic import View, CreateView, ListView, UpdateView, DetailView
 from .models import Contract
 from tenants.models import MainTenant, SubTenant
-from tenants.forms import MainTenantForm, MainTenantUpdateForm, SubTenantForm, SubTenantUpdateForm
 from .forms import ContractForm, ContractUpdateForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
@@ -15,6 +14,7 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
+from django.contrib import messages
 
 import json
 import datetime
@@ -75,7 +75,7 @@ class ContractView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return self.request.user.is_assistant
 
     def get_success_url(self):
-        return reverse_lazy('contracts:SubTenantView', args=(self.object.id,))
+        return reverse_lazy('contracts:SubTenantView', args=(self.object.id,)) # TODO was?!
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -127,11 +127,9 @@ class ContractRenderPDF(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         # TODO render new version of pdf
         # TODO set newest version in contract.version
 
-        fs = FileSystemStorage()
         self.get_object().version += 1
         self.get_object().save()
 
-        filename = self.get_object().get_filename()
         data = {
             'contract': self.get_object()
         }
@@ -139,13 +137,18 @@ class ContractRenderPDF(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
         print('nach pdf')
 
-        path = os.path.join(apps.get_app_config('contracts').path, 'contracts', filename)
+        # filename = self.get_object().get_filename()
+        # path = os.path.join(apps.get_app_config('contracts').path, 'contracts', filename)
 
         print('nach path')
 
-        fs.save(filename, pdf)
+        fs = FileSystemStorage()
+        # fs.save('test.pdf', pdf)
 
-        return redirect(reverse('contracts:ContractViewPDF'))
+        print('nach save')
+
+        messages.success(request, 'PDF wurde erfolgreich erstellt!')
+        return redirect(reverse('contracts:ContractView', args=(self.get_object().id,)))
 
 
 class ContractViewPDF(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -156,7 +159,7 @@ class ContractViewPDF(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         fs = FileSystemStorage()
-        filename = self.get_object().get_filename()
+        filename = self.get_object().get_filename(self.kwargs['v'])
         path = os.path.join(apps.get_app_config('contracts').path, 'contracts', filename)
         if fs.exists(path):
             with fs.open(path) as pdf:

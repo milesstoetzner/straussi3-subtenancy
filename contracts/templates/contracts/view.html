@@ -2,21 +2,24 @@
 
 {% block content %}
 
-    {% if not is_latest %}
-    <div class="alert bg-danger text-light text-center" style="margin-top: 1rem">
-        <p>Es gab eine Änderung. Eine Änderung kann auftreten, wenn du Details geändert hast oder einer der Mieter seine Informationen geändert hat.</p>
-        <p>Du kannst eine Vorschau des Vertrags betrachten und gegebenenfalls einen neuen Vertrag generieren</p>
-        <p>Sofern die Änderung nicht auf deine Veranlassung getätigt wurde, solltest du diese ignorieren!</p>
+    {% if not is_latest or is_latest%}
+        <div class="alert bg-danger text-light text-center" style="margin-top: 1rem">
+            <p>Es gab eine Änderung. Eine Änderung kann auftreten, wenn du Details geändert hast oder einer der Mieter
+                seine Informationen geändert hat.</p>
+            <p>Du kannst eine Vorschau des Vertrags betrachten und gegebenenfalls einen neuen Vertrag generieren</p>
+            <p>Sofern die Änderung nicht auf deine Veranlassung getätigt wurde, solltest du diese ignorieren!</p>
 
-        <a class="btn btn-block btn-light" href="{% url 'contracts:ContractPreviewPDF' object.pk%}" target="_blank">Vorschau</a>
 
-        <form action="{% url 'contracts:ContractRenderPDF' object.pk %}" method="POST">
+            <form action="{% url 'contracts:ContractRenderPDF' object.pk %}" method="POST">
+                {% csrf_token %}
 
-            {% csrf_token %}
-            <button class="btn btn-block btn-light">Neue PDF erstellen</button>
+                <a class="btn btn-block btn-light" href="{% url 'contracts:ContractPreviewPDF' object.pk %}"
+                   target="_blank">Vorschau</a>
 
-        </form>
-    </div>
+                <button class="btn btn-block btn-light">Neue PDF erstellen</button>
+
+            </form>
+        </div>
     {% endif %}
 
     <form>
@@ -33,11 +36,29 @@
                 </fieldset>
 
                 <a class="btn btn-block btn-success" href="{{ object.get_update_url }}">Änderungen vornehmen</a>
-                <a class="btn btn-block btn-success" href="{% url 'contracts:ContractViewPDF' object.pk %}" target="_blank">PDF betrachten</a>
+                <a class="btn btn-block btn-success"
+                   href="{% url 'contracts:ContractViewPDF' object.pk object.version %}"
+                   target="_blank">PDF betrachten</a>
 
             </div>
 
         </div>
     </form>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Ältere Versionen
+            </h5>
+
+            {% for v in object.get_versions %}
+
+                <a class="btn btn-block btn-info"
+                   href="{% url 'contracts:ContractViewPDF' object.pk v %}">{% if v == object.version %}Aktuelle Version{% else %}Version {{ v }}{% endif %}</a>
+
+            {% endfor %}
+
+        </div>
+    </div>
+
 
 {% endblock %}

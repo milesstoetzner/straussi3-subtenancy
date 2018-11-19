@@ -38,7 +38,6 @@ class ContractCreate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     form_class = ContractForm
     form_class.use_required_attribute = False
     permission_required = 'contracts.add_contract'
-    max_width = '600px'
 
     # TODO: save contracts as pdf?
 

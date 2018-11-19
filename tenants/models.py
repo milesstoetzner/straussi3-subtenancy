@@ -44,6 +44,9 @@ class User(AbstractUser):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def get_absolute_url(self):
+        return reverse('tenants:TenantView', kwargs={'pk': self.pk})
+
     def __str__(self):
         return self.first_name + ' ' + self.last_name + ' (' + str(self.pk) + ')'
 

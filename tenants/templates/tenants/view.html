@@ -38,12 +38,12 @@
                 <a href="{% url 'tenants:TenantUpdate' tenant.id %}" class="btn btn-success btn-block">Informationen
                     aktualisieren</a>
 
-                <a href="{% url 'password_change' %}" class="btn btn-success btn-block">Passwort ändern</a>
-
-                {% if user.is_maintenant or user.is_subtenant %}
-                    <a href="{% url 'tenants:TenantDelete' tenant.id %}" class="btn btn-danger btn-block">Account
-                        löschen</a>
+                {% if tenant.id == user.id %}
+                    <a href="{% url 'password_change' %}" class="btn btn-success btn-block">Passwort ändern</a>
                 {% endif %}
+
+                <a href="{% url 'tenants:TenantDelete' tenant.id %}" class="btn btn-danger btn-block">Account
+                    löschen</a>
 
             {% endif %}
 
@@ -51,7 +51,7 @@
 
     </div>
 
-    {% if user.is_assistant %}
+    {% if user.is_assistant and tenant.is_maintenant or tenant.is_subtenant %}
 
         <div class="card">
             <div class="card-body">
@@ -66,6 +66,10 @@
                                                     class="btn btn-info btn-block"><i
                                 class="fas fa-file-contract icon-text"></i>{{ contract }}</a></td>
 
+                    {% empty %}
+                        <div class="alert bg-info text-white text-center" role="alert">
+                            Keine Verträge vorhanden
+                        </div>
                     {% endfor %}
 
                 {% else %}
@@ -75,6 +79,12 @@
                         <td class="align-middle"><a href="{% url 'contracts:ContractView' contract.pk %}"
                                                     class="btn btn-info btn-block"><i
                                 class="fas fa-file-contract icon-text"></i>{{ contract }}</a></td>
+
+                    {% empty %}
+
+                        <div class="alert bg-info text-white text-center" role="alert">
+                            Keine Verträge vorhanden
+                        </div>
 
                     {% endfor %}
 

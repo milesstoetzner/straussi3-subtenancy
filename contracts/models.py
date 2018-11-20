@@ -19,9 +19,9 @@ class Contract(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    is_changed = models.BooleanField(default=True) # TODO: implement logic in update, create view
+    is_changed = models.BooleanField(default=True)
 
-    version = models.IntegerField(default=1)
+    version = models.IntegerField(default=0)
 
     # TODO: Zimmer Checkliste
 

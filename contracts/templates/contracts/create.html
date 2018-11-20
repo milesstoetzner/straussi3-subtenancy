@@ -11,7 +11,31 @@
             <div class="card-body">
                 <h5 class="card-title">{{ view.title }}</h5>
 
+                <div style="margin-bottom: 1rem">
+                    <a href="" class="btn btn-primary" style="width: 50%" id="view_maintenant" target="_blank"><i class="fas fa-user icon-text"></i>Hauptmieter anzeigen</a>
+                    <a href="" class="btn btn-primary" style="width: 49%" id="view_subtenant" target="_blank"><i class="fas fa-user icon-text"></i>Untermieter anzeigen</a>
+                </div>
+
                 {% include 'tenants/create_update_field.html' %}
+
+                <script>
+
+                    "use strict";
+
+                    document.getElementById('view_maintenant').href = '/tenants/view/' + document.getElementById('id_maintenant').value;
+                    document.getElementById('view_subtenant').href = '/tenants/view/' + document.getElementById('id_subtenant').value;
+
+                    document.getElementById('id_maintenant').onchange = function set_maintenant() {
+                        let id = document.getElementById('id_maintenant').value;
+                        document.getElementById('view_maintenant').href = '/tenants/view/' + id
+                    };
+
+                    document.getElementById('id_subtenant').onchange = function set_maintenant() {
+                        let id = document.getElementById('id_subtenant').value;
+                        document.getElementById('view_subtenant').href = '/tenants/view/' + id
+                    };
+
+                </script>
 
                 <!-- Button trigger modal -->
                 <button class="btn btn-success btn-block" data-toggle="modal" data-target="#createModal"
@@ -31,52 +55,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                Möchtest du wirklich einen Vertrag mit den folgenden Informationen erstellen?
-
-                                <div id="contractDetails"></div>
-
-                                <script>
-                                    function contractDetails() {
-                                        let details = document.getElementsByClassName('form-group');
-                                        let text = '<br>';
-                                        console.log(details);
-                                        for (let i = 0; i < details.length; i++) {
-                                            let id = details[i].getElementsByTagName('label')[0].htmlFor;
-                                            let label = details[i].getElementsByTagName('label')[0].innerHTML;
-                                            let element = document.getElementById(id);
-
-                                            console.log(element);
-
-                                            let value;
-                                            if (element.tagName === 'SELECT') {
-                                                value = element.options[element.selectedIndex].value;
-
-                                                if (id === 'id_main_tenant' || id === 'id_sub_tenant') {
-                                                    <!-- TODO: query updateView? -->
-                                                    let answer = get(id.replace('id_', '').replace('_', '') + '/' + value);
-                                                    text += label + '<br>';
-                                                    text += '' + answer + '';
-                                                    text += '<br>';
-                                                } else {
-                                                    text += label + ' ' + value + '<br>';
-                                                }
-
-                                            } else {
-                                                text += label + ' ' + element.value + '<br>';
-                                            }
-
-                                        }
-                                        document.getElementById('contractDetails').innerHTML = text;
-                                    }
-
-                                    function get(url) {
-                                        let xmlHttp = new XMLHttpRequest();
-                                        xmlHttp.open("GET", url, false);
-                                        xmlHttp.send(null);
-                                        return xmlHttp.responseText;
-                                    }
-
-                                </script>
+                                Möchtest du wirklich einen Vertrag erstellen?
                             </div>
                             <div class="modal-footer">
                                 <button class="btn btn-danger float-left" data-dismiss="modal">Abbrechen</button>

@@ -4,13 +4,13 @@
 
         <li><p class="dropdown-item disabled text-muted" style="margin-bottom: 0">Hauptmieter</p></li>
 
-        {% if not maintenants %}
-            <li><p class="dropdown-item disabled text-danger" style="margin-bottom: 0">Keine Suchergebnisse! <i class="far fa-frown"></i></p></li>
-        {% endif %}
-
         {% for maintenant in maintenants %}
 
             <li><a class="dropdown-item" href="{% url 'tenants:TenantView' maintenant.pk %}">{{ maintenant }}</a></li>
+
+            {% empty %}
+
+            <li><p class="dropdown-item disabled text-danger" style="margin-bottom: 0">Keine Suchergebnisse! <i class="far fa-frown"></i></p></li>
 
         {% endfor %}
 
@@ -18,13 +18,13 @@
 
         <li><p class="dropdown-item disabled text-muted" style="margin-bottom: 0">Untermieter</p></li>
 
-        {% if not subtenants %}
-            <li><p class="dropdown-item disabled text-danger" style="margin-bottom: 0">Keine Suchergebnisse! <i class="far fa-frown"></i></p></li>
-        {% endif %}
-
         {% for subtenant in subtenants %}
 
             <li><a class="dropdown-item" href="{% url 'tenants:TenantView' subtenant.pk %}">{{ subtenant }}</a></li>
+
+            {% empty %}
+
+            <li><p class="dropdown-item disabled text-danger" style="margin-bottom: 0">Keine Suchergebnisse! <i class="far fa-frown"></i></p></li>
 
         {% endfor %}
 
@@ -32,13 +32,14 @@
 
         <li><p class="dropdown-item disabled text-muted" style="margin-bottom: 0">Verträge</p></li>
 
-        {% if not contracts %}
-            <li><p class="dropdown-item disabled text-danger" style="margin-bottom: 0">Keine Suchergebnisse! <i class="far fa-frown"></i></p></li>
-        {% endif %}
-
         {% for contract in contracts %}
 
             <li><a class="dropdown-item" href="{% url 'contracts:ContractView' contract.pk %}">{{ contract }}</a></li>
+
+            {% empty %}
+
+            <li><p class="dropdown-item disabled text-danger" style="margin-bottom: 0">Keine Suchergebnisse! <i class="far fa-frown"></i></p></li>
+
 
         {% endfor %}
 

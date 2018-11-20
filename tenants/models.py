@@ -2,6 +2,8 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 
+# TODO: implement comments
+
 
 class ResidentialHome(models.Model):
     name = models.CharField('Name', max_length=250)
@@ -76,10 +78,6 @@ class MainTenant(models.Model):
     def get_all_contracts(self):
         return self.contract_set.all()
 
-    # TODO: implement comments
-    def get_all_comments(self):
-        return []
-
     def __str__(self):
         return str(self.pk) + ': ' + self.user.first_name + ' ' + self.user.last_name + ' (' + str(self.user.birthday) + ')' + ' (' + str(self.tenant_id) + ')'
 
@@ -116,9 +114,7 @@ class SubTenant(models.Model):
     def get_all_contracts(self):
         return self.contract_set.all()
 
-    # TODO: implement comments
-    def get_all_comments(self):
-        return []
+
 
     def __str__(self):
         return str(self.pk) + ': ' + self.user.first_name + ' ' + self.user.last_name + ' (' + str(self.user.birthday) + ')' + ' (' + str(self.student_id) + ')'

@@ -10,11 +10,11 @@ urlpatterns = [
 
     # contracts
     path('create', views.ContractCreate.as_view(), name="Ferienmiete"),
-    path('view/<int:pk>/', views.ContractView.as_view(), name='ContractView'),
+    path('view/<int:pk>/', views.view_contract, name='ContractView'),
     path('update/<int:pk>/', views.ContractUpdate.as_view(), name='ContractUpdate'),
-    path('preview/<int:pk>/', views.ContractPreviewPDF.as_view(), name='ContractPreviewPDF'),
-    path('render/<int:pk>/', views.ContractRenderPDF.as_view(), name='ContractRenderPDF'),
-    path('pdf/<int:pk>/<int:v>', views.ContractViewPDF.as_view(), name='ContractViewPDF'),
+    path('preview/<int:pk>/', views.preview_contract_pdf, name='ContractPreviewPDF'),
+    path('save/<int:pk>/', views.save_contract_pdf, name='ContractSavePDF'),
+    path('pdf/<int:pk>/<int:v>', views.view_contract_pdf, name='ContractViewPDF'),
 
     path('maintenant/<int:pk>', views.main_tenant_json, name='MainTenantJSON'),
     path('subtenant/<int:pk>', views.sub_tenant_json, name='SubTenantJSON'),

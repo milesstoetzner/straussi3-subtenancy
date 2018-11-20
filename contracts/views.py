@@ -1,8 +1,7 @@
-import contracts, os
+import os
 from django.apps import apps
 from django.urls import reverse
-from django.shortcuts import redirect
-from django.views.generic import View, CreateView, ListView, UpdateView, DetailView
+from django.views.generic import CreateView, ListView, UpdateView, DetailView
 from .models import Contract
 from tenants.models import MainTenant, SubTenant
 from .forms import ContractForm, ContractUpdateForm
@@ -10,24 +9,28 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.core import serializers
 from django.http import HttpResponseRedirect, HttpResponseNotFound
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_GET
 from django.views.decorators.csrf import csrf_protect
-from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
+from django.shortcuts import redirect, render, get_object_or_404
 
 import json
 import datetime
 
 from django.db.models import Q
 
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 from django.http import HttpResponse
 from .utils import render_to_pdf
 
-# TODO: permissions einführen - nicht über flags
+# TODO: authorization using permissions or user flags?
+
+
+def is_assistant(user):
+    return user.is_assistant
 
 
 # TODO: display maintenant details und subtenant details
@@ -58,29 +61,23 @@ class ContractCreate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.method == 'GET':
-            context['get'] = True  # TODO: better way to indicate first time resp. not validated form?
+            context['get'] = True
         return context
 
 
-class ContractView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Contract
-    context_object_name = 'object'
-    form_class = ContractUpdateForm
-    template_name = 'contracts/view.html'
-    http_method_names = 'get'
-    max_width = '600px'
+@login_required
+@user_passes_test(is_assistant)
+@require_GET
+def view_contract(request, pk):
+    contract = get_object_or_404(Contract, pk=pk)
 
-    def test_func(self):
-        return self.request.user.is_assistant
+    context = {}
+    context['object'] = contract
+    context['form'] = ContractUpdateForm(instance=contract)
+    context['title'] = str(contract)
+    context['is_latest'] = False # TODO: self.object.is_latest()
 
-    def get_success_url(self):
-        return reverse_lazy('contracts:SubTenantView', args=(self.object.id,)) # TODO was?!
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = str(self.get_object())
-        context['is_latest'] = self.object.is_latest()
-        return context
+    return render(request, 'contracts/view.html', context)
 
 
 class ContractUpdate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
@@ -97,76 +94,71 @@ class ContractUpdate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.method == 'GET':
-            context['get'] = True  # TODO: better way to indicate first time resp. not validated form?
+            context['get'] = True
         return context
 
 
-class ContractPreviewPDF(LoginRequiredMixin, UserPassesTestMixin, DetailView):
-    model = Contract
-
-    def test_func(self):
-        return self.request.user.is_assistant
-
-    def get(self, request, *args, **kwargs):
-        data = {
-            'contract': self.get_object()
-        }
-        pdf = render_to_pdf('contracts/contracts/' + self.get_object().maintenant.residential_home.short + '.html', data)
-        return HttpResponse(pdf, content_type='application/pdf')
-
-
-# TODO: create contract templates
-class ContractRenderPDF(LoginRequiredMixin, UserPassesTestMixin, DetailView):
-    model = Contract
-
-    def test_func(self):
-        return self.request.user.is_assistant
-
-    def post(self, request, *args, **kwargs):
-        # TODO render new version of pdf
-        # TODO set newest version in contract.version
-
-        self.get_object().version += 1
-        self.get_object().save()
-
-        data = {
-            'contract': self.get_object()
-        }
-        pdf = render_to_pdf('contracts/contracts/' + self.get_object().maintenant.residential_home.short + '.html', data)
-
-        print('nach pdf')
-
-        # filename = self.get_object().get_filename()
-        # path = os.path.join(apps.get_app_config('contracts').path, 'contracts', filename)
-
-        print('nach path')
-
-        fs = FileSystemStorage()
-        # fs.save('test.pdf', pdf)
-
-        print('nach save')
-
-        messages.success(request, 'PDF wurde erfolgreich erstellt!')
-        return redirect(reverse('contracts:ContractView', args=(self.get_object().id,)))
+@login_required
+@user_passes_test(is_assistant)
+@require_GET
+def view_contract_pdf(request, pk, v):
+    fs = FileSystemStorage()
+    filename = 'contract_' + str(pk) + '_version_' + str(v) + '.pdf'
+    path = os.path.join(apps.get_app_config('contracts').path, 'contracts', filename)
+    if fs.exists(path):
+        with fs.open(path) as pdf:
+            response = HttpResponse(pdf, content_type='application/pdf')
+            response['Content-Disposition'] = 'inline; filename=' + filename
+            return response
+    else:
+        return HttpResponseNotFound()
 
 
-class ContractViewPDF(LoginRequiredMixin, UserPassesTestMixin, DetailView):
-    model = Contract
+@login_required
+@user_passes_test(is_assistant)
+@require_GET
+def preview_contract_pdf(request, pk):
+    contract = get_object_or_404(Contract, pk=pk)
 
-    def test_func(self):
-        return self.request.user.is_assistant
+    data = {
+        'contract': contract
+    }
+    pdf = render_to_pdf(os.path.join('contracts', 'contracts', str(contract.maintenant.residential_home.short) + '.html'), data)
+    return HttpResponse(pdf, content_type='application/pdf')
 
-    def get(self, request, *args, **kwargs):
-        fs = FileSystemStorage()
-        filename = self.get_object().get_filename(self.kwargs['v'])
-        path = os.path.join(apps.get_app_config('contracts').path, 'contracts', filename)
-        if fs.exists(path):
-            with fs.open(path) as pdf:
-                response = HttpResponse(pdf, content_type='application/pdf')
-                response['Content-Disposition'] = 'inline; filename=' + filename
-                return response
-        else:
-            return HttpResponseNotFound()
+
+@csrf_protect
+@login_required
+@user_passes_test(is_assistant)
+@require_POST
+def save_contract_pdf(request, pk):
+    contract = get_object_or_404(Contract, pk=pk)
+    contract.version += 1
+
+    # TODO: create contract templates
+    data = {
+        'contract': contract
+    }
+    pdf = render_to_pdf(os.path.join('contracts', 'contracts', str(contract.maintenant.residential_home.short) + '.html'), data)
+
+    print('nach pdf')
+
+    # TODO: save pdf
+    # filename = contract.get_filename()
+    # path = os.path.join(apps.get_app_config('contracts').path, 'contracts', filename)
+
+    print('nach path')
+
+    fs = FileSystemStorage()
+    # fs.save('test.pdf', pdf)
+
+    contract.is_changed = False
+    contract.save()
+
+    print('nach save')
+
+    messages.success(request, 'PDF wurde erfolgreich erstellt!')
+    return redirect(reverse('contracts:ContractView', args=(contract.id,)))
 
 
 class ContractsActive(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -174,13 +166,11 @@ class ContractsActive(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'contracts/list.html'
     paginate_by = 50
     max_width = '100%'
+    queryset = Contract.objects.filter(is_active=True, end__gte=datetime.datetime.now()) \
+            .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number')
 
     def test_func(self):
-        return self.request.user.is_assistant or self.request.user.is_external or self.request.user.is_staff
-
-    def get_queryset(self):
-        return Contract.objects.filter(is_active=True, end__gte=datetime.datetime.now()) \
-            .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number')
+        return self.request.user.is_assistant or self.request.user.is_external
 
 
 class ContractsArchive(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -188,18 +178,16 @@ class ContractsArchive(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'contracts/list.html'
     paginate_by = 50
     max_width = '100%'
+    queryset = Contract.objects.filter(is_active=True, end__lt=datetime.datetime.now()) \
+            .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number')
 
     def test_func(self):
-        return self.request.user.is_assistant or self.request.user.is_external or self.request.user.is_staff
-
-    def get_queryset(self):
-        return Contract.objects.filter(is_active=True, end__lt=datetime.datetime.now()) \
-            .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number')
+        return self.request.user.is_assistant or self.request.user.is_external
 
 
 @csrf_protect
 @login_required
-@permission_required(['tenants.view_maintenant', 'tenants.view_subtenant', 'contracts.view_contract'])
+@user_passes_test(is_assistant)
 @require_POST
 def search(request):
     query = request.POST['query']
@@ -221,7 +209,8 @@ def search(request):
 
 
 @login_required
-@permission_required('tenants.view_maintenant')
+@user_passes_test(is_assistant)
+@require_GET
 def main_tenant_json(request, pk):
     obj = MainTenant.objects.get(pk=pk)
     data = serializers.serialize('json', [obj, ])
@@ -232,7 +221,8 @@ def main_tenant_json(request, pk):
 
 
 @login_required
-@permission_required('tenants.view_subtenant')
+@user_passes_test(is_assistant)
+@require_GET
 def sub_tenant_json(request, pk):
     obj = SubTenant.objects.get(pk=pk)
     data = serializers.serialize('json', [obj, ])

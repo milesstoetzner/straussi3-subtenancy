@@ -20,13 +20,15 @@
 <header style="text-align: center;">
 
 
-    <div class="bg-light text-center" style="font-size: 12px; padding-right: 1rem">
+    <div class="bg-light" style="font-size: 12px; padding-right: 1rem">
+
         {% if user.is_authenticated %}
             Als {{ user.first_name }} {{ user.last_name }} eingeloggt. <a class="" href="{% url 'logout' %}" id="{% url 'logout' %}">Logout</a>
         {% else %}
-            Hier kannst du dich einloggen.
-            <a class="" href="{% url 'login' %}" id="{% url 'login' %}">Login</a>
+            Hier kannst du dich einloggen. <a class="" href="{% url 'login' %}" id="{% url 'login' %}">Login</a>
         {% endif %}
+
+
     </div>
 
     {% if user.is_authenticated and user.is_assistant %}
@@ -54,7 +56,7 @@
         {% if user.is_authenticated %}
 
             <li class="nav-item">
-                <a class="btn btn-primary" href="{% url 'tenants:TenantView' user.pk %}" id="{% url 'tenants:TenantView' user.pk %}"><i
+                <a class="btn btn-primary" href="{% url 'Profile' %}" id="{% url 'Profile' %}"><i
                         class="fas fa-user icon-text"></i>Profil</a>
             </li>
 

@@ -24,7 +24,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 from django.http import HttpResponse
-from .utils import render_to_pdf
+from .utils import render_html_to_pdf, save_html_as_pdf
 
 # TODO: authorization using permissions or user flags?
 
@@ -123,7 +123,8 @@ def preview_contract_pdf(request, pk):
     data = {
         'contract': contract
     }
-    pdf = render_to_pdf(os.path.join('contracts', 'contracts', str(contract.maintenant.residential_home.short) + '.html'), data)
+
+    pdf = render_html_to_pdf(os.path.join('contracts', 'contracts', str(contract.maintenant.residential_home.short) + '.html'), data)
     return HttpResponse(pdf, content_type='application/pdf')
 
 
@@ -132,32 +133,28 @@ def preview_contract_pdf(request, pk):
 @user_passes_test(is_assistant)
 @require_POST
 def save_contract_pdf(request, pk):
+
     contract = get_object_or_404(Contract, pk=pk)
     contract.version += 1
 
     # TODO: create contract templates
+
     data = {
         'contract': contract
     }
-    pdf = render_to_pdf(os.path.join('contracts', 'contracts', str(contract.maintenant.residential_home.short) + '.html'), data)
 
-    print('nach pdf')
+    source = os.path.join('contracts', 'contracts', str(contract.maintenant.residential_home.short) + '.html')
+    destination = os.path.join('contracts', 'contracts', 'contract_' + contract.pk + '_version' + str(contract.version))
 
-    # TODO: save pdf
-    # filename = contract.get_filename()
-    # path = os.path.join(apps.get_app_config('contracts').path, 'contracts', filename)
+    status = save_html_as_pdf(source, destination, data)
 
-    print('nach path')
+    if status:
+        contract.is_changed = False
+        contract.save()
+        messages.success(request, 'PDF wurde erfolgreich erstellt!')
+    else:
+        messages.error(request, 'PDF konnte nicht erstellt werden!')
 
-    fs = FileSystemStorage()
-    # fs.save('test.pdf', pdf)
-
-    contract.is_changed = False
-    contract.save()
-
-    print('nach save')
-
-    messages.success(request, 'PDF wurde erfolgreich erstellt!')
     return redirect(reverse('contracts:ContractView', args=(contract.id,)))
 
 

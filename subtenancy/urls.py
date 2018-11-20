@@ -14,6 +14,9 @@ urlpatterns = [
     path('tenants/', include('tenants.urls')),
     path('contracts/', include('contracts.urls')),
 
+    path('register/maintenant', tenant_views.create_tenant, {'is_maintenant': True}, name='MainTenantCreate'),
+    path('register/subtenant', tenant_views.create_tenant, {'is_maintenant': False}, name='SubTenantCreate'),
+
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('password_change/', views.PasswordChange.as_view(), name='password_change'),

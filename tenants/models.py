@@ -114,8 +114,6 @@ class SubTenant(models.Model):
     def get_all_contracts(self):
         return self.contract_set.all()
 
-
-
     def __str__(self):
         return str(self.pk) + ': ' + self.user.first_name + ' ' + self.user.last_name + ' (' + str(self.user.birthday) + ')' + ' (' + str(self.student_id) + ')'
 

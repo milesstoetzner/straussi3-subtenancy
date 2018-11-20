@@ -64,13 +64,14 @@
 
         {% if not user.is_maintenant and not user.is_subtenant %}
 
+
             <li class="nav-item">
-                <a class="btn btn-primary" href="{% url 'tenants:MainTenantCreate' %}" id="{% url 'tenants:MainTenantCreate' %}"><i
+                <a class="btn btn-primary" href="{% url 'MainTenantCreate' %}" id="{% url 'MainTenantCreate' %}"><i
                         class="fas fa-user-edit icon-text"></i>Hauptmieter</a>
             </li>
 
             <li class="nav-item">
-                <a class="btn btn-primary" href="{% url 'tenants:SubTenantCreate' %}" id="{% url 'tenants:SubTenantCreate' %}"><i
+                <a class="btn btn-primary" href="{% url 'SubTenantCreate' %}" id="{% url 'SubTenantCreate' %}"><i
                         class="fas fa-user-edit icon-text"></i>Untermieter</a>
             </li>
 

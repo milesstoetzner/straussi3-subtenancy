@@ -183,16 +183,25 @@ class ContractsArchive(LoginRequiredMixin, UserPassesTestMixin, ListView):
 def search(request):
     query = request.POST['query']
 
-    # TODO: complex query! full name, birthday, tenant_id
-    maintenants = MainTenant.objects.filter(Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query))
-    subtenants = SubTenant.objects.filter(Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query))
+    try:
+        query_int = int(query)
+    except ValueError:
+        query_int = -1
 
-    # TODO: vertrag query hinzufügen
+    try:
+        d = datetime.datetime.strptime(query, '%d.%m.%Y')
+        query_date = d.strftime('%Y-%m-%d')
+    except ValueError:
+        query_date = "1111-11-11"
+
+    maintenants = MainTenant.objects.filter(Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query) | Q(user_id=query_int) | Q(tenant_id=query_int) | Q(user__birthday=query_date))
+    subtenants = SubTenant.objects.filter(Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query) | Q(user_id=int(query_int)) | Q(student_id=query_int) | Q(user__birthday=query_date))
+    contracts = Contract.objects.filter(Q(id=query_int) | Q(begin=query_date) | Q(end=query_date))
 
     context = {
         'maintenants': maintenants,
         'subtenants': subtenants,
-        'contracts': {},
+        'contracts': contracts,
         'query': query
     }
 

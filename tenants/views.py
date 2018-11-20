@@ -122,17 +122,30 @@ def update_tenant(request, pk):
         if user_form.is_valid() and tenant_form.is_valid():
 
             if user_form.has_changed() or tenant_form.has_changed():
+
+                """
+                changes = []
+                for field in user_form.changed_data:
+                    msg = User._meta.get_field(field).verbose_name + ': "'
+                    msg += user_form.data[field] + '" zu "'
+                    msg += user_form.instance.__getattribute__(field) + '"'
+                    changes.append(msg)
+
+                messages.success(request, "Folgende Änderungen wurden übernommen: %s." % ",".join(changes))
+                """
+
                 user_form.save()
                 tenant_form.save()
 
                 messages.success(request, 'Änderungen wurden erfoglreich übernommen!')
-                messages.success(request, "The following fields changed: %s" % ", ".join(user_form.changed_data))
-                messages.success(request, "The following fields changed: %s" % ", ".join(tenant_form.changed_data))
-                return redirect(reverse('tenants:TenantView', kwargs={'pk': tenant.pk})) # TODO: tenants are not allowed to see this route!
+
             else:
                 messages.info(request, 'Es gab keine Änderungen!')
-                return redirect(reverse('tenants:TenantView', kwargs={'pk': tenant.pk})) # TODO: tenants are not allowed to see this route!
 
+            if request.user.is_assistant:
+                return redirect(reverse('tenants:TenantView', kwargs={'pk': tenant.pk}))
+            else:
+                return redirect(reverse('Profile'))
 
     else:
 

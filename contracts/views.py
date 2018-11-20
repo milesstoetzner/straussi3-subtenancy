@@ -9,7 +9,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.core import serializers
 from django.http import HttpResponseRedirect, HttpResponseNotFound
-from django.views.decorators.http import require_POST, require_GET
+from django.views.decorators.http import require_POST, require_GET, require_http_methods
 from django.views.decorators.csrf import csrf_protect
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
@@ -37,7 +37,7 @@ class ContractCreate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     template_name = 'contracts/create.html'
     form_class = ContractForm
     form_class.use_required_attribute = False
-    permission_required = 'contracts.add_contract'
+    success_message = 'Vertrag erfolgreich erstellt!'
 
     def test_func(self):
         return self.request.user.is_assistant
@@ -73,26 +73,31 @@ def view_contract(request, pk):
     return render(request, 'contracts/view.html', context)
 
 
-class ContractUpdate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
-    model = Contract
-    title = 'Vertrag ändern'
-    form_class = ContractUpdateForm
-    template_name = 'contracts/update.html'
-    success_message = 'Änderungen erfolgreich übernommen!'
-    max_width = '600px'
+@csrf_protect
+@login_required
+@user_passes_test(is_assistant)
+@require_http_methods(["GET", "POST"])
+def update_contract(request, pk):
+    contract = get_object_or_404(Contract, pk=pk)
+    context = {}
+    context['title'] = 'Vertrag ändern'
 
-    def test_func(self):
-        return self.request.user.is_assistant
-
-    def form_valid(self, form):
-        form.instance.is_changed = True
-        return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.method == 'GET':
-            context['get'] = True
-        return context
+    if request.method == 'GET':
+        context['get'] = True
+        context['form'] = ContractUpdateForm(instance=contract)
+    else:
+        form = ContractUpdateForm(request.POST, instance=contract)
+        if form.is_valid():
+            if form.has_changed():
+                form.instance.is_changed = True
+                form.save()
+                messages.success(request, 'Änderungen erfolgreich übernommen!')
+            else:
+                messages.info(request, 'Es gab keine Änderungen!')
+            return redirect(reverse('contracts:ContractView', args=(contract.id, )))
+        else:
+            context['form'] = form
+    return render(request, 'contracts/update.html', context)
 
 
 @login_required

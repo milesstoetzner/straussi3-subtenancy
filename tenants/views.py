@@ -120,11 +120,19 @@ def update_tenant(request, pk):
             request.POST, instance=tenant.subtenant)
 
         if user_form.is_valid() and tenant_form.is_valid():
-            user_form.save()
-            tenant_form.save()
 
-            messages.success(request, 'Änderungen wurden erfoglreich übernommen!')
-            return redirect(reverse('tenants:TenantView', kwargs={'pk': tenant.pk}))
+            if user_form.has_changed() or tenant_form.has_changed():
+                user_form.save()
+                tenant_form.save()
+
+                messages.success(request, 'Änderungen wurden erfoglreich übernommen!')
+                messages.success(request, "The following fields changed: %s" % ", ".join(user_form.changed_data))
+                messages.success(request, "The following fields changed: %s" % ", ".join(tenant_form.changed_data))
+                return redirect(reverse('tenants:TenantView', kwargs={'pk': tenant.pk})) # TODO: tenants are not allowed to see this route!
+            else:
+                messages.info(request, 'Es gab keine Änderungen!')
+                return redirect(reverse('tenants:TenantView', kwargs={'pk': tenant.pk})) # TODO: tenants are not allowed to see this route!
+
 
     else:
 

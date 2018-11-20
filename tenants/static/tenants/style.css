@@ -37,6 +37,11 @@ body {
     background-color: #dc3545 !important
 }
 
+.adjust-alert {
+    margin: 1.25rem 1.25rem 0 1.25rem;
+    padding: 1.25rem;
+}
+
 /* BUTTON ORANGE */
 
 .bg-orange {

@@ -24,7 +24,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 from django.http import HttpResponse
-from .utils import render_html_to_pdf, save_html_as_pdf
+from .utils import html_to_pdf, save_html_as_pdf
 
 # TODO: authorization using permissions or user flags?
 
@@ -120,11 +120,9 @@ def view_contract_pdf(request, pk, v):
 def preview_contract_pdf(request, pk):
     contract = get_object_or_404(Contract, pk=pk)
 
-    data = {
-        'contract': contract
-    }
+    source = os.path.join('contracts', 'contracts', str(contract.maintenant.residential_home.short) + '.html')
+    pdf = html_to_pdf(source, {'contract': contract})
 
-    pdf = render_html_to_pdf(os.path.join('contracts', 'contracts', str(contract.maintenant.residential_home.short) + '.html'), data)
     return HttpResponse(pdf, content_type='application/pdf')
 
 
@@ -139,14 +137,10 @@ def save_contract_pdf(request, pk):
 
     # TODO: create contract templates
 
-    data = {
-        'contract': contract
-    }
-
     source = os.path.join('contracts', 'contracts', str(contract.maintenant.residential_home.short) + '.html')
-    destination = os.path.join('contracts', 'contracts', 'contract_' + contract.pk + '_version' + str(contract.version))
+    destination = os.path.join('contracts', 'contracts', 'contract_' + str(contract.pk) + '_version_' + str(contract.version) + '.pdf')
 
-    status = save_html_as_pdf(source, destination, data)
+    status = save_html_as_pdf(source, {'contract': contract}, destination)
 
     if status:
         contract.is_changed = False

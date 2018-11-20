@@ -1,5 +1,7 @@
 {% extends "tenants/base.html" %}
 
+{% load custom_extras %}
+
 {% block content %}
 
     {% if not is_latest %}
@@ -50,10 +52,11 @@
             <h5 class="card-title">Ältere Versionen
             </h5>
 
-            {% for v in object.get_versions %}
+
+            {% for v in object.version|int_as_range %}
 
                 <a class="btn btn-block btn-info"
-                   href="{% url 'contracts:ContractViewPDF' object.pk v %}">{% if v == object.version %}Aktuelle Version{% else %}Version {{ v }}{% endif %}</a>
+                   href="{% url 'contracts:ContractViewPDF' object.pk v %}" target="_blank">{% if v == object.version %}Aktuelle Version{% else %}Version {{ v }}{% endif %}</a>
 
             {% endfor %}
 

@@ -34,13 +34,6 @@ class Contract(models.Model):
     def is_latest(self):
         return not self.is_changed and self.updated_at >= self.maintenant.updated_at and self.updated_at >= self.subtenant.updated_at
 
-    def get_filename(self, version=None):
-        v = version if version else self.version
-        return 'contract_' + str(self.pk) + '_version_' + str(v) + '.pdf'
-
-    def get_versions(self):
-        return list(range(self.version , 0, -1))
-
     def __str__(self):
         return str(
             self.pk) + ': ' + self.maintenant.user.first_name + ' ' + self.maintenant.user.last_name + ' (' + str(

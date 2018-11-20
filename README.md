@@ -1,6 +1,6 @@
 # Ferienmiete
 
-Ein System für die Ferienmiete des Studentenwohnheim Straußäcker 3.
+Eine Web Anwendung für Verwaltung der Ferienmiete des Studentenwohnheims Straußäcker 3.
 
 ## Apps
 - `contracts`: Erstellen und Verwalten der Verträge

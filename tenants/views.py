@@ -21,8 +21,6 @@ import datetime
 def is_assistant(user):
     return user.is_assistant
 
-# TODO: authorization using permissions or user flags?
-
 
 @csrf_protect
 @require_http_methods(["GET", "POST"])

@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <form action="" method="post" id="updateForm" name="main" onsubmit="event.preventDefault(); document.getElementById('modalButton').click()">
+    <form action="{% url 'contracts:ContractUpdate' form.instance.id %}" method="post" id="updateForm" name="main" onsubmit="event.preventDefault(); document.getElementById('modalButton').click()">
 
         {% csrf_token %}
 
@@ -39,7 +39,7 @@
 
                 <!-- Button trigger modal -->
                 <button class="btn btn-success btn-block" data-toggle="modal" data-target="#updateModal" onclick="" id="modalButton">
-                    {{ view.title }}
+                    {{ view.title }}{{ title }}
                 </button>
 
                 <!-- Modal -->
@@ -55,7 +55,7 @@
                             </div>
                             <div class="modal-footer">
                                     <button class="btn btn-danger float-left" data-dismiss="modal">Abbrechen</button>
-                                    <button class="btn btn-success float-right" onclick="document.getElementById('updateForm').submit()">{{ view.title }}</button>
+                                    <button class="btn btn-success float-right" onclick="document.getElementById('updateForm').submit()">{{ view.title }}{{ title }}</button>
                             </div>
                         </div>
                     </div>

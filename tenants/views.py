@@ -4,9 +4,9 @@ from tenants.forms import UserForm, UserUpdateForm, MainTenantForm, MainTenantUp
     SubTenantUpdateForm
 from django.urls import reverse
 from django.shortcuts import redirect, render, get_object_or_404
-from django.views.decorators.http import require_http_methods
+from django.views.decorators.http import require_http_methods, require_GET, require_POST
 from django.views.decorators.csrf import csrf_protect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound
 from django.db.models import ProtectedError
 from django.contrib import messages
@@ -17,11 +17,11 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 import datetime
 
-# TODO: change password
-# TODO: reset password
-# TODO: permissions
 
+def is_assistant(user):
+    return user.is_assistant
 
+# TODO: authorization using permissions or user flags?
 
 
 @csrf_protect
@@ -61,11 +61,26 @@ def create_tenant(request, is_maintenant):
 
 
 @login_required
-@require_http_methods(["GET"])
-def view_tenant(request, pk):
+@require_GET
+def view_profile(request):
 
-    if not request.user.is_assistant and request.user.id != pk:
-        return HttpResponseForbidden()
+    context = {}
+    context['get'] = True
+    context['user_form'] = UserUpdateForm(instance=request.user)
+    context['tenant'] = request.user
+    context['title'] = str(request.user)
+
+    if request.user.is_maintenant or request.user.is_subtenant:
+        context['user_form'] = MainTenantUpdateForm(
+            instance=request.user.maintenant) if request.user.is_maintenant else SubTenantUpdateForm(instance=request.user.subtenant)
+
+    return render(request, 'tenants/view.html', context)
+
+
+@login_required
+@user_passes_test(is_assistant)
+@require_GET
+def view_tenant(request, pk):
 
     tenant = get_object_or_404(User, pk=pk)
 

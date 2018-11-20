@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {% if not is_latest or is_latest%}
+    {% if not is_latest %}
         <div class="alert bg-info text-light text-center" style="margin-top: 1rem">
             <p>Es gab eine Änderung. Eine Änderung kann auftreten, wenn du Details geändert hast oder einer der Mieter
                 seine Informationen geändert hat.</p>
@@ -10,7 +10,7 @@
             <p>Sofern die Änderung nicht auf deine Veranlassung getätigt wurde, solltest du diese ignorieren!</p>
 
 
-            <form action="{% url 'contracts:ContractRenderPDF' object.pk %}" method="POST">
+            <form action="{% url 'contracts:ContractSavePDF' object.pk %}" method="POST">
                 {% csrf_token %}
 
                 <a class="btn btn-block btn-light" href="{% url 'contracts:ContractPreviewPDF' object.pk %}"

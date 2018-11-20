@@ -19,7 +19,7 @@ class Contract(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    is_changed = models.BooleanField(default=True) # TODO: implement logic
+    is_changed = models.BooleanField(default=True) # TODO: implement logic in update, create view
 
     version = models.IntegerField(default=1)
 
@@ -32,7 +32,7 @@ class Contract(models.Model):
         return reverse('contracts:ContractUpdate', kwargs={'pk': self.pk})
 
     def is_latest(self):
-        return self.is_changed and self.updated_at >= self.maintenant.updated_at and self.updated_at >= self.subtenant.updated_at
+        return not self.is_changed and self.updated_at >= self.maintenant.updated_at and self.updated_at >= self.subtenant.updated_at
 
     def get_filename(self, version=None):
         v = version if version else self.version

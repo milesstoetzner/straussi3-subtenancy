@@ -126,6 +126,25 @@
 
     {% endif %}
 
+    {% if user.is_authenticated and user.is_external %}
+
+        <ul class="nav justify-content-center bg-orange">
+
+            <li class="nav-item">
+                <a class="btn btn-orange" href="{% url 'contracts:ContractsActive' %}"
+                   id="{% url 'contracts:ContractsActive' %}"><i class="fas fa-home icon-text"></i>Aktive Verträge</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="btn btn-orange" href="{% url 'contracts:ContractsArchive' %}"
+                   id="{% url 'contracts:ContractsArchive' %}"><i
+                        class="fas fa-archive icon-text"></i>Archiv</a>
+            </li>
+
+        </ul>
+
+    {% endif %}
+
 </header>
 
 

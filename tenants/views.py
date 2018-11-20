@@ -71,7 +71,7 @@ def view_profile(request):
     context['title'] = str(request.user)
 
     if request.user.is_maintenant or request.user.is_subtenant:
-        context['user_form'] = MainTenantUpdateForm(
+        context['tenant_form'] = MainTenantUpdateForm(
             instance=request.user.maintenant) if request.user.is_maintenant else SubTenantUpdateForm(instance=request.user.subtenant)
 
     return render(request, 'tenants/view.html', context)

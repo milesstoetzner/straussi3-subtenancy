@@ -1,15 +1,101 @@
 {% extends "tenants/base.html" %}
 
 {% block content %}
+     <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Index</h5>
 
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Index</h5>
-
-                <!-- TODO: Index -->
-
-            </div>
+            <!-- TODO: Index -->
 
         </div>
+
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Allgemeine Informationen</h5>
+
+            <!-- TODO: Index -->
+
+            {% for entry in faq %}
+
+                <p>
+                    <a class="btn btn-primary btn-block" style="text-align: left" data-toggle="collapse"
+                       href="#id_faq_{{ forloop.counter }}" role="button" aria-expanded="false">
+                        {{ entry.question|safe }}
+                    </a>
+                </p>
+                <div class="collapse" id="id_faq_{{ forloop.counter }}">
+                    <div class="alert bg-light">
+
+                        {{ entry.answer|safe }}
+
+                    </div>
+                </div>
+
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Informationen für einen Haupmieter</h5>
+
+            <!-- TODO: Index -->
+
+            {% for entry in faq_maintenant %}
+
+                <p>
+                    <a class="btn btn-primary btn-block" style="text-align: left" data-toggle="collapse"
+                       href="#id_faq_maintenant_{{ forloop.counter }}" role="button" aria-expanded="false">
+                        {{ entry.question|safe }}
+                    </a>
+                </p>
+                <div class="collapse" id="id_faq_maintenant_{{ forloop.counter }}">
+                    <div class="alert bg-light">
+
+                        {{ entry.answer|safe }}
+
+                    </div>
+                </div>
+
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Informationen für einen Untermieter</h5>
+
+            <!-- TODO: Index -->
+
+            {% for entry in faq_subtenant %}
+
+                <p>
+                    <a class="btn btn-primary btn-block" style="text-align: left" data-toggle="collapse"
+                       href="#id_faq_subtenant_{{ forloop.counter }}" role="button" aria-expanded="false">
+                        {{ entry.question|safe }}
+                    </a>
+                </p>
+                <div class="collapse" id="id_faq_subtenant_{{ forloop.counter }}">
+                    <div class="alert bg-light">
+
+                        {{ entry.answer|safe }}
+
+                    </div>
+                </div>
+
+
+            {% endfor %}
+
+        </div>
+
+    </div>
 
 {% endblock %}

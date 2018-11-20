@@ -286,7 +286,49 @@ class Requests(ListView):
 
 
 def index(request):
-    return render(request, 'tenants/index.html', {'title': 'Startseite'})
+    faq = [
+        {'question': 'Frage 1',
+         'answer': 'I bims ... eine Antwort lol 1'},
+
+        {'question': 'Frage 2',
+         'answer': 'I bims ... eine Antwort lol 2'},
+
+        {'question': 'Frage 3',
+         'answer': 'I bims ... eine Antwort lol 3'},
+
+        {'question': 'Frage 4',
+         'answer': 'I bims ... eine Antwort lol 4'},
+    ]
+
+    faq_maintenant = [
+        {'question': 'Frage 1',
+         'answer': 'I bims ... eine Antwort lol 1'},
+
+        {'question': 'Frage 2',
+         'answer': 'I bims ... eine Antwort lol 2'},
+
+        {'question': 'Frage 3',
+         'answer': 'I bims ... eine Antwort lol 3'},
+
+        {'question': 'Frage 4',
+         'answer': 'I bims ... eine Antwort lol 4'},
+    ]
+
+    faq_subtenant = [
+        {'question': 'Frage 1',
+         'answer': 'I bims ... eine Antwort lol 1'},
+
+        {'question': 'Frage 2',
+         'answer': 'I bims ... eine Antwort lol 2'},
+
+        {'question': 'Frage 3',
+         'answer': 'I bims ... eine Antwort lol 3'},
+
+        {'question': 'Frage 4',
+         'answer': 'I bims ... eine Antwort lol 4'},
+    ]
+    return render(request, 'tenants/index.html', {'title': 'Startseite', 'faq': faq, 'faq_maintenant': faq_maintenant,
+                                                  'faq_subtenant': faq_subtenant})
 
 
 def legal_notice(request):

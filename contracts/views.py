@@ -33,7 +33,6 @@ def is_assistant(user):
     return user.is_assistant
 
 
-# TODO: display maintenant details und subtenant details
 class ContractCreate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = Contract
     title = 'Vertrag erstellen'
@@ -48,15 +47,14 @@ class ContractCreate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
         return self.request.user.is_assistant
 
     def form_valid(self, form):
-        self.object = form.save()
-        self.object.maintenant.is_searching = False
-        self.object.maintenant.save()
-        self.object.subtenant.is_searching = False
-        self.object.subtenant.save()
-        return HttpResponseRedirect(self.get_success_url())
+        form.instance.maintenant.is_searching = False
+        form.instance.maintenant.save()
+        form.instance.subtenant.is_searching = False
+        form.instance.subtenant.save()
+        return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('contracts:ContractRender', args=(self.object.id,))
+        return reverse_lazy('contracts:ContractView', args=(self.object.id,))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -72,10 +70,9 @@ def view_contract(request, pk):
     contract = get_object_or_404(Contract, pk=pk)
 
     context = {}
-    context['object'] = contract
     context['form'] = ContractUpdateForm(instance=contract)
     context['title'] = str(contract)
-    context['is_latest'] = False # TODO: self.object.is_latest()
+    context['is_latest'] = contract.is_latest()
 
     return render(request, 'contracts/view.html', context)
 
@@ -90,6 +87,10 @@ class ContractUpdate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
 
     def test_func(self):
         return self.request.user.is_assistant
+
+    def form_valid(self, form):
+        form.instance.is_changed = True
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -134,8 +135,6 @@ def save_contract_pdf(request, pk):
 
     contract = get_object_or_404(Contract, pk=pk)
     contract.version += 1
-
-    # TODO: create contract templates
 
     source = os.path.join('contracts', 'contracts', str(contract.maintenant.residential_home.short) + '.html')
     destination = os.path.join('contracts', 'contracts', 'contract_' + str(contract.pk) + '_version_' + str(contract.version) + '.pdf')

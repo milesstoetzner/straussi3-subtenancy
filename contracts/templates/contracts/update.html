@@ -9,10 +9,33 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">{{ view.title }}
-                    <a class="float-right btn btn-danger" href="{{ object.get_absolute_url }}"><i class="far fa-times-circle icon-text"></i>Zurück</a>
                 </h5>
 
+                <div style="margin-bottom: 1rem">
+                    <a href="" class="btn btn-primary" style="width: 50%" id="view_maintenant" target="_blank"><i class="fas fa-user icon-text"></i>Hauptmieter anzeigen</a>
+                    <a href="" class="btn btn-primary" style="width: 49%" id="view_subtenant" target="_blank"><i class="fas fa-user icon-text"></i>Untermieter anzeigen</a>
+                </div>
+
                 {% include 'tenants/create_update_field.html' %}
+
+                <script>
+
+                    "use strict";
+
+                    document.getElementById('view_maintenant').href = '/tenants/view/' + document.getElementById('id_maintenant').value;
+                    document.getElementById('view_subtenant').href = '/tenants/view/' + document.getElementById('id_subtenant').value;
+
+                    document.getElementById('id_maintenant').onchange = function set_maintenant() {
+                        let id = document.getElementById('id_maintenant').value;
+                        document.getElementById('view_maintenant').href = '/tenants/view/' + id
+                    };
+
+                    document.getElementById('id_subtenant').onchange = function set_maintenant() {
+                        let id = document.getElementById('id_subtenant').value;
+                        document.getElementById('view_subtenant').href = '/tenants/view/' + id
+                    };
+
+                </script>
 
                 <!-- Button trigger modal -->
                 <button class="btn btn-success btn-block" data-toggle="modal" data-target="#updateModal" onclick="" id="modalButton">

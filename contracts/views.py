@@ -26,8 +26,6 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
 from .utils import html_to_pdf, save_html_as_pdf
 
-# TODO: authorization using permissions or user flags?
-
 
 def is_assistant(user):
     return user.is_assistant
@@ -40,8 +38,6 @@ class ContractCreate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     form_class = ContractForm
     form_class.use_required_attribute = False
     permission_required = 'contracts.add_contract'
-
-    # TODO: save contracts as pdf?
 
     def test_func(self):
         return self.request.user.is_assistant

@@ -25,6 +25,8 @@ class Contract(models.Model):
 
     # TODO: Zimmer Checkliste
 
+    # TODO: implement comments
+
     def get_absolute_url(self):
         return reverse('contracts:ContractView', kwargs={'pk': self.pk})
 

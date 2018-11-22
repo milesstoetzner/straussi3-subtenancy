@@ -1,6 +1,26 @@
-from django.contrib.auth.views import PasswordChangeView, PasswordResetView
+from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordResetView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
+from django.contrib.auth import logout
+from django.contrib import messages
+from django.urls import reverse
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth.decorators import login_required
+
+
+class Login(SuccessMessageMixin, LoginView):
+    def get_success_message(self, cleaned_data):
+        return 'Willkommen zurück, ' + self.request.user.get_full_name() + '!'
+
+
+@csrf_protect
+@login_required
+@require_POST
+def logout_view(request):
+    logout(request)
+    messages.success(request, 'Du hast dich erfolgreich ausgeloggt!')
+    return redirect(reverse('Index'))
 
 
 class PasswordChange(SuccessMessageMixin, PasswordChangeView):

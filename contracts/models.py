@@ -16,12 +16,16 @@ class Contract(models.Model):
     donation = models.FloatField('Freiwillige Spende in Euro', blank=True)
     is_active = models.BooleanField('Ist dieser Vertrag gültig?', default=True)
 
+    has_special_permission = models.BooleanField('Hat der Hauptmieter eine Sondergenehmigung, um den Zeitraum von 3 Monaten zu überschreiten?', default=False)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     is_changed = models.BooleanField(default=True)
 
     version = models.IntegerField(default=0)
+
+    # TODO: hat sondererlaubnis
 
     # TODO: Zimmer Checkliste
 

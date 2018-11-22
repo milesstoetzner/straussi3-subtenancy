@@ -14,6 +14,7 @@ class ContractForm(ModelForm):
         is_identified = cleaned_date.get('is_identified')
         is_matriculated = cleaned_date.get('is_matriculated')
         donation = cleaned_date.get('donation')
+        has_special_permission = cleaned_date.get('has_special_permission')
 
         # begin < end
         if begin and end:
@@ -34,8 +35,8 @@ class ContractForm(ModelForm):
                     self.add_error('end', 'Das Ende des Untermietvertrages ist nach dem Ende des Hauptmietvertrages!')
 
         # check for intersection with other contracts regarding maintenant
-        if maintenant:
-            contracts = Contract.objects.filter(maintenant=maintenant, is_active=True)
+        if maintenant and begin and end:
+            contracts = Contract.objects.filter(maintenant=maintenant, is_active=True) # TODO: change to maintenant.get_all_acitve_contracts
             for contract in contracts:
                 if contract.id == self.instance.id:
                     continue
@@ -47,7 +48,7 @@ class ContractForm(ModelForm):
                     self.add_error('begin', 'Es existriert bereits ein Vertrag mit dem Hauptmieter innerhalb des angegebene Zeitraums!')
 
         # check for intersection with other contracts regarding subtenant
-        if subtenant:
+        if subtenant and begin and end:
             contracts = Contract.objects.filter(subtenant=subtenant, is_active=True)
             for contract in contracts:
                 if contract.id == self.instance.id:
@@ -58,6 +59,13 @@ class ContractForm(ModelForm):
                     self.add_error('end', 'Das Ende des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem Untermieter!')
                 if begin <= contract.begin <= end:
                     self.add_error('begin', 'Es existriert bereits ein Vertrag mit dem Untermieter innerhalb des angegebene Zeitraums!')
+
+        # check maintenant amount day
+        if maintenant and begin and end:
+            if not has_special_permission:
+                d = end - begin
+                if maintenant.get_amount_of_days() + d.days + 1 > 93:  # TODO: the limit is 3 months and not 93 days ...
+                    self.add_error('end', 'Der Hauptmieter überschreitet die 3 Monate Grenze! Falls er eine Sondergenehmigung besitzt, kann dies unten angegeben werden.')
 
         # positive caution
         if caution:
@@ -91,6 +99,7 @@ class ContractForm(ModelForm):
             'is_matriculated': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES),
             'donation': NumberInput(attrs={'class': 'form-control'}),
             'is_active': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES),
+            'has_special_permission': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES),
         }
 
 

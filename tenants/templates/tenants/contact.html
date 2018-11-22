@@ -24,8 +24,10 @@
 
                 {% if user.is_maintenant %}
                     <a href="{% url 'Requests' %}" class="btn btn-danger btn-block">Abbrechen</a>
-                {% else %}
+                {% elif user.is_subtenant %}
                     <a href="{% url 'Offers' %}" class="btn btn-danger btn-block">Abbrechen</a>
+                {% else %}
+                    <a href="{% url 'Profile' %}" class="btn btn-danger btn-block">Abbrechen</a>
                 {% endif %}
             </form>
 

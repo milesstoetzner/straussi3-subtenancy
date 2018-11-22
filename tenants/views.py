@@ -87,6 +87,9 @@ def view_tenant(request, pk):
     context['tenant'] = tenant
     context['title'] = str(tenant)
 
+    if tenant.is_maintenant:
+        messages.info(request, 'Der Zeitraum der Verträge mit diesem Hauptmieter beträgt ' + str(tenant.maintenant.get_amount_of_days()) + ' Tage!')
+
     if tenant.is_maintenant or tenant.is_subtenant:
         context['tenant_form'] = MainTenantUpdateForm(
             instance=tenant.maintenant) if tenant.is_maintenant else SubTenantUpdateForm(instance=tenant.subtenant)
@@ -209,14 +212,6 @@ def contact_tenant(request, pk):
     if tenant.is_subtenant and not tenant.subtenant.is_searching:
         return HttpResponseForbidden()
 
-    # only tenants can contact each other
-    if not (request.user.is_maintenant or request.user.is_subtenant):
-        messages.error(request, 'Nur Mieter können sich kontaktieren!')
-        if tenant.is_subtenant:
-            return redirect('Requests')
-        else:
-            return redirect('Offers')
-
     # only maintenants can contact subtenants
     if tenant.is_maintenant and request.user.is_maintenant:
         messages.error(request, 'Als Hauptmieter kannst du keine Hautpmieter kontaktieren')
@@ -239,6 +234,14 @@ def contact_tenant(request, pk):
     msg += '<br><br>Grüße,<br>' + str(tenant)
 
     if request.method == 'POST':
+
+        # only tenants can contact each other
+        if not (request.user.is_maintenant or request.user.is_subtenant):
+            messages.error(request, 'Nur Mieter können sich kontaktieren!')
+            if tenant.is_subtenant:
+                return redirect('Requests')
+            else:
+                return redirect('Offers')
 
         try:
             mail = EmailMessage('Ferienmiete Straußäcker 3 Kontaktaufnahme',

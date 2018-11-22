@@ -176,6 +176,9 @@ def delete_tenant(request, pk):
 
     user = get_object_or_404(User, pk=pk)
 
+    if not (user.is_maintenant or user.is_subtenant):
+        return HttpResponseForbidden()
+
     if request.method == 'POST':
         try:
             user.delete()

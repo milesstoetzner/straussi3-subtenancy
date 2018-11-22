@@ -32,16 +32,25 @@ class ContractForm(ModelForm):
                 if maintenant.end_rent_agreement < end:
                     self.add_error('end', 'Das Ende des Untermietvertrages ist nach dem Ende des Hauptmietvertrages!')
 
+
+        # TODO: check for intersection with other contracts
+        if maintenant:
+            contracts = maintenant.get_all_contracts()
+            for contract in contracts:
+                if contract.begin <= begin <= contract.end:
+                    self.add_error('begin', 'Der Begin des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages!')
+                if contract.begin <= end <= contract.end:
+                    self.add_error('end', 'Das Ende des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages!')
+                # TODO: check proper subset
+
         # positive caution
         if caution:
             if caution < 0:
                 self.add_error('caution', 'Die Kaution muss positiv sein!')
 
-        """
         # is_identified
         if not is_identified:
                 self.add_error('is_identified', 'Lichtbildausweis muss kontrolliert werden!')
-        """
 
         # is_matriculated
         if not is_matriculated:

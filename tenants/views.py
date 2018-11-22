@@ -1,5 +1,5 @@
 from django.views.generic import CreateView, ListView
-from tenants.models import User, MainTenant, SubTenant
+from tenants.models import User, MainTenant, SubTenant, BlockedTenantID, BlockedStudentID
 from tenants.forms import UserForm, UserUpdateForm, MainTenantForm, MainTenantUpdateForm, SubTenantForm, \
     SubTenantUpdateForm
 from django.urls import reverse
@@ -304,6 +304,19 @@ class Requests(ListView):
     def get_queryset(self):
         return SubTenant.objects.filter(is_searching=True, end_subtenancy__gt=datetime.datetime.now()).order_by(
             'begin_subtenancy', 'end_subtenancy')
+
+
+@login_required()
+@user_passes_test(is_assistant)
+@require_GET
+def blacklist(request):
+
+    context = {}
+    context['title'] = 'Schwarze Liste'
+    context['tenant_ids'] = BlockedTenantID.objects.all()
+    context['student_ids'] = BlockedStudentID.objects.all()
+
+    return render(request, 'tenants/blacklist.html', context)
 
 
 def index(request):

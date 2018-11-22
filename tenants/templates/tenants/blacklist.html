@@ -1,0 +1,88 @@
+{% extends "tenants/base.html" %}
+
+{% block content %}
+
+    <div class="card">
+        <div class="card-body">
+
+            <h5 class="card-title" style="text-align: center">{{ title }}</h5>
+
+            <p>In diesen Listen stehen die Mieternummern und Matrikelnummern der Personen, die sich aus irgendeinem
+                Grund eine zukünftige Zusammenarbeit mit uns verwehrt haben.</p>
+
+            {% if tenant_ids %}
+
+                <div class="table-responsive">
+                    <table class="table table-striped" style="white-space: nowrap; text-align: center">
+
+                        <thead>
+                        <tr>
+                            <th class="align-middle">Geblockte Mieternummern</th>
+                        </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                        {% for tenant_id in tenant_ids %}
+
+                            <tr>
+                                <td class="align-middle">{{ tenant_id.id }}</td>
+                            </tr>
+
+                        {% endfor %}
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+            {% else %}
+                <div class="alert bg-info adjust-alert text-white text-center" style="margin-bottom: 1rem">
+                    Die Liste der blockierten Mieternummern ist leer.
+                </div>
+
+            {% endif %}
+
+            {% if student_ids %}
+
+                <div class="table-responsive">
+                    <table class="table table-striped" style="white-space: nowrap; text-align: center">
+
+                        <thead>
+                        <tr>
+                            <th class="align-middle">Geblockte Matrikelnummern</th>
+                        </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                        {% for student_id in student_ids %}
+
+                            <tr>
+                                <td class="align-middle">{{ student_id.id }}</td>
+                            </tr>
+
+                        {% endfor %}
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+                </div>
+
+            {% else %}
+
+                <div class="alert bg-info adjust-alert text-white text-center">
+                    Die Liste der blockierten Matrikelnummern ist leer.
+                </div>
+
+            {% endif %}
+
+        {% include 'contracts/pagination.html' %}
+
+    </div>
+
+{% endblock %}

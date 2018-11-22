@@ -100,6 +100,17 @@ class MainTenant(models.Model):
     def get_all_contracts(self):
         return self.contract_set.all()
 
+    def get_all_active_contracts(self):
+        return self.contract_set.filter(is_active=True)
+
+    def get_amount_of_days(self):
+        amount = 0
+        contracts = self.get_all_active_contracts()
+        for contract in contracts:
+            delta = contract.end - contract.begin
+            amount += delta.days + 1
+        return amount
+
     def __str__(self):
         return str(self.pk) + ': ' + self.user.first_name + ' ' + self.user.last_name + ' (' + str(self.user.birthday) + ')' + ' (' + str(self.tenant_id) + ')'
 
@@ -135,6 +146,9 @@ class SubTenant(models.Model):
 
     def get_all_contracts(self):
         return self.contract_set.all()
+
+    def get_all_active_contracts(self):
+        return self.contract_set.filter(is_active=True)
 
     def __str__(self):
         return str(self.pk) + ': ' + self.user.first_name + ' ' + self.user.last_name + ' (' + str(self.user.birthday) + ')' + ' (' + str(self.student_id) + ')'

@@ -54,8 +54,9 @@ class MainTenantForm(ModelForm):
         tenant_id = cleaned_date.get('tenant_id')
 
         # check black list
-        if BlockedTenantID.objects.get(pk=tenant_id):
-            self.add_error('tenant_id', 'Deine Mieternummer steht auf der Schwarzen Liste!')
+        if tenant_id:
+            if BlockedTenantID.objects.get(pk=tenant_id):
+                self.add_error('tenant_id', 'Deine Mieternummer steht auf der Schwarzen Liste!')
 
         # begin_rent_agreement < end_rent_agreement
         if begin_rent_agreement and end_rent_agreement:

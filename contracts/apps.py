@@ -1,5 +1,7 @@
 from django.apps import AppConfig
 
 
-class PrivateConfig(AppConfig):
+class Config(AppConfig):
     name = 'contracts'
+    verbose_name = 'Verträge'
+    verbose_name_plural = 'Verträge'

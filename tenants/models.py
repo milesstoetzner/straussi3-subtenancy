@@ -32,6 +32,28 @@ class ResidentialHome(models.Model):
         verbose_name_plural = 'Wohnheime'
 
 
+class BlockedTenantID(models.Model):
+    id = models.PositiveIntegerField('Mieterummer', unique=True, primary_key=True)
+
+    def __str__(self):
+        return 'Mieternummer: ' + str(self.id)
+
+    class Meta:
+        verbose_name = 'Blockierte Mieternummer'
+        verbose_name_plural = 'Blockierte Mieternummern'
+
+
+class BlockedStudentID(models.Model):
+    id = models.PositiveIntegerField('Matrikelnummer', unique=True, primary_key=True)
+
+    def __str__(self):
+        return 'Matrikelnummer: ' + str(self.id)
+
+    class Meta:
+        verbose_name = 'Blockierte Matrikelnummer'
+        verbose_name_plural = 'Blockierte Matrikelnummern'
+
+
 class User(AbstractUser):
     first_name = models.CharField('Vorname', max_length=150)
     last_name = models.CharField('Nachname', max_length=150)

@@ -1,5 +1,5 @@
 from django.forms import ModelForm, TextInput, DateInput, EmailInput, Select, NumberInput, CheckboxInput, PasswordInput
-from .models import User, MainTenant, SubTenant, ResidentialHome
+from .models import User, MainTenant, SubTenant, ResidentialHome, BlockedTenantID, BlockedStudentID
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 BOOLEAN_CHOICES = ((False, 'Nein'), (True, 'Ja'))
@@ -51,6 +51,11 @@ class MainTenantForm(ModelForm):
         end_subtenancy = cleaned_date.get('end_subtenancy')
         rent = cleaned_date.get('rent')
         is_room_appropriate = cleaned_date.get('is_room_appropriate')
+        tenant_id = cleaned_date.get('tenant_id')
+
+        # check black list
+        if BlockedTenantID.objects.get(pk=tenant_id):
+            self.add_error('tenant_id', 'Deine Mieternummer steht auf der Schwarzen Liste!')
 
         # begin_rent_agreement < end_rent_agreement
         if begin_rent_agreement and end_rent_agreement:
@@ -112,8 +117,13 @@ class SubTenantForm(ModelForm):
 
     def clean(self):
         cleaned_date = super().clean()
+        student_id = cleaned_date.get('student_id')
         begin_subtenancy = cleaned_date.get('begin_subtenancy')
         end_subtenancy = cleaned_date.get('end_subtenancy')
+
+        # check black list
+        if BlockedStudentID.objects.get(pk=student_id):
+            self.add_error('student_id', 'Deine Matrikelnummer steht auf der Schwarzen Liste!')
 
         # begin_subtenancy < end_subtenancy
         if begin_subtenancy and end_subtenancy:

@@ -7,6 +7,7 @@ class ContractForm(ModelForm):
     def clean(self):
         cleaned_date = super().clean()
         maintenant = cleaned_date.get('maintenant')
+        subtenant = cleaned_date.get('subtenant')
         begin = cleaned_date.get('begin')
         end = cleaned_date.get('end')
         caution = cleaned_date.get('caution')
@@ -32,16 +33,31 @@ class ContractForm(ModelForm):
                 if maintenant.end_rent_agreement < end:
                     self.add_error('end', 'Das Ende des Untermietvertrages ist nach dem Ende des Hauptmietvertrages!')
 
-
-        # TODO: check for intersection with other contracts
+        # check for intersection with other contracts regarding maintenant
         if maintenant:
-            contracts = maintenant.get_all_contracts()
+            contracts = Contract.objects.filter(maintenant=maintenant, is_active=True)
             for contract in contracts:
+                if contract.id == self.instance.id:
+                    continue
                 if contract.begin <= begin <= contract.end:
-                    self.add_error('begin', 'Der Begin des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages!')
+                    self.add_error('begin', 'Der Begin des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem Hauptmieter!')
                 if contract.begin <= end <= contract.end:
-                    self.add_error('end', 'Das Ende des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages!')
-                # TODO: check proper subset
+                    self.add_error('end', 'Das Ende des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem Hauptmieter!')
+                if begin <= contract.begin <= end:
+                    self.add_error('begin', 'Es existriert bereits ein Vertrag mit dem Hauptmieter innerhalb des angegebene Zeitraums!')
+
+        # check for intersection with other contracts regarding subtenant
+        if subtenant:
+            contracts = Contract.objects.filter(subtenant=subtenant, is_active=True)
+            for contract in contracts:
+                if contract.id == self.instance.id:
+                    continue
+                if contract.begin <= begin <= contract.end:
+                    self.add_error('begin', 'Der Begin des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem Untermieter!')
+                if contract.begin <= end <= contract.end:
+                    self.add_error('end', 'Das Ende des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem Untermieter!')
+                if begin <= contract.begin <= end:
+                    self.add_error('begin', 'Es existriert bereits ein Vertrag mit dem Untermieter innerhalb des angegebene Zeitraums!')
 
         # positive caution
         if caution:

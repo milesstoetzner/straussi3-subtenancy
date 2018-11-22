@@ -23,7 +23,10 @@
     <div class="bg-light" style="font-size: 12px; padding-right: 1rem">
 
         {% if user.is_authenticated %}
-            Als {{ user.first_name }} {{ user.last_name }} eingeloggt. <a class="" href="{% url 'logout' %}" id="{% url 'logout' %}">Logout</a>
+            Als {{ user.get_full_name }} eingeloggt. <a href="javascript:document.forms['logout_form'].submit()">Logout</a>
+            <form action="{% url 'logout' %}" method="POST" id="logout_form">
+                {% csrf_token %}
+            </form>
         {% else %}
             Hier kannst du dich einloggen. <a class="" href="{% url 'login' %}" id="{% url 'login' %}">Login</a>
         {% endif %}
@@ -124,7 +127,8 @@
             <li>
                 <input class="form-control" type="search" placeholder="Suchen" aria-label="Search"
                        id="searchInput"
-                       style="border-radius: 0" data-toggle="tooltip" data-placement="bootom" title="Es kann nach folgenden Attributen gesucht werden: Geburtstag (dd.mm.yyyy), Vorname, Nachname, ID, Mieternummer, Matrikelnummer, Vertragsbegin (dd.mm.yyyy), Vertragsende (dd.mm.yyyy) ">
+                       style="border-radius: 0" data-toggle="tooltip" data-placement="bootom"
+                       title="Es kann nach folgenden Attributen gesucht werden: Geburtstag (dd.mm.yyyy), Vorname, Nachname, ID, Mieternummer, Matrikelnummer, Vertragsbegin (dd.mm.yyyy), Vertragsende (dd.mm.yyyy) ">
                 <div id="searchResult"></div>
             </li>
 
@@ -154,7 +158,9 @@
 </header>
 
 
-<div class="container-fluid" style="max-width: {% if view.max_width or max_width %}{{ view.max_width }}{{ max_width }}{% else %}600px{% endif %}" id="custom-container">
+<div class="container-fluid" style="max-width:
+        {% if view.max_width or max_width %}{{ view.max_width }}{{ max_width }}{% else %}600px{% endif %}"
+     id="custom-container">
 
     {% if messages %}
         {% for message in messages %}

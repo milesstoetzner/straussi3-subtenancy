@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.urls import include, path
 from tenants import views as tenant_views
 from . import views
-from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', tenant_views.index, name='Index'),
@@ -19,6 +18,7 @@ urlpatterns = [
 
     path('login/', views.Login.as_view(), name='login'),
     path('logout/', views.logout_view, name='logout'),
-    path('password_change/', views.PasswordChange.as_view(), name='password_change'),
-    path('password_reset/', views.PasswordReset.as_view(), name='password_reset'),
+    path('password/change/', views.PasswordChange.as_view(), name='password_change'),
+    path('password/reset/', views.PasswordReset.as_view(), name='password_reset'),
+    path('password/reset/<slug:uidb64>/<slug:token>/', views.PasswordResetConfirm.as_view(), name='password_reset_confirm'),
 ]

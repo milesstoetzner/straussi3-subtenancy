@@ -4,7 +4,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>{{ view.title }}{{ title }}</title>
+    <title>{% if view.title %}{{ view.title }}{% else %}{{ title }}{% endif %}</title>
 
     {% load staticfiles %}
 

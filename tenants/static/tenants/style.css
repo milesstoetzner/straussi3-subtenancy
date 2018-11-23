@@ -57,11 +57,11 @@ body {
 }
 
 .bg-grey {
-    background-color: #f1f1f1 !important;
+    background-color: #f1f3f4 !important;
 }
 
 textarea:disabled, input:disabled, select:disabled {
-    background-color: #f1f1f1;
+    background-color: #f1f3f4;
     border: 0
 }
 

@@ -1,4 +1,4 @@
-from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordResetView
+from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordResetView, PasswordResetConfirmView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
 from django.contrib.auth import logout
@@ -30,8 +30,35 @@ class PasswordChange(SuccessMessageMixin, PasswordChangeView):
     def get_success_url(self):
         return redirect(self.request.user.get_absolute_url())
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.method == 'GET':
+            context['get'] = True
+        return context
+
 
 class PasswordReset(SuccessMessageMixin, PasswordResetView):
     template_name = 'registration/password_reset.html'
     success_message = 'Wir haben eine E-Mail zum Zurücksetzen des Passwortes an die angegebene E-Mail-Adresse gesendet, sofern ein entsprechendes Konto existiert. Sie sollte in Kürze ankommen. Falls die E-Mail nicht angekommen sein sollte, bitte die E-Mail-Adresse auf Richtigkeit und gegebenenfalls den Spam-Ordner überprüfen.'
     success_url = '/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.method == 'GET':
+            context['get'] = True
+        return context
+
+
+# TODO: PasswordResetConfirm
+class PasswordResetConfirm(SuccessMessageMixin, PasswordResetConfirmView):
+    template_name = 'registration/password_confirm.html'
+    success_message = 'Dein Passwort wurder erfolgreich zurückgesetzt!'
+
+    def get_success_url(self):
+        return redirect(reverse('login'))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.method == 'GET':
+            context['get'] = True
+        return context

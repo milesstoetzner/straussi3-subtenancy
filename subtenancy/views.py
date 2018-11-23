@@ -51,7 +51,6 @@ class PasswordReset(SuccessMessageMixin, PasswordResetView):
         return context
 
 
-# TODO: PasswordResetConfirm
 class PasswordResetConfirm(SuccessMessageMixin, PasswordResetConfirmView):
     template_name = 'registration/password_confirm.html'
     success_message = 'Dein Passwort wurder erfolgreich zurückgesetzt!'

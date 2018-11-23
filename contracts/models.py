@@ -25,8 +25,6 @@ class Contract(models.Model):
 
     version = models.IntegerField(default=0)
 
-    # TODO: hat sondererlaubnis
-
     # TODO: Zimmer Checkliste
 
     # TODO: implement comments

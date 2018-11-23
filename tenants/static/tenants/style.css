@@ -42,6 +42,29 @@ body {
     padding: 1.25rem;
 }
 
+.form-group input, select, textarea {
+    display: block;
+    width: 100%;
+    height: calc(2.25rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.bg-grey {
+    background-color: #f1f1f1 !important;
+}
+
+textarea:disabled, input:disabled, select:disabled {
+    background-color: #f1f1f1;
+    border: 0
+}
+
 /* BUTTON ORANGE */
 
 .bg-orange {

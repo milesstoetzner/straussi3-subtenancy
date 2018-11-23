@@ -7,6 +7,9 @@
 
         {{ field }}
 
+        <div class="invalid-feedback {% if field.errors %}d-block{% endif %}">{{ field.errors.0 }} <i class="far fa-frown"></i></div>
+        <div class="valid-feedback {% if not field.errors and not is_get %}d-block{% endif %}">Alles in Ordnung! <i class="far fa-smile"></i></div>
+
         {% if field.help_text %}
             <small id="{{ field.id_for_label }}_help"
                    class="form-text text-muted">{{ field.help_text }}</small>

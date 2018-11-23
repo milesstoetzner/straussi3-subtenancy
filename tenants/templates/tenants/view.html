@@ -1,4 +1,5 @@
 {% extends "tenants/base.html" %}
+{% load custom_extras %}
 
 {% block content %}
 
@@ -9,15 +10,12 @@
 
             <h6 class="card-subtitle mb-2 text-muted">Informationen über den Account</h6>
 
-            {% with form=user_form %}
+            <fieldset disabled>
 
-                <fieldset disabled>
+                {% bootstrap user_form True %}
 
-                    {% include 'tenants/view_field.html' %}
+            </fieldset>
 
-                </fieldset>
-
-            {% endwith %}
             {% if tenant.is_maintenant or tenant.is_subtenant %}
 
 
@@ -25,15 +23,13 @@
                     {% if tenant.is_maintenant %}
                         Hauptmieter{% else %}Untermieter{% endif %}</h6>
 
-                {% with form=tenant_form %}
 
-                    <fieldset disabled>
+                <fieldset disabled>
 
-                        {% include 'tenants/view_field.html' %}
+                    {% bootstrap tenant_form True %}
 
-                    </fieldset>
+                </fieldset>
 
-                {% endwith %}
 
                 <a href="{% url 'tenants:TenantUpdate' tenant.id %}" class="btn btn-success btn-block">Informationen
                     aktualisieren</a>

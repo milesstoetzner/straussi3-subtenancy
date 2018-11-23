@@ -1,5 +1,7 @@
 {% extends "tenants/base.html" %}
 
+{% load custom_extras %}
+
 {% block content %}
 
     <form action="{% if is_maintenant %}{% url 'MainTenantCreate' %}{% else %}{% url 'SubTenantCreate' %}{% endif %}" method="post" novalidate>
@@ -12,20 +14,11 @@
 
                 <h6 class="card-subtitle mb-2 text-muted">Informationen über den Account</h6>
 
-                    {% with form=user_form %}
-
-                        {% include 'tenants/create_update_field.html' %}
-
-                    {% endwith %}
-
+                    {% bootstrap user_form get %}
 
                 <h6 class="card-subtitle mb-2 text-muted" style="padding-top: 2rem">Informationen über den {% if is_maintenant %}Hauptmieter{% else %}Untermieter{% endif %}</h6>
 
-                    {% with form=tenant_form %}
-
-                        {% include 'tenants/create_update_field.html' %}
-
-                    {% endwith %}
+                    {% bootstrap tenant_form get %}
 
                 <button class="btn btn-success btn-block">Registrieren</button>
 

@@ -1,5 +1,7 @@
 {% extends "tenants/base.html" %}
 
+{% load custom_extras %}
+
 {% block content %}
 
     <form action="{% url 'tenants:TenantUpdate' tenant.id %}" method="post">
@@ -12,20 +14,12 @@
 
                 <h6 class="card-subtitle mb-2 text-muted">Informationen über den Account</h6>
 
-                    {% with form=user_form %}
-
-                        {% include 'tenants/create_update_field.html' %}
-
-                    {% endwith %}
+                    {% bootstrap user_form get %}
 
 
                 <h6 class="card-subtitle mb-2 text-muted" style="padding-top: 2rem">Informationen über den {% if tenant.is_maintenant %}Hauptmieter{% else %}Untermieter{% endif %}</h6>
 
-                    {% with form=tenant_form %}
-
-                        {% include 'tenants/create_update_field.html' %}
-
-                    {% endwith %}
+                    {% bootstrap tenant_form get %}
 
                 <button class="btn btn-success btn-block">Aktualisieren</button>
                 <a href="{% url 'tenants:TenantView' tenant.id %}" class="btn btn-danger btn-block">Abbrechen</a>

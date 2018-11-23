@@ -10,6 +10,8 @@ from django.contrib.auth.decorators import login_required
 
 
 class Login(SuccessMessageMixin, LoginView):
+    title = 'Login'
+
     def get_success_message(self, cleaned_data):
         return 'Willkommen zurück, ' + self.request.user.get_full_name() + '!'
 

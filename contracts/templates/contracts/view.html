@@ -38,13 +38,15 @@
 
                 <fieldset disabled>
 
-                    {% include 'tenants/view_field.html' %}
+                    {% bootstrap form True %}
 
                 </fieldset>
 
                 <script>
 
                     "use strict";
+
+                    // TODO: DRY!
 
                     document.getElementById('view_maintenant').href = '/tenants/view/' + document.getElementById('id_maintenant').value;
                     document.getElementById('view_subtenant').href = '/tenants/view/' + document.getElementById('id_subtenant').value;

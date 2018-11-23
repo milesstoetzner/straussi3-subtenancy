@@ -89,17 +89,13 @@ class ContractForm(ModelForm):
         model = Contract
         exclude = ['is_active', 'version', 'is_changed']
         widgets = {
-            'maintenant': Select(attrs={'class': 'form-control'}),
-            'subtenant': Select(attrs={'class': 'form-control'}),
-            'begin': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
-            'end': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
-            'caution': NumberInput(attrs={'class': 'form-control'}),
-            'caution_comment': Textarea(attrs={'class': 'form-control', 'rows': 1}),
-            'is_identified': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES),
-            'is_matriculated': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES),
-            'donation': NumberInput(attrs={'class': 'form-control'}),
-            'is_active': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES),
-            'has_special_permission': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES),
+            'begin': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'end': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'caution_comment': Textarea(attrs={'rows': 1}),
+            'is_identified': Select(choices=BOOLEAN_CHOICES),
+            'is_matriculated': Select(choices=BOOLEAN_CHOICES),
+            'is_active': Select(choices=BOOLEAN_CHOICES),
+            'has_special_permission': Select(choices=BOOLEAN_CHOICES),
         }
 
 

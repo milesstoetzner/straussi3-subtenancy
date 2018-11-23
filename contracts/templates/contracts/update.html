@@ -1,5 +1,7 @@
 {% extends "tenants/base.html" %}
 
+{% load custom_extras %}
+
 {% block content %}
 
     <form action="{% url 'contracts:ContractUpdate' form.instance.id %}" method="post" id="updateForm" name="main" onsubmit="event.preventDefault(); document.getElementById('modalButton').click()">
@@ -16,11 +18,13 @@
                     <a href="" class="btn btn-primary" style="width: 49%" id="view_subtenant" target="_blank"><i class="fas fa-user icon-text"></i>Untermieter anzeigen</a>
                 </div>
 
-                {% include 'tenants/create_update_field.html' %}
+                {% bootstrap form get %}
 
                 <script>
 
                     "use strict";
+
+                    // TODO: DRY!
 
                     document.getElementById('view_maintenant').href = '/tenants/view/' + document.getElementById('id_maintenant').value;
                     document.getElementById('view_subtenant').href = '/tenants/view/' + document.getElementById('id_subtenant').value;

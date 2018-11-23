@@ -21,14 +21,7 @@ class UserForm(UserCreationForm):
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'birthday', 'phone_number']
         model = User
         widgets = {
-            'username': TextInput(attrs={'class': 'form-control'}),
-            'first_name': TextInput(attrs={'class': 'form-control'}),
-            'last_name': TextInput(attrs={'class': 'form-control'}),
-            'email': EmailInput(attrs={'class': 'form-control'}),
-            'password1': PasswordInput(attrs={'class': 'form-control'}),  # TODO: funktioniert nicht
-            'password2': PasswordInput(attrs={'class': 'form-control'}),  # TODO: funktioniert nicht
-            'birthday': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
-            'phone_number': TextInput(attrs={'class': 'form-control'})
+            'birthday': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
         }
 
 
@@ -55,8 +48,11 @@ class MainTenantForm(ModelForm):
 
         # check black list
         if tenant_id:
-            if BlockedTenantID.objects.get(pk=tenant_id):
+            try:
+                blocked = BlockedTenantID.objects.get(pk=tenant_id)
                 self.add_error('tenant_id', 'Deine Mieternummer steht auf der Schwarzen Liste!')
+            except BlockedTenantID.DoesNotExist:
+                pass
 
         # begin_rent_agreement < end_rent_agreement
         if begin_rent_agreement and end_rent_agreement:
@@ -94,18 +90,13 @@ class MainTenantForm(ModelForm):
             'is_returning': 'Sofern kein Wiedereinzug geplant ist und der Hauptmieter somit vollständig auszieht, wird die Kaution über den Hausmeister zurückerstattet.',
         }
         widgets = {
-            'tenant_id': NumberInput(attrs={'class': 'form-control'}),
-            'begin_rent_agreement': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
-            'end_rent_agreement': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
-            'residential_home': Select(attrs={'class': 'form-control'}),
-            'house_number': TextInput(attrs={'class': 'form-control'}),
-            'room_number': NumberInput(attrs={'class': 'form-control'}),
-            'begin_subtenancy': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
-            'end_subtenancy': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
-            'is_returning': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES),
-            'rent': NumberInput(attrs={'class': 'form-control'}),
-            'is_room_appropriate': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES),
-            'is_searching': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES)
+            'begin_rent_agreement': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'end_rent_agreement': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'begin_subtenancy': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'end_subtenancy': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'is_returning': Select(choices=BOOLEAN_CHOICES),
+            'is_room_appropriate': Select(choices=BOOLEAN_CHOICES),
+            'is_searching': Select(choices=BOOLEAN_CHOICES)
         }
 
 
@@ -123,8 +114,12 @@ class SubTenantForm(ModelForm):
         end_subtenancy = cleaned_date.get('end_subtenancy')
 
         # check black list
-        if BlockedStudentID.objects.get(pk=student_id):
-            self.add_error('student_id', 'Deine Matrikelnummer steht auf der Schwarzen Liste!')
+        if student_id:
+            try:
+                blocked = BlockedStudentID.objects.get(pk=student_id)
+                self.add_error('student_id', 'Deine Matrikelnummer steht auf der Schwarzen Liste!')
+            except BlockedStudentID.DoesNotExist:
+                pass
 
         # begin_subtenancy < end_subtenancy
         if begin_subtenancy and end_subtenancy:
@@ -135,18 +130,10 @@ class SubTenantForm(ModelForm):
         model = SubTenant
         exclude = ['user', 'is_searching']
         widgets = {
-            'nationality': TextInput(attrs={'class': 'form-control'}),
-            'is_eu': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES),
-            'student_id': NumberInput(attrs={'class': 'form-control'}),
-            'begin_subtenancy': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
-            'end_subtenancy': DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
-            'name': TextInput(attrs={'class': 'form-control'}),
-            'street': TextInput(attrs={'class': 'form-control'}),
-            'house_number': TextInput(attrs={'class': 'form-control'}),
-            'postcode': NumberInput(attrs={'class': 'form-control'}),
-            'city': TextInput(attrs={'class': 'form-control'}),
-            'country': TextInput(attrs={'class': 'form-control'}),
-            'is_searching': Select(attrs={'class': 'form-control'}, choices=BOOLEAN_CHOICES)
+            'is_eu': Select(choices=BOOLEAN_CHOICES),
+            'begin_subtenancy': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'end_subtenancy': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'is_searching': Select(choices=BOOLEAN_CHOICES)
         }
 
 

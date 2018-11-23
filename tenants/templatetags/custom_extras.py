@@ -3,6 +3,11 @@ from django import template
 register = template.Library()
 
 
+@register.inclusion_tag('tenants/bootstrap_form.html')
+def bootstrap(form, is_get):
+    return {'form': form, 'is_get': is_get}
+
+
 @register.filter(name='has_group')
 def has_group(user, group_name):
     return user.groups.filter(name=group_name).exists()

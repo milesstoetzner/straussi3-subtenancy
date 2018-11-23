@@ -64,7 +64,7 @@ class ContractForm(ModelForm):
         if maintenant and begin and end:
             if not has_special_permission:
                 d = end - begin
-                if maintenant.get_amount_of_days() + d.days + 1 > 93:  # TODO: the limit is 3 months and not 93 days ...
+                if maintenant.get_amount_of_days() + d.days + 1 > 93:  # NOTE: the limit is 3 months and not 93 days ...
                     self.add_error('end', 'Der Hauptmieter überschreitet die 3 Monate Grenze! Falls er eine Sondergenehmigung besitzt, kann dies unten angegeben werden.')
 
         # positive caution

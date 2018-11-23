@@ -1,0 +1,24 @@
+{% load static %}
+
+<button type="button" data-toggle="modal" data-target="#exampleModal" id="unicorn" style="display: none"></button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content text-center">
+
+            <div class="modal-body" style="padding-top: 3rem">
+                <a><img src="{% static 'tenants/unicorn.png' %}"></a>
+                <!-- IMG SOURCE: https://banner2.kisspng.com/20180515/fsq/kisspng-t-shirt-unicorn-dab-clothing-dress-5afa957b004b43.4045938415263717070012.jpg -->
+
+                <p style="padding-top: 3rem">Du wurdest von Hans, dem dabbenden Einhorn, besucht!<br>Er wünscht dir
+                    einen wunderschönen Tag!</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Dab zurück!</button>
+            </div>
+
+        </div>
+    </div>
+</div>

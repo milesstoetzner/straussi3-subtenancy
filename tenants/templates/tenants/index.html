@@ -1,39 +1,51 @@
 {% extends "tenants/base.html" %}
 
 {% block content %}
-     <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Index</h5>
-
-            <!-- TODO: Index -->
-
-        </div>
-
-    </div>
-
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Allgemeine Informationen</h5>
+            <h5 class="card-title">{{ title }}</h5>
 
-            {% for entry in faq %}
+            <p>Willkommen auf der Startseite der Ferienmiete des Studierendenwohnheim Straußäcker 3 in Stuttgart. Hier hast
+            du die Möglichkeit als Hauptmieter dein Zimmer zu vermieten oder korrespondierend als Untermieter ein Zimmer
+                mieten. Alle nötigen Informationen hierfür stehen weiter unten.</p>
 
-                <p>
-                    <a class="btn btn-primary btn-block" style="text-align: left" data-toggle="collapse"
-                       href="#id_faq_{{ forloop.counter }}" role="button" aria-expanded="false">
-                        {{ entry.question|safe }}
-                    </a>
-                </p>
-                <div class="collapse" id="id_faq_{{ forloop.counter }}">
-                    <div class="alert bg-grey">
 
-                        {{ entry.answer|safe }}
-
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card bg-grey text-center">
+                        <div class="card-body">
+                            <p class="card-text">Wenn du dein Zimmer vermieten möchtest, kannst du dich hier als Hauptmieter registrieren.</p>
+                            <a href="{% url 'MainTenantCreate' %}" target="_blank" class="btn btn-success">Als Hauptmieter registrieren</a>
+                        </div>
                     </div>
                 </div>
-
-
-            {% endfor %}
-
+                <div class="col-sm-6">
+                    <div class="card bg-grey text-center">
+                        <div class="card-body">
+                            <p class="card-text">Wenn du ein Zimmer mieten möchtest, kannt du dich hier als Untermieter registrieren.</p>
+                            <a href="{% url 'SubTenantCreate' %}" target="_blank" class="btn btn-success">Als Untermieter registrieren</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card bg-grey text-center">
+                        <div class="card-body">
+                            <p class="card-text">Hier findest du eine Liste aller akutellen Angebote möglicher Zimmer. Über die Liste kannst du den jeweiligen Hauptmieter kontaktieren.</p>
+                            <a href="{% url 'Offers' %}" target="_blank" class="btn btn-primary">Liste aller Angebote</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card bg-grey text-center">
+                        <div class="card-body">
+                            <p class="card-text">Hier findest du eine Liste aller aktuellen Anfragen. Über die Liste kannst du mögliche Untermieter kontaktieren.</p>
+                            <a href="{% url 'Requests' %}" target="_blank" class="btn btn-primary">Liste aller Anfragen</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -41,6 +53,13 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Informationen für einen Haupmieter</h5>
+
+            <div class="alert bg-info text-white text-center">
+                Die Summer aller Untermieten eines Hauptmieters darf 3 Monate nicht überschreiten! Es kann ein
+                Sonderantrag auf Verlängerung bei unserem Sachbearbeiter beim SWS gestellt werden. Jeder Antrag wird
+                individuell entschieden. Dabei muss ein nachweisbarer ausschlaggebender Grund für die Verlängerung
+                angegeben werden.
+            </div>
 
             {% for entry in faq_maintenant %}
 

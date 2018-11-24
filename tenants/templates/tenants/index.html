@@ -9,7 +9,6 @@
             du die Möglichkeit als Hauptmieter dein Zimmer zu vermieten oder korrespondierend als Untermieter ein Zimmer
                 mieten. Alle nötigen Informationen hierfür stehen weiter unten.</p>
 
-
             <div class="row">
                 <div class="col-sm-6">
                     <div class="card bg-grey text-center">
@@ -28,7 +27,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style="padding-top: 1.5rem">
                 <div class="col-sm-6">
                     <div class="card bg-grey text-center">
                         <div class="card-body">
@@ -52,7 +51,7 @@
 
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Informationen für einen Haupmieter</h5>
+            <h5 class="card-title" id="faq_maintenant">Informationen für einen Haupmieter</h5>
 
             <div class="alert bg-info text-white text-center">
                 Die Summer aller Untermieten eines Hauptmieters darf 3 Monate nicht überschreiten! Es kann ein
@@ -86,7 +85,7 @@
 
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Informationen für einen Untermieter</h5>
+            <h5 class="card-title" id="faq_subtenant">Informationen für einen Untermieter</h5>
 
             {% for entry in faq_subtenant %}
 

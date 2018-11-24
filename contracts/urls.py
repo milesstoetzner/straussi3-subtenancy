@@ -17,9 +17,6 @@ urlpatterns = [
     path('save/<int:pk>/', views.save_contract_pdf, name='ContractSavePDF'),
     path('pdf/<int:pk>/<int:v>', views.view_contract_pdf, name='ContractViewPDF'),
 
-    path('maintenant/<int:pk>', views.main_tenant_json, name='MainTenantJSON'),
-    path('subtenant/<int:pk>', views.sub_tenant_json, name='SubTenantJSON'),
-
     # external
     path('active', views.ContractsActive.as_view(), name='ContractsActive'),
     path('archive', views.ContractsArchive.as_view(), name='ContractsArchive')

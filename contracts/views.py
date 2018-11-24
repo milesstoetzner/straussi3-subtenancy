@@ -206,27 +206,3 @@ def search(request):
     }
 
     return render(request, 'contracts/search_result.html', context)
-
-
-@login_required
-@user_passes_test(is_assistant)
-@require_GET
-def main_tenant_json(request, pk):
-    obj = MainTenant.objects.get(pk=pk)
-    data = serializers.serialize('json', [obj, ])
-    struct = json.loads(data)
-    data = json.dumps(struct[0])
-
-    return HttpResponse(data, content_type='application/json')
-
-
-@login_required
-@user_passes_test(is_assistant)
-@require_GET
-def sub_tenant_json(request, pk):
-    obj = SubTenant.objects.get(pk=pk)
-    data = serializers.serialize('json', [obj, ])
-    struct = json.loads(data)
-    data = json.dumps(struct[0])
-
-    return HttpResponse(data, content_type='application/json')

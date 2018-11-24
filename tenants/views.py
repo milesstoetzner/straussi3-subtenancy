@@ -12,7 +12,7 @@ from django.db.models import ProtectedError
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from smtplib import SMTPException
-
+from .faq import faq_subtenant, faq_maintenant
 
 import datetime
 
@@ -311,67 +311,6 @@ def blacklist(request):
 
 
 def index(request):
-
-    faq_maintenant = [
-
-        {'question': 'Was muss ich beachten, wenn ich mein Zimmer untervermieten möchte?',
-         'answer': '<p><ol>'
-                        '<li>Du musst dein Zimmer über das WoRe untervermieten.</li>'
-                        '<li>Du darfst nur in deinem offiziellen Mitzeitraum untervermieten. Es gibt keine Ausnahmen!</li>'
-                        '<li>Die Summe aller Untermieten darf 3 Monaten nicht überschreiten. Beim SWS kann unter Angabe eines triftigen Grundes eine Sondergenehmigung zur Überschreitung des Limits beantragt werden</li>'
-                        '<li>Den Vertrag einer Untermiete kann nur unter Anwesenheit des Haupt- und Untermieters persönlich in der Sprechstunde des WoRe abgeschlossen werden.</li>'
-                        '<li>Es kann zustäzlich über uns ein Kautionsvertrag mit dem Untermieter abgeschlossen werden</li>'
-                        '<li>Ein Vertrag muss spätestens 1 Woche vor Beginn der Untermiete abgeschlossen werden.</li>'
-                   '</ol></p>'},
-
-        {'question': 'Wie kann ich mein Zimmer untervermieten?',
-         'answer': 'I bims ... eine Antwort lol 1'},
-
-        {'question': 'Wie finde ich einen Untermieter?',
-         'answer': '<p><ol>'
-                        '<li>Du kennst bereits einen Untermieter.</li>'
-                        '<li>Du findest einen Untermieter über einen Drittanbieter.</li>'
-                        '<li>Du registierst dich <a href="/register/maintenant" target="_blank">hier</a> als Hauptmieter. Dadurch wird dein Angebot in der öffentlichen Liste aller <a href="/offers" target="_blank">Angebote</a> anonymisiert eingetragen. Über diese Liste kann ein registrierter Untermieter dich kontaktieren, indem er dir über uns eine Email mit seinen Kontaktdaten sendet. Gleichezeitig exisitert eine Liste aller <a href="/requests" target="_blank">Anfragen</a>, über die du mögliche Untermieter kontaktieren kannst.</li>'
-                   '</ol></p>'},
-
-        {'question': 'Welche Dokumente müssen von mir vorgelegt werden?',
-         'answer': '<b>Dokumente können nicht nachgereicht werden!</b>'
-                   '<ol>'
-                        '<li>Mietvertrag, gemäß dem Fall auch Verlängerungen bzw. Kündigungsbestätigung</li>'
-                        '<li>Personalausweis o.Ä.</li>'
-                   '</ol>'},
-
-        {'question': 'Wie sieht der Untervermietungsprozess aus?',
-         'answer': '<--! TODO: Untervermietungsprozess -->'}
-    ]
-
-    faq_subtenant = [
-
-        {'question': 'Darf ich ein Zimmer mieten?',
-         'answer': 'Mietberechtigt ist, wer in Augen des <a href="https://www.studierendenwerk-stuttgart.de/" target="_blank">Studierendenwerk Stuttgarts</a> (SWS) mietberechtigt ist (siehe <a href="https://www.studierendenwerk-stuttgart.de/fileadmin/Mediendatenbank_Studierendenwerk/02_Wohnen_WOW/026_PDF/2017-08-16_WOW_Mietbedingungen_DE.pdf" target="_blank">Allgemeine Mietbedingungen</a>).<br>In Sonderfällen kann unter Angabe eines triftigen Grundes nach Absprache eine Untermiete abgeschlossen werden. Ein triftiger Grund ist beispielweise beispielsweise eine Sprachreise oder ein Pratikum in Stuttgart.'},
-
-        {'question': 'Wie finde ich ein Zimmer bzw. einen Hauptmieter?',
-         'answer': '<p><ol>'
-                        '<li>Du kennst bereits einen Hauptmieter, der sein Zimmer untervermieten möchte.</li>'
-                        '<li>Du findest ein Zimmer bzw. einen Hauptmieter über einen Drittanbieter.</li>'
-                        '<li>Du registierst dich <a href="/register/subtenant" target="_blank">hier</a> als Untermieter. Dadurch wird deine Anfrage in der öffentlichen Liste aller <a href="/requests" target="_blank">Anfragen</a> anonymisiert eingetragen. Über diese Liste kann ein registrierter Hauptmieter dich kontaktieren, indem er dir über uns eine Email mit seinen Kontaktdaten sendet. Gleichezeitig exisitert eine Liste aller <a href="/offers" target="_blank">Angebote</a>, über die du mögliche Hauptmieter kontaktieren kannst.</li>'
-                   '</ol></p>'},
-
-        {'question': 'Miete, Gebühren, Freiwillige Spende',
-         'answer': 'Das WoRe darf keine Gebühr für die Vermittlung der Untermiete verlangen. Daher wird es dir nahe gelegt, eine Spende von 2.50€ pro Woche der Untermiete zu entrichten. Natürlich muss dem Hauptmieter gegenüber eine Miete gezahlt werden. Die Höhe der Miete richtet sich nach der Höhe der Miete, die der Hauptmieter dem SWS zahlen muss.'},
-
-        {'question': 'Welche Dokumente müssen von mir vorgelegt werden?',
-         'answer': '<b>Dokumente können nicht nachgereicht werden!</b>'
-                   '<ol>'
-                        '<li>Staatlich ausgestelltes, <b>offizielles Lichtbildausweis</b> Dokument(dein Studierendenausweis oder deine Jahreskarte für den Bus mit einem Foto von dir ist nicht ausreichend!)</li>'
-                        '<li>Ein <b>Studentenvisum</b> oder einen <b>Aufenthaltstitel</b>, falls vorhanden. Nicht jeder braucht ein Visum, um in Deutschland studieren zu dürfen.</li>'
-                        '<li>Einen Immatrikulationsnachweis. Ein Dokument, ausgestellt von einer Universität/Hochschule, auf dem der Name, der Studiengang und der Immatrikulationszeitraum steht und somit bestätigt, dass du über den Zeitraum der Untermiete ein eingeschriebener Student sein wirst!</li>'
-                   '</ol>'},
-
-        {'question': 'Wie sieht der Untervermietungsprozess aus?',
-         'answer': '<--! TODO: Untervermietungsprozess -->'}
-
-    ]
     return render(request, 'tenants/index.html', {'title': 'Ferienmiete Straußäcker 3', 'faq_maintenant': faq_maintenant,
                                                   'faq_subtenant': faq_subtenant})
 

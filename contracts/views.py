@@ -1,21 +1,19 @@
 import os
 from django.apps import apps
 from django.urls import reverse
-from django.views.generic import CreateView, ListView, UpdateView, DetailView
+from django.views.generic import CreateView, ListView
 from .models import Contract
 from tenants.models import MainTenant, SubTenant
 from .forms import ContractForm, ContractUpdateForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
-from django.core import serializers
-from django.http import HttpResponseRedirect, HttpResponseNotFound
+from django.http import HttpResponseNotFound
 from django.views.decorators.http import require_POST, require_GET, require_http_methods
 from django.views.decorators.csrf import csrf_protect
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from django.shortcuts import redirect, render, get_object_or_404
 
-import json
 import datetime
 
 from django.db.models import Q

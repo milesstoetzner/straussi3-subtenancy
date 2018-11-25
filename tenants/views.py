@@ -25,12 +25,23 @@ def is_maintenant(user):
     return user.is_maintenant
 
 
+def is_tenant(user):
+    return user.is_maintenant or user.is_subtenant
+
+
 @csrf_protect
 @require_http_methods(["GET", "POST"])
 def create_tenant(request, is_maintenant):
     context = {}
 
-    if request.method == 'POST':
+    if request.method == 'GET':
+
+        user_form = UserForm()
+        tenant_form = MainTenantForm() if is_maintenant else SubTenantForm()
+        context['get'] = True
+
+    else:
+
         user_form = UserForm(request.POST)
         tenant_form = MainTenantForm(request.POST) if is_maintenant else SubTenantForm(request.POST)
 
@@ -49,11 +60,6 @@ def create_tenant(request, is_maintenant):
                              'Bei Kommunikation mit unserer Sprechstunde gebe bitte immer deine ID an. Deine ID lautet: ' + str(
                                  user.pk))
             return redirect(reverse('login'))
-
-    else:
-        user_form = UserForm()
-        tenant_form = MainTenantForm() if is_maintenant else SubTenantForm()
-        context['get'] = True
 
     context['title'] = 'Hauptmieter Registrierung' if is_maintenant else 'Untermieter Registrierung'
     context['user_form'] = user_form
@@ -119,7 +125,15 @@ def update_tenant(request, pk):
     if not (tenant.is_maintenant or tenant.is_subtenant):
         return HttpResponseForbidden()
 
-    if request.method == 'POST':
+    if request.method == 'GET':
+
+        # display update form
+        user_form = UserUpdateForm(instance=tenant)
+        tenant_form = MainTenantUpdateForm(instance=tenant.maintenant) if tenant.is_maintenant else SubTenantUpdateForm(
+            instance=tenant.subtenant)
+        context['get'] = True
+
+    else:
 
         # validate and save tenant
         user_form = UserUpdateForm(request.POST, instance=tenant)
@@ -155,14 +169,6 @@ def update_tenant(request, pk):
             else:
                 return redirect(reverse('Profile'))
 
-    else:
-
-        # display update form
-        user_form = UserUpdateForm(instance=tenant)
-        tenant_form = MainTenantUpdateForm(instance=tenant.maintenant) if tenant.is_maintenant else SubTenantUpdateForm(
-            instance=tenant.subtenant)
-        context['get'] = True
-
     context['title'] = str(tenant) + ' aktualisieren'
     context['user_form'] = user_form
     context['tenant_form'] = tenant_form
@@ -170,9 +176,6 @@ def update_tenant(request, pk):
 
     return render(request, 'tenants/update.html', context)
 
-
-def is_tenant(user):
-    return user.is_maintenant or user.is_subtenant
 
 @csrf_protect
 @login_required
@@ -186,22 +189,24 @@ def delete_tenant(request, pk):
 
     user = get_object_or_404(User, pk=pk)
 
-    if request.method == 'POST':
+    if request.method == 'GET':
+
+        context = {}
+        context['tenant'] = user
+        context['title'] = str(user) + ' löschen'
+        return render(request, 'tenants/delete.html', context)
+
+    else:
+
         try:
             user.delete()
         except ProtectedError:
             messages.error(request,
                            'Der Account kann nicht gelöscht werden. Das ist beispielsweise der Fall, wenn mindestens ein Vertrag mit diesem Account abgeschlossen wurde!')
-            return redirect(reverse('tenants:TenantView', kwargs={'pk': user.pk}))
+            return redirect(reverse('Profile'))
 
         messages.success(request, 'Der Account wurde erfolgreich gelöscht!')
         return redirect('Index')
-
-    else:
-        context = {}
-        context['tenant'] = user
-        context['title'] = str(user) + ' löschen'
-        return render(request, 'tenants/delete.html', context)
 
 
 @csrf_protect
@@ -226,7 +231,16 @@ def contact_tenant(request, pk):
     msg += '<br>Du kannst mich über folgende Email kontaktieren: ' + tenant.email
     msg += '<br><br>Grüße,<br>' + str(tenant)
 
-    if request.method == 'POST':
+    if request.method == 'GET':
+
+        # ask for consent
+        context = {}
+        context['tenant'] = tenant
+        context['title'] = 'Kontaktaufnahme'
+        context['msg'] = msg
+        return render(request, 'tenants/contact.html', context)
+
+    else:
         try:
             mail = EmailMessage('Ferienmiete Straußäcker 3 Kontaktaufnahme',
                                 msg,
@@ -241,15 +255,6 @@ def contact_tenant(request, pk):
 
         messages.success(request, 'Untermieter wurde erfolgreich kontaktiert!')
         return redirect('Requests')
-
-    else:
-
-        # ask for consent
-        context = {}
-        context['tenant'] = tenant
-        context['title'] = 'Kontaktaufnahme'
-        context['msg'] = msg
-        return render(request, 'tenants/contact.html', context)
 
 
 class Requests(ListView):

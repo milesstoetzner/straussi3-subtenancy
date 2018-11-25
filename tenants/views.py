@@ -171,18 +171,20 @@ def update_tenant(request, pk):
     return render(request, 'tenants/update.html', context)
 
 
+def is_tenant(user):
+    return user.is_maintenant or user.is_subtenant
+
 @csrf_protect
 @login_required
+@user_passes_test(is_tenant)
 @require_http_methods(["GET", "POST"])
 def delete_tenant(request, pk):
-    # only tenant can delete his account
-    if not (request.user.is_maintenant or request.user.is_subtenant) and request.user.id != pk:
+
+    # tenant can only delete his account
+    if request.user.id != pk:
         return HttpResponseForbidden()
 
     user = get_object_or_404(User, pk=pk)
-
-    if not (user.is_maintenant or user.is_subtenant):
-        return HttpResponseForbidden()
 
     if request.method == 'POST':
         try:

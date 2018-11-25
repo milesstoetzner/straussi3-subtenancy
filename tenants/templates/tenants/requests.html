@@ -9,38 +9,51 @@
             <h5 class="card-title">{{ view.title }}</h5>
 
 
-            <p class="card-text">Wenn du dich für ein Angebot interessierst, dann kannst du unten die jeweilige Person kontaktieren und ihr deine Kontaktdaten zukommen lassen.<br>
+            <p class="card-text">Wenn du dich für eine Anfrage interessierst, dann kannst du unten die jeweilige Person
+                kontaktieren und ihr deine Kontaktdaten zukommen lassen.<br>
 
-                <br>Die Liste ist nach Beginn und dann nach Ende sortiert.</p>
+                <br>Die Liste ist nach Beginn und Ende sortiert.</p>
 
-            <table class="table table-striped">
+            {% if object_list %}
 
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Beginn der Untermiete</th>
-                    <th>Ende der Untermiete</th>
-                    <th></th>
-                </tr>
+                <table class="table table-striped">
 
-                </thead>
-
-                <tbody>
-
-                {% for tenant in object_list %}
-
+                    <thead>
                     <tr>
-
-                        <td class="align-middle">{{ tenant.pk }}</td>
-                        <td class="align-middle">{{ tenant.begin_subtenancy }}</td>
-                        <td class="align-middle">{{ tenant.end_subtenancy }}</td>
-                        <td class="align-middle"><a href="{% url 'tenants:TenantContact' tenant.pk %}" class="btn btn-primary"><i class="fas fa-comment-alt"></i></a></td>
+                        <th>ID</th>
+                        <th>Beginn der Untermiete</th>
+                        <th>Ende der Untermiete</th>
+                        <th></th>
                     </tr>
 
-                {% endfor %}
+                    </thead>
 
-                </tbody>
-            </table>
+                    <tbody>
+
+                    {% for tenant in object_list %}
+
+                        <tr>
+
+                            <td class="align-middle">{{ tenant.pk }}</td>
+                            <td class="align-middle">{{ tenant.begin_subtenancy }}</td>
+                            <td class="align-middle">{{ tenant.end_subtenancy }}</td>
+                            <td class="align-middle"><a href="{% url 'tenants:TenantContact' tenant.pk %}"
+                                                            class="btn btn-primary"><i
+                                        class="fas fa-comment-alt"></i></a></td>
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+
+            {% else %}
+
+                <div class="alert bg-info text-center text-white">
+                    Aktuell gibt es leider keine Anfragen.
+                </div>
+
+            {% endif %}
 
         </div>
 

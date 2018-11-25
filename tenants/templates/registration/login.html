@@ -21,10 +21,9 @@
                 {% if next %}
                     <div class="alert bg-danger text-white text-center" role="alert">
                         {% if user.is_authenticated %}
-                            Your account doesn't have access to this page. To proceed,
-                            please login with an account that has access.
+                            Du hast leider nicht die benötigten Rechte, um diese Seite zu sehen. Bitte logge dich mit einem Account ein, der diese Rechte besitzt.
                         {% else %}
-                            Please login to see this page.
+                            Du musst dich einloggen, um diese Seite zu sehen.
                         {% endif %}
                     </div>
                 {% endif %}

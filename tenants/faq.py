@@ -14,7 +14,7 @@ faq_maintenant = [
      'answer': '<p><ol>'
                '<li>Du kennst bereits einen Untermieter.</li>'
                '<li>Du findest einen Untermieter über einen Drittanbieter.</li>'
-               '<li>Du registierst dich <a href="/register/maintenant" target="_blank">hier</a> als Hauptmieter. Dadurch wird dein Angebot in der öffentlichen Liste aller <a href="/offers" target="_blank">Angebote</a> anonymisiert eingetragen. Über diese Liste kann ein registrierter Untermieter dich kontaktieren, indem er dir über uns eine Email mit seinen Kontaktdaten sendet. Gleichezeitig exisitert eine Liste aller <a href="/requests" target="_blank">Anfragen</a>, über die du mögliche Untermieter kontaktieren kannst.</li>'
+               '<li>Du registierst dich <a href="/register/maintenant" target="_blank">hier</a> als Hauptmieter. In einer anonymisierten Liste aller <a href="/requests" target="_blank">Anfragen</a> kannst du dir einen passenden Untermieter raussuchen und diesen kontaktieren, indem du ihm über uns eine Email mit deinen Kontaktdaten sendest.</li>'
                '</ol></p>'},
 
     {'question': 'Welche Dokumente müssen von mir vorgelegt werden?',
@@ -61,7 +61,7 @@ faq_subtenant = [
      'answer': '<p><ol>'
                '<li>Du kennst bereits einen Hauptmieter, der sein Zimmer untervermieten möchte.</li>'
                '<li>Du findest ein Zimmer bzw. einen Hauptmieter über einen Drittanbieter.</li>'
-               '<li>Du registierst dich <a href="/register/subtenant" target="_blank">hier</a> als Untermieter. Dadurch wird deine Anfrage in der öffentlichen Liste aller <a href="/requests" target="_blank">Anfragen</a> anonymisiert eingetragen. Über diese Liste kann ein registrierter Hauptmieter dich kontaktieren, indem er dir über uns eine Email mit seinen Kontaktdaten sendet. Gleichezeitig exisitert eine Liste aller <a href="/offers" target="_blank">Angebote</a>, über die du mögliche Hauptmieter kontaktieren kannst.</li>'
+               '<li>Du registierst dich <a href="/register/subtenant" target="_blank">hier</a> als Untermieter. Dadurch wird deine Anfrage in der öffentlichen Liste aller <a href="/requests" target="_blank">Anfragen</a> anonymisiert eingetragen. Über diese Liste kann ein registrierter Hauptmieter dich kontaktieren, indem er dir über uns eine Email mit seinen Kontaktdaten sendet.</li>'
                '</ol></p>'},
 
     {'question': 'Miete, Gebühren, Freiwillige Spende',

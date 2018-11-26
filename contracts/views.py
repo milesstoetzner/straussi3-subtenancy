@@ -2,7 +2,7 @@ import os
 from django.db.transaction import atomic
 from django.apps import apps
 from django.urls import reverse
-from django.views.generic import CreateView, ListView
+from django.views.generic import ListView
 from .models import Contract
 from tenants.models import MainTenant, SubTenant
 from .forms import ContractForm, ContractUpdateForm
@@ -14,7 +14,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from django.shortcuts import redirect, render, get_object_or_404
-from subtenancy.permissions import is_assistant, is_assistant_or_external
+from subtenancy.utils import is_assistant, is_assistant_or_external, get_verbose_changed_data
 
 import datetime
 
@@ -91,9 +91,15 @@ def update_contract(request, pk):
         form = ContractUpdateForm(request.POST, instance=contract)
         if form.is_valid():
             if form.has_changed():
+
+                changes = get_verbose_changed_data(form.changed_data, Contract)
+
                 form.instance.is_changed = True
                 form.save()
+
                 messages.success(request, 'Änderungen erfolgreich übernommen!')
+                messages.success(request, "Folgende Felder wurden geändert: %s." % ", ".join(changes))
+
             else:
                 messages.info(request, 'Es gab keine Änderungen!')
             return redirect(reverse('contracts:ContractView', args=(contract.id, )))

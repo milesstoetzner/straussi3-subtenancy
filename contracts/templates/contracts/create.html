@@ -6,7 +6,7 @@
 {% block content %}
 
     <form action="" method="post" id="createForm" name="main"
-          onsubmit="event.preventDefault(); contractDetails(); document.getElementById('modalButton').click()">
+          onsubmit="event.preventDefault(); contractDetails(); document.getElementById('modalButton').click()" novalidate>
 
         {% csrf_token %}
 

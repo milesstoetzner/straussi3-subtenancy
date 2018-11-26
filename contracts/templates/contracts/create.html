@@ -6,13 +6,13 @@
 {% block content %}
 
     <form action="" method="post" id="createForm" name="main"
-          onsubmit="event.preventDefault(); contractDetails(); document.getElementById('modalButton').click()">
+          onsubmit="event.preventDefault(); contractDetails(); document.getElementById('modalButton').click()" novalidate>
 
         {% csrf_token %}
 
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">{{ view.title }}</h5>
+                <h5 class="card-title">{{ title }}</h5>
 
                 <div style="margin-bottom: 1rem">
                     <a href="" class="btn btn-primary" style="width: 50%" id="view_maintenant" target="_blank"><i class="fas fa-user icon-text"></i>Hauptmieter anzeigen</a>
@@ -26,7 +26,7 @@
                 <!-- Button trigger modal -->
                 <button class="btn btn-success btn-block" data-toggle="modal" data-target="#createModal"
                         id="modalButton">
-                    {{ view.title }}
+                    {{ title }}
                 </button>
 
                 <!-- Modal -->
@@ -46,7 +46,7 @@
                             <div class="modal-footer">
                                 <button class="btn btn-danger float-left" data-dismiss="modal">Abbrechen</button>
                                 <button class="btn btn-success float-right"
-                                        onclick="document.getElementById('createForm').submit()">{{ view.title }}</button>
+                                        onclick="document.getElementById('createForm').submit()">{{ title }}</button>
                             </div>
                         </div>
                     </div>

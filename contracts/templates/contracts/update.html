@@ -5,7 +5,7 @@
 
 {% block content %}
 
-    <form action="{% url 'contracts:ContractUpdate' form.instance.id %}" method="post" id="updateForm" name="main" onsubmit="event.preventDefault(); document.getElementById('modalButton').click()">
+    <form action="{% url 'contracts:ContractUpdate' form.instance.id %}" method="post" id="updateForm" name="main" onsubmit="event.preventDefault(); document.getElementById('modalButton').click()" novalidate>
 
         {% csrf_token %}
 

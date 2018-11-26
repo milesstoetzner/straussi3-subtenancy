@@ -1,10 +1,10 @@
 import os
+from django.db.transaction import atomic
 from django.urls import reverse
-from django.views.generic import CreateView, ListView
+from django.views.generic import ListView
 from .models import Contract
 from tenants.models import MainTenant, SubTenant
 from .forms import ContractForm, ContractUpdateForm
-from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.http import HttpResponseNotFound
 from django.views.decorators.http import require_POST, require_GET, require_http_methods
@@ -12,6 +12,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from django.shortcuts import redirect, render, get_object_or_404
+from subtenancy.utils import is_assistant, is_assistant_or_external, get_verbose_changed_data
 
 import datetime
 
@@ -24,36 +25,37 @@ from django.http import HttpResponse
 from .utils import html_to_pdf, save_html_as_pdf
 
 
-def is_assistant(user):
-    return user.is_assistant
+@atomic
+@csrf_protect
+@login_required
+@user_passes_test(is_assistant)
+@require_http_methods(["GET", "POST"])
+def create_contract(request):
+    context = {}
 
+    if request.method == 'GET':
 
-class ContractCreate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
-    model = Contract
-    title = 'Vertrag erstellen'
-    template_name = 'contracts/create.html'
-    form_class = ContractForm
-    form_class.use_required_attribute = False
-    success_message = 'Vertrag erfolgreich erstellt!'
+        form = ContractForm()
+        context['get'] = True
 
-    def test_func(self):
-        return self.request.user.is_assistant
+    else:
 
-    def form_valid(self, form):
-        form.instance.maintenant.is_searching = False
-        form.instance.maintenant.save()
-        form.instance.subtenant.is_searching = False
-        form.instance.subtenant.save()
-        return super().form_valid(form)
+        form = ContractForm(request.POST)
 
-    def get_success_url(self):
-        return reverse_lazy('contracts:ContractView', args=(self.object.id,))
+        if form.is_valid():
+            contract = form.save()
+            form.instance.maintenant.is_searching = False
+            form.instance.maintenant.save()
+            form.instance.subtenant.is_searching = False
+            form.instance.subtenant.save()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.method == 'GET':
-            context['get'] = True
-        return context
+            messages.success(request, 'Vertrag wurde erfolgreich erstellt!')
+            return redirect(contract.get_absolute_url())
+
+    context['title'] = 'Vertrag erstellen'
+    context['form'] = form
+
+    return render(request, 'contracts/create.html', context)
 
 
 @login_required
@@ -70,6 +72,7 @@ def view_contract(request, pk):
     return render(request, 'contracts/view.html', context)
 
 
+@atomic
 @csrf_protect
 @login_required
 @user_passes_test(is_assistant)
@@ -86,9 +89,15 @@ def update_contract(request, pk):
         form = ContractUpdateForm(request.POST, instance=contract)
         if form.is_valid():
             if form.has_changed():
+
+                changes = get_verbose_changed_data(form.changed_data, Contract)
+
                 form.instance.is_changed = True
                 form.save()
+
                 messages.success(request, 'Änderungen erfolgreich übernommen!')
+                messages.success(request, "Folgende Felder wurden geändert: %s." % ", ".join(changes))
+
             else:
                 messages.info(request, 'Es gab keine Änderungen!')
             return redirect(reverse('contracts:ContractView', args=(contract.id, )))
@@ -125,6 +134,7 @@ def preview_contract_pdf(request, pk):
     return HttpResponse(pdf, content_type='application/pdf')
 
 
+@atomic
 @csrf_protect
 @login_required
 @user_passes_test(is_assistant)
@@ -158,7 +168,7 @@ class ContractsActive(LoginRequiredMixin, UserPassesTestMixin, ListView):
             .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number')
 
     def test_func(self):
-        return self.request.user.is_assistant or self.request.user.is_external
+        return is_assistant_or_external(self.request.user)
 
 
 class ContractsArchive(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -170,7 +180,7 @@ class ContractsArchive(LoginRequiredMixin, UserPassesTestMixin, ListView):
             .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number')
 
     def test_func(self):
-        return self.request.user.is_assistant or self.request.user.is_external
+        return is_assistant_or_external(self.request.user)
 
 
 @csrf_protect

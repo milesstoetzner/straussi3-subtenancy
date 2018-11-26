@@ -1,5 +1,7 @@
+from django.db.transaction import atomic
+from subtenancy.utils import is_assistant, is_maintenant, is_tenant, get_verbose_changed_data
 from django.views.generic import ListView
-from tenants.models import User, SubTenant, BlockedTenantID, BlockedStudentID
+from tenants.models import User, MainTenant, SubTenant, BlockedTenantID, BlockedStudentID
 from tenants.forms import UserForm, UserUpdateForm, MainTenantForm, MainTenantUpdateForm, SubTenantForm, \
     SubTenantUpdateForm
 from django.urls import reverse
@@ -17,18 +19,7 @@ from .faq import faq_subtenant, faq_maintenant
 import datetime
 
 
-def is_assistant(user):
-    return user.is_assistant
-
-
-def is_maintenant(user):
-    return user.is_maintenant
-
-
-def is_tenant(user):
-    return user.is_maintenant or user.is_subtenant
-
-
+@atomic
 @csrf_protect
 @require_http_methods(["GET", "POST"])
 def create_tenant(request, is_maintenant):
@@ -109,6 +100,7 @@ def view_tenant(request, pk):
     return render(request, 'tenants/view.html', context)
 
 
+@atomic
 @csrf_protect
 @login_required
 @require_http_methods(["GET", "POST"])
@@ -145,21 +137,14 @@ def update_tenant(request, pk):
 
             if user_form.has_changed() or tenant_form.has_changed():
 
-                """
-                changes = []
-                for field in user_form.changed_data:
-                    msg = User._meta.get_field(field).verbose_name + ': "'
-                    msg += user_form.data[field] + '" zu "'
-                    msg += user_form.instance.__getattribute__(field) + '"'
-                    changes.append(msg)
-
-                messages.success(request, "Folgende Änderungen wurden übernommen: %s." % ",".join(changes))
-                """
+                changes_user = get_verbose_changed_data(user_form.changed_data, User)
+                changes_tenant = get_verbose_changed_data(tenant_form.changed_data, MainTenant if tenant.is_maintenant else SubTenant)
 
                 user_form.save()
                 tenant_form.save()
 
-                messages.success(request, 'Änderungen wurden erfoglreich übernommen!')
+                messages.success(request, 'Änderungen wurden erfolgreich übernommen!')
+                messages.success(request, "Folgende Felder wurden geändert: %s." % ", ".join(changes_user + changes_tenant))
 
             else:
                 messages.info(request, 'Es gab keine Änderungen!')
@@ -177,6 +162,7 @@ def update_tenant(request, pk):
     return render(request, 'tenants/update.html', context)
 
 
+@atomic
 @csrf_protect
 @login_required
 @user_passes_test(is_tenant)

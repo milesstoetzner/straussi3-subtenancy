@@ -9,7 +9,7 @@ urlpatterns = [
     path('search/', views.search, name='Search'),
 
     # contracts
-    path('create', views.ContractCreate.as_view(), name="Ferienmiete"),
+    path('create', views.create_contract , name="ContractCreate"),
     path('view/<int:pk>/', views.view_contract, name='ContractView'),
     path('update/<int:pk>/', views.update_contract, name='ContractUpdate'),
     # path('update/<int:pk>/', views.ContractUpdate.as_view(), name='ContractUpdate'),

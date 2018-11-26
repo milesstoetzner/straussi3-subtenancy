@@ -27,33 +27,37 @@ from django.http import HttpResponse
 from .utils import html_to_pdf, save_html_as_pdf
 
 
-class ContractCreate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
-    model = Contract
-    title = 'Vertrag erstellen'
-    template_name = 'contracts/create.html'
-    form_class = ContractForm
-    form_class.use_required_attribute = False
-    success_message = 'Vertrag erfolgreich erstellt!'
+@atomic
+@csrf_protect
+@login_required
+@user_passes_test(is_assistant)
+@require_http_methods(["GET", "POST"])
+def create_contract(request):
+    context = {}
 
-    def test_func(self):
-        return is_assistant(self.request.user)
+    if request.method == 'GET':
 
-    @atomic
-    def form_valid(self, form):
-        form.instance.maintenant.is_searching = False
-        form.instance.maintenant.save()
-        form.instance.subtenant.is_searching = False
-        form.instance.subtenant.save()
-        return super().form_valid(form)
+        form = ContractForm()
+        context['get'] = True
 
-    def get_success_url(self):
-        return reverse_lazy('contracts:ContractView', args=(self.object.id,))
+    else:
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.method == 'GET':
-            context['get'] = True
-        return context
+        form = ContractForm(request.POST)
+
+        if form.is_valid():
+            contract = form.save()
+            form.instance.maintenant.is_searching = False
+            form.instance.maintenant.save()
+            form.instance.subtenant.is_searching = False
+            form.instance.subtenant.save()
+
+            messages.success(request, 'Vertrag wurde erfolgreich erstellt!')
+            return redirect(contract.get_absolute_url())
+
+    context['title'] = 'Vertrag erstellen'
+    context['form'] = form
+
+    return render(request, 'contracts/create.html', context)
 
 
 @login_required

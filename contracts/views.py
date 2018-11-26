@@ -1,4 +1,5 @@
 import os
+from django.db.transaction import atomic
 from django.apps import apps
 from django.urls import reverse
 from django.views.generic import CreateView, ListView
@@ -13,6 +14,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from django.shortcuts import redirect, render, get_object_or_404
+from subtenancy.permissions import is_assistant, is_assistant_or_external
 
 import datetime
 
@@ -25,10 +27,6 @@ from django.http import HttpResponse
 from .utils import html_to_pdf, save_html_as_pdf
 
 
-def is_assistant(user):
-    return user.is_assistant
-
-
 class ContractCreate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = Contract
     title = 'Vertrag erstellen'
@@ -38,8 +36,9 @@ class ContractCreate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     success_message = 'Vertrag erfolgreich erstellt!'
 
     def test_func(self):
-        return self.request.user.is_assistant
+        return is_assistant(self.request.user)
 
+    @atomic
     def form_valid(self, form):
         form.instance.maintenant.is_searching = False
         form.instance.maintenant.save()
@@ -71,6 +70,7 @@ def view_contract(request, pk):
     return render(request, 'contracts/view.html', context)
 
 
+@atomic
 @csrf_protect
 @login_required
 @user_passes_test(is_assistant)
@@ -126,6 +126,7 @@ def preview_contract_pdf(request, pk):
     return HttpResponse(pdf, content_type='application/pdf')
 
 
+@atomic
 @csrf_protect
 @login_required
 @user_passes_test(is_assistant)
@@ -159,7 +160,7 @@ class ContractsActive(LoginRequiredMixin, UserPassesTestMixin, ListView):
             .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number')
 
     def test_func(self):
-        return self.request.user.is_assistant or self.request.user.is_external
+        return is_assistant_or_external(self.request.user)
 
 
 class ContractsArchive(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -171,7 +172,7 @@ class ContractsArchive(LoginRequiredMixin, UserPassesTestMixin, ListView):
             .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number')
 
     def test_func(self):
-        return self.request.user.is_assistant or self.request.user.is_external
+        return is_assistant_or_external(self.request.user)
 
 
 @csrf_protect

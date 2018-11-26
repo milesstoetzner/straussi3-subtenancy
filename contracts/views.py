@@ -1,5 +1,4 @@
 import os
-from django.apps import apps
 from django.urls import reverse
 from django.views.generic import CreateView, ListView
 from .models import Contract
@@ -104,7 +103,7 @@ def update_contract(request, pk):
 def view_contract_pdf(request, pk, v):
     fs = FileSystemStorage()
     filename = 'contract_' + str(pk) + '_version_' + str(v) + '.pdf'
-    path = os.path.join(apps.get_app_config('contracts').path, 'contracts', filename)
+    path = os.path.join('contracts', 'contracts', filename)
     if fs.exists(path):
         with fs.open(path) as pdf:
             response = HttpResponse(pdf, content_type='application/pdf')

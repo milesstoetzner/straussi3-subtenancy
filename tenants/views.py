@@ -1,13 +1,13 @@
-from django.views.generic import CreateView, ListView
-from tenants.models import User, MainTenant, SubTenant, BlockedTenantID, BlockedStudentID
+from django.views.generic import ListView
+from tenants.models import User, SubTenant, BlockedTenantID, BlockedStudentID
 from tenants.forms import UserForm, UserUpdateForm, MainTenantForm, MainTenantUpdateForm, SubTenantForm, \
     SubTenantUpdateForm
 from django.urls import reverse
 from django.shortcuts import redirect, render, get_object_or_404
-from django.views.decorators.http import require_http_methods, require_GET, require_POST
+from django.views.decorators.http import require_http_methods, require_GET
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound
+from django.http import HttpResponseForbidden
 from django.db.models import ProtectedError
 from django.contrib import messages
 from django.core.mail import EmailMessage

@@ -1,3 +1,5 @@
+from django.db.transaction import atomic
+from subtenancy.permissions import is_assistant, is_maintenant, is_tenant
 from django.views.generic import CreateView, ListView
 from tenants.models import User, MainTenant, SubTenant, BlockedTenantID, BlockedStudentID
 from tenants.forms import UserForm, UserUpdateForm, MainTenantForm, MainTenantUpdateForm, SubTenantForm, \
@@ -17,18 +19,7 @@ from .faq import faq_subtenant, faq_maintenant
 import datetime
 
 
-def is_assistant(user):
-    return user.is_assistant
-
-
-def is_maintenant(user):
-    return user.is_maintenant
-
-
-def is_tenant(user):
-    return user.is_maintenant or user.is_subtenant
-
-
+@atomic
 @csrf_protect
 @require_http_methods(["GET", "POST"])
 def create_tenant(request, is_maintenant):
@@ -109,6 +100,7 @@ def view_tenant(request, pk):
     return render(request, 'tenants/view.html', context)
 
 
+@atomic
 @csrf_protect
 @login_required
 @require_http_methods(["GET", "POST"])
@@ -159,7 +151,7 @@ def update_tenant(request, pk):
                 user_form.save()
                 tenant_form.save()
 
-                messages.success(request, 'Änderungen wurden erfoglreich übernommen!')
+                messages.success(request, 'Änderungen wurden erfolgreich übernommen!')
 
             else:
                 messages.info(request, 'Es gab keine Änderungen!')
@@ -177,6 +169,7 @@ def update_tenant(request, pk):
     return render(request, 'tenants/update.html', context)
 
 
+@atomic
 @csrf_protect
 @login_required
 @user_passes_test(is_tenant)

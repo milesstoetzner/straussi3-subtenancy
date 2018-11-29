@@ -2,7 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 from tenants.models import MainTenant, SubTenant, ResidentialHome
-from .utils import add_one_month
+from .utils import add_one_month, is_end_of_month
 
 
 class Contract(models.Model):
@@ -25,8 +25,6 @@ class Contract(models.Model):
     is_changed = models.BooleanField(default=True)
 
     version = models.IntegerField(default=0)
-
-    # TODO: Zimmer Checkliste
 
     # TODO: implement comments
 
@@ -67,18 +65,17 @@ class Contract(models.Model):
         months.append(end)
 
         # add last rent
-        # TODO: add schaltjahr 28 Tage Februar and shit
-        if contract.end.day == 30 or contract.end.day == 31:
+        if is_end_of_month(contract.end):
             rents.append(contract.maintenant.rent)
         else:
             rents.append(contract.end.day * daily_rent)
 
         # fill array until 6 entries (for displaying contract details)
-        while len(months) < 7:
+        while len(months) < 6:
             months.append("")
 
         # fill array until 6 entries (for displaying contract details)
-        while len(rents) < 7:
+        while len(rents) < 6:
             rents.append("")
 
         return {'months': months, 'rents': rents}

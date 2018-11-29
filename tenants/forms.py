@@ -1,4 +1,5 @@
-from django.forms import ModelForm, TextInput, DateInput, EmailInput, Select, NumberInput, CheckboxInput, PasswordInput
+from django.forms import ModelForm, TextInput, DateInput, EmailInput, Select, NumberInput, CheckboxInput, PasswordInput, \
+    Textarea
 from .models import User, MainTenant, SubTenant, ResidentialHome, BlockedTenantID, BlockedStudentID
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
@@ -16,7 +17,6 @@ class ResidentialHomeForm(ModelForm):
 
 
 class UserForm(UserCreationForm):
-
     class Meta:
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'birthday', 'phone_number']
         model = User
@@ -26,7 +26,6 @@ class UserForm(UserCreationForm):
 
 
 class UserUpdateForm(ModelForm):
-
     class Meta(UserForm.Meta):
         fields = ['first_name', 'last_name', 'email', 'birthday', 'phone_number']
 
@@ -43,8 +42,10 @@ class MainTenantForm(ModelForm):
         begin_subtenancy = cleaned_date.get('begin_subtenancy')
         end_subtenancy = cleaned_date.get('end_subtenancy')
         rent = cleaned_date.get('rent')
-        is_room_appropriate = cleaned_date.get('is_room_appropriate')
         tenant_id = cleaned_date.get('tenant_id')
+        room_condition = cleaned_date.get('room_condition')
+        flat_condition = cleaned_date.get('flat_condition')
+        stowage = cleaned_date.get('stowage')
 
         # check black list
         if tenant_id:
@@ -62,12 +63,14 @@ class MainTenantForm(ModelForm):
         # house_number of residential_home
         if residential_home and house_number:
             if house_number not in residential_home.get_house_numbers_as_list():
-                self.add_error('house_number', 'Diese Hausnummer existiert nicht. Erlaubt sind: ' + residential_home.house_numbers)
+                self.add_error('house_number',
+                               'Diese Hausnummer existiert nicht. Erlaubt sind: ' + residential_home.house_numbers)
 
         # room_number of residential_home
         if residential_home and room_number:
             if room_number not in residential_home.get_room_numbers_as_list():
-                self.add_error('room_number', 'Diese Zimmernummer existiert nicht. Erlaubt sind: ' + residential_home.room_numbers)
+                self.add_error('room_number',
+                               'Diese Zimmernummer existiert nicht. Erlaubt sind: ' + residential_home.room_numbers)
 
         # begin_subtenancy < end_subtenancy
         if begin_subtenancy and end_subtenancy:
@@ -79,9 +82,17 @@ class MainTenantForm(ModelForm):
             if rent < 0:
                 self.add_error('rent', 'Die Tagesmiete muss positiv sein!')
 
-        # is_room_appropriate is false
-        if not is_room_appropriate:
-                self.add_error('is_room_appropriate', 'Dein Zimmer muss in einem ordnungsgemäßen Zustand sein!')
+        # bed_appropriate is false
+        if not room_condition:
+            self.add_error('room_condition', 'Dein Zimmer muss in einem ordnungsgemäßen Zustand sein!')
+
+        # flat_condition is false
+        if not flat_condition:
+            self.add_error('flat_condition', 'Deine Wohnung muss in einem ordnungsgemäßen Zustand sein!')
+
+        # stowage is false
+        if not stowage:
+            self.add_error('stowage', 'Es muss Stauraum bereit stehen!')
 
     class Meta:
         model = MainTenant
@@ -95,8 +106,20 @@ class MainTenantForm(ModelForm):
             'begin_subtenancy': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'end_subtenancy': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'is_returning': Select(choices=BOOLEAN_CHOICES),
-            'is_room_appropriate': Select(choices=BOOLEAN_CHOICES),
-            'is_searching': Select(choices=BOOLEAN_CHOICES)
+            'is_searching': Select(choices=BOOLEAN_CHOICES),
+            'bed': Select(choices=BOOLEAN_CHOICES),
+            'bed_drawer': Select(choices=BOOLEAN_CHOICES),
+            'wardrobe': Select(choices=BOOLEAN_CHOICES),
+            'regal': Select(choices=BOOLEAN_CHOICES),
+            'tabletop': Select(choices=BOOLEAN_CHOICES),
+            'base_frame': Select(choices=BOOLEAN_CHOICES),
+            'chair': Select(choices=BOOLEAN_CHOICES),
+            'walls': Select(choices=BOOLEAN_CHOICES),
+            'room_condition': Select(choices=BOOLEAN_CHOICES),
+            'flat_condition': Select(choices=BOOLEAN_CHOICES),
+            'stowage': Select(choices=BOOLEAN_CHOICES),
+            'room_comment': Textarea(attrs={'rows': 1})
+
         }
 
 

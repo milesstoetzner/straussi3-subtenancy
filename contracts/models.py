@@ -75,7 +75,6 @@ class Contract(models.Model):
 
         # fill array until 6 entries (for displaying contract details)
         while len(months) < 7:
-            print(months.__sizeof__())
             months.append("")
 
         # fill array until 6 entries (for displaying contract details)

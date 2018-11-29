@@ -90,6 +90,10 @@
             color: red;
         }
 
+        .bold {
+            font-weight: bold;
+        }
+
         .data {
             background-color: #f1f3f4;
         }
@@ -180,6 +184,11 @@
         </tr>
 
         <tr>
+            <td>Ferienmieternummer</td>
+            <td> {{ main.pk }}</td>
+        </tr>
+
+        <tr>
             <td>E-Mail</td>
             <td> {{ main.user.email }}</td>
         </tr>
@@ -228,6 +237,12 @@
         <tr>
             <td>Nachname</td>
             <td> {{ sub.user.last_name }}</td>
+        </tr>
+
+
+        <tr>
+            <td>Ferienmieternummer</td>
+            <td> {{ sub.pk }}</td>
         </tr>
 
         <tr>
@@ -368,6 +383,17 @@
     <h2>Allgemein</h2>
     <table>
         <tbody>
+
+        <tr>
+            <td>Hauptmieter</td>
+            <td> {{ main.user.get_full_name }} </td>
+        </tr>
+
+        <tr>
+            <td>Untermieter</td>
+            <td> {{ sub.user.get_full_name }} </td>
+        </tr>
+
         <tr>
             <td>Zimmer</td>
             <td> {{ main.house_number }} {{ main.room_number }}</td>
@@ -385,41 +411,6 @@
         </tbody>
     </table>
 
-    <h2>Hauptmieter</h2>
-
-
-    <table>
-        <tbody>
-        <tr>
-            <td>Vorname</td>
-            <td> {{ main.user.first_name }} </td>
-        </tr>
-
-        <tr>
-            <td>Nachname</td>
-            <td> {{ main.user.last_name }}</td>
-        </tr>
-
-        </tbody>
-    </table>
-
-    <h2>Untermieter</h2>
-
-
-    <table>
-        <tbody>
-        <tr>
-            <td>Vorname</td>
-            <td> {{ sub.user.first_name }} </td>
-        </tr>
-
-        <tr>
-            <td>Nachname</td>
-            <td> {{ sub.user.last_name }}</td>
-        </tr>
-
-        </tbody>
-    </table>
 
     <p class="block skip">Hiermit bestätigen wir, dass für das oben angegebene Zimmer eine über das Wohnheimsreferat
         Straußäcker 3
@@ -460,6 +451,17 @@
     <h2>Allgemein</h2>
     <table>
         <tbody>
+
+        <tr>
+            <td>Hauptmieter</td>
+            <td> {{ main.user.get_full_name }} </td>
+        </tr>
+
+        <tr>
+            <td>Untermieter</td>
+            <td> {{ sub.user.get_full_name }} </td>
+        </tr>
+
         <tr>
             <td>Zimmer</td>
             <td> {{ main.house_number }} {{ main.room_number }}</td>
@@ -477,43 +479,7 @@
         </tbody>
     </table>
 
-        <h2>Hauptmieter</h2>
-
-
-    <table>
-        <tbody>
-        <tr>
-            <td>Vorname</td>
-            <td> {{ main.user.first_name }} </td>
-        </tr>
-
-        <tr>
-            <td>Nachname</td>
-            <td> {{ main.user.last_name }}</td>
-        </tr>
-
-        </tbody>
-    </table>
-
-    <h2>Untermieter</h2>
-
-
-    <table>
-        <tbody>
-        <tr>
-            <td>Vorname</td>
-            <td> {{ sub.user.first_name }} </td>
-        </tr>
-
-        <tr>
-            <td>Nachname</td>
-            <td> {{ sub.user.last_name }}</td>
-        </tr>
-
-        </tbody>
-    </table>
-
-    <p class="skip">Der Hauptmieter bestätigt die Vollständigkeit seines Mobiliars und dessen entsprechenden guten Zustand. Das Zimmer wird gereinigt übergeben. Der Ferienmieter hat eine Woche Zeit etwaige Beanstandungen zu melden. Alle Punkte sind entsprechend zu bestätigen.</p>
+    <p class="skip block">Der Hauptmieter bestätigt die Vollständigkeit seines Mobiliars und dessen entsprechenden guten Zustand. Das Zimmer wird gereinigt übergeben. Der Ferienmieter hat eine Woche Zeit etwaige Beanstandungen zu melden. Alle Punkte sind entsprechend zu bestätigen.</p>
 
     <h2>Checkliste</h2>
 
@@ -590,7 +556,7 @@
         </tbody>
     </table>
 
-    <p class="skip"> <!-- TODO: caution comment --> </p>
+    <p class="skip block"> <!-- TODO: caution comment --> </p>
 
 
         <table class="text-center bottom" style="margin-top: 20mm">
@@ -622,6 +588,17 @@
     <h2>Allgemein</h2>
     <table>
         <tbody>
+
+        <tr>
+            <td>Hauptmieter</td>
+            <td> {{ main.user.get_full_name }} </td>
+        </tr>
+
+        <tr>
+            <td>Untermieter</td>
+            <td> {{ sub.user.get_full_name }} </td>
+        </tr>
+
         <tr>
             <td>Zimmer</td>
             <td> {{ main.house_number }} {{ main.room_number }}</td>
@@ -638,49 +615,12 @@
         </tr>
 
         <tr>
-            <td class="text-red">Kaution zurück</td>
-            <td class="text-red"> {{ contract.maintenant.is_returning|yesno:"Nein, Ja" }}</td>
+            <td>Kaution zurück</td>
+            <td> {{ contract.maintenant.is_returning|yesno:"Nein, Ja" }}</td>
         </tr>
 
         </tbody>
     </table>
-
-        <h2>Hauptmieter</h2>
-
-
-    <table>
-        <tbody>
-        <tr>
-            <td>Vorname</td>
-            <td> {{ main.user.first_name }} </td>
-        </tr>
-
-        <tr>
-            <td>Nachname</td>
-            <td> {{ main.user.last_name }}</td>
-        </tr>
-
-        </tbody>
-    </table>
-
-    <h2>Untermieter</h2>
-
-
-    <table>
-        <tbody>
-        <tr>
-            <td>Vorname</td>
-            <td> {{ sub.user.first_name }} </td>
-        </tr>
-
-        <tr>
-            <td>Nachname</td>
-            <td> {{ sub.user.last_name }}</td>
-        </tr>
-
-        </tbody>
-    </table>
-
 
     <h2>Checkliste</h2>
 

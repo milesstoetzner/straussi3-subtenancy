@@ -1,5 +1,6 @@
 from django import template
 
+
 register = template.Library()
 
 
@@ -16,3 +17,9 @@ def has_group(user, group_name):
 @register.filter(name='int_as_range')
 def int_as_range(value):
     return list(range(value, 0, -1))
+
+
+# TODO: replace with yesno tag
+@register.filter(name='boolean_de')
+def boolean_de(value):
+    return 'Ja' if value else 'Nein'

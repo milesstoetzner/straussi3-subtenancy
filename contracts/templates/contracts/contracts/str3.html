@@ -1,22 +1,724 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="de">
-<head>
+{% load custom_extras %}
 
-    <title>Title</title>
-    <style type="text/css">
+<html>
+<head>
+    <style>
+
+        /*
+
+        offset  50px
+        content width 512 px
+        vertical center 256 px
+
+         */
+
+        @page {
+            size: A4;
+            @frame header_frame_left { /* Static Frame */
+            -pdf-frame-content: header_content_left;
+            left: 25mm;
+            width: 100pt;
+            top: 25mm;
+            height: 60pt;
+        }
+
+        @frame header_frame_right {
+            /* Static Frame */
+        -pdf-frame-content:header_content_right;
+        right: 25mm;
+        width: 135pt;
+        top: 25mm;
+        height: 100pt;
+        }
+
+        @frame content_frame {
+            /* Content Frame */
+        left 25mm;
+        width: 160mm;
+        top: 60mm;
+        height: 210mm;
+            /*-pdf-frame-border: 1;*/
+
+
+        }
+
+        @frame footer_frame {
+            /* Another static Frame */
+        -pdf-frame-content:footer_content;
+        right: 25mm; width: 156mm; bottom: 15mm; height: 20pt;
+        }
+        }
+
+        body {
+            font-size: 12px;
+        }
+
+        h1 {
+            font-size: 14px;
+        }
+
+        h2 {
+            font-size: 12px;
+            margin-top: 5mm;
+            margin-bottom: 0;
+        }
+
+        .block {
+            text-align: justify;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .signature {
+            padding-top: 3px;
+            border-top: 1px solid black;
+            border-right: 10px solid white;
+            border-left: 10px solid white;
+        }
+
+        .pagebreak {
+            page-break-before: always;
+        }
+
+        .skip {
+            padding-top: 5mm;
+        }
+
+        .text-red {
+            color: red;
+        }
+
+        .data {
+            background-color: #f1f3f4;
+        }
+
+        Atable {
+            border: 1px solid black;
+        }
+
     </style>
 
+    <meta charset="UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+
 </head>
+
 <body>
+{% with main=contract.maintenant sub=contract.subtenant %}
 
-{% with main=contract.maintenant sub=contract.subtenant%}
 
-    <!-- TODO: write str3 contract hmtl -->
+    <!-- Content for Static Frame 'header_frame' -->
+    <div id="header_content_left">
+        <p>Vertragsnummer {{ contract.id }}</p>
+    </div>
 
-<h1>Vertrag: {{ contract }}</h1>
-<h1>Hauptmieter: {{ main }}</h1>
-<h1>Untermieter: {{ sub }}</h1>
+    <div id="header_content_right">
+        <!-- TODO add logo -->
+
+        <p>
+            Wohnheimsreferat Straußäcker 3<br>
+            Allmandring 3D<br>
+            wore.str3@gmail.com<br>
+            https://str3.wh-stuttgart.net<br>
+            Sprechstunde Di. 19.00 - 20.00
+        </p>
+    </div>
+
+    <!-- Content for Static Frame 'footer_frame' -->
+    <div id="footer_content" style="text-align: right">Seite
+        <pdfpagenumber>
+            von
+            <pdfpagecount>
+    </div>
+
+    <!-----------------------------
+
+            Untermietvertrag
+
+    ------------------------------>
+
+    <h1>Untermietvertrag</h1>
+
+    <h2>Allgemein</h2>
+    <table>
+        <tbody>
+        <tr>
+            <td>Zimmer</td>
+            <td> {{ main.house_number }} {{ main.room_number }} </td>
+        </tr>
+
+        <tr>
+            <td>Begin</td>
+            <td> {{ contract.begin|date:"SHORT_DATE_FORMAT" }}</td>
+        </tr>
+
+        <tr>
+            <td>Ende</td>
+            <td> {{ contract.end|date:"SHORT_DATE_FORMAT" }}</td>
+        </tr>
+
+        </tbody>
+    </table>
+
+
+    <h2>Hauptmieter</h2>
+
+    <table>
+
+        <tbody>
+        <tr>
+            <td>Vorname</td>
+            <td> {{ main.user.first_name }}</td>
+        </tr>
+
+        <tr>
+            <td>Nachname</td>
+            <td> {{ main.user.last_name }}</td>
+        </tr>
+
+        <tr>
+            <td>E-Mail</td>
+            <td> {{ main.user.email }}</td>
+        </tr>
+        <tr>
+            <td>Telefon</td>
+            <td> {{ main.user.phone_number }}</td>
+        </tr>
+
+        <tr>
+            <td>Mieternummer</td>
+            <td> {{ main.tenant_id }}</td>
+        </tr>
+
+        <tr>
+            <td>Mietzeitraum</td>
+            <td> {{ main.begin_rent_agreement|date:"SHORT_DATE_FORMAT" }}
+                - {{ main.end_rent_agreement|date:"SHORT_DATE_FORMAT" }}</td>
+        </tr>
+
+        <tr>
+            <td>Rückkehr</td>
+            <td> {{ contract.is_returning|boolean_de }}</td>
+        </tr>
+
+        <tr>
+            <td>Kautionszahlung</td>
+            <td> {% if contract.caution %}Getätigt und vom WoRe bezeugt{% else %} Nein {% endif %}</td>
+        </tr>
+
+        <tr>
+            <td>Zimmer in ordnungsgemäßen Zustand</td>
+            <td> {{ main.is_room_appropriate|boolean_de }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Untermieter</h2>
+
+    <table>
+        <tbody>
+        <tr>
+            <td>Vorname</td>
+            <td> {{ sub.user.first_name }}</td>
+        </tr>
+
+        <tr>
+            <td>Nachname</td>
+            <td> {{ sub.user.last_name }}</td>
+        </tr>
+
+        <tr>
+            <td>E-Mail</td>
+            <td> {{ sub.user.email }}</td>
+        </tr>
+        <tr>
+            <td>Telefon</td>
+            <td> {{ sub.user.phone_number }}</td>
+        </tr>
+
+        <tr>
+            <td>Geburtstag</td>
+            <td> {{ sub.user.birthday|date:"SHORT_DATE_FORMAT" }}</td>
+        </tr>
+
+        <tr>
+            <td>Staatsangehörigkeit</td>
+            <td> {{ sub.nationality }}</td>
+        </tr>
+
+        <tr>
+            <td>Lichtbildausweis o.Ä.</td>
+            <td> {{ contract.is_identified|boolean_de }}</td>
+        </tr>
+
+        <tr>
+            <td>Immatrikulationsbescheinigung o.Ä.</td>
+            <td> {{ contract.is_matriculated|boolean_de }}</td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <h2>Kontaktadresse des Untermieters nach Auszug</h2>
+
+    <table>
+        <tbody>
+        <tr>
+            <td>Name</td>
+            <td> {{ sub.name }}</td>
+        </tr>
+
+        <tr>
+            <td>Straße</td>
+            <td> {{ sub.street }} {{ sub.house_number }}</td>
+        </tr>
+        <tr>
+            <td>PLZ, Ort</td>
+            <td> {{ sub.postcode }}, {{ sub.city }}</td>
+        </tr>
+        <tr>
+            <td>Land</td>
+            <td> {{ sub.country }} </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <div class="pagebreak"></div>
+
+    <h2>Vertragsbedingungen</h2>
+    <p class="block" style="margin-top: 0">Die Miete darf nicht höher sein als die vertragliche Miete des Hauptmieters. Das Zimmer wird für
+        den o.g. Zeitraum vom Hauptmieter zur Untermiete zur Verfügung gestellt. Der Untermieter tritt während dieses
+        Zeitraums dem zwischen dem Studierendenwerk Stuttgart und dem Hauptmieter bestehenden Mietverhältnis bei. Er
+        haftet gegenüber dem Studierendenwerk Stuttgart gemeinsam mit dem Hauptmieter als Gesamtschuldner. Mit der
+        Unterschrift verpflichtet sich der Untermieter, die allgemeinen Mietbedingungen, die Gebührenordnung, die
+        Hausordnung sowie alle bestehenden Zusatzvereinbarungen die zwischen dem Hauptmieter und dem Studierendenwerk
+        Stuttgart bestehen, zu akzeptieren und einzuhalten. Der Untermieter verpflichtet sich seinerseits, das Zimmer
+        nach Ablauf des Untermietverhältnisses in gereinigtem Zustand an den Hauptmieter zu übergeben. Der Hauptmieter
+        bestätigt mit Unterzeichnung, dass er mit dieser und anderen Untervermietungen die aufsummierte
+        Gesamtuntervermietungsdauer von 3 Monaten nicht überschreitet. Die Mietzahlung erfolgt direkt an den
+        Hauptmieter.</p>
+
+
+    <h2>Miete</h2>
+
+    {% with data=contract.get_rents %}
+
+        <table>
+
+            <tbody>
+
+            <tr>
+                <td>Zeitraum</td>
+
+
+                {% for month in data.months %}
+                    <td> {{ month|date:"M Y" }}</td>
+                {% endfor %}
+
+            </tr>
+
+            <tr>
+
+                <td>Miete</td>
+
+                {% for rent in data.rents %}
+                    <td> {% if rent %}{{ rent }} €{% endif %}</td>
+                {% endfor %}
+
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    {% endwith %}
+
+
+    <table class="text-center bottom" style="margin-top: 105mm">
+
+        <tbody>
+
+        <tr>
+            <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
+            <td></td>
+            <td class="signature"> Unterschrift Hauptmieter</td>
+            <td class="signature"> Unterschrift Untermieter</td>
+            <td class="signature"> Unterschrift &<br>Stempel WoRe</td>
+        </tr>
+
+        </tbody>
+
+    </table>
+
+    <div class="pagebreak"></div>
+
+    <!-----------------------------
+
+            Bestätigung der Ferienvermietung
+
+    ------------------------------>
+
+    <h1>Bestätigung der Ferienvermietung</h1>
+
+    <h2>Allgemein</h2>
+    <table>
+        <tbody>
+        <tr>
+            <td>Zimmer</td>
+            <td> {{ main.house_number }} {{ main.room_number }}</td>
+        </tr>
+
+        <tr>
+            <td>Begin</td>
+            <td> {{ contract.begin|date:"SHORT_DATE_FORMAT" }}</td>
+        </tr>
+
+        <tr>
+            <td>Ende</td>
+            <td> {{ contract.end|date:"SHORT_DATE_FORMAT" }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Hauptmieter</h2>
+
+
+    <table>
+        <tbody>
+        <tr>
+            <td>Vorname</td>
+            <td> {{ main.user.first_name }} </td>
+        </tr>
+
+        <tr>
+            <td>Nachname</td>
+            <td> {{ main.user.last_name }}</td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <h2>Untermieter</h2>
+
+
+    <table>
+        <tbody>
+        <tr>
+            <td>Vorname</td>
+            <td> {{ sub.user.first_name }} </td>
+        </tr>
+
+        <tr>
+            <td>Nachname</td>
+            <td> {{ sub.user.last_name }}</td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <p class="block skip">Hiermit bestätigen wir, dass für das oben angegebene Zimmer eine über das Wohnheimsreferat
+        Straußäcker 3
+        durchgeführte Ferienvermietung besteht. Das Nutzungsrecht für das vermietete Zimmer liegt ausschließlich beim
+        Ferienmieter. Eine gültige Immatrikulationsbestätigung und ein Lichtbildausweis o.Ä des Ferienmieters wurden
+        vorgelegt. Das Wohnungsreferat gibt die Meldung dem Mietvertrag entsprechend an das Studierendenwerk Stuttgart
+        weiter.</p>
+
+    <p>Die Aufwandsentschädigung von {{ contract.donation }} € wurde entrichtet.</p>
+
+
+    <table class="text-center bottom" style="margin-top: 70mm">
+
+        <tbody>
+
+        <tr>
+            <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="signature"> Unterschrift &<br>Stempel WoRe</td>
+        </tr>
+
+        </tbody>
+
+    </table>
+
+    <div class="pagebreak"></div>
+
+    <!-----------------------------
+
+          Checkliste Zimmer
+
+    ------------------------------>
+
+  <h1>Checkliste Zimmer</h1>
+
+    <h2>Allgemein</h2>
+    <table>
+        <tbody>
+        <tr>
+            <td>Zimmer</td>
+            <td> {{ main.house_number }} {{ main.room_number }}</td>
+        </tr>
+
+        <tr>
+            <td>Begin</td>
+            <td> {{ contract.begin|date:"SHORT_DATE_FORMAT" }}</td>
+        </tr>
+
+        <tr>
+            <td>Ende</td>
+            <td> {{ contract.end|date:"SHORT_DATE_FORMAT" }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+        <h2>Hauptmieter</h2>
+
+
+    <table>
+        <tbody>
+        <tr>
+            <td>Vorname</td>
+            <td> {{ main.user.first_name }} </td>
+        </tr>
+
+        <tr>
+            <td>Nachname</td>
+            <td> {{ main.user.last_name }}</td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <h2>Untermieter</h2>
+
+
+    <table>
+        <tbody>
+        <tr>
+            <td>Vorname</td>
+            <td> {{ sub.user.first_name }} </td>
+        </tr>
+
+        <tr>
+            <td>Nachname</td>
+            <td> {{ sub.user.last_name }}</td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <p class="skip">Der Hauptmieter bestätigt die Vollständigkeit seines Mobiliars und dessen entsprechenden guten Zustand. Das Zimmer wird gereinigt übergeben. Der Ferienmieter hat eine Woche Zeit etwaige Beanstandungen zu melden. Alle Punkte sind entsprechend zu bestätigen.</p>
+
+    <h2>Checkliste</h2>
+
+    <!-- TODO: checkliste -->
+
+    <table>
+        <tbody>
+        <tr>
+            <td>Matratze</td>
+            <td>  </td>
+        </tr>
+
+        <tr>
+            <td>Bettkasten</td>
+            <td> </td>
+        </tr>
+
+        <tr>
+            <td>Anzahl Bettpolster</td>
+            <td> </td>
+        </tr>
+
+        <tr>
+            <td>Bettkasten</td>
+            <td> </td>
+        </tr>
+
+        <tr>
+            <td>Schrank</td>
+            <td> </td>
+        </tr>
+
+        <tr>
+            <td>Regal</td>
+            <td> </td>
+        </tr>
+
+        <tr>
+            <td>Tischplatte</td>
+            <td> </td>
+        </tr>
+
+        <tr>
+            <td>2x Unterschrank</td>
+            <td> </td>
+        </tr>
+
+        <tr>
+            <td>Stuhl</td>
+            <td> </td>
+        </tr>
+
+        <tr>
+            <td>Wände</td>
+            <td> </td>
+        </tr>
+
+        <tr>
+            <td>Gereinigt</td>
+            <td> </td>
+        </tr>
+
+        <tr>
+            <td>Gemeinschaftsräume sauber</td>
+            <td> </td>
+        </tr>
+
+        <tr>
+            <td>Stauraum in Küche/Kühlschrank steht bereit</td>
+            <td> </td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+    <p class="skip"> <!-- TODO: caution comment --> </p>
+
+
+        <table class="text-center bottom" style="margin-top: 20mm">
+
+        <tbody>
+
+        <tr>
+            <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="signature"> Unterschrift &<br>Stempel WoRe</td>
+        </tr>
+
+        </tbody>
+
+    </table>
+
+    <div class="pagebreak"></div>
+
+    <!-----------------------------
+
+          Checkliste Hauptmieter
+
+    ------------------------------>
+
+  <h1>Checkliste Hauptmieter</h1>
+
+    <h2>Allgemein</h2>
+    <table>
+        <tbody>
+        <tr>
+            <td>Zimmer</td>
+            <td> {{ main.house_number }} {{ main.room_number }}</td>
+        </tr>
+
+        <tr>
+            <td>Begin</td>
+            <td> {{ contract.begin|date:"SHORT_DATE_FORMAT" }}</td>
+        </tr>
+
+        <tr>
+            <td>Ende</td>
+            <td> {{ contract.end|date:"SHORT_DATE_FORMAT" }}</td>
+        </tr>
+
+        <tr>
+            <td class="text-red">Kaution zurück</td>
+            <td class="text-red"> {{ contract.maintenant.is_returning|yesno:"Nein, Ja" }}</td>
+        </tr>
+
+        </tbody>
+    </table>
+
+        <h2>Hauptmieter</h2>
+
+
+    <table>
+        <tbody>
+        <tr>
+            <td>Vorname</td>
+            <td> {{ main.user.first_name }} </td>
+        </tr>
+
+        <tr>
+            <td>Nachname</td>
+            <td> {{ main.user.last_name }}</td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <h2>Untermieter</h2>
+
+
+    <table>
+        <tbody>
+        <tr>
+            <td>Vorname</td>
+            <td> {{ sub.user.first_name }} </td>
+        </tr>
+
+        <tr>
+            <td>Nachname</td>
+            <td> {{ sub.user.last_name }}</td>
+        </tr>
+
+        </tbody>
+    </table>
+
+
+    <h2>Checkliste</h2>
+
+    <ul style="padding-left: 5mm">
+        <li class="text-red"><b>Bankdaten für die Rückzahlung der Kaution heraussuchen und Hausmeister geben</b></li>
+        <li>Fenster, Fensterrahmen gereinigt</li>
+        <li>Tür, Türrahmen gereinigt</li>
+        <li>Fußboden gereinigt</li>
+        <li>Inventar (Schränke etc.) gereinigt</li>
+        <li>Küche gereinigt</li>
+        <li>Essbereich gereinigt</li>
+        <li>Bad gereinigt</li>
+        <li>Toilette gereinigt</li>
+        <li>Flur gereinigt</li>
+        <li>Alle persönlichen Sachen entfernt</li>
+    </ul>
+
+    <p class="skip text-red"><b>Die Miete wird weiterhin vom Hauptmieter an das Studierendenwerk Stuttgart überwiesen.</b></p>
+
+        <table class="text-center bottom" style="margin-top: 40mm">
+
+        <tbody>
+
+        <tr>
+            <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        </tbody>
+
+    </table>
+
+
 
 {% endwith %}
+
 </body>
 </html>

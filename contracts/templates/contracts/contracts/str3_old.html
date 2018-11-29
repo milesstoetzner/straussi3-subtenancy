@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="de">
+<head>
+
+    <title>Title</title>
+    <style type="text/css">
+        @page {
+            size: A4;
+            margin: 1.5cm;
+            @top-right {
+                content: "oben rechts lol";
+            }
+        }
+    </style>
+
+</head>
+<body>
+
+{% with main=contract.maintenant sub=contract.subtenant %}
+
+    <!-- TODO: write str3 contract hmtl -->
+
+    <h1>Vertrag: {{ contract }}</h1>
+    <h1>Hauptmieter: {{ main }}</h1>
+    <h1>Untermieter: {{ sub }}</h1>
+
+{% endwith %}
+</body>
+</html>

@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 from tenants.models import MainTenant, SubTenant, ResidentialHome
+from .utils import add_one_month
 
 
 class Contract(models.Model):
@@ -37,6 +38,51 @@ class Contract(models.Model):
 
     def is_latest(self):
         return not self.is_changed and self.updated_at >= self.maintenant.updated_at and self.updated_at >= self.subtenant.updated_at
+
+    def get_rents(contract):
+        months = []
+        rents = []
+        current = contract.begin.replace(day=1)
+        end = contract.end.replace(day=1)
+        daily_rent = contract.maintenant.rent / 30
+
+        # first month
+        months.append(current)
+        current = add_one_month(current)
+
+        # rent first month
+        delta = current - contract.begin
+        rents.append(delta.days * daily_rent)
+
+        while current < end:
+            # add month between first and last month
+            months.append(current)
+
+            # add rents between first and last rent
+            rents.append(contract.maintenant.rent)
+
+            current = add_one_month(current)
+
+        # add last month
+        months.append(end)
+
+        # add last rent
+        # TODO: add schaltjahr 28 Tage Februar and shit
+        if contract.end.day == 30 or contract.end.day == 31:
+            rents.append(contract.maintenant.rent)
+        else:
+            rents.append(contract.end.day * daily_rent)
+
+        # fill array until 6 entries (for displaying contract details)
+        while len(months) < 7:
+            print(months.__sizeof__())
+            months.append("")
+
+        # fill array until 6 entries (for displaying contract details)
+        while len(rents) < 7:
+            rents.append("")
+
+        return {'months': months, 'rents': rents}
 
     def __str__(self):
         return str(

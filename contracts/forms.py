@@ -2,6 +2,8 @@ from django.forms import ModelForm, TextInput, Textarea, DateInput, Select, Numb
 from .models import Contract
 from tenants.forms import BOOLEAN_CHOICES
 
+# TODO: blocked? inactive?
+
 
 class ContractForm(ModelForm):
     def clean(self):

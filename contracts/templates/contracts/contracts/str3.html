@@ -1,4 +1,5 @@
 {% load custom_extras %}
+{% load static %}
 
 <html>
 <head>
@@ -29,6 +30,13 @@
         width: 135pt;
         top: 25mm;
         height: 100pt;
+        }
+
+            @frame logo {
+                    -pdf-frame-content:logo;
+            left: 120mm;
+            top: 24mm;
+
         }
 
         @frame content_frame {
@@ -94,6 +102,10 @@
             font-weight: bold;
         }
 
+        .italic {
+            font-style: italic;
+        }
+
         .data {
             background-color: #f1f3f4;
         }
@@ -119,9 +131,9 @@
         <p>Vertragsnummer {{ contract.id }}</p>
     </div>
 
-    <div id="header_content_right">
-        <!-- TODO add logo -->
+    <img src="http://127.0.0.1:8000/static/tenants/logo_str3.png" width="20mm" height="20mm" id="logo">
 
+    <div id="header_content_right">
         <p>
             Wohnheimsreferat Straußäcker 3<br>
             Allmandring 3D<br>
@@ -145,6 +157,7 @@
     ------------------------------>
 
     <h1>Untermietvertrag</h1>
+
 
     <h2>Allgemein</h2>
     <table>
@@ -210,17 +223,17 @@
 
         <tr>
             <td>Rückkehr</td>
-            <td> {{ contract.is_returning|boolean_de }}</td>
+            <td> {{ contract.is_returning|yesno:"Ja, Nein" }}</td>
         </tr>
 
         <tr>
             <td>Kautionszahlung</td>
-            <td> {% if contract.caution %}Getätigt und vom WoRe bezeugt{% else %} Nein {% endif %}</td>
+            <td> {{ contract.caution|yesno:"Getätigt und vom WoRe bezeugt, Nein" }}</td>
         </tr>
 
         <tr>
             <td>Zimmer in ordnungsgemäßen Zustand</td>
-            <td> {{ main.is_room_appropriate|boolean_de }}</td>
+            <td> {{ main.is_room_appropriate|yesno:"Ja, Nein" }}</td>
         </tr>
         </tbody>
     </table>
@@ -266,12 +279,12 @@
 
         <tr>
             <td>Lichtbildausweis o.Ä.</td>
-            <td> {{ contract.is_identified|boolean_de }}</td>
+            <td> {{ contract.is_identified|yesno:"Kontrolliert, Nicht kontrolliert" }}</td>
         </tr>
 
         <tr>
             <td>Immatrikulationsbescheinigung o.Ä.</td>
-            <td> {{ contract.is_matriculated|boolean_de }}</td>
+            <td> {{ contract.is_matriculated|yesno:"Kontrolliert, Nicht kontrolliert" }}</td>
         </tr>
 
         </tbody>
@@ -305,7 +318,8 @@
     <div class="pagebreak"></div>
 
     <h2>Vertragsbedingungen</h2>
-    <p class="block" style="margin-top: 0">Die Miete darf nicht höher sein als die vertragliche Miete des Hauptmieters. Das Zimmer wird für
+    <p class="block" style="margin-top: 0">Die Miete darf nicht höher sein als die vertragliche Miete des Hauptmieters.
+        Das Zimmer wird für
         den o.g. Zeitraum vom Hauptmieter zur Untermiete zur Verfügung gestellt. Der Untermieter tritt während dieses
         Zeitraums dem zwischen dem Studierendenwerk Stuttgart und dem Hauptmieter bestehenden Mietverhältnis bei. Er
         haftet gegenüber dem Studierendenwerk Stuttgart gemeinsam mit dem Hauptmieter als Gesamtschuldner. Mit der
@@ -446,7 +460,7 @@
 
     ------------------------------>
 
-  <h1>Checkliste Zimmer</h1>
+    <h1>Checkliste Zimmer</h1>
 
     <h2>Allgemein</h2>
     <table>
@@ -479,7 +493,9 @@
         </tbody>
     </table>
 
-    <p class="skip block">Der Hauptmieter bestätigt die Vollständigkeit seines Mobiliars und dessen entsprechenden guten Zustand. Das Zimmer wird gereinigt übergeben. Der Ferienmieter hat eine Woche Zeit etwaige Beanstandungen zu melden. Alle Punkte sind entsprechend zu bestätigen.</p>
+    <p class="skip block">Der Hauptmieter bestätigt die Vollständigkeit seines Mobiliars und dessen entsprechenden guten
+        Zustand. Das Zimmer wird gereinigt übergeben. Der Ferienmieter hat eine Woche Zeit etwaige Beanstandungen zu
+        melden. Alle Punkte sind entsprechend zu bestätigen.</p>
 
     <h2>Checkliste</h2>
 
@@ -489,67 +505,67 @@
         <tbody>
         <tr>
             <td>Matratze</td>
-            <td>  </td>
+            <td></td>
         </tr>
 
         <tr>
             <td>Bettkasten</td>
-            <td> </td>
+            <td></td>
         </tr>
 
         <tr>
             <td>Anzahl Bettpolster</td>
-            <td> </td>
+            <td></td>
         </tr>
 
         <tr>
             <td>Bettkasten</td>
-            <td> </td>
+            <td></td>
         </tr>
 
         <tr>
             <td>Schrank</td>
-            <td> </td>
+            <td></td>
         </tr>
 
         <tr>
             <td>Regal</td>
-            <td> </td>
+            <td></td>
         </tr>
 
         <tr>
             <td>Tischplatte</td>
-            <td> </td>
+            <td></td>
         </tr>
 
         <tr>
             <td>2x Unterschrank</td>
-            <td> </td>
+            <td></td>
         </tr>
 
         <tr>
             <td>Stuhl</td>
-            <td> </td>
+            <td></td>
         </tr>
 
         <tr>
             <td>Wände</td>
-            <td> </td>
+            <td></td>
         </tr>
 
         <tr>
-            <td>Gereinigt</td>
-            <td> </td>
+            <td>Zimmer gereinigt</td>
+            <td></td>
         </tr>
 
         <tr>
             <td>Gemeinschaftsräume sauber</td>
-            <td> </td>
+            <td></td>
         </tr>
 
         <tr>
             <td>Stauraum in Küche/Kühlschrank steht bereit</td>
-            <td> </td>
+            <td></td>
         </tr>
 
 
@@ -559,7 +575,7 @@
     <p class="skip block"> <!-- TODO: caution comment --> </p>
 
 
-        <table class="text-center bottom" style="margin-top: 20mm">
+    <table class="text-center bottom" style="margin-top: 20mm">
 
         <tbody>
 
@@ -583,7 +599,7 @@
 
     ------------------------------>
 
-  <h1>Checkliste Hauptmieter</h1>
+    <h1>Checkliste Hauptmieter</h1>
 
     <h2>Allgemein</h2>
     <table>
@@ -638,9 +654,10 @@
         <li>Alle persönlichen Sachen entfernt</li>
     </ul>
 
-    <p class="skip text-red"><b>Die Miete wird weiterhin vom Hauptmieter an das Studierendenwerk Stuttgart überwiesen.</b></p>
+    <p class="skip text-red"><b>Die Miete wird weiterhin vom Hauptmieter an das Studierendenwerk Stuttgart
+        überwiesen.</b></p>
 
-        <table class="text-center bottom" style="margin-top: 40mm">
+    <table class="text-center bottom" style="margin-top: 40mm">
 
         <tbody>
 
@@ -657,7 +674,229 @@
     </table>
 
 
+    {% if not main.is_returning %}
 
+        <div class="pagebreak"></div>
+
+        <!-----------------------------
+
+                Kautionsvertrag
+
+        ------------------------------>
+
+        <h1>Kautionsvertrag zwischen Ferienmieter und Hauptmieter</h1>
+        <p class="italic">Rental deposit agreement between sub-tenant and main-tenant</p>
+
+        <h2>Allgemein</h2>
+        <table>
+            <tbody>
+
+            <tr>
+                <td>Hauptmieter</td>
+                <td> {{ main.user.get_full_name }} </td>
+            </tr>
+
+            <tr>
+                <td>Untermieter</td>
+                <td> {{ sub.user.get_full_name }} </td>
+            </tr>
+
+            <tr>
+                <td>Zimmer</td>
+                <td> {{ main.house_number }} {{ main.room_number }}</td>
+            </tr>
+
+
+            <tr>
+                <td>Kaution</td>
+                <td> {{ contract.caution }} €</td>
+            </tr>
+
+            </tbody>
+        </table>
+
+
+        <p class="skip block">
+            Hiermit wird eine Kautionszahlung in oben genannter Höhe vom Ferienmieter an den Hauptmieter bestätigt. Das
+            WoRe bezeugt die Barzahlung/Transaktion. Die Kaution wird am Tag des Auszugs des Ferienmieters
+            zurückgezahlt, sofern keine Beanstandungen vorliegen. Im Falle eines Einwands wird dieser vom
+            SWS/Hausmeister geklärt. Es gelten die selben Kautionsbedingungen wie sie im Mietvertrag des Hauptmieters
+            mit dem Studierendenwerk Stuttgart aufgeführt sind.
+        </p>
+
+        <p class="skip block italic">
+            Herewith a deposit payment of the above stated amount is confirmed by the sub-tenant to the main-tenant. The
+            Wore testifies to the cash/ transaction. The deposit will be returned on the day of the move-out of the
+            sub-enant, unless objections are present. In case of an issue SWS (janitor) will clarify it. The same bail
+            conditions are applied as written in the rental contract of the main-tenant with the Studierendenwerk
+            Stuttgart.
+        </p>
+
+
+        {% if contract.caution_comment %}
+
+            <h2>Anmerkungen</h2>
+
+            <p class="block" style="margin-top: 0"> {{ contract.caution_comment }}</p>
+
+        {% endif %}
+
+        <table class="text-center bottom" style="margin-top: 25mm">
+
+            <tbody>
+
+            <tr>
+                <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
+                <td></td>
+                <td class="signature"> Unterschrift Hauptmieter</td>
+                <td class="signature"> Unterschrift Untermieter</td>
+                <td class="signature"> Unterschrift &<br>Stempel WoRe</td>
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    {% endif %}
+
+    <div class="pagebreak"></div>
+
+    <!-----------------------------
+
+       Wohnungsgeberbestätigung
+
+    ------------------------------>
+
+    <h1>Wohnungsgeberbestätigung nach § 19 des Bundesmeldegesetzes</h1>
+    <p>Hiermit wird ein Einzug in folgender Wohnung bestätigt</p>
+
+    <h2>Wohnung</h2>
+    <table>
+        <tbody>
+
+        <tr>
+            <td>Postleitzahl</td>
+            <td> 70569</td>
+        </tr>
+
+        <tr>
+            <td>Ort</td>
+            <td> Stuttgart</td>
+        </tr>
+
+
+        <tr>
+            <td>Straße</td>
+            <td> Allmandring</td>
+        </tr>
+
+
+        <tr>
+            <td>Hausnummer mit Zusatz</td>
+            <td> {{ main.house_number }} {{ main.room_number }} </td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+    <p>{{ sub.user.get_full_name }}  ist in die vorher genannte Wohnung am {{ contract.begin|date:"SHORT_DATE_FORMAT" }} eingezogen.</p>
+
+
+    <h2>Name und Anschrift des Wohnungsgebers</h2>
+    <table>
+        <tbody>
+
+        <tr>
+            <td>Name</td>
+            <td> {{ main.user.get_full_name }} </td>
+        </tr>
+
+        <tr>
+            <td>Postleitzahl</td>
+            <td> 70569</td>
+        </tr>
+
+        <tr>
+            <td>Ort</td>
+            <td> Stuttgart</td>
+        </tr>
+
+
+        <tr>
+            <td>Straße</td>
+            <td> Allmandring</td>
+        </tr>
+
+
+        <tr>
+            <td>Hausnummer</td>
+            <td> {{ main.house_number }} {{ main.room_number }} </td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+    <p>Der Wohnungsgeber ist nicht Eigentümer der Wohnung.</p>
+
+    <h2>Name und Anschrift des Eigentümers der Wohnung</h2>
+    <table>
+        <tbody>
+
+        <tr>
+            <td>Name</td>
+            <td> Studierendenwerk Stuttgart</td>
+        </tr>
+
+        <tr>
+            <td>Postleitzahl</td>
+            <td> 70569</td>
+        </tr>
+
+        <tr>
+            <td>Ort</td>
+            <td> Stuttgart</td>
+        </tr>
+
+
+        <tr>
+            <td>Straße</td>
+            <td> Rosenbergstraße</td>
+        </tr>
+
+
+        <tr>
+            <td>Hausnummer</td>
+            <td> 18</td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+    <p class="bold skip">Ich bestätige mit meiner Unterschrift, dass die oben gemachten Angaben den Tatsachen
+        entsprechen.</p>
+
+    <p>Mir ist bekannt, dass es verboten ist, eine Wohnanschrift für eine Anmeldung einem Dritten anzubieten oder zur
+        Verfügung zu stellen, obwohl ein tatsächlicher Bezug der Wohnung durch diesen weder stattfindet noch
+        beabsichtigt ist. Ein Verstoß stellt ebenso eine Ordnungswidrigkeit dar wie die Ausstellung dieser Bestätigung,
+        ohne dazu als Wohnungsgeber/-in oder dessen/deren Beauftragte(n) berechtigt zu sein (§ 54 i. V. m. § 19
+        BMG).</p>
+
+            <table class="text-center bottom" style="margin-top: 30mm">
+
+            <tbody>
+
+            <tr>
+                <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
+                <td></td>
+                <td class="signature" colspan="3">Unterschrift des Wohnungsgebers oder der beauftragten Person</td>
+            </tr>
+
+            </tbody>
+
+        </table>
 {% endwith %}
 
 </body>

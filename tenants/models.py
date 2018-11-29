@@ -90,9 +90,22 @@ class MainTenant(models.Model):
     end_subtenancy = models.DateField('Ende der Untermiete')
     rent = models.PositiveIntegerField('Monatsmiete in Euro')
     is_returning = models.BooleanField('Ist ein Wiedereinzug ins Zimmer geplant?')
-    is_room_appropriate = models.BooleanField('Ist das Zimmer in einem ordnungsgemäßen Zustand?')
-
     is_searching = models.BooleanField('Ich suche für den oben genannten Zeitraum einen Untermieter', default=True)
+
+    # Information about room condition
+    bed = models.BooleanField('Ist ein Bett in einem ordnungsgemäßen Zustand vorhanden?', default=False)
+    bed_drawer = models.BooleanField('Ist ein Bettkasten in einem ordnungsgemäßen Zustand vorhanden?', default=False)
+    padding = models.PositiveIntegerField('Wie viele Bettpolster sind in einem ordnungsgemäßen Zustand vorhanden?')
+    wardrobe = models.BooleanField('Ist ein Schrank in einem ordnungsgemäßen Zustand vorhanden?', default=False)
+    regal = models.BooleanField('Ist ein Regal in einem ordnungsgemäßen Zustand vorhanden?', default=False)
+    tabletop = models.BooleanField('Ist eine Tischplatte in einem ordnungsgemäßen Zustand vorhanden?', default=False)
+    base_frame = models.BooleanField('Sind zwei Unterschränke in einem ordnungsgemäßen Zustand vorhanden?', default=False)
+    chair = models.BooleanField('Ist ein Stuhl in einem ordnungsgemäßen Zustand vorhanden?', default=False)
+    walls = models.BooleanField('Sind die Wände in einem ordnungsgemäßen Zustand?', default=False)
+    room_condition = models.BooleanField('Ist das Zimmer gereinigt und in einem ordnungsgemäßen Zustand?', default=False)
+    flat_condition = models.BooleanField('Sind die Gemeinschaftsräume gereinigt und in einem ordnungsgemäßen Zustand?', default=False)
+    stowage = models.BooleanField('Steht der Stauraum in Küche/Kühlschrank bereit?', default=False)
+    room_comment = models.CharField('Sonstige Anmerkungen zum Zimmer oder zur Wohnung', max_length=500, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

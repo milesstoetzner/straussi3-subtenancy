@@ -111,6 +111,5 @@ class ContractForm(ModelForm):
 
 
 class ContractUpdateForm(ContractForm):
-    # TODO cant set to inactive is main/sub is not active
     class Meta(ContractForm.Meta):
         exclude = ['version', 'is_changed']

@@ -7,17 +7,19 @@
 
             <h5 class="card-title" style="text-align: center">{{ title }}</h5>
 
-            <p>In diesen Listen stehen die Mieternummern und Matrikelnummern der Personen, die sich aus irgendeinem
+            <p class="text-block">In diesen Listen stehen die Mieternummern und Matrikelnummern der Personen, die sich
+                aus irgendeinem
                 Grund eine zukünftige Zusammenarbeit mit uns verwehrt haben.</p>
 
             {% if tenant_ids %}
 
-                <div class="table-responsive">
-                    <table class="table table-striped" style="white-space: nowrap; text-align: center">
+                <div class="table">
+                    <table class="table table-striped" style="text-align: center; table-layout:fixed;">
 
                         <thead>
                         <tr>
-                            <th class="align-middle">Geblockte Mieternummern</th>
+                            <th>Mieternummer</th>
+                            <th>Beschreibung</th>
                         </tr>
 
                         </thead>
@@ -27,7 +29,9 @@
                         {% for tenant_id in tenant_ids %}
 
                             <tr>
-                                <td class="align-middle">{{ tenant_id.id }}</td>
+                                <td title="{{ tenant_id.description }}"
+                                    style="vertical-align: middle">{{ tenant_id.id }}</td>
+                                <td class="text-block" style="white-space: break-word;">{{ tenant_id.description }}</td>
                             </tr>
 
                         {% endfor %}
@@ -51,7 +55,8 @@
 
                         <thead>
                         <tr>
-                            <th class="align-middle">Geblockte Matrikelnummern</th>
+                            <th>Matrikelnummer</th>
+                            <th>Beschreibung</th>
                         </tr>
 
                         </thead>
@@ -62,6 +67,7 @@
 
                             <tr>
                                 <td class="align-middle">{{ student_id.id }}</td>
+                                <td class="text-block" style="white-space: break-word;">{{ student_id.description }}</td>
                             </tr>
 
                         {% endfor %}

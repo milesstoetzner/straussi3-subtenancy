@@ -7,6 +7,11 @@
 
         /*
 
+        HAVE FUN DEBUGGING THIS
+
+        since xhtml2pdf is very limited and css does not support inheritance every type of signature got its own page template
+
+
         offset  50px
         content width 512 px
         vertical center 256 px
@@ -32,10 +37,10 @@
         height: 100pt;
         }
 
-            @frame logo {
-                    -pdf-frame-content:logo;
-            left: 120mm;
-            top: 24mm;
+        @frame logo {
+        -pdf-frame-content:logo;
+        left: 120mm;
+        top: 24mm;
 
         }
 
@@ -45,9 +50,268 @@
         width: 160mm;
         top: 60mm;
         height: 210mm;
-            /*-pdf-frame-border: 1;*/
+        /*-pdf-frame-border: 1;*/
 
 
+        }
+
+        @frame footer_frame {
+            /* Another static Frame */
+        -pdf-frame-content:footer_content;
+        right: 25mm; width: 156mm; bottom: 15mm; height: 20pt;
+        }
+        }
+
+
+         @page empty {
+            size: A4;
+            @frame header_frame_left { /* Static Frame */
+            -pdf-frame-content: header_content_left;
+            left: 25mm;
+            width: 100pt;
+            top: 25mm;
+            height: 60pt;
+        }
+
+        @frame header_frame_right {
+            /* Static Frame */
+        -pdf-frame-content:header_content_right;
+        right: 25mm;
+        width: 135pt;
+        top: 25mm;
+        height: 100pt;
+        }
+
+        @frame logo {
+        -pdf-frame-content:logo;
+        left: 120mm;
+        top: 24mm;
+
+        }
+
+        @frame content_frame {
+            /* Content Frame */
+        left 25mm;
+        width: 160mm;
+        top: 60mm;
+        height: 210mm;
+        /*-pdf-frame-border: 1;*/
+
+
+        }
+
+        @frame footer_frame {
+            /* Another static Frame */
+        -pdf-frame-content:footer_content;
+        right: 25mm; width: 156mm; bottom: 15mm; height: 20pt;
+        }
+        }
+
+
+        @page full {
+            size: A4;
+            @frame header_frame_left { /* Static Frame */
+            -pdf-frame-content: header_content_left;
+            left: 25mm;
+            width: 100pt;
+            top: 25mm;
+            height: 60pt;
+        }
+
+        @frame header_frame_right {
+            /* Static Frame */
+        -pdf-frame-content:header_content_right;
+        right: 25mm;
+        width: 135pt;
+        top: 25mm;
+        height: 100pt;
+        }
+
+        @frame logo {
+        -pdf-frame-content:logo;
+        left: 120mm;
+        top: 24mm;
+
+        }
+
+        @frame content_frame {
+            /* Content Frame */
+        left 25mm;
+        width: 160mm;
+        top: 60mm;
+        height: 210mm;
+        /*-pdf-frame-border: 1;*/
+
+
+        }
+
+        @frame signature_frame {
+        -pdf-frame-content:signature_full;
+        left: 25mm;
+        width: 160mm;
+        top: 260mm;
+        height: 12mm;
+        /*-pdf-frame-border: 1;*/
+        }
+
+        @frame footer_frame {
+            /* Another static Frame */
+        -pdf-frame-content:footer_content;
+        right: 25mm; width: 156mm; bottom: 15mm; height: 20pt;
+        }
+        }
+
+        @page wore {
+            size: A4;
+            @frame header_frame_left { /* Static Frame */
+            -pdf-frame-content: header_content_left;
+            left: 25mm;
+            width: 100pt;
+            top: 25mm;
+            height: 60pt;
+        }
+
+        @frame header_frame_right {
+            /* Static Frame */
+        -pdf-frame-content:header_content_right;
+        right: 25mm;
+        width: 135pt;
+        top: 25mm;
+        height: 100pt;
+        }
+
+        @frame logo {
+        -pdf-frame-content:logo;
+        left: 120mm;
+        top: 24mm;
+
+        }
+
+        @frame content_frame {
+            /* Content Frame */
+        left 25mm;
+        width: 160mm;
+        top: 60mm;
+        height: 210mm;
+        /*-pdf-frame-border: 1;*/
+
+
+        }
+
+        @frame signature_frame {
+        -pdf-frame-content:signature_wore;
+        left: 25mm;
+        width: 160mm;
+        top: 260mm;
+        height: 12mm;
+        /*-pdf-frame-border: 1;*/
+        }
+
+        @frame footer_frame {
+            /* Another static Frame */
+        -pdf-frame-content:footer_content;
+        right: 25mm; width: 156mm; bottom: 15mm; height: 20pt;
+        }
+        }
+
+
+        @page melde {
+            size: A4;
+            @frame header_frame_left { /* Static Frame */
+            -pdf-frame-content: header_content_left;
+            left: 25mm;
+            width: 100pt;
+            top: 25mm;
+            height: 60pt;
+        }
+
+        @frame header_frame_right {
+            /* Static Frame */
+        -pdf-frame-content:header_content_right;
+        right: 25mm;
+        width: 135pt;
+        top: 25mm;
+        height: 100pt;
+        }
+
+        @frame logo {
+        -pdf-frame-content:logo;
+        left: 120mm;
+        top: 24mm;
+
+        }
+
+        @frame content_frame {
+            /* Content Frame */
+        left 25mm;
+        width: 160mm;
+        top: 60mm;
+        height: 210mm;
+        /*-pdf-frame-border: 1;*/
+
+
+        }
+
+        @frame signature_frame {
+        -pdf-frame-content:signature_melde;
+        left: 25mm;
+        width: 160mm;
+        top: 260mm;
+        height: 12mm;
+        /*-pdf-frame-border: 1;*/
+        }
+
+        @frame footer_frame {
+            /* Another static Frame */
+        -pdf-frame-content:footer_content;
+        right: 25mm; width: 156mm; bottom: 15mm; height: 20pt;
+        }
+        }
+
+                @page date {
+            size: A4;
+            @frame header_frame_left { /* Static Frame */
+            -pdf-frame-content: header_content_left;
+            left: 25mm;
+            width: 100pt;
+            top: 25mm;
+            height: 60pt;
+        }
+
+        @frame header_frame_right {
+            /* Static Frame */
+        -pdf-frame-content:header_content_right;
+        right: 25mm;
+        width: 135pt;
+        top: 25mm;
+        height: 100pt;
+        }
+
+        @frame logo {
+        -pdf-frame-content:logo;
+        left: 120mm;
+        top: 24mm;
+
+        }
+
+        @frame content_frame {
+            /* Content Frame */
+        left 25mm;
+        width: 160mm;
+        top: 60mm;
+        height: 210mm;
+        /*-pdf-frame-border: 1;*/
+
+
+        }
+
+        @frame signature_frame {
+        -pdf-frame-content:signature_date;
+        left: 25mm;
+        width: 160mm;
+        top: 260mm;
+        height: 12mm;
+        /*-pdf-frame-border: 1;*/
         }
 
         @frame footer_frame {
@@ -141,6 +405,76 @@
             https://str3.wh-stuttgart.net<br>
             Sprechstunde Di. 19.00 - 20.00
         </p>
+    </div>
+
+
+    <div id="signature_full">
+        <table class="text-center">
+
+            <tbody>
+
+            <tr>
+                <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
+                <td></td>
+                <td class="signature"> Unterschrift Hauptmieter</td>
+                <td class="signature"> Unterschrift Untermieter</td>
+                <td class="signature"> Unterschrift &<br>Stempel WoRe</td>
+            </tr>
+
+            </tbody>
+
+        </table>
+    </div>
+
+    <div id="signature_wore">
+        <table class="text-center">
+
+            <tbody>
+
+            <tr>
+                <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="signature"> Unterschrift &<br>Stempel WoRe</td>
+            </tr>
+
+            </tbody>
+
+        </table>
+    </div>
+
+    <div id="signature_date">
+    <table class="text-center">
+
+        <tbody>
+
+        <tr>
+            <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        </tbody>
+    </table>
+    </div>
+
+    <div id="signature_melde">
+    <table class="text-center">
+
+        <tbody>
+
+        <tr>
+            <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
+            <td></td>
+            <td></td>
+            <td class="signature" colspan="2">Unterschrift des Wohnungsgebers<br>oder der beauftragten Person</td>
+        </tr>
+
+        </tbody>
+    </table>
     </div>
 
     <!-- Content for Static Frame 'footer_frame' -->
@@ -315,7 +649,10 @@
         </tbody>
     </table>
 
+    <pdf:nexttemplate name="full"/>
+
     <div class="pagebreak"></div>
+
 
     <h2>Vertragsbedingungen</h2>
     <p class="block" style="margin-top: 0">Die Miete darf nicht höher sein als die vertragliche Miete des Hauptmieters.
@@ -367,22 +704,7 @@
 
     {% endwith %}
 
-
-    <table class="text-center bottom" style="margin-top: 105mm">
-
-        <tbody>
-
-        <tr>
-            <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
-            <td></td>
-            <td class="signature"> Unterschrift Hauptmieter</td>
-            <td class="signature"> Unterschrift Untermieter</td>
-            <td class="signature"> Unterschrift &<br>Stempel WoRe</td>
-        </tr>
-
-        </tbody>
-
-    </table>
+    <pdf:nexttemplate name="wore"/>
 
     <div class="pagebreak"></div>
 
@@ -434,23 +756,6 @@
         weiter.</p>
 
     <p>Die Aufwandsentschädigung von {{ contract.donation }} € wurde entrichtet.</p>
-
-
-    <table class="text-center bottom" style="margin-top: 70mm">
-
-        <tbody>
-
-        <tr>
-            <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td class="signature"> Unterschrift &<br>Stempel WoRe</td>
-        </tr>
-
-        </tbody>
-
-    </table>
 
     <div class="pagebreak"></div>
 
@@ -575,26 +880,12 @@
 
     {% if main.condition_comment %}
 
-    <h2>Sonstiges</h2>
-    <p class="block" style="margin-top: 0"> {{ main.condition_comment }} </p>
+        <h2>Sonstiges</h2>
+        <p class="block" style="margin-top: 0"> {{ main.condition_comment }} </p>
 
     {% endif %}
 
-    <table class="text-center bottom" style="margin-top: 20mm">
-
-        <tbody>
-
-        <tr>
-            <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td class="signature"> Unterschrift &<br>Stempel WoRe</td>
-        </tr>
-
-        </tbody>
-
-    </table>
+    <pdf:nexttemplate name="empty"/>
 
     <div class="pagebreak"></div>
 
@@ -662,24 +953,9 @@
     <p class="skip text-red"><b>Die Miete wird weiterhin vom Hauptmieter an das Studierendenwerk Stuttgart
         überwiesen.</b></p>
 
-    <table class="text-center bottom" style="margin-top: 40mm">
-
-        <tbody>
-
-        <tr>
-            <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-
-        </tbody>
-
-    </table>
-
-
     {% if not main.is_returning %}
+
+        <pdf:nexttemplate name="full"/>
 
         <div class="pagebreak"></div>
 
@@ -746,23 +1022,9 @@
 
         {% endif %}
 
-        <table class="text-center bottom" style="margin-top: 25mm">
-
-            <tbody>
-
-            <tr>
-                <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
-                <td></td>
-                <td class="signature"> Unterschrift Hauptmieter</td>
-                <td class="signature"> Unterschrift Untermieter</td>
-                <td class="signature"> Unterschrift &<br>Stempel WoRe</td>
-            </tr>
-
-            </tbody>
-
-        </table>
-
     {% endif %}
+
+    <pdf:nexttemplate name="melde"/>
 
     <div class="pagebreak"></div>
 
@@ -805,7 +1067,8 @@
         </tbody>
     </table>
 
-    <p>{{ sub.user.get_full_name }}  ist in die vorher genannte Wohnung am {{ contract.begin|date:"SHORT_DATE_FORMAT" }} eingezogen.</p>
+    <p>{{ sub.user.get_full_name }} ist in die vorher genannte Wohnung am {{ contract.begin|date:"SHORT_DATE_FORMAT" }}
+        eingezogen.</p>
 
 
     <h2>Name und Anschrift des Wohnungsgebers</h2>
@@ -883,25 +1146,13 @@
     <p class="bold skip">Ich bestätige mit meiner Unterschrift, dass die oben gemachten Angaben den Tatsachen
         entsprechen.</p>
 
-    <p class="block">Mir ist bekannt, dass es verboten ist, eine Wohnanschrift für eine Anmeldung einem Dritten anzubieten oder zur
+    <p class="block">Mir ist bekannt, dass es verboten ist, eine Wohnanschrift für eine Anmeldung einem Dritten
+        anzubieten oder zur
         Verfügung zu stellen, obwohl ein tatsächlicher Bezug der Wohnung durch diesen weder stattfindet noch
         beabsichtigt ist. Ein Verstoß stellt ebenso eine Ordnungswidrigkeit dar wie die Ausstellung dieser Bestätigung,
         ohne dazu als Wohnungsgeber/-in oder dessen/deren Beauftragte(n) berechtigt zu sein (§ 54 i. V. m. § 19
         BMG).</p>
 
-            <table class="text-center bottom" style="margin-top: 30mm">
-
-            <tbody>
-
-            <tr>
-                <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
-                <td></td>
-                <td class="signature" colspan="3">Unterschrift des Wohnungsgebers oder der beauftragten Person</td>
-            </tr>
-
-            </tbody>
-
-        </table>
 {% endwith %}
 
 </body>

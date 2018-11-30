@@ -19,29 +19,24 @@
 
 <header style="text-align: center;">
 
+    {% if user.is_authenticated %}
 
-    <div class="bg-grey" style="font-size: 12px; color: #495057">
+        <div class="bg-grey d-none d-md-block" style="font-size: 12px; color: #495057">
 
-        {% if user.is_authenticated %}
             Als {{ user.get_full_name }} eingeloggt.
-            <a href="javascript:document.forms['logout_form'].submit()">Logout</a>
-            <form action="{% url 'logout' %}" method="POST" id="logout_form">
-                {% csrf_token %}
-            </form>
-        {% else %}
-            Hier kannst du dich einloggen. <a class="" href="{% url 'login' %}" id="{% url 'login' %}">Login</a>
-        {% endif %}
 
+        </div>
 
-    </div>
+    {% endif %}
 
     {% if user.is_authenticated and user.is_assistant %}
 
-        <h5 style="text-align: center; padding-top: 1rem; margin-bottom: 1rem;">Ferienmiete Straußäcker 3</h5>
+        <h5 class="d-none d-md-block" style="text-align: center; padding-top: 1rem; margin-bottom: 1rem;">Ferienmiete
+            Straußäcker 3</h5>
 
     {% else %}
 
-        <div style="padding-top: 1rem; margin-bottom: 1.5rem;">
+        <div class="d-none d-md-block" style="padding-top: 1rem; margin-bottom: 1.5rem;">
             <a href="/"><img src="{% static 'tenants/logo.svg' %}"
                              style="width: 60px; margin: 1rem 0 1rem 0"></a>
 
@@ -49,107 +44,125 @@
 
         </div>
 
+
     {% endif %}
 
-    <!-- TODO: make navbars collapse on xs --->
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary">
 
-    <ul class="nav justify-content-center bg-primary">
-        <li class="nav-item">
-            <a class="btn btn-primary" href="{% url 'Index' %}" id="{% url 'Index' %}"><i
-                    class="fas fa-check-circle icon-text"></i>Start</a>
-        </li>
+        <a class="navbar-brand d-block d-md-none btn" href="/">Ferienmiete Straußäcker 3</a>
 
-        {% if user.is_authenticated %}
+        <button class="d-block d-md-none btn btn-primary" type="button" data-toggle="collapse"
+                data-target="#navbarTenant, #navbarAssistant, #navbarExternal"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
 
-            <li class="nav-item">
-                <a class="btn btn-primary" href="{% url 'Profile' %}" id="{% url 'Profile' %}"><i
-                        class="fas fa-user icon-text"></i>Profil</a>
-            </li>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarTenant">
+            <div class="navbar-nav">
 
-        {% endif %}
+                {% if user.is_authenticated %}
+                    <a class="btn btn-primary disabled d-block d-md-none">Als {{ user.get_full_name }} eingeloggt.</a>
 
-        {% if not user.is_maintenant and not user.is_subtenant %}
+                {% else %}
+                    <a class="btn btn-primary " href="{% url 'login' %}" id="{% url 'login' %}"><i
+                            class="fas fa-angle-double-right icon-text"></i>Login</a>
+                {% endif %}
+
+                <a class="btn btn-primary" href="{% url 'Index' %}" id="{% url 'Index' %}"><i
+                        class="fas fa-check-circle icon-text"></i>Start</a>
+
+                {% if user.is_authenticated %}
+
+                    <a class="btn btn-primary" href="{% url 'Profile' %}" id="{% url 'Profile' %}"><i
+                            class="fas fa-user icon-text"></i>Profil</a>
+
+                {% endif %}
+
+                {% if not user.is_maintenant and not user.is_subtenant %}
 
 
-            <li class="nav-item">
-                <a class="btn btn-primary" href="{% url 'MainTenantCreate' %}" id="{% url 'MainTenantCreate' %}"><i
-                        class="fas fa-user-edit icon-text"></i>Hauptmieter</a>
-            </li>
+                    <a class="btn btn-primary" href="{% url 'MainTenantCreate' %}" id="{% url 'MainTenantCreate' %}"><i
+                            class="fas fa-user-edit icon-text"></i>Hauptmieter</a>
 
-            <li class="nav-item">
-                <a class="btn btn-primary" href="{% url 'SubTenantCreate' %}" id="{% url 'SubTenantCreate' %}"><i
-                        class="fas fa-user-edit icon-text"></i>Untermieter</a>
-            </li>
+                    <a class="btn btn-primary" href="{% url 'SubTenantCreate' %}" id="{% url 'SubTenantCreate' %}"><i
+                            class="fas fa-user-edit icon-text"></i>Untermieter</a>
 
-        {% endif %}
+                {% endif %}
 
-        <li class="nav-item">
-            <a class="btn btn-primary" href="{% url 'Requests' %}" id="{% url 'Requests' %}"><i
-                    class="fas fa-file-alt icon-text"></i>Anfragen</a>
-        </li>
+                <a class="btn btn-primary" href="{% url 'Requests' %}" id="{% url 'Requests' %}"><i
+                        class="fas fa-file-alt icon-text"></i>Anfragen</a>
 
-        <li class="nav-item">
-            <a class="btn btn-primary" href="{% url 'Impressum' %}" id="{% url 'Impressum' %}"><i
-                    class="fas fa-info-circle icon-text"></i>Impressum</a>
-        </li>
-    </ul>
+                <a class="btn btn-primary" href="{% url 'Impressum' %}" id="{% url 'Impressum' %}"><i
+                        class="fas fa-info-circle icon-text"></i>Impressum</a>
+
+
+                {% if user.is_authenticated %}
+
+                    <form action="{% url 'logout' %}" method="POST" id="logout_form">
+                        {% csrf_token %}
+                        <button class="btn btn-primary"><i class="fas fa-angle-double-right icon-text"></i>Logout</button>
+                    </form>
+
+                {% endif %}
+
+            </div>
+        </div>
+    </nav>
 
     {% if user.is_authenticated and user.is_assistant %}
 
-        <ul class="nav justify-content-center bg-orange">
+        <nav class="navbar navbar-expand-md navbar-dark bg-orange">
+            <div class="collapse navbar-collapse justify-content-center" id="navbarAssistant">
+                <div class="navbar-nav">
 
 
-            <li class="nav-item">
-                <a class="btn btn-orange" href="{% url 'contracts:ContractCreate' %}"
-                   id="{% url 'contracts:ContractCreate' %}"><i
-                        class="fas fa-file-signature icon-text"></i>Vertrag erstellen</a>
-            </li>
+                    <a class="btn btn-orange" href="{% url 'contracts:ContractCreate' %}"
+                       id="{% url 'contracts:ContractCreate' %}"><i
+                            class="fas fa-file-signature icon-text"></i>Vertrag erstellen</a>
 
-            <li class="nav-item">
-                <a class="btn btn-orange" href="{% url 'contracts:ContractsActive' %}"
-                   id="{% url 'contracts:ContractsActive' %}"><i class="fas fa-home icon-text"></i>Aktive Verträge</a>
-            </li>
+                    <a class="btn btn-orange" href="{% url 'contracts:ContractsActive' %}"
+                       id="{% url 'contracts:ContractsActive' %}"><i class="fas fa-home icon-text"></i>Aktive
+                        Verträge</a>
 
-            <li class="nav-item">
-                <a class="btn btn-orange" href="{% url 'contracts:ContractsArchive' %}"
-                   id="{% url 'contracts:ContractsArchive' %}"><i
-                        class="fas fa-archive icon-text"></i>Archiv</a>
-            </li>
+                    <a class="btn btn-orange" href="{% url 'contracts:ContractsArchive' %}"
+                       id="{% url 'contracts:ContractsArchive' %}"><i
+                            class="fas fa-archive icon-text"></i>Archiv</a>
 
-            <li class="nav-item">
-                <a class="btn btn-orange" href="{% url 'tenants:Blacklist' %}"
-                   id="{% url 'tenants:Blacklist' %}"><i
-                        class="fas fa-exclamation-triangle icon-text"></i>Schwarze Liste</a>
-            </li>
+                    <a class="btn btn-orange" href="{% url 'tenants:Blacklist' %}"
+                       id="{% url 'tenants:Blacklist' %}"><i
+                            class="fas fa-exclamation-triangle icon-text"></i>Schwarze Liste</a>
 
-            <li>
-                <input class="form-control" type="search" placeholder="Suchen" aria-label="Search"
-                       id="searchInput"
-                       style="border-radius: 0" data-toggle="tooltip" data-placement="bootom"
-                       title="Es kann nach folgenden Attributen gesucht werden: Geburtstag (dd.mm.yyyy), Vorname, Nachname, ID, Mieternummer, Matrikelnummer, Vertragsbegin (dd.mm.yyyy), Vertragsende (dd.mm.yyyy) ">
-                <div id="searchResult"></div>
-            </li>
+                    <input class="form-control" type="search" placeholder="Suchen" aria-label="Search"
+                           id="searchInput"
+                           style="border-radius: 0" data-toggle="tooltip" data-placement="bootom"
+                           title="Es kann nach folgenden Attributen gesucht werden: Geburtstag (dd.mm.yyyy), Vorname, Nachname, ID, Mieternummer, Matrikelnummer, Vertragsbegin (dd.mm.yyyy), Vertragsende (dd.mm.yyyy) ">
+                    <div id="searchResult"></div>
 
-        </ul>
+                </div>
+            </div>
+        </nav>
 
     {% endif %}
 
     {% if user.is_authenticated and user.is_external %}
 
-        <ul class="nav justify-content-center bg-orange">
+        <nav class="navbar navbar-expand-md navbar-dark bg-orange">
+            <div class="collapse navbar-collapse" id="navbarExternal">
+                <div class="navbar-nav">
 
-            <li class="nav-item">
-                <a class="btn btn-orange" href="{% url 'contracts:ContractsActive' %}"
-                   id="{% url 'contracts:ContractsActive' %}"><i class="fas fa-home icon-text"></i>Aktive Verträge</a>
-            </li>
 
-            <li class="nav-item">
-                <a class="btn btn-orange" href="{% url 'contracts:ContractsArchive' %}"
-                   id="{% url 'contracts:ContractsArchive' %}"><i
-                        class="fas fa-archive icon-text"></i>Archiv</a>
-            </li>
+                    <a class="btn btn-orange" href="{% url 'contracts:ContractsActive' %}"
+                       id="{% url 'contracts:ContractsActive' %}"><i class="fas fa-home icon-text"></i>Aktive
+                        Verträge</a>
 
-        </ul>
+                    <a class="btn btn-orange" href="{% url 'contracts:ContractsArchive' %}"
+                       id="{% url 'contracts:ContractsArchive' %}"><i
+                            class="fas fa-archive icon-text"></i>Archiv</a>
+
+
+                </div>
+            </div>
+        </nav>
 
     {% endif %}
 

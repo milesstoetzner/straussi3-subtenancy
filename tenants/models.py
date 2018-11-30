@@ -97,7 +97,7 @@ class MainTenant(models.Model):
     room_number = models.CharField('Zimmernummer', max_length=10)
     begin_subtenancy = models.DateField('Beginn der Untermiete')
     end_subtenancy = models.DateField('Ende der Untermiete')
-    rent = models.PositiveIntegerField('Monatsmiete in Euro')
+    rent = models.DecimalField('Monatsmiete in Euro', max_digits=5, decimal_places=2)
     is_returning = models.BooleanField('Ist ein Wiedereinzug ins Zimmer geplant?')
     is_searching = models.BooleanField('Ich suche für den oben genannten Zeitraum einen Untermieter', default=True)
 

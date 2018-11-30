@@ -51,7 +51,7 @@ class Contract(models.Model):
 
         # rent first month
         delta = current - contract.begin
-        rents.append(delta.days * daily_rent)
+        rents.append(round(delta.days * daily_rent, 2))
 
         while current < end:
             # add month between first and last month
@@ -69,7 +69,7 @@ class Contract(models.Model):
         if is_end_of_month(contract.end):
             rents.append(contract.maintenant.rent)
         else:
-            rents.append(contract.end.day * daily_rent)
+            rents.append(round(contract.end.day * daily_rent, 2))
 
         # fill array until 6 entries (for displaying contract details)
         while len(months) < 6:

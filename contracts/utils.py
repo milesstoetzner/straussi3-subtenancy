@@ -1,10 +1,10 @@
 from io import BytesIO
 from django.template.loader import get_template
 from xhtml2pdf import pisa
-from datetime import timedelta, datetime
+from datetime import timedelta
 
 
-# NOTE: is this local?
+# NOTE: is the pdf rendered local on this server or are the data send to some third party server who takes care of the rendering process?
 def html_to_pdf(source, context):
     template = get_template(source)
     html = template.render(context)

@@ -57,6 +57,7 @@ class PasswordReset(SuccessMessageMixin, PasswordResetView):
         return context
 
 
+# DEP: set up email
 class PasswordResetConfirm(SuccessMessageMixin, PasswordResetConfirmView):
     template_name = 'registration/password_confirm.html'
     success_message = 'Dein Passwort wurder erfolgreich zurückgesetzt!'

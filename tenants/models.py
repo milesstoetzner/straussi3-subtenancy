@@ -34,9 +34,10 @@ class ResidentialHome(models.Model):
 
 class BlockedTenantID(models.Model):
     id = models.PositiveIntegerField('Mieterummer', unique=True, primary_key=True)
+    description = models.CharField('Beschreibung', max_length=500, blank=True)
 
     def __str__(self):
-        return 'Mieternummer: ' + str(self.id)
+        return str(self.id)
 
     class Meta:
         verbose_name = 'Blockierte Mieternummer'
@@ -45,9 +46,10 @@ class BlockedTenantID(models.Model):
 
 class BlockedStudentID(models.Model):
     id = models.PositiveIntegerField('Matrikelnummer', unique=True, primary_key=True)
+    description = models.CharField('Beschreibung', max_length=500, blank=True)
 
     def __str__(self):
-        return 'Matrikelnummer: ' + str(self.id)
+        return str(self.id)
 
     class Meta:
         verbose_name = 'Blockierte Matrikelnummer'

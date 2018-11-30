@@ -65,6 +65,10 @@ textarea:disabled, input:disabled, select:disabled {
     border: 0
 }
 
+.text-block {
+    text-align: justify;!important;
+}
+
 /* BUTTON ORANGE */
 
 .bg-orange {

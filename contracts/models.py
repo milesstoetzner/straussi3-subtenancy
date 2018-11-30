@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from tenants.models import MainTenant, SubTenant, ResidentialHome
 from .utils import add_one_month, is_end_of_month
+from simple_history.models import HistoricalRecords
 
 
 class Contract(models.Model):
@@ -26,7 +27,7 @@ class Contract(models.Model):
 
     version = models.IntegerField(default=0)
 
-    # TODO: implement comments
+    history = HistoricalRecords()
 
     def get_absolute_url(self):
         return reverse('contracts:ContractView', kwargs={'pk': self.pk})

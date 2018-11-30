@@ -176,7 +176,7 @@ class ContractsArchive(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'contracts/list.html'
     paginate_by = 50
     max_width = '100%'
-    queryset = Contract.objects.filter(is_active=True, end__lt=datetime.datetime.now()) \
+    queryset = Contract.objects.filter(Q(is_active=False) | Q(end__lt=datetime.datetime.now())) \
             .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number')
 
     def test_func(self):

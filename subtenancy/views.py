@@ -7,10 +7,16 @@ from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
+from ratelimit.mixins import RatelimitMixin
 
 
-class Login(SuccessMessageMixin, LoginView):
+class Login(RatelimitMixin, SuccessMessageMixin, LoginView):
     title = 'Login'
+
+    ratelimit_key = 'ip'
+    ratelimit_rate = '3/3m'
+    ratelimit_block = True
+    ratelimit_method = 'POST'
 
     def get_success_message(self, cleaned_data):
         return 'Willkommen zurück, ' + self.request.user.get_full_name() + '!'

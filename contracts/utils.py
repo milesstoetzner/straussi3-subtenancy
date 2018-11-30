@@ -3,9 +3,8 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 from datetime import timedelta, datetime
 
-# TODO: is this local?
 
-
+# NOTE: is this local?
 def html_to_pdf(source, context):
     template = get_template(source)
     html = template.render(context)

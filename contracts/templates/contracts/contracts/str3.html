@@ -497,83 +497,88 @@
         Zustand. Das Zimmer wird gereinigt übergeben. Der Ferienmieter hat eine Woche Zeit etwaige Beanstandungen zu
         melden. Alle Punkte sind entsprechend zu bestätigen.</p>
 
-    <h2>Checkliste</h2>
-
-    <!-- TODO: checkliste -->
+    <h2>Zustand des Zimmers und der Wohnung</h2>
 
     <table>
         <tbody>
+
         <tr>
             <td>Matratze</td>
-            <td></td>
+            <td> {{ main.bed_condition|yesno:"Ja,Nein" }}</td>
+        </tr>
+
+        <tr>
+            <td>Matratze</td>
+            <td> {{ main.mattress_condition|yesno:"Ja,Nein" }}</td>
         </tr>
 
         <tr>
             <td>Bettkasten</td>
-            <td></td>
+            <td> {{ main.bed_drawer_condition|yesno:"Ja,Nein" }} </td>
         </tr>
 
         <tr>
             <td>Anzahl Bettpolster</td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td>Bettkasten</td>
-            <td></td>
+            <td> {{ main.padding_condition }} </td>
         </tr>
 
         <tr>
             <td>Schrank</td>
-            <td></td>
+            <td> {{ main.wardrobe_condition|yesno:"Ja,Nein" }} </td>
         </tr>
 
         <tr>
             <td>Regal</td>
-            <td></td>
+            <td> {{ main.regal_condition|yesno:"Ja,Nein" }}</td>
         </tr>
+
+        <!-- NOTE: Schreibtisch Abfrage? -->
 
         <tr>
             <td>Tischplatte</td>
-            <td></td>
+            <td> {{ main.tabletop_condition|yesno:"Ja,Nein" }} </td>
         </tr>
 
         <tr>
             <td>2x Unterschrank</td>
-            <td></td>
+            <td> {{ main.base_frame_condition|yesno:"Ja,Nein" }} </td>
         </tr>
 
         <tr>
             <td>Stuhl</td>
-            <td></td>
+            <td> {{ main.chair_condition|yesno:"Ja,Nein" }} </td>
         </tr>
 
         <tr>
             <td>Wände</td>
-            <td></td>
+            <td> {{ main.walls_condition|yesno:"Ja,Nein" }} </td>
         </tr>
 
         <tr>
             <td>Zimmer gereinigt</td>
-            <td></td>
+            <td> {{ main.room_condition|yesno:"Ja,Nein" }}</td>
         </tr>
 
         <tr>
             <td>Gemeinschaftsräume sauber</td>
-            <td></td>
+            <td> {{ main.flat_condition|yesno:"Ja,Nein" }} </td>
         </tr>
 
         <tr>
             <td>Stauraum in Küche/Kühlschrank steht bereit</td>
-            <td></td>
+            <td> {{ main.stowage_condition|yesno:"Ja,Nein" }} </td>
         </tr>
 
 
         </tbody>
     </table>
 
-    <p class="skip block"> <!-- TODO: caution comment --> </p>
+    {% if main.condition_comment %}
 
+    <h2>Sonstiges</h2>
+    <p class="block" style="margin-top: 0"> {{ main.condition_comment }} </p>
+
+    {% endif %}
 
     <table class="text-center bottom" style="margin-top: 20mm">
 
@@ -878,7 +883,7 @@
     <p class="bold skip">Ich bestätige mit meiner Unterschrift, dass die oben gemachten Angaben den Tatsachen
         entsprechen.</p>
 
-    <p>Mir ist bekannt, dass es verboten ist, eine Wohnanschrift für eine Anmeldung einem Dritten anzubieten oder zur
+    <p class="block">Mir ist bekannt, dass es verboten ist, eine Wohnanschrift für eine Anmeldung einem Dritten anzubieten oder zur
         Verfügung zu stellen, obwohl ein tatsächlicher Bezug der Wohnung durch diesen weder stattfindet noch
         beabsichtigt ist. Ein Verstoß stellt ebenso eine Ordnungswidrigkeit dar wie die Ausstellung dieser Bestätigung,
         ohne dazu als Wohnungsgeber/-in oder dessen/deren Beauftragte(n) berechtigt zu sein (§ 54 i. V. m. § 19

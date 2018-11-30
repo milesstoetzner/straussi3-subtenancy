@@ -45,7 +45,7 @@ class MainTenantForm(ModelForm):
         tenant_id = cleaned_date.get('tenant_id')
         room_condition = cleaned_date.get('room_condition')
         flat_condition = cleaned_date.get('flat_condition')
-        stowage = cleaned_date.get('stowage')
+        stowage_condition = cleaned_date.get('stowage_condition')
 
         # check black list
         if tenant_id:
@@ -91,8 +91,8 @@ class MainTenantForm(ModelForm):
             self.add_error('flat_condition', 'Deine Wohnung muss in einem ordnungsgemäßen Zustand sein!')
 
         # stowage is false
-        if not stowage:
-            self.add_error('stowage', 'Es muss Stauraum bereit stehen!')
+        if not stowage_condition:
+            self.add_error('stowage_condition', 'Es muss Stauraum bereit stehen!')
 
     class Meta:
         model = MainTenant
@@ -107,18 +107,18 @@ class MainTenantForm(ModelForm):
             'end_subtenancy': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'is_returning': Select(choices=BOOLEAN_CHOICES),
             'is_searching': Select(choices=BOOLEAN_CHOICES),
-            'bed': Select(choices=BOOLEAN_CHOICES),
-            'bed_drawer': Select(choices=BOOLEAN_CHOICES),
-            'wardrobe': Select(choices=BOOLEAN_CHOICES),
-            'regal': Select(choices=BOOLEAN_CHOICES),
-            'tabletop': Select(choices=BOOLEAN_CHOICES),
-            'base_frame': Select(choices=BOOLEAN_CHOICES),
-            'chair': Select(choices=BOOLEAN_CHOICES),
-            'walls': Select(choices=BOOLEAN_CHOICES),
+            'bed_condition': Select(choices=BOOLEAN_CHOICES),
+            'bed_drawer_condition': Select(choices=BOOLEAN_CHOICES),
+            'wardrobe_condition': Select(choices=BOOLEAN_CHOICES),
+            'regal_condition': Select(choices=BOOLEAN_CHOICES),
+            'tabletop_condition': Select(choices=BOOLEAN_CHOICES),
+            'base_frame_condition': Select(choices=BOOLEAN_CHOICES),
+            'chair_condition': Select(choices=BOOLEAN_CHOICES),
+            'walls_condition': Select(choices=BOOLEAN_CHOICES),
             'room_condition': Select(choices=BOOLEAN_CHOICES),
             'flat_condition': Select(choices=BOOLEAN_CHOICES),
-            'stowage': Select(choices=BOOLEAN_CHOICES),
-            'room_comment': Textarea(attrs={'rows': 1})
+            'stowage_condition': Select(choices=BOOLEAN_CHOICES),
+            'condition_comment': Textarea(attrs={'rows': 1})
 
         }
 

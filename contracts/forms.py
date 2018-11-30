@@ -2,8 +2,6 @@ from django.forms import ModelForm, TextInput, Textarea, DateInput, Select, Numb
 from .models import Contract
 from tenants.forms import BOOLEAN_CHOICES
 
-# TODO: blocked? inactive?
-
 
 class ContractForm(ModelForm):
     def clean(self):
@@ -22,6 +20,16 @@ class ContractForm(ModelForm):
         if begin and end:
             if begin >= end:
                 self.add_error('end', 'Das Ende des Untermietvertrages muss nach dem Beginn sein!')
+
+        # maintenant account is not blocked
+        if maintenant:
+            if not maintenant.user.is_active:
+                self.add_error('maintenant', 'Der Account des Hauptmieters ist gesperrt!')
+
+        # subtenant account is not blocked
+        if subtenant:
+            if not subtenant.user.is_active:
+                self.add_error('subtenant', 'Der Account des Untermieters ist gesperrt!')
 
         # maintenant.begin_rent_agreement <= begin
         if maintenant and begin:
@@ -103,5 +111,6 @@ class ContractForm(ModelForm):
 
 
 class ContractUpdateForm(ContractForm):
+    # TODO cant set to inactive is main/sub is not active
     class Meta(ContractForm.Meta):
         exclude = ['version', 'is_changed']

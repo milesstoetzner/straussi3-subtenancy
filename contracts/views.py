@@ -5,7 +5,6 @@ from django.views.generic import ListView
 from .models import Contract
 from tenants.models import MainTenant, SubTenant
 from .forms import ContractForm, ContractUpdateForm
-from django.urls import reverse_lazy
 from django.http import HttpResponseNotFound
 from django.views.decorators.http import require_POST, require_GET, require_http_methods
 from django.views.decorators.csrf import csrf_protect

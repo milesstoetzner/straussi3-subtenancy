@@ -4,7 +4,7 @@ from django import template
 register = template.Library()
 
 
-@register.inclusion_tag('tenants/bootstrap_form.html')
+@register.inclusion_tag('subtenancy/bootstrap_form.html')
 def bootstrap(form, is_get):
     return {'form': form, 'is_get': is_get}
 

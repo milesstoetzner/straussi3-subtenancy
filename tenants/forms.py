@@ -108,6 +108,7 @@ class MainTenantForm(ModelForm):
             'is_returning': Select(choices=BOOLEAN_CHOICES),
             'is_searching': Select(choices=BOOLEAN_CHOICES),
             'bed_condition': Select(choices=BOOLEAN_CHOICES),
+            'mattress_condition': Select(choices=BOOLEAN_CHOICES),
             'bed_drawer_condition': Select(choices=BOOLEAN_CHOICES),
             'wardrobe_condition': Select(choices=BOOLEAN_CHOICES),
             'regal_condition': Select(choices=BOOLEAN_CHOICES),

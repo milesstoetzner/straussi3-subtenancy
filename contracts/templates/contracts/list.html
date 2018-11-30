@@ -13,6 +13,7 @@
                     <thead>
                     <tr>
                         <th class="align-middle"></th>
+                        <th class="align-middle">ID</th>
                         <th class="align-middle">Hauptmieter</th>
                         <th class="align-middle">Untermieter</th>
                         <th class="align-middle">Zimmer</th>
@@ -28,6 +29,7 @@
 
                         <tr>
                             <td class="align-middle"><a href="{% url 'contracts:ContractView' contract.pk %}" class="btn btn-primary"><i class="fas fa-file-contract"></i></a></td>
+                            <td class="align-middle">{{ contract.id }}</td>
                             <td class="align-middle">{{ contract.maintenant.user.first_name }} {{ contract.maintenant.user.last_name }}</td>
                             <td class="align-middle">{{ contract.subtenant.user.first_name }} {{ contract.subtenant.user.last_name }}</td>
                             <td class="align-middle">{{ contract.maintenant.house_number }} {{ contract.maintenant.room_number }}</td>

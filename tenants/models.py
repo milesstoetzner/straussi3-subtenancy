@@ -1,8 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
-
-# TODO: implement comments
+from simple_history.models import HistoricalRecords
 
 
 class ResidentialHome(models.Model):
@@ -14,6 +13,8 @@ class ResidentialHome(models.Model):
     postcode = models.CharField('Postleitzahl', max_length=25)
     city = models.CharField('Ort', max_length=250)
     country = models.CharField('Land', max_length=250)
+
+    history = HistoricalRecords()
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -36,6 +37,8 @@ class BlockedTenantID(models.Model):
     id = models.PositiveIntegerField('Mieterummer', unique=True, primary_key=True)
     description = models.CharField('Beschreibung', max_length=500, blank=True)
 
+    history = HistoricalRecords()
+
     def __str__(self):
         return str(self.id)
 
@@ -47,6 +50,8 @@ class BlockedTenantID(models.Model):
 class BlockedStudentID(models.Model):
     id = models.PositiveIntegerField('Matrikelnummer', unique=True, primary_key=True)
     description = models.CharField('Beschreibung', max_length=500, blank=True)
+
+    history = HistoricalRecords()
 
     def __str__(self):
         return str(self.id)
@@ -66,6 +71,8 @@ class User(AbstractUser):
     is_subtenant = models.BooleanField('Untermieter', default=False)
     is_external = models.BooleanField('SWS oder Hausmeister', default=False)
     is_assistant = models.BooleanField('Sprechstunde', default=False)
+
+    history = HistoricalRecords()
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -110,6 +117,8 @@ class MainTenant(models.Model):
     stowage_condition = models.BooleanField('Steht der Stauraum in Küche/Kühlschrank bereit?', default=False)
     condition_comment = models.CharField('Sonstige Anmerkungen zum Zimmer oder zur Wohnung', max_length=500, blank=True)
 
+    history = HistoricalRecords()
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -146,6 +155,7 @@ class SubTenant(models.Model):
     # Information about subtenancy
     begin_subtenancy = models.DateField('Beginn der Untermiete')
     end_subtenancy = models.DateField('Ende der Untermiete')
+    is_searching = models.BooleanField('Ich suche für den oben genannten Zeitraum ein Zimmer', default=True)
 
     # Correspondence address
     name = models.CharField('Name', max_length=250)
@@ -155,7 +165,7 @@ class SubTenant(models.Model):
     city = models.CharField('Ort', max_length=250)
     country = models.CharField('Land', max_length=250)
 
-    is_searching = models.BooleanField('Ich suche für den oben genannten Zeitraum ein Zimmer', default=True)
+    history = HistoricalRecords()
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

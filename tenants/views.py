@@ -265,10 +265,10 @@ def blacklist(request):
 
 
 def index(request):
-    return render(request, 'tenants/index.html',
+    return render(request, 'subtenancy/index.html',
                   {'title': 'Ferienmiete Straußäcker 3', 'faq_maintenant': faq_maintenant,
                    'faq_subtenant': faq_subtenant})
 
 
 def legal_notice(request):
-    return render(request, 'tenants/legal_notice.html', {'title': 'Impressum'})
+    return render(request, 'subtenancy/legal_notice.html', {'title': 'Impressum'})

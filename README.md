@@ -1,8 +1,8 @@
 # Ferienmiete
 
-Eine Web Anwendung für Verwaltung der Ferienmiete des Studentenwohnheims Straußäcker 3.
+Eine Web Anwendung für die Verwaltung der Ferienmiete des Studentenwohnheims Straußäcker 3.
 
 ## Apps
-- `contracts`: Erstellen und Verwalten der Verträge
+- `contracts`: Verwaltung der Verträge
 - `subtenancy`: Projekt und Authentifizierung
-- `tenants`: Registrieren und Verwalten der Haupt-/Untermieter, sowie öffentliche Inhalte
+- `tenants`: Verwaltung der Haupt-/Untermieter, sowie öffentliche Inhalte

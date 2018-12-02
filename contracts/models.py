@@ -1,9 +1,11 @@
+import os
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 from tenants.models import MainTenant, SubTenant, ResidentialHome
-from .utils import add_one_month, is_end_of_month
+from .utils import add_one_month, is_end_of_month, html_to_pdf, save_html_as_pdf
 from simple_history.models import HistoricalRecords
+from django.db.transaction import atomic
 
 
 class Contract(models.Model):
@@ -80,6 +82,27 @@ class Contract(models.Model):
             rents.append("")
 
         return {'months': months, 'rents': rents}
+
+    def preview_contract_pdf(self):
+        source = os.path.join('contracts', 'contracts', str(self.maintenant.residential_home.short) + '.html')
+        pdf = html_to_pdf(source, {'contract': self})
+        return pdf
+
+    @atomic
+    def save_contract_pdf(self):
+        self.version += 1
+
+        source = os.path.join('contracts', 'contracts', str(self.maintenant.residential_home.short) + '.html')
+        destination = os.path.join('contracts', 'contracts',
+                                   'contract_' + str(self.pk) + '_version_' + str(self.version) + '.pdf')
+
+        status = save_html_as_pdf(source, {'contract': self}, destination)
+
+        if status:
+            self.is_changed = False
+            self.save()
+
+        return status
 
     def __str__(self):
         return str(

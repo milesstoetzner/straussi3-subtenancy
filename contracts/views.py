@@ -21,7 +21,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 from django.http import HttpResponse
-from .utils import html_to_pdf, save_html_as_pdf
 
 
 @atomic
@@ -48,7 +47,13 @@ def create_contract(request):
             form.instance.subtenant.is_searching = False
             form.instance.subtenant.save()
 
-            messages.success(request, 'Vertrag wurde erfolgreich erstellt!')
+            status = contract.save_contract_pdf()
+
+            if status:
+                messages.success(request, 'Vertrag wurde erfolgreich erstellt!')
+            else:
+                messages.error(request, 'Vertrag wurde erstellt! Allerdings konnte die PDF nicht gespeichert werden.')
+
             return redirect(contract.get_absolute_url())
 
     context['title'] = 'Vertrag erstellen'
@@ -125,10 +130,9 @@ def view_contract_pdf(request, pk, v):
 @user_passes_test(is_assistant)
 @require_GET
 def preview_contract_pdf(request, pk):
-    contract = get_object_or_404(Contract, pk=pk)
 
-    source = os.path.join('contracts', 'contracts', str(contract.maintenant.residential_home.short) + '.html')
-    pdf = html_to_pdf(source, {'contract': contract})
+    contract = get_object_or_404(Contract, pk=pk)
+    pdf = contract.preview_contract_pdf()
 
     return HttpResponse(pdf, content_type='application/pdf')
 
@@ -141,16 +145,10 @@ def preview_contract_pdf(request, pk):
 def save_contract_pdf(request, pk):
 
     contract = get_object_or_404(Contract, pk=pk)
-    contract.version += 1
 
-    source = os.path.join('contracts', 'contracts', str(contract.maintenant.residential_home.short) + '.html')
-    destination = os.path.join('contracts', 'contracts', 'contract_' + str(contract.pk) + '_version_' + str(contract.version) + '.pdf')
-
-    status = save_html_as_pdf(source, {'contract': contract}, destination)
+    status = contract.save_contract_pdf()
 
     if status:
-        contract.is_changed = False
-        contract.save()
         messages.success(request, 'PDF wurde erfolgreich erstellt!')
     else:
         messages.error(request, 'PDF konnte nicht erstellt werden!')

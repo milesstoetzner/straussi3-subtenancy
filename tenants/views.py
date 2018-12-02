@@ -138,13 +138,15 @@ def update_tenant(request, pk):
             if user_form.has_changed() or tenant_form.has_changed():
 
                 changes_user = get_verbose_changed_data(user_form.changed_data, User)
-                changes_tenant = get_verbose_changed_data(tenant_form.changed_data, MainTenant if tenant.is_maintenant else SubTenant)
+                changes_tenant = get_verbose_changed_data(tenant_form.changed_data,
+                                                          MainTenant if tenant.is_maintenant else SubTenant)
 
                 user_form.save()
                 tenant_form.save()
 
                 messages.success(request, 'Änderungen wurden erfolgreich übernommen!')
-                messages.success(request, "Folgende Felder wurden geändert: %s." % ", ".join(changes_user + changes_tenant))
+                messages.success(request,
+                                 "Folgende Felder wurden geändert: %s." % ", ".join(changes_user + changes_tenant))
 
             else:
                 messages.info(request, 'Es gab keine Änderungen!')
@@ -168,7 +170,6 @@ def update_tenant(request, pk):
 @user_passes_test(is_tenant)
 @require_http_methods(["GET", "POST"])
 def delete_tenant(request, pk):
-
     # tenant can only delete his account
     if request.user.id != pk:
         return HttpResponseForbidden()
@@ -210,6 +211,10 @@ def contact_tenant(request, pk):
     if not tenant.subtenant.is_searching:
         return HttpResponseForbidden()
 
+    # only active subtenants can be contacted
+    if not tenant.is_active:
+        return HttpResponseForbidden()
+
     # email content
     msg = 'Hey,<br><br>'
     msg += 'ich interessiere mich für dein Angebot in dem Zeitraum ' + str(
@@ -248,8 +253,9 @@ class Requests(ListView):
     template_name = 'tenants/requests.html'
 
     def get_queryset(self):
-        return SubTenant.objects.filter(is_searching=True, end_subtenancy__gt=datetime.datetime.now()).order_by(
-            'begin_subtenancy', 'end_subtenancy')
+        return SubTenant.objects.filter(user__is_active=True, is_searching=True,
+                                        end_subtenancy__gt=datetime.datetime.now()).order_by('begin_subtenancy',
+                                                                                             'end_subtenancy')
 
 
 @login_required()

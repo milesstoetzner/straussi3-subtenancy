@@ -11,6 +11,11 @@ from ratelimit.mixins import RatelimitMixin
 
 
 class Login(RatelimitMixin, SuccessMessageMixin, LoginView):
+    """
+    Authenticates a user by username and password.
+    This view is protected by a simple rate limiter.
+    """
+
     title = 'Login'
 
     ratelimit_key = 'ip'
@@ -26,12 +31,21 @@ class Login(RatelimitMixin, SuccessMessageMixin, LoginView):
 @login_required
 @require_POST
 def logout_view(request):
+    """
+    Logs user out.
+    """
+
     logout(request)
     messages.success(request, 'Du hast dich erfolgreich ausgeloggt!')
+
     return redirect(reverse('Index'))
 
 
 class PasswordChange(SuccessMessageMixin, PasswordChangeView):
+    """
+    Changes the password of a authenticated user.
+    """
+
     template_name = 'registration/password_change.html'
     success_message = 'Passwort wurde erfolgreich geändert!'
 
@@ -46,6 +60,10 @@ class PasswordChange(SuccessMessageMixin, PasswordChangeView):
 
 
 class PasswordReset(SuccessMessageMixin, PasswordResetView):
+    """
+    Sends an OTP to a given email in order to reset the user's password identified by the given email.
+    """
+
     template_name = 'registration/password_reset.html'
     success_message = 'Wir haben eine E-Mail zum Zurücksetzen des Passwortes an die angegebene E-Mail-Adresse gesendet, sofern ein entsprechendes Konto existiert. Sie sollte in Kürze ankommen. Falls die E-Mail nicht angekommen sein sollte, bitte die E-Mail-Adresse auf Richtigkeit und gegebenenfalls den Spam-Ordner überprüfen.'
     success_url = '/'
@@ -57,8 +75,12 @@ class PasswordReset(SuccessMessageMixin, PasswordResetView):
         return context
 
 
-# DEP: set up email
+# DEP: set up email and test
 class PasswordResetConfirm(SuccessMessageMixin, PasswordResetConfirmView):
+    """
+    Resets the password of a user authenticated by an OTP send to the user's email.
+    """
+
     template_name = 'registration/password_confirm.html'
     success_message = 'Dein Passwort wurder erfolgreich zurückgesetzt!'
 

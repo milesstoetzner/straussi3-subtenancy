@@ -9,6 +9,10 @@ from django.db.transaction import atomic
 
 
 class Contract(models.Model):
+    """
+    Model for a subtenancy contract between a maintenant and a subtenant. Every change to a record is logged.
+    """
+
     maintenant = models.ForeignKey(MainTenant, on_delete=models.PROTECT, verbose_name='Hauptmieter')
     subtenant = models.ForeignKey(SubTenant, on_delete=models.PROTECT, verbose_name='Untermieter')
     begin = models.DateField('Beginn des Untermietvertrages')
@@ -20,7 +24,8 @@ class Contract(models.Model):
     donation = models.FloatField('Freiwillige Spende in Euro', blank=True)
     is_active = models.BooleanField('Ist dieser Vertrag gültig?', default=True)
 
-    has_special_permission = models.BooleanField('Hat der Hauptmieter eine Sondergenehmigung, um den Zeitraum von 3 Monaten zu überschreiten?', default=False)
+    has_special_permission = models.BooleanField(
+        'Hat der Hauptmieter eine Sondergenehmigung, um den Zeitraum von 3 Monaten zu überschreiten?', default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -38,9 +43,18 @@ class Contract(models.Model):
         return reverse('contracts:ContractUpdate', kwargs={'pk': self.pk})
 
     def is_latest(self):
+        """
+        Checks if there had been some update to the maintenant, subtenant or the contract itself.
+        """
+
         return not self.is_changed and self.updated_at >= self.maintenant.updated_at and self.updated_at >= self.subtenant.updated_at
 
     def get_rents(contract):
+        """
+        Returns one list containing the rents and one containing the corresponding months.
+        Each list has the length of 6.
+        """
+
         months = []
         rents = []
         current = contract.begin.replace(day=1)
@@ -84,12 +98,22 @@ class Contract(models.Model):
         return {'months': months, 'rents': rents}
 
     def preview_contract_pdf(self):
+        """
+        Renders the contract as a PDF file and returns the PDF without saving.
+        """
+
         source = os.path.join('contracts', 'contracts', str(self.maintenant.residential_home.short) + '.html')
         pdf = html_to_pdf(source, {'contract': self})
         return pdf
 
     @atomic
     def save_contract_pdf(self):
+        """
+        Renders the contract as a PDF file and saves the file to the storage.
+        Each time a contract is saved as PDF the version attribute increments.
+        This operation is atomic.
+        """
+
         self.version += 1
 
         source = os.path.join('contracts', 'contracts', str(self.maintenant.residential_home.short) + '.html')

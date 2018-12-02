@@ -1,4 +1,6 @@
 import os
+import datetime
+
 from django.db.transaction import atomic
 from django.urls import reverse
 from django.views.generic import ListView
@@ -12,14 +14,9 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from django.shortcuts import redirect, render, get_object_or_404
 from subtenancy.utils import is_assistant, is_assistant_or_external, get_verbose_changed_data
-
-import datetime
-
 from django.db.models import Q
-
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required, user_passes_test
-
 from django.http import HttpResponse
 
 
@@ -29,14 +26,19 @@ from django.http import HttpResponse
 @user_passes_test(is_assistant)
 @require_http_methods(["GET", "POST"])
 def create_contract(request):
+    """
+    Creates a new contract and saves a PDF, iff the received form data is valid. This method is atomic.
+    """
     context = {}
 
     if request.method == 'GET':
+        # Displays the contract form
 
         form = ContractForm()
         context['get'] = True
 
     else:
+        # Validates the received form data. If data is valid a new contract is saved to the database and as PDF.
 
         form = ContractForm(request.POST)
 
@@ -66,6 +68,10 @@ def create_contract(request):
 @user_passes_test(is_assistant)
 @require_GET
 def view_contract(request, pk):
+    """
+    Displays a contract identified by a given primary key (inside of an inactive form).
+    If the contract is not the latest, the user has the ability to preview and save a new version as PDF.
+    """
     contract = get_object_or_404(Contract, pk=pk)
 
     context = {}
@@ -82,14 +88,24 @@ def view_contract(request, pk):
 @user_passes_test(is_assistant)
 @require_http_methods(["GET", "POST"])
 def update_contract(request, pk):
+    """
+    Updates a contract identified by a given primary key, iff there had been changes. This method is atomic.
+    """
+
     contract = get_object_or_404(Contract, pk=pk)
     context = {}
     context['title'] = 'Vertrag ändern'
 
     if request.method == 'GET':
+        # Displays the contract update form
+
         context['get'] = True
         context['form'] = ContractUpdateForm(instance=contract)
+
     else:
+        # Validates the received form data.
+        # Iff the data are valid and there had been changes, the changes will be saved to the database.
+
         form = ContractUpdateForm(request.POST, instance=contract)
         if form.is_valid():
             if form.has_changed():
@@ -104,7 +120,7 @@ def update_contract(request, pk):
 
             else:
                 messages.info(request, 'Es gab keine Änderungen!')
-            return redirect(reverse('contracts:ContractView', args=(contract.id, )))
+            return redirect(reverse('contracts:ContractView', args=(contract.id,)))
         else:
             context['form'] = form
     return render(request, 'contracts/update.html', context)
@@ -114,6 +130,10 @@ def update_contract(request, pk):
 @user_passes_test(is_assistant)
 @require_GET
 def view_contract_pdf(request, pk, v):
+    """
+    Displays a contract as PDF identified by given primary key and a version number.
+    """
+
     fs = FileSystemStorage()
     filename = 'contract_' + str(pk) + '_version_' + str(v) + '.pdf'
     path = os.path.join('contracts', 'contracts', filename)
@@ -130,6 +150,9 @@ def view_contract_pdf(request, pk, v):
 @user_passes_test(is_assistant)
 @require_GET
 def preview_contract_pdf(request, pk):
+    """
+    Previews the contract as PDF identified by a given primary key.
+    """
 
     contract = get_object_or_404(Contract, pk=pk)
     pdf = contract.preview_contract_pdf()
@@ -143,6 +166,9 @@ def preview_contract_pdf(request, pk):
 @user_passes_test(is_assistant)
 @require_POST
 def save_contract_pdf(request, pk):
+    """
+    Saves the newest version of the contract identified by a given primary key as PDF to the storage.
+    """
 
     contract = get_object_or_404(Contract, pk=pk)
 
@@ -157,24 +183,32 @@ def save_contract_pdf(request, pk):
 
 
 class ContractsActive(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    """
+    Displays a list of all contracts that are active and still running.
+    """
+
     title = 'Aktive Verträge'
     template_name = 'contracts/list.html'
     paginate_by = 50
     max_width = '100%'
     queryset = Contract.objects.filter(is_active=True, end__gte=datetime.datetime.now()) \
-            .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number')
+        .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number')
 
     def test_func(self):
         return is_assistant_or_external(self.request.user)
 
 
 class ContractsArchive(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    """
+    Displays a list of all contracts that are inactive or not running anymore.
+    """
+
     title = 'Archiv'
     template_name = 'contracts/list.html'
     paginate_by = 50
     max_width = '100%'
     queryset = Contract.objects.filter(Q(is_active=False) | Q(end__lt=datetime.datetime.now())) \
-            .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number')
+        .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number')
 
     def test_func(self):
         return is_assistant_or_external(self.request.user)
@@ -185,6 +219,10 @@ class ContractsArchive(LoginRequiredMixin, UserPassesTestMixin, ListView):
 @user_passes_test(is_assistant)
 @require_POST
 def search(request):
+    """
+    Searches in all maintenants, subtenants and contracts for a user input.
+    """
+
     query = request.POST['query']
 
     try:
@@ -198,8 +236,12 @@ def search(request):
     except ValueError:
         query_date = "1111-11-11"
 
-    maintenants = MainTenant.objects.filter(Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query) | Q(user_id=query_int) | Q(tenant_id=query_int) | Q(user__birthday=query_date))
-    subtenants = SubTenant.objects.filter(Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query) | Q(user_id=int(query_int)) | Q(student_id=query_int) | Q(user__birthday=query_date))
+    maintenants = MainTenant.objects.filter(
+        Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query) | Q(user_id=query_int) | Q(
+            tenant_id=query_int) | Q(user__birthday=query_date))
+    subtenants = SubTenant.objects.filter(
+        Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query) | Q(user_id=int(query_int)) | Q(
+            student_id=query_int) | Q(user__birthday=query_date))
     contracts = Contract.objects.filter(Q(id=query_int) | Q(begin=query_date) | Q(end=query_date))
 
     context = {

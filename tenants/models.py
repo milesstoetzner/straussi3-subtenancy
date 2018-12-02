@@ -5,6 +5,10 @@ from simple_history.models import HistoricalRecords
 
 
 class ResidentialHome(models.Model):
+    """
+    Model for a residential home. Every change to a record is logged.
+    """
+
     name = models.CharField('Name', max_length=250)
     short = models.CharField('Abkürzung', max_length=4)
     street = models.CharField('Straße', max_length=250)
@@ -20,9 +24,17 @@ class ResidentialHome(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def get_house_numbers_as_list(self):
+        """
+        Returns the house numbers as list. The house numbers are stored concatenated as string.
+        """
+
         return self.house_numbers.replace(' ', '').split(",")
 
     def get_room_numbers_as_list(self):
+        """
+        Returns the room numbers as list. The room numbers are stored concatenated as string.
+        """
+
         return self.room_numbers.replace(' ', '').split(",")
 
     def __str__(self):
@@ -34,6 +46,11 @@ class ResidentialHome(models.Model):
 
 
 class BlockedTenantID(models.Model):
+    """
+    Model for a blocked tenant id. A maintenant with this id can not register an account.
+    Every change to a record is logged.
+    """
+
     id = models.PositiveIntegerField('Mieterummer', unique=True, primary_key=True)
     description = models.CharField('Beschreibung', max_length=500, blank=True)
 
@@ -48,6 +65,11 @@ class BlockedTenantID(models.Model):
 
 
 class BlockedStudentID(models.Model):
+    """
+    Model for a blocked student id. A subtenant with this id can not register an account.
+    Every change to a record is logged.
+    """
+
     id = models.PositiveIntegerField('Matrikelnummer', unique=True, primary_key=True)
     description = models.CharField('Beschreibung', max_length=500, blank=True)
 
@@ -62,6 +84,11 @@ class BlockedStudentID(models.Model):
 
 
 class User(AbstractUser):
+    """
+    Model for user. A user can be an assistant, maintenant, subtenant or external.
+    Every change to a record is logged.
+    """
+
     first_name = models.CharField('Vorname', max_length=150)
     last_name = models.CharField('Nachname', max_length=150)
     email = models.EmailField('Email Adresse', max_length=150)
@@ -85,6 +112,11 @@ class User(AbstractUser):
 
 
 class MainTenant(models.Model):
+    """
+    Model for a maintenant. Each maintenant record belongs to a user.
+    Every change to a record is logged.
+    """
+
     # Information about main tenant
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     tenant_id = models.PositiveIntegerField('Mieternummer', unique=True)
@@ -122,15 +154,13 @@ class MainTenant(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def get_all_contracts(self):
-        return self.contract_set.all()
-
-    def get_all_active_contracts(self):
-        return self.contract_set.filter(is_active=True)
-
     def get_amount_of_days(self):
+        """
+        Returns the amount of days a maintenant has subleased his room.
+        """
+
         amount = 0
-        contracts = self.get_all_active_contracts()
+        contracts = self.contract_set.filter(is_active=True)
         for contract in contracts:
             delta = contract.end - contract.begin
             amount += delta.days + 1
@@ -145,6 +175,11 @@ class MainTenant(models.Model):
 
 
 class SubTenant(models.Model):
+    """
+    Model for a subtenant. Each subtenant record belongs to a user.
+    Every change to a record is logged.
+    """
+
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     # Information about sub tenant
@@ -169,12 +204,6 @@ class SubTenant(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    def get_all_contracts(self):
-        return self.contract_set.all()
-
-    def get_all_active_contracts(self):
-        return self.contract_set.filter(is_active=True)
 
     def __str__(self):
         return str(self.pk) + ': ' + self.user.first_name + ' ' + self.user.last_name + ' (' + str(self.user.birthday) + ')' + ' (' + str(self.student_id) + ')'

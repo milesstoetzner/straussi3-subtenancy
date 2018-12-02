@@ -4,6 +4,11 @@ from tenants.forms import BOOLEAN_CHOICES
 
 
 class ContractForm(ModelForm):
+    """
+    Creates a new contract. Before creation there are a few validations - e.g. the begin and end is validated against
+    already existing contracts with the maintenant resp. subtenant
+    """
+
     def clean(self):
         cleaned_date = super().clean()
         maintenant = cleaned_date.get('maintenant')
@@ -51,11 +56,14 @@ class ContractForm(ModelForm):
                 if contract.id == self.instance.id:
                     continue
                 if contract.begin <= begin <= contract.end:
-                    self.add_error('begin', 'Der Begin des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem Hauptmieter!')
+                    self.add_error('begin',
+                                   'Der Begin des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem Hauptmieter!')
                 if contract.begin <= end <= contract.end:
-                    self.add_error('end', 'Das Ende des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem Hauptmieter!')
+                    self.add_error('end',
+                                   'Das Ende des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem Hauptmieter!')
                 if begin <= contract.begin <= end:
-                    self.add_error('begin', 'Es existriert bereits ein Vertrag mit dem Hauptmieter innerhalb des angegebene Zeitraums!')
+                    self.add_error('begin',
+                                   'Es existriert bereits ein Vertrag mit dem Hauptmieter innerhalb des angegebene Zeitraums!')
 
         # check for intersection with other contracts regarding subtenant
         if subtenant and begin and end:
@@ -64,11 +72,14 @@ class ContractForm(ModelForm):
                 if contract.id == self.instance.id:
                     continue
                 if contract.begin <= begin <= contract.end:
-                    self.add_error('begin', 'Der Begin des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem Untermieter!')
+                    self.add_error('begin',
+                                   'Der Begin des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem Untermieter!')
                 if contract.begin <= end <= contract.end:
-                    self.add_error('end', 'Das Ende des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem Untermieter!')
+                    self.add_error('end',
+                                   'Das Ende des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem Untermieter!')
                 if begin <= contract.begin <= end:
-                    self.add_error('begin', 'Es existriert bereits ein Vertrag mit dem Untermieter innerhalb des angegebene Zeitraums!')
+                    self.add_error('begin',
+                                   'Es existriert bereits ein Vertrag mit dem Untermieter innerhalb des angegebene Zeitraums!')
 
         # check maintenant amount day
         if maintenant and begin and end:
@@ -76,7 +87,8 @@ class ContractForm(ModelForm):
                 # NOTE: the limit is 3 months and not 93 days ...
                 d = end - begin
                 if maintenant.get_amount_of_days() + d.days + 1 > 93:
-                    self.add_error('end', 'Der Hauptmieter überschreitet die 3 Monate Grenze! Falls er eine Sondergenehmigung besitzt, kann dies unten angegeben werden.')
+                    self.add_error('end',
+                                   'Der Hauptmieter überschreitet die 3 Monate Grenze! Falls er eine Sondergenehmigung besitzt, kann dies unten angegeben werden.')
 
         # positive caution
         if caution:
@@ -85,11 +97,11 @@ class ContractForm(ModelForm):
 
         # is_identified
         if not is_identified:
-                self.add_error('is_identified', 'Lichtbildausweis muss kontrolliert werden!')
+            self.add_error('is_identified', 'Lichtbildausweis muss kontrolliert werden!')
 
         # is_matriculated
         if not is_matriculated:
-                self.add_error('is_matriculated', 'Immatrikulationsbescheinigung muss kontrolliert werden!')
+            self.add_error('is_matriculated', 'Immatrikulationsbescheinigung muss kontrolliert werden!')
 
         # positive donation
         if donation:
@@ -111,5 +123,8 @@ class ContractForm(ModelForm):
 
 
 class ContractUpdateForm(ContractForm):
+    """
+    Updates an existing contract. The only difference to the creation is that the field 'is_active' is available.
+    """
     class Meta(ContractForm.Meta):
         exclude = ['version', 'is_changed']

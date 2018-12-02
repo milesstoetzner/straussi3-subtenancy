@@ -1,3 +1,7 @@
+"""
+FAQ for maintenants and subtenants
+"""
+
 faq_maintenant = [
 
     {'question': 'Was muss ich beachten, wenn ich mein Zimmer untervermieten möchte?',

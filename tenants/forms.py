@@ -1,5 +1,4 @@
-from django.forms import ModelForm, TextInput, DateInput, EmailInput, Select, NumberInput, CheckboxInput, PasswordInput, \
-    Textarea
+from django.forms import ModelForm, DateInput, Select, Textarea
 from .models import User, MainTenant, SubTenant, ResidentialHome, BlockedTenantID, BlockedStudentID
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
@@ -7,6 +6,10 @@ BOOLEAN_CHOICES = ((False, 'Nein'), (True, 'Ja'))
 
 
 class ResidentialHomeForm(ModelForm):
+    """
+    Creates or updates a residential home.
+    """
+
     class Meta:
         model = ResidentialHome
         fields = '__all__'
@@ -17,6 +20,10 @@ class ResidentialHomeForm(ModelForm):
 
 
 class UserForm(UserCreationForm):
+    """
+    Creates a user extended by birthday and phone number.
+    """
+
     class Meta:
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'birthday', 'phone_number']
         model = User
@@ -26,11 +33,18 @@ class UserForm(UserCreationForm):
 
 
 class UserUpdateForm(ModelForm):
+    """
+    Updates a user.
+    """
+
     class Meta(UserForm.Meta):
         fields = ['first_name', 'last_name', 'email', 'birthday', 'phone_number']
 
 
 class MainTenantForm(ModelForm):
+    """
+    Creates an maintenant with additional validation.
+    """
 
     def clean(self):
         cleaned_date = super().clean()
@@ -125,11 +139,17 @@ class MainTenantForm(ModelForm):
 
 
 class MainTenantUpdateForm(MainTenantForm):
+    """
+    Updates a maintenant. The difference to creating a maintenant is the now available field is_searching.
+    """
     class Meta(MainTenantForm.Meta):
         exclude = ['user']
 
 
 class SubTenantForm(ModelForm):
+    """
+    Creates a subtenant with additional validation.
+    """
 
     def clean(self):
         cleaned_date = super().clean()
@@ -162,5 +182,8 @@ class SubTenantForm(ModelForm):
 
 
 class SubTenantUpdateForm(SubTenantForm):
+    """
+    Updates a subtenant. The difference to creating a subtenant is the now available field is_searching.
+    """
     class Meta(SubTenantForm.Meta):
         exclude = ['user']

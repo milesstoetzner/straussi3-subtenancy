@@ -23,15 +23,23 @@ import datetime
 @csrf_protect
 @require_http_methods(["GET", "POST"])
 def create_tenant(request, is_maintenant):
+    """
+    Creates a new user and a corresponding maintenant/subtenant.
+    This method is atomic.
+    """
+
     context = {}
 
     if request.method == 'GET':
+        # Displays the two forms: user creation form and maintenant/subtenant creation form
 
         user_form = UserForm()
         tenant_form = MainTenantForm() if is_maintenant else SubTenantForm()
         context['get'] = True
 
     else:
+        # Validates the received form data.
+        # If data of both forms are valid a new user and his corresponding maintenant/subtenant is created.
 
         user_form = UserForm(request.POST)
         tenant_form = MainTenantForm(request.POST) if is_maintenant else SubTenantForm(request.POST)
@@ -63,6 +71,10 @@ def create_tenant(request, is_maintenant):
 @login_required
 @require_GET
 def view_profile(request):
+    """
+    Displays the details about the authenticated user and his corresponding maintenant/subtenant.
+    """
+
     context = {}
     context['get'] = True
     context['user_form'] = UserUpdateForm(instance=request.user)
@@ -81,6 +93,10 @@ def view_profile(request):
 @user_passes_test(is_assistant)
 @require_GET
 def view_tenant(request, pk):
+    """
+    Displays the details about a user and his corresponding maintenant/subtenant.
+    """
+
     tenant = get_object_or_404(User, pk=pk)
 
     context = {}
@@ -105,6 +121,10 @@ def view_tenant(request, pk):
 @login_required
 @require_http_methods(["GET", "POST"])
 def update_tenant(request, pk):
+    """
+    Updates the details about a user and his corresponding maintenant/subtenant.
+    """
+
     context = {}
 
     # only assistants or the owner can update tenant
@@ -118,16 +138,17 @@ def update_tenant(request, pk):
         return HttpResponseForbidden()
 
     if request.method == 'GET':
+        # Displays the two forms: user creation form and maintenant/subtenant creation form
 
-        # display update form
         user_form = UserUpdateForm(instance=tenant)
         tenant_form = MainTenantUpdateForm(instance=tenant.maintenant) if tenant.is_maintenant else SubTenantUpdateForm(
             instance=tenant.subtenant)
         context['get'] = True
 
     else:
+        # Validates the received form data.
+        # Iff the data of both forms are valid and there had been changes, the changes will be saved to the database.
 
-        # validate and save tenant
         user_form = UserUpdateForm(request.POST, instance=tenant)
         tenant_form = MainTenantUpdateForm(request.POST,
                                            instance=tenant.maintenant) if tenant.is_maintenant else SubTenantUpdateForm(
@@ -170,6 +191,10 @@ def update_tenant(request, pk):
 @user_passes_test(is_tenant)
 @require_http_methods(["GET", "POST"])
 def delete_tenant(request, pk):
+    """
+    Deletes a user and his corresponding maintenant/subtenant iff no contracts exist.
+    """
+
     # tenant can only delete his account
     if request.user.id != pk:
         return HttpResponseForbidden()
@@ -177,6 +202,7 @@ def delete_tenant(request, pk):
     user = get_object_or_404(User, pk=pk)
 
     if request.method == 'GET':
+        # Asks for consent
 
         context = {}
         context['tenant'] = user
@@ -184,6 +210,7 @@ def delete_tenant(request, pk):
         return render(request, 'tenants/delete.html', context)
 
     else:
+        # Deletes the user and his correspoding maintenant/subtenant iff no contracts exist.
 
         try:
             user.delete()
@@ -201,6 +228,10 @@ def delete_tenant(request, pk):
 @user_passes_test(is_maintenant)
 @require_http_methods(["GET", "POST"])
 def contact_tenant(request, pk):
+    """
+    A maintenant can send an active searching subtenant an email containing his contact details.
+    """
+
     tenant = get_object_or_404(User, pk=pk)
 
     # only subtenants can be contacted
@@ -223,8 +254,8 @@ def contact_tenant(request, pk):
     msg += '<br><br>Grüße,<br>' + str(tenant)
 
     if request.method == 'GET':
+        # Asks for consent
 
-        # ask for consent
         context = {}
         context['tenant'] = tenant
         context['title'] = 'Kontaktaufnahme'
@@ -232,10 +263,12 @@ def contact_tenant(request, pk):
         return render(request, 'tenants/contact.html', context)
 
     else:
+        # Sends email with maintenant's contact details to the subtenant
+
         try:
             mail = EmailMessage('Ferienmiete Straußäcker 3 Kontaktaufnahme',
                                 msg,
-                                'HmjyGTxWRP1vtcLT@web.de',
+                                'HmjyGTxWRP1vtcLT@web.de',  # DEP: change email
                                 [tenant.email])
             mail.content_subtype = "html"
             mail.send()
@@ -249,6 +282,10 @@ def contact_tenant(request, pk):
 
 
 class Requests(ListView):
+    """
+    Displays a list of all subtenants' requests.
+    """
+
     title = 'Anfragen von Untermietern'
     template_name = 'tenants/requests.html'
 
@@ -262,6 +299,10 @@ class Requests(ListView):
 @user_passes_test(is_assistant)
 @require_GET
 def blacklist(request):
+    """
+    Displays the blacklist containing all blocked tenant ids and student ids.
+    """
+
     context = {}
     context['title'] = 'Schwarze Liste'
     context['tenant_ids'] = BlockedTenantID.objects.all()
@@ -271,10 +312,18 @@ def blacklist(request):
 
 
 def index(request):
+    """
+    Displays the landing page with FAQ for maintenants and subtenants.
+    """
+
     return render(request, 'subtenancy/index.html',
                   {'title': 'Ferienmiete Straußäcker 3', 'faq_maintenant': faq_maintenant,
                    'faq_subtenant': faq_subtenant})
 
 
 def legal_notice(request):
+    """
+    Displays legal notice, disclaimer, data protection declaration and some acknowledgments.
+    """
+
     return render(request, 'subtenancy/legal_notice.html', {'title': 'Impressum'})

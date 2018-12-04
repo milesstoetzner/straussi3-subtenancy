@@ -15,6 +15,8 @@ class ContractForm(ModelForm):
         subtenant = cleaned_date.get('subtenant')
         begin = cleaned_date.get('begin')
         end = cleaned_date.get('end')
+        condition_room = cleaned_date.get('condition_room')
+        condition_flat = cleaned_date.get('condition_flat')
         caution = cleaned_date.get('caution')
         is_identified = cleaned_date.get('is_identified')
         is_matriculated = cleaned_date.get('is_matriculated')
@@ -90,6 +92,14 @@ class ContractForm(ModelForm):
                     self.add_error('end',
                                    'Der Hauptmieter überschreitet die 3 Monate Grenze! Falls er eine Sondergenehmigung besitzt, kann dies unten angegeben werden.')
 
+        # bed_appropriate is false
+        if not condition_room:
+            self.add_error('condition_room', 'Dein Zimmer muss in einem ordnungsgemäßen Zustand sein!')
+
+        # flat_condition is false
+        if not condition_flat:
+            self.add_error('condition_flat', 'Deine Wohnung muss in einem ordnungsgemäßen Zustand sein!')
+
         # positive caution
         if caution:
             if caution < 0:
@@ -111,14 +121,20 @@ class ContractForm(ModelForm):
     class Meta:
         model = Contract
         exclude = ['is_active', 'version', 'is_changed']
+        help_texts = {
+            'condition_room': 'Ein ordnungsgemäßer Zustand schließt die Vollständigkeit des Inventars entsprechend des Hauptmietvertrages ein.'
+        }
         widgets = {
             'begin': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'end': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'condition_room': Select(choices=BOOLEAN_CHOICES),
+            'condition_flat': Select(choices=BOOLEAN_CHOICES),
+            'condition_comment': Textarea(attrs={'rows': 1}),
             'caution_comment': Textarea(attrs={'rows': 1}),
             'is_identified': Select(choices=BOOLEAN_CHOICES),
             'is_matriculated': Select(choices=BOOLEAN_CHOICES),
             'is_active': Select(choices=BOOLEAN_CHOICES),
-            'has_special_permission': Select(choices=BOOLEAN_CHOICES),
+            'has_special_permission': Select(choices=BOOLEAN_CHOICES)
         }
 
 

@@ -247,11 +247,10 @@ def contact_tenant(request, pk):
         return HttpResponseForbidden()
 
     # email content
-    msg = 'Hey,<br><br>'
-    msg += 'ich interessiere mich für dein Angebot in dem Zeitraum ' + str(
-        tenant.subtenant.begin_subtenancy) + ' bis ' + str(tenant.subtenant.end_subtenancy) + '.'
-    msg += '<br>Du kannst mich über folgende Email kontaktieren: ' + tenant.email
-    msg += '<br><br>Grüße,<br>' + str(tenant)
+    msg = 'Hey,<br><br>ich interessiere mich für deine Anfrage in dem Zeitraum ' + str(
+        tenant.subtenant.begin_subtenancy) + ' bis ' + str(
+        tenant.subtenant.end_subtenancy) + '.<br>Du kannst mich über folgende Email kontaktieren: ' + tenant.email + '<br><br>Grüße,<br>' + str(
+        tenant)
 
     if request.method == 'GET':
         # Asks for consent
@@ -273,8 +272,15 @@ def contact_tenant(request, pk):
             mail.content_subtype = "html"
             mail.send()
 
+            mail = EmailMessage('Bestätigung Ferienmiete Straußäcker 3 Kontaktaufnahme',
+                                '<b>Bestätigung folgender Kontaktaufnahme:</b><br><br>' + msg,
+                                'HmjyGTxWRP1vtcLT@web.de',  # DEP: change email
+                                [request.user.email])
+            mail.content_subtype = "html"
+            mail.send()
+
         except SMTPException as e:
-            messages.error(request, 'Untermieter konnte nicht kontaktiert werden!')
+            messages.error(request, 'Untermieter konnte nicht kontaktiert werden! Wir haben dir zusätzlich als Bestätigung eine Email gesendet.')
             return redirect('Requests')
 
         messages.success(request, 'Untermieter wurde erfolgreich kontaktiert!')

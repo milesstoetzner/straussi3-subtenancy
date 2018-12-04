@@ -133,22 +133,6 @@ class MainTenant(models.Model):
     is_returning = models.BooleanField('Ist ein Wiedereinzug ins Zimmer geplant?')
     is_searching = models.BooleanField('Ich suche für den oben genannten Zeitraum einen Untermieter', default=True)
 
-    # Information about room condition
-    bed_condition = models.BooleanField('Ist ein Bett in einem ordnungsgemäßen Zustand vorhanden?', default=False)
-    mattress_condition = models.BooleanField('Ist ein Matratze in einem ordnungsgemäßen Zustand vorhanden?', default=False)
-    bed_drawer_condition = models.BooleanField('Ist ein Bettkasten in einem ordnungsgemäßen Zustand vorhanden?', default=False)
-    padding_condition = models.PositiveIntegerField('Wie viele Bettpolster sind in einem ordnungsgemäßen Zustand vorhanden?')
-    wardrobe_condition = models.BooleanField('Ist ein Schrank in einem ordnungsgemäßen Zustand vorhanden?', default=False)
-    regal_condition = models.BooleanField('Ist ein Regal in einem ordnungsgemäßen Zustand vorhanden?', default=False)
-    tabletop_condition = models.BooleanField('Ist eine Tischplatte in einem ordnungsgemäßen Zustand vorhanden?', default=False)
-    base_frame_condition = models.BooleanField('Sind zwei Unterschränke in einem ordnungsgemäßen Zustand vorhanden?', default=False)
-    chair_condition = models.BooleanField('Ist ein Stuhl in einem ordnungsgemäßen Zustand vorhanden?', default=False)
-    walls_condition = models.BooleanField('Sind die Wände in einem ordnungsgemäßen Zustand?', default=False)
-    room_condition = models.BooleanField('Ist das Zimmer gereinigt und in einem ordnungsgemäßen Zustand?', default=False)
-    flat_condition = models.BooleanField('Sind die Gemeinschaftsräume gereinigt und in einem ordnungsgemäßen Zustand?', default=False)
-    stowage_condition = models.BooleanField('Steht der Stauraum in Küche/Kühlschrank bereit?', default=False)
-    condition_comment = models.CharField('Sonstige Anmerkungen zum Zimmer oder zur Wohnung', max_length=500, blank=True)
-
     history = HistoricalRecords()
 
     created_at = models.DateTimeField(auto_now_add=True)

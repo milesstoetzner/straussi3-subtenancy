@@ -17,8 +17,13 @@ class Contract(models.Model):
     subtenant = models.ForeignKey(SubTenant, on_delete=models.PROTECT, verbose_name='Untermieter')
     begin = models.DateField('Beginn des Untermietvertrages')
     end = models.DateField('Ende des Untermietvertrages')
+    condition_room = models.BooleanField('Ist das Zimmer gereinigt und in einem ordnungsgemäßen Zustand?',
+                                         default=False)
+    condition_flat = models.BooleanField(
+        'Sind die Gemeinschaftsräume gereinigt und steht ein Staurum in Küche/Kühleschrank bereit?', default=False)
+    condition_comment = models.CharField('Sonstige Anmerkungen zum Zimmer oder zur Wohnung', max_length=75, blank=True)
     caution = models.FloatField('Höhe der Kaution in Euro')
-    caution_comment = models.CharField('Anmerkungen zur Kaution', max_length=500, blank=True)
+    caution_comment = models.CharField('Anmerkungen zur Kaution', max_length=150, blank=True)
     is_identified = models.BooleanField('Lichtbildausweis kontrolliert?')
     is_matriculated = models.BooleanField('Immatrikulationsbescheinigung kontrolliert?')
     donation = models.FloatField('Freiwillige Spende in Euro', blank=True)
@@ -47,7 +52,11 @@ class Contract(models.Model):
         Checks if there had been some update to the maintenant, subtenant or the contract itself.
         """
 
-        return not self.is_changed and self.updated_at >= self.maintenant.updated_at and self.updated_at >= self.subtenant.updated_at
+        return not self.is_changed \
+               and self.updated_at >= self.maintenant.updated_at \
+               and self.updated_at >= self.maintenant.user.updated_at \
+               and self.updated_at >= self.subtenant.updated_at \
+               and self.updated_at >= self.subtenant.user.updated_at
 
     def get_rents(contract):
         """

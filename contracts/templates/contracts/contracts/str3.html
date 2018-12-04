@@ -45,7 +45,7 @@
         width: 160mm;
         top: 60mm;
         height: 210mm;
-        /*-pdf-frame-border: 1;*/
+            /*-pdf-frame-border: 1;*/
 
 
         }
@@ -58,7 +58,7 @@
         }
 
 
-         @page empty {
+        @page empty {
             size: A4;
             @frame header_frame_left { /* Static Frame */
             -pdf-frame-content: header_content_left;
@@ -90,7 +90,7 @@
         width: 160mm;
         top: 60mm;
         height: 210mm;
-        /*-pdf-frame-border: 1;*/
+            /*-pdf-frame-border: 1;*/
 
 
         }
@@ -135,7 +135,7 @@
         width: 160mm;
         top: 60mm;
         height: 210mm;
-        /*-pdf-frame-border: 1;*/
+            /*-pdf-frame-border: 1;*/
 
 
         }
@@ -146,7 +146,7 @@
         width: 160mm;
         top: 260mm;
         height: 12mm;
-        /*-pdf-frame-border: 1;*/
+            /*-pdf-frame-border: 1;*/
         }
 
         @frame footer_frame {
@@ -188,7 +188,7 @@
         width: 160mm;
         top: 60mm;
         height: 210mm;
-        /*-pdf-frame-border: 1;*/
+            /*-pdf-frame-border: 1;*/
 
 
         }
@@ -199,7 +199,7 @@
         width: 160mm;
         top: 260mm;
         height: 12mm;
-        /*-pdf-frame-border: 1;*/
+            /*-pdf-frame-border: 1;*/
         }
 
         @frame footer_frame {
@@ -242,7 +242,7 @@
         width: 160mm;
         top: 60mm;
         height: 210mm;
-        /*-pdf-frame-border: 1;*/
+            /*-pdf-frame-border: 1;*/
 
 
         }
@@ -253,7 +253,7 @@
         width: 160mm;
         top: 260mm;
         height: 12mm;
-        /*-pdf-frame-border: 1;*/
+            /*-pdf-frame-border: 1;*/
         }
 
         @frame footer_frame {
@@ -263,7 +263,7 @@
         }
         }
 
-                @page date {
+        @page date {
             size: A4;
             @frame header_frame_left { /* Static Frame */
             -pdf-frame-content: header_content_left;
@@ -295,7 +295,7 @@
         width: 160mm;
         top: 60mm;
         height: 210mm;
-        /*-pdf-frame-border: 1;*/
+            /*-pdf-frame-border: 1;*/
 
 
         }
@@ -306,7 +306,7 @@
         width: 160mm;
         top: 260mm;
         height: 12mm;
-        /*-pdf-frame-border: 1;*/
+            /*-pdf-frame-border: 1;*/
         }
 
         @frame footer_frame {
@@ -440,36 +440,36 @@
     </div>
 
     <div id="signature_date">
-    <table class="text-center">
+        <table class="text-center">
 
-        <tbody>
+            <tbody>
 
-        <tr>
-            <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+            <tr>
+                <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
     </div>
 
     <div id="signature_melde">
-    <table class="text-center">
+        <table class="text-center">
 
-        <tbody>
+            <tbody>
 
-        <tr>
-            <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
-            <td></td>
-            <td></td>
-            <td class="signature" colspan="2">Unterschrift des Wohnungsgebers<br>oder der beauftragten Person</td>
-        </tr>
+            <tr>
+                <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
+                <td></td>
+                <td></td>
+                <td class="signature" colspan="2">Unterschrift des Wohnungsgebers<br>oder der beauftragten Person</td>
+            </tr>
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
     </div>
 
     <!-- Content for Static Frame 'footer_frame' -->
@@ -705,11 +705,11 @@
 
     <!-----------------------------
 
-            Bestätigung der Ferienvermietung
+            Bestätigung der Untervermietung
 
     ------------------------------>
 
-    <h1>Bestätigung der Ferienvermietung</h1>
+    <h1>Bestätigung der Untervermietung</h1>
 
     <h2>Allgemein</h2>
     <table>
@@ -745,8 +745,8 @@
 
     <p class="block skip">Hiermit bestätigen wir, dass für das oben angegebene Zimmer eine über das Wohnheimsreferat
         Straußäcker 3
-        durchgeführte Ferienvermietung besteht. Das Nutzungsrecht für das vermietete Zimmer liegt ausschließlich beim
-        Ferienmieter. Eine gültige Immatrikulationsbestätigung und ein Lichtbildausweis o.Ä des Ferienmieters wurden
+        durchgeführte Untervermietung besteht. Das Nutzungsrecht für das vermietete Zimmer liegt ausschließlich beim
+        Untermieter. Eine gültige Immatrikulationsbestätigung und ein Lichtbildausweis o.Ä des Untermieters wurden
         vorgelegt. Das Wohnungsreferat gibt die Meldung dem Mietvertrag entsprechend an das Studierendenwerk Stuttgart
         weiter.</p>
 
@@ -756,11 +756,11 @@
 
     <!-----------------------------
 
-          Checkliste Zimmer
+          Zustand des Zimmers und der Wohnung
 
     ------------------------------>
 
-    <h1>Checkliste Zimmer</h1>
+    <h1>Zustand des Zimmers und der Wohnung</h1>
 
     <h2>Allgemein</h2>
     <table>
@@ -793,90 +793,42 @@
         </tbody>
     </table>
 
-    <p class="skip block">Der Hauptmieter bestätigt die Vollständigkeit seines Mobiliars und dessen entsprechenden guten
-        Zustand. Das Zimmer wird gereinigt übergeben. Der Ferienmieter hat eine Woche Zeit etwaige Beanstandungen zu
-        melden. Alle Punkte sind entsprechend zu bestätigen.</p>
-
-    <h2>Zustand des Zimmers und der Wohnung</h2>
+    <p class="skip block">Der Hauptmieter bestätigt die Vollständigkeit seines Inventars und dessen entsprechenden guten
+        Zustand. Das Zimmer wird gereinigt übergeben. Dabei sind die Gemeinschaftsräume gereinigt und der Stauraum in
+        Küche und Kühlschrank stehen
+        bereit. Der Untermieter hat eine Woche Zeit etwaige Beanstandungen zu melden. Alle Punkte sind entsprechend zu
+        bestätigen.</p>
 
     <table>
         <tbody>
 
         <tr>
-            <td>Matratze</td>
-            <td> {{ main.bed_condition|yesno:"Ja,Nein" }}</td>
+            <td>
+                <h2>Inventar</h2>
+                <ul style="padding-left: 5mm">
+                    <li>Bettgestell</li>
+                    <li>Bettkasten</li>
+                    <li>Matratze und Überzug</li>
+                    <li>Rückenlehne mit Bezug</li>
+                    <li>Kleiderschrank mit 3 Böden und 1 Stange</li>
+                    <li>Standregal mit 6 Böden</li>
+                    <li>Stuhl</li>
+                    <li>Schreibtisch mit Unterbau</li>
+                    <li>Deckenlampe</li>
+                    <li>Vorhangschiene ein-, zweiteilig</li>
+                    <li>Vorhang</li>
+                </ul>
+            </td>
         </tr>
-
-        <tr>
-            <td>Matratze</td>
-            <td> {{ main.mattress_condition|yesno:"Ja,Nein" }}</td>
-        </tr>
-
-        <tr>
-            <td>Bettkasten</td>
-            <td> {{ main.bed_drawer_condition|yesno:"Ja,Nein" }} </td>
-        </tr>
-
-        <tr>
-            <td>Anzahl Bettpolster</td>
-            <td> {{ main.padding_condition }} </td>
-        </tr>
-
-        <tr>
-            <td>Schrank</td>
-            <td> {{ main.wardrobe_condition|yesno:"Ja,Nein" }} </td>
-        </tr>
-
-        <tr>
-            <td>Regal</td>
-            <td> {{ main.regal_condition|yesno:"Ja,Nein" }}</td>
-        </tr>
-
-        <!-- NOTE: Schreibtisch Abfrage? -->
-
-        <tr>
-            <td>Tischplatte</td>
-            <td> {{ main.tabletop_condition|yesno:"Ja,Nein" }} </td>
-        </tr>
-
-        <tr>
-            <td>2x Unterschrank</td>
-            <td> {{ main.base_frame_condition|yesno:"Ja,Nein" }} </td>
-        </tr>
-
-        <tr>
-            <td>Stuhl</td>
-            <td> {{ main.chair_condition|yesno:"Ja,Nein" }} </td>
-        </tr>
-
-        <tr>
-            <td>Wände</td>
-            <td> {{ main.walls_condition|yesno:"Ja,Nein" }} </td>
-        </tr>
-
-        <tr>
-            <td>Zimmer gereinigt</td>
-            <td> {{ main.room_condition|yesno:"Ja,Nein" }}</td>
-        </tr>
-
-        <tr>
-            <td>Gemeinschaftsräume sauber</td>
-            <td> {{ main.flat_condition|yesno:"Ja,Nein" }} </td>
-        </tr>
-
-        <tr>
-            <td>Stauraum in Küche/Kühlschrank steht bereit</td>
-            <td> {{ main.stowage_condition|yesno:"Ja,Nein" }} </td>
-        </tr>
-
 
         </tbody>
     </table>
 
-    {% if main.condition_comment %}
 
-        <h2>Sonstiges</h2>
-        <p class="block" style="margin-top: 0"> {{ main.condition_comment }} </p>
+    {% if contract.condition_comment %}
+
+        <h2>Anmerkungen</h2>
+        <p class="block" style="margin-top: 0"> {{ contract.condition_comment }} </p>
 
     {% endif %}
 
@@ -948,7 +900,7 @@
     <p class="skip text-red"><b>Die Miete wird weiterhin vom Hauptmieter an das Studierendenwerk Stuttgart
         überwiesen.</b></p>
 
-    {% if not main.is_returning %}
+    {% if contract.caution %}
 
         <pdf:nexttemplate name="full"/>
 
@@ -960,8 +912,8 @@
 
         ------------------------------>
 
-        <h1>Kautionsvertrag zwischen Ferienmieter und Hauptmieter</h1>
-        <p class="italic">Rental deposit agreement between sub-tenant and main-tenant</p>
+        <h1>Kautionsvertrag zwischen Hauptmieter und Untermieter</h1>
+        <p class="italic">Rental deposit agreement between maintenant and subtenant</p>
 
         <h2>Allgemein</h2>
         <table>
@@ -993,15 +945,15 @@
 
 
         <p class="skip block">
-            Hiermit wird eine Kautionszahlung in oben genannter Höhe vom Ferienmieter an den Hauptmieter bestätigt. Das
-            WoRe bezeugt die Barzahlung/Transaktion. Die Kaution wird am Tag des Auszugs des Ferienmieters
+            Hiermit wird eine Kautionszahlung in oben genannter Höhe vom Untermieter an den Hauptmieter bestätigt. Das
+            WoRe bezeugt die Barzahlung/Transaktion. Die Kaution wird am Tag des Auszugs des Untermieters
             zurückgezahlt, sofern keine Beanstandungen vorliegen. Im Falle eines Einwands wird dieser vom
             SWS/Hausmeister geklärt. Es gelten die selben Kautionsbedingungen wie sie im Mietvertrag des Hauptmieters
             mit dem Studierendenwerk Stuttgart aufgeführt sind.
         </p>
 
         <p class="skip block italic">
-            Herewith a deposit payment of the above stated amount is confirmed by the sub-tenant to the main-tenant. The
+            Herewith a deposit payment of the above stated amount is confirmed by the subtenant to the maintenant. The
             Wore testifies to the cash/ transaction. The deposit will be returned on the day of the move-out of the
             sub-enant, unless objections are present. In case of an issue SWS (janitor) will clarify it. The same bail
             conditions are applied as written in the rental contract of the main-tenant with the Studierendenwerk
@@ -1030,7 +982,7 @@
     ------------------------------>
 
     <h1>Wohnungsgeberbestätigung nach § 19 des Bundesmeldegesetzes</h1>
-    <p>Hiermit wird ein Einzug in folgender Wohnung bestätigt</p>
+    <p>Hiermit wird ein Einzug in folgender Wohnung bestätigt.</p>
 
     <h2>Wohnung</h2>
     <table>

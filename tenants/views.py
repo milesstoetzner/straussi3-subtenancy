@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.decorators.http import require_http_methods, require_GET
 from django.views.decorators.csrf import csrf_protect
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from django.http import HttpResponseForbidden
 from django.db.models import ProtectedError
 from django.contrib import messages
@@ -17,6 +17,8 @@ from smtplib import SMTPException
 from .faq import faq_subtenant, faq_maintenant
 
 import datetime
+
+# TODO: permissions
 
 
 @atomic
@@ -90,7 +92,7 @@ def view_profile(request):
 
 
 @login_required
-@user_passes_test(is_assistant)
+@permission_required(['tenants.view_maintenant', 'tenants.view_subtenant'])
 @require_GET
 def view_tenant(request, pk):
     """

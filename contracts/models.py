@@ -130,13 +130,12 @@ class Contract(models.Model):
         destination = os.path.join('contracts', 'contracts',
                                    'contract_' + str(self.pk) + '_version_' + str(self.version) + '.pdf')
 
-        status = save_html_as_pdf(source, {'contract': self}, destination)
+        save_html_as_pdf(source, {'contract': self}, destination)
 
-        if status:
-            self.is_changed = False
-            self.save()
+        self.is_changed = False
+        self.save()
 
-        return status
+
 
     def view_contract_pdf(self, v):
         """

@@ -53,7 +53,7 @@ class ContractForm(ModelForm):
 
         # check for intersection with other contracts regarding maintenant
         if maintenant and begin and end:
-            contracts = maintenant.get_all_active_contracts()
+            contracts = maintenant.contract_set.filter(is_active=True)
             for contract in contracts:
                 if contract.id == self.instance.id:
                     continue
@@ -69,7 +69,7 @@ class ContractForm(ModelForm):
 
         # check for intersection with other contracts regarding subtenant
         if subtenant and begin and end:
-            contracts = subtenant.get_all_active_contracts()
+            contracts = subtenant.contract_set.filter(is_active=True)
             for contract in contracts:
                 if contract.id == self.instance.id:
                     continue

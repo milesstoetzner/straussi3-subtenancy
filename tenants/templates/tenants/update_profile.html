@@ -1,0 +1,32 @@
+{% extends "subtenancy/base.html" %}
+
+{% load custom_extras %}
+
+{% block content %}
+
+    <form action="{% url 'ProfileUpdate' %}" method="post" novalidate>
+
+        {% csrf_token %}
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ title }}</h5>
+
+                <h6 class="card-subtitle mb-2 text-muted">Informationen über den Account</h6>
+
+                    {% bootstrap user_form get %}
+
+                <h6 class="card-subtitle mb-2 text-muted" style="padding-top: 2rem">Informationen über den {% if tenant.is_maintenant %}Hauptmieter{% else %}Untermieter{% endif %}</h6>
+
+                    {% bootstrap tenant_form get %}
+
+                <button class="btn btn-success btn-block">Aktualisieren</button>
+                <a href="{% url 'ProfileUpdate' %}" class="btn btn-danger btn-block">Abbrechen</a>
+
+            </div>
+
+        </div>
+
+    </form>
+
+{% endblock %}

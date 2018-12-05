@@ -8,6 +8,8 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from ratelimit.mixins import RatelimitMixin
+from django.shortcuts import redirect, render
+from .faq import faq_subtenant, faq_maintenant
 
 
 class Login(RatelimitMixin, SuccessMessageMixin, LoginView):
@@ -92,3 +94,21 @@ class PasswordResetConfirm(SuccessMessageMixin, PasswordResetConfirmView):
         if self.request.method == 'GET':
             context['get'] = True
         return context
+
+
+def index(request):
+    """
+    Displays the landing page with FAQ for maintenants and subtenants.
+    """
+
+    return render(request, 'subtenancy/index.html',
+                  {'title': 'Ferienmiete Straußäcker 3', 'faq_maintenant': faq_maintenant,
+                   'faq_subtenant': faq_subtenant})
+
+
+def legal_notice(request):
+    """
+    Displays legal notice, disclaimer, data protection declaration and some acknowledgments.
+    """
+
+    return render(request, 'subtenancy/legal_notice.html', {'title': 'Impressum'})

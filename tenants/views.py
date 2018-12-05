@@ -1,6 +1,5 @@
 from django.db.transaction import atomic
 from subtenancy.utils import get_verbose_changed_data
-from django.views.generic import ListView
 from tenants.models import User, MainTenant, SubTenant, BlockedTenantID, BlockedStudentID
 from tenants.forms import UserForm, UserUpdateForm, MainTenantForm, MainTenantUpdateForm, SubTenantForm, \
     SubTenantUpdateForm
@@ -14,7 +13,7 @@ from django.db.models import ProtectedError
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from smtplib import SMTPException
-from .faq import faq_subtenant, faq_maintenant
+from django.views.generic import ListView
 
 import datetime
 
@@ -313,21 +312,3 @@ class Requests(ListView):
         return SubTenant.objects.filter(user__is_active=True, is_searching=True,
                                         end_subtenancy__gt=datetime.datetime.now()).order_by('begin_subtenancy',
                                                                                              'end_subtenancy')
-
-
-def index(request):
-    """
-    Displays the landing page with FAQ for maintenants and subtenants.
-    """
-
-    return render(request, 'subtenancy/index.html',
-                  {'title': 'Ferienmiete Straußäcker 3', 'faq_maintenant': faq_maintenant,
-                   'faq_subtenant': faq_subtenant})
-
-
-def legal_notice(request):
-    """
-    Displays legal notice, disclaimer, data protection declaration and some acknowledgments.
-    """
-
-    return render(request, 'subtenancy/legal_notice.html', {'title': 'Impressum'})

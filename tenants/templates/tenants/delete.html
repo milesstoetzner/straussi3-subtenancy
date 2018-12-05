@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <form action="{% url 'tenants:TenantDelete' tenant.id %}" method="post">
+    <form action="{% url 'ProfileDelete' %}" method="post">
 
         {% csrf_token %}
 

@@ -24,7 +24,7 @@ def save_html_as_pdf(source, context, destination):
         return False
 
 
-# credits to Andreas Balogh
+# Credits to Andreas Balogh
 def add_one_month(dt0):
     dt1 = dt0.replace(day=1)
     dt2 = dt1 + timedelta(days=32)
@@ -32,7 +32,7 @@ def add_one_month(dt0):
     return dt3
 
 
-# credits to Augusto Men
+# Credits to Augusto Men
 def is_end_of_month(d):
     next_month = d.replace(day=28) + timedelta(days=4)
     return d == next_month - timedelta(days=next_month.day)

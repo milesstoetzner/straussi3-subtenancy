@@ -52,7 +52,7 @@ def create_tenant(request, is_maintenant):
             user.save()
 
             # NOTE: is it bad practice to add a user to a group like this?
-            group_verbose = 'Hauptmieter' if is_maintenant else 'Untermieter'
+            group_verbose = 'Maintenant' if is_maintenant else 'Subtenant'
             group = Group.objects.get(name=group_verbose)
             user.groups.add(group)
 

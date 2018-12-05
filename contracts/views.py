@@ -1,4 +1,3 @@
-import os
 import datetime
 
 from django.db.transaction import atomic
@@ -10,7 +9,6 @@ from .forms import ContractForm, ContractUpdateForm
 from django.http import HttpResponseNotFound
 from django.views.decorators.http import require_POST, require_GET, require_http_methods
 from django.views.decorators.csrf import csrf_protect
-from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from django.shortcuts import redirect, render, get_object_or_404
 from subtenancy.utils import get_verbose_changed_data
@@ -49,6 +47,7 @@ def create_contract(request):
             form.instance.subtenant.is_searching = False
             form.instance.subtenant.save()
 
+            # TODO: pass possible error for transaction rollback
             status = contract.save_contract_pdf()
 
             if status:
@@ -134,16 +133,13 @@ def view_contract_pdf(request, pk, v):
     Displays a contract as PDF identified by given primary key and a version number.
     """
 
-    # TODO: make this as model function
+    contract = get_object_or_404(Contract, pk=pk)
+    pdf, filename = contract.view_contract_pdf(v)
 
-    fs = FileSystemStorage()
-    filename = 'contract_' + str(pk) + '_version_' + str(v) + '.pdf'
-    path = os.path.join('contracts', 'contracts', filename)
-    if fs.exists(path):
-        with fs.open(path) as pdf:
-            response = HttpResponse(pdf, content_type='application/pdf')
-            response['Content-Disposition'] = 'inline; filename=' + filename
-            return response
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'inline; filename=' + filename
+        return response
     else:
         return HttpResponseNotFound()
 

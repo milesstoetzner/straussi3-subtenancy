@@ -1,4 +1,5 @@
 import os
+from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -136,6 +137,20 @@ class Contract(models.Model):
             self.save()
 
         return status
+
+    def view_contract_pdf(self, v):
+        """
+        Displays a contract as PDF identified by given primary key and a version number.
+        """
+
+        fs = FileSystemStorage()
+        filename = 'contract_' + str(self.id) + '_version_' + str(v) + '.pdf'
+        path = os.path.join('contracts', 'contracts', filename)
+        if fs.exists(path):
+            pdf = fs.open(path, 'r')
+            return pdf, filename
+
+        return None, None
 
     def __str__(self):
         return str(

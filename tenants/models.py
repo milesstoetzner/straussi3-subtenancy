@@ -110,6 +110,12 @@ class User(AbstractUser):
     def __str__(self):
         return self.first_name + ' ' + self.last_name + ' (' + str(self.pk) + ')'
 
+    class Meta:
+        permissions = (
+            ("change_own", "Can change his own user and corresponding maintenant/subtenant"),
+            ("delete_own", "Can delete his own user and corresponding maintenant/subtenant")
+        )
+
 
 class MainTenant(models.Model):
     """
@@ -156,6 +162,9 @@ class MainTenant(models.Model):
     class Meta:
         verbose_name = 'Hauptmieter'
         verbose_name_plural = 'Haupmieter'
+        permissions = (
+            ("contact_subtenant", "Can contact subtenant"),
+        )
 
 
 class SubTenant(models.Model):

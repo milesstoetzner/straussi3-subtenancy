@@ -1,5 +1,5 @@
 from django.db.transaction import atomic
-from subtenancy.utils import is_assistant, is_maintenant, is_tenant, get_verbose_changed_data
+from subtenancy.utils import get_verbose_changed_data
 from django.views.generic import ListView
 from tenants.models import User, MainTenant, SubTenant, BlockedTenantID, BlockedStudentID
 from tenants.forms import UserForm, UserUpdateForm, MainTenantForm, MainTenantUpdateForm, SubTenantForm, \
@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.decorators.http import require_http_methods, require_GET
 from django.views.decorators.csrf import csrf_protect
-from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponseForbidden
 from django.db.models import ProtectedError
 from django.contrib import messages
@@ -18,12 +18,10 @@ from .faq import faq_subtenant, faq_maintenant
 
 import datetime
 
-# TODO: permissions
-
 
 @atomic
 @csrf_protect
-@require_http_methods(["GET", "POST"])
+@require_http_methods(['GET', 'POST'])
 def create_tenant(request, is_maintenant):
     """
     Creates a new user and a corresponding maintenant/subtenant.
@@ -51,6 +49,8 @@ def create_tenant(request, is_maintenant):
             user.is_maintenant = is_maintenant
             user.is_subtenant = not is_maintenant
             user.save()
+
+            # TODO: add to groupe
 
             tenant = tenant_form.save(False)
             tenant.user = user
@@ -92,7 +92,7 @@ def view_profile(request):
 
 
 @login_required
-@permission_required(['tenants.view_maintenant', 'tenants.view_subtenant'])
+@permission_required(['tenants.view_user', 'tenants.view_maintenant', 'tenants.view_subtenant'])
 @require_GET
 def view_tenant(request, pk):
     """
@@ -121,7 +121,8 @@ def view_tenant(request, pk):
 @atomic
 @csrf_protect
 @login_required
-@require_http_methods(["GET", "POST"])
+@permission_required(['tenants.change_user', 'tenants.change_maintenant', 'tenants.change_subtenant'])
+@require_http_methods(['GET', 'POST'])
 def update_tenant(request, pk):
     """
     Updates the details about a user and his corresponding maintenant/subtenant.
@@ -129,9 +130,7 @@ def update_tenant(request, pk):
 
     context = {}
 
-    # only assistants or the owner can update tenant
-    if not request.user.is_assistant and request.user.id != pk:
-        return HttpResponseForbidden()
+    # TODO: update own profile
 
     tenant = get_object_or_404(User, pk=pk)
 
@@ -174,10 +173,7 @@ def update_tenant(request, pk):
             else:
                 messages.info(request, 'Es gab keine Änderungen!')
 
-            if request.user.is_assistant:
-                return redirect(reverse('tenants:TenantView', kwargs={'pk': tenant.pk}))
-            else:
-                return redirect(reverse('Profile'))
+            return redirect(reverse('tenants:TenantView', kwargs={'pk': tenant.pk}))
 
     context['title'] = str(tenant) + ' aktualisieren'
     context['user_form'] = user_form
@@ -190,8 +186,8 @@ def update_tenant(request, pk):
 @atomic
 @csrf_protect
 @login_required
-@user_passes_test(is_tenant)
-@require_http_methods(["GET", "POST"])
+@permission_required(['tenants.delete_own'])
+@require_http_methods(['GET', 'POST'])
 def delete_tenant(request, pk):
     """
     Deletes a user and his corresponding maintenant/subtenant iff no contracts exist.
@@ -227,8 +223,8 @@ def delete_tenant(request, pk):
 
 @csrf_protect
 @login_required
-@user_passes_test(is_maintenant)
-@require_http_methods(["GET", "POST"])
+@permission_required('tenants.contact_subtenant')
+@require_http_methods(['GET', 'POST'])
 def contact_tenant(request, pk):
     """
     A maintenant can send an active searching subtenant an email containing his contact details.
@@ -249,7 +245,7 @@ def contact_tenant(request, pk):
         return HttpResponseForbidden()
 
     # email content
-    msg = 'Hey,<br><br>ich interessiere mich für deine Anfrage in dem Zeitraum ' + str(
+    msg = '<b>Nicht auf diese Email antworten!</b><br><br>' + 'Hey,<br><br>ich interessiere mich für deine Anfrage in dem Zeitraum ' + str(
         tenant.subtenant.begin_subtenancy) + ' bis ' + str(
         tenant.subtenant.end_subtenancy) + '.<br>Du kannst mich über folgende Email kontaktieren: ' + tenant.email + '<br><br>Grüße,<br>' + str(
         tenant)
@@ -282,11 +278,27 @@ def contact_tenant(request, pk):
             mail.send()
 
         except SMTPException as e:
-            messages.error(request, 'Untermieter konnte nicht kontaktiert werden! Wir haben dir zusätzlich als Bestätigung eine Email gesendet.')
+            messages.error(request, 'Untermieter konnte nicht kontaktiert werden!')
             return redirect('Requests')
 
-        messages.success(request, 'Untermieter wurde erfolgreich kontaktiert!')
+        messages.success(request, 'Untermieter wurde erfolgreich kontaktiert! Wir haben dir als Bestätigung der Kontaktaufnahme eine Email gesendet.')
         return redirect('Requests')
+
+
+@login_required()
+@permission_required(['tenants.view_blockedtenantid', 'tenants.view_blockedstudentid'])
+@require_GET
+def blacklist(request):
+    """
+    Displays the blacklist containing all blocked tenant ids and student ids.
+    """
+
+    context = {}
+    context['title'] = 'Schwarze Liste'
+    context['tenant_ids'] = BlockedTenantID.objects.all()
+    context['student_ids'] = BlockedStudentID.objects.all()
+
+    return render(request, 'tenants/blacklist.html', context)
 
 
 class Requests(ListView):
@@ -301,22 +313,6 @@ class Requests(ListView):
         return SubTenant.objects.filter(user__is_active=True, is_searching=True,
                                         end_subtenancy__gt=datetime.datetime.now()).order_by('begin_subtenancy',
                                                                                              'end_subtenancy')
-
-
-@login_required()
-@user_passes_test(is_assistant)
-@require_GET
-def blacklist(request):
-    """
-    Displays the blacklist containing all blocked tenant ids and student ids.
-    """
-
-    context = {}
-    context['title'] = 'Schwarze Liste'
-    context['tenant_ids'] = BlockedTenantID.objects.all()
-    context['student_ids'] = BlockedStudentID.objects.all()
-
-    return render(request, 'tenants/blacklist.html', context)
 
 
 def index(request):

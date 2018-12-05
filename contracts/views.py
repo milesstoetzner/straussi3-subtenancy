@@ -13,18 +13,18 @@ from django.views.decorators.csrf import csrf_protect
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from django.shortcuts import redirect, render, get_object_or_404
-from subtenancy.utils import is_assistant, is_assistant_or_external, get_verbose_changed_data
+from subtenancy.utils import get_verbose_changed_data
 from django.db.models import Q
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
 
 
 @atomic
 @csrf_protect
 @login_required
-@user_passes_test(is_assistant)
-@require_http_methods(["GET", "POST"])
+@permission_required('contracts.add_contract')
+@require_http_methods(['GET', 'POST'])
 def create_contract(request):
     """
     Creates a new contract and saves a PDF, iff the received form data is valid. This method is atomic.
@@ -65,7 +65,7 @@ def create_contract(request):
 
 
 @login_required
-@user_passes_test(is_assistant)
+@permission_required('contracts.view_contract')
 @require_GET
 def view_contract(request, pk):
     """
@@ -85,8 +85,8 @@ def view_contract(request, pk):
 @atomic
 @csrf_protect
 @login_required
-@user_passes_test(is_assistant)
-@require_http_methods(["GET", "POST"])
+@permission_required('contracts.change_contract')
+@require_http_methods(['GET', 'POST'])
 def update_contract(request, pk):
     """
     Updates a contract identified by a given primary key, iff there had been changes. This method is atomic.
@@ -127,7 +127,7 @@ def update_contract(request, pk):
 
 
 @login_required
-@user_passes_test(is_assistant)
+@permission_required('contracts.view_contract')
 @require_GET
 def view_contract_pdf(request, pk, v):
     """
@@ -149,7 +149,7 @@ def view_contract_pdf(request, pk, v):
 
 
 @login_required
-@user_passes_test(is_assistant)
+@permission_required('contracts.view_contract')
 @require_GET
 def preview_contract_pdf(request, pk):
     """
@@ -165,7 +165,7 @@ def preview_contract_pdf(request, pk):
 @atomic
 @csrf_protect
 @login_required
-@user_passes_test(is_assistant)
+@permission_required('contracts.change_contract')
 @require_POST
 def save_contract_pdf(request, pk):
     """
@@ -184,10 +184,12 @@ def save_contract_pdf(request, pk):
     return redirect(reverse('contracts:ContractView', args=(contract.id,)))
 
 
-class ContractsActive(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class ContractsActive(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
     Displays a list of all contracts that are active and still running.
     """
+
+    permission_required = 'contracts.view_contract'
 
     title = 'Aktive Verträge'
     template_name = 'contracts/list.html'
@@ -196,14 +198,13 @@ class ContractsActive(LoginRequiredMixin, UserPassesTestMixin, ListView):
     queryset = Contract.objects.filter(is_active=True, end__gte=datetime.datetime.now()) \
         .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number')
 
-    def test_func(self):
-        return is_assistant_or_external(self.request.user)
 
-
-class ContractsArchive(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class ContractsArchive(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
     Displays a list of all contracts that are inactive or not running anymore.
     """
+
+    permission_required = 'contracts.view_contract'
 
     title = 'Archiv'
     template_name = 'contracts/list.html'
@@ -212,13 +213,10 @@ class ContractsArchive(LoginRequiredMixin, UserPassesTestMixin, ListView):
     queryset = Contract.objects.filter(Q(is_active=False) | Q(end__lt=datetime.datetime.now())) \
         .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number')
 
-    def test_func(self):
-        return is_assistant_or_external(self.request.user)
-
 
 @csrf_protect
 @login_required
-@user_passes_test(is_assistant)
+@permission_required(['tenants.view_maintenant', 'tenants.view_subtenant', 'contracts.view_contract'])
 @require_POST
 def search(request):
     """

@@ -7,7 +7,7 @@
         <div class="card-body">
             <h5 class="card-title">{{ title }}</h5>
 
-            <p>Möchstest du folgende Nachricht an die Person mit der ID {{ tenant.pk }} senden?</p>
+            <p>Möchstest du folgende Nachricht an die Person mit der ID {{ subtenant.pk }} senden?</p>
 
             <div class="alert bg-grey" role="alert">
 
@@ -15,7 +15,7 @@
 
             </div>
 
-            <form action="{% url 'tenants:TenantContact' tenant.pk %}" method="POST">
+            <form action="{% url 'tenants:SubTenantContact' subtenant.pk %}" method="POST">
 
                 {% csrf_token %}
 

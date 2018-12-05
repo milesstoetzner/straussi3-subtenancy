@@ -30,18 +30,27 @@
 
                 </fieldset>
 
+                {% if user.id == tenant.id %}
+                    <a href="{% url 'ProfileUpdate' %}" class="btn btn-success btn-block">Informationen
+                        aktualisieren</a>
 
-                <a href="{% url 'tenants:TenantUpdate' tenant.id %}" class="btn btn-success btn-block">Informationen
-                    aktualisieren</a>
+                    {% if tenant.id == user.id %}
+                        <a href="{% url 'password_change' %}" class="btn btn-success btn-block">Passwort ändern</a>
+                    {% endif %}
 
-                {% if tenant.id == user.id %}
-                    <a href="{% url 'password_change' %}" class="btn btn-success btn-block">Passwort ändern</a>
+                    <a href="{% url 'ProfileDelete' %}" class="btn btn-danger btn-block">Account löschen</a>
                 {% endif %}
 
-                <a href="{% url 'tenants:TenantDelete' tenant.id %}" class="btn btn-danger btn-block">Account
-                    löschen</a>
+                {% if user.is_assistant %}
+
+                    <a href="{% url 'tenants:TenantUpdate' tenant.id %}" class="btn btn-success btn-block">Informationen
+                        aktualisieren</a>
+
+                {% endif %}
+
 
             {% endif %}
+
 
         </div>
 

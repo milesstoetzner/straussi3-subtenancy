@@ -14,6 +14,8 @@ from django.contrib import messages
 from django.core.mail import EmailMessage
 from smtplib import SMTPException
 from django.views.generic import ListView
+from django.contrib.auth.models import Group
+
 
 import datetime
 
@@ -49,7 +51,10 @@ def create_tenant(request, is_maintenant):
             user.is_subtenant = not is_maintenant
             user.save()
 
-            # TODO: add to groupe
+            # NOTE: is it bad practice to add a user to a group like this?
+            group_verbose = 'Hauptmieter' if is_maintenant else 'Untermieter'
+            group = Group.objects.get(name=group_verbose)
+            user.groups.add(group)
 
             tenant = tenant_form.save(False)
             tenant.user = user
@@ -88,6 +93,50 @@ def view_profile(request):
             instance=request.user.subtenant)
 
     return render(request, 'tenants/view.html', context)
+
+
+# TODO: update_profile
+@atomic
+@csrf_protect
+@login_required
+@permission_required(['tenants.change_own'])
+@require_http_methods(['GET', 'POST'])
+def update_profile(request):
+    pass
+
+
+@atomic
+@csrf_protect
+@login_required
+@permission_required(['tenants.delete_own'])
+@require_http_methods(['GET', 'POST'])
+def delete_profile(request):
+    """
+    Deletes the authenticated user and his corresponding maintenant/subtenant iff no contracts exist.
+    """
+
+    user = request.user
+
+    if request.method == 'GET':
+        # Asks for consent
+
+        context = {}
+        context['tenant'] = user
+        context['title'] = str(user) + ' löschen'
+        return render(request, 'tenants/delete.html', context)
+
+    else:
+        # Deletes the user and his correspoding maintenant/subtenant iff no contracts exist.
+
+        try:
+            user.delete()
+        except ProtectedError:
+            messages.error(request,
+                           'Der Account kann nicht gelöscht werden, da mindestens ein Vertrag mit diesem Account abgeschlossen wurde!')
+            return redirect(reverse('Profile'))
+
+        messages.success(request, 'Der Account wurde erfolgreich gelöscht!')
+        return redirect('Index')
 
 
 @login_required
@@ -182,78 +231,40 @@ def update_tenant(request, pk):
     return render(request, 'tenants/update.html', context)
 
 
-@atomic
-@csrf_protect
-@login_required
-@permission_required(['tenants.delete_own'])
-@require_http_methods(['GET', 'POST'])
-def delete_tenant(request, pk):
-    """
-    Deletes a user and his corresponding maintenant/subtenant iff no contracts exist.
-    """
-
-    # tenant can only delete his account
-    if request.user.id != pk:
-        return HttpResponseForbidden()
-
-    user = get_object_or_404(User, pk=pk)
-
-    if request.method == 'GET':
-        # Asks for consent
-
-        context = {}
-        context['tenant'] = user
-        context['title'] = str(user) + ' löschen'
-        return render(request, 'tenants/delete.html', context)
-
-    else:
-        # Deletes the user and his correspoding maintenant/subtenant iff no contracts exist.
-
-        try:
-            user.delete()
-        except ProtectedError:
-            messages.error(request,
-                           'Der Account kann nicht gelöscht werden. Das ist beispielsweise der Fall, wenn mindestens ein Vertrag mit diesem Account abgeschlossen wurde!')
-            return redirect(reverse('Profile'))
-
-        messages.success(request, 'Der Account wurde erfolgreich gelöscht!')
-        return redirect('Index')
-
-
 @csrf_protect
 @login_required
 @permission_required('tenants.contact_subtenant')
 @require_http_methods(['GET', 'POST'])
-def contact_tenant(request, pk):
+def contact_subtenant(request, pk):
     """
     A maintenant can send an active searching subtenant an email containing his contact details.
     """
 
-    tenant = get_object_or_404(User, pk=pk)
+    subtenant = get_object_or_404(User, pk=pk)
 
     # only subtenants can be contacted
-    if not tenant.is_subtenant:
+    if not subtenant.is_subtenant:
         return HttpResponseForbidden()
 
     # only searching subtenants can be contacted
-    if not tenant.subtenant.is_searching:
+    if not subtenant.subtenant.is_searching:
         return HttpResponseForbidden()
 
     # only active subtenants can be contacted
-    if not tenant.is_active:
+    if not subtenant.is_active:
         return HttpResponseForbidden()
 
     # email content
-    msg = '<b>Nicht auf diese Email antworten!</b><br><br>' + 'Hey,<br><br>ich interessiere mich für deine Anfrage in dem Zeitraum ' + str(
-        tenant.subtenant.begin_subtenancy) + ' bis ' + str(
-        tenant.subtenant.end_subtenancy) + '.<br>Du kannst mich über folgende Email kontaktieren: ' + tenant.email + '<br><br>Grüße,<br>' + str(
-        tenant)
+    msg = 'Hey,<br><br>ich interessiere mich für deine Anfrage in dem Zeitraum ' + str(
+        subtenant.subtenant.begin_subtenancy) + ' bis ' + str(
+        subtenant.subtenant.end_subtenancy) + '.<br>Du kannst mich über folgende Email kontaktieren: ' + subtenant.email + '<br><br>Grüße,<br>' + str(
+        subtenant)
 
     if request.method == 'GET':
         # Asks for consent
 
         context = {}
-        context['tenant'] = tenant
+        context['subtenant'] = subtenant
         context['title'] = 'Kontaktaufnahme'
         context['msg'] = msg
         return render(request, 'tenants/contact.html', context)
@@ -263,9 +274,9 @@ def contact_tenant(request, pk):
 
         try:
             mail = EmailMessage('Ferienmiete Straußäcker 3 Kontaktaufnahme',
-                                msg,
+                                '<b>Für eine Kontaktaufnahme bitte nicht auf diese Email direkt antworten, sondern auf die unten angegebene!</b><br><br>' + msg,
                                 'HmjyGTxWRP1vtcLT@web.de',  # DEP: change email
-                                [tenant.email])
+                                [subtenant.email])
             mail.content_subtype = "html"
             mail.send()
 

@@ -7,6 +7,8 @@ urlpatterns = [
     path('', views.index, name='Index'),
     path('admin/', admin.site.urls),
     path('profile/', tenant_views.view_profile, name='Profile'),
+    path('profile/delete', tenant_views.delete_profile, name='ProfileDelete'),
+    path('profile/update', tenant_views.update_profile, name='ProfileUpdate'),
     path('requests/', tenant_views.Requests.as_view(), name='Requests'),
     path('impressum/', views.legal_notice, name='Impressum'),
     path('tenants/', include('tenants.urls')),

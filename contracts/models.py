@@ -146,3 +146,6 @@ class Contract(models.Model):
     class Meta:
         verbose_name = 'Vertrag'
         verbose_name_plural = 'Vertäge'
+        permissions = (
+            ("view_short_contract", "Can view short version of a contract"),
+        )

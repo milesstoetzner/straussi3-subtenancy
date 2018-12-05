@@ -189,7 +189,7 @@ class ContractsActive(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     Displays a list of all contracts that are active and still running.
     """
 
-    permission_required = 'contracts.view_contract'
+    permission_required = 'contracts.view_short_contract'
 
     title = 'Aktive Verträge'
     template_name = 'contracts/list.html'
@@ -204,7 +204,7 @@ class ContractsArchive(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     Displays a list of all contracts that are inactive or not running anymore.
     """
 
-    permission_required = 'contracts.view_contract'
+    permission_required = 'contracts.view_short_contract'
 
     title = 'Archiv'
     template_name = 'contracts/list.html'

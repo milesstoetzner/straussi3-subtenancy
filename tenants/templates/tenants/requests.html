@@ -37,7 +37,7 @@
                             <td class="align-middle">{{ tenant.pk }}</td>
                             <td class="align-middle">{{ tenant.begin_subtenancy }}</td>
                             <td class="align-middle">{{ tenant.end_subtenancy }}</td>
-                            <td class="align-middle"><a href="{% url 'tenants:TenantContact' tenant.pk %}"
+                            <td class="align-middle"><a href="{% url 'tenants:SubTenantContact' tenant.pk %}"
                                                             class="btn btn-primary"><i
                                         class="fas fa-comment-alt"></i></a></td>
                         </tr>

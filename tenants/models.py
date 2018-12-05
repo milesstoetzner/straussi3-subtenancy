@@ -133,11 +133,8 @@ class MainTenant(models.Model):
     residential_home = models.ForeignKey(ResidentialHome, on_delete=models.PROTECT, verbose_name='Wohnheim')
     house_number = models.CharField('Hausnummer', max_length=10)
     room_number = models.CharField('Zimmernummer', max_length=10)
-    begin_subtenancy = models.DateField('Beginn der Untermiete')
-    end_subtenancy = models.DateField('Ende der Untermiete')
     rent = models.DecimalField('Monatsmiete in Euro', max_digits=5, decimal_places=2)
     is_returning = models.BooleanField('Ist ein Wiedereinzug ins Zimmer geplant?')
-    is_searching = models.BooleanField('Ich suche für den oben genannten Zeitraum einen Untermieter', default=True)
 
     history = HistoricalRecords()
 

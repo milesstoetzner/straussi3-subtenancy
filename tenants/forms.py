@@ -53,13 +53,8 @@ class MainTenantForm(ModelForm):
         residential_home = cleaned_date.get('residential_home')
         house_number = cleaned_date.get('house_number')
         room_number = cleaned_date.get('room_number')
-        begin_subtenancy = cleaned_date.get('begin_subtenancy')
-        end_subtenancy = cleaned_date.get('end_subtenancy')
         rent = cleaned_date.get('rent')
         tenant_id = cleaned_date.get('tenant_id')
-        room_condition = cleaned_date.get('room_condition')
-        flat_condition = cleaned_date.get('flat_condition')
-        stowage_condition = cleaned_date.get('stowage_condition')
 
         # check black list
         if tenant_id:
@@ -86,11 +81,6 @@ class MainTenantForm(ModelForm):
                 self.add_error('room_number',
                                'Diese Zimmernummer existiert nicht. Erlaubt sind: ' + residential_home.room_numbers)
 
-        # begin_subtenancy < end_subtenancy
-        if begin_subtenancy and end_subtenancy:
-            if begin_subtenancy >= end_subtenancy:
-                self.add_error('end_subtenancy', 'Das Ende des Untermietvertrages muss nach dem Beginn sein!')
-
         # positive rent
         if rent:
             if rent < 0:
@@ -98,7 +88,7 @@ class MainTenantForm(ModelForm):
 
     class Meta:
         model = MainTenant
-        exclude = ['user', 'is_searching']
+        exclude = ['user']
         help_texts = {
             'is_returning': 'Sofern kein Wiedereinzug geplant ist und der Hauptmieter somit vollständig auszieht, wird die Kaution über den Hausmeister zurückerstattet.',
         }
@@ -116,8 +106,6 @@ class MainTenantUpdateForm(MainTenantForm):
     """
     Updates a maintenant. The difference to creating a maintenant is the now available field is_searching.
     """
-    class Meta(MainTenantForm.Meta):
-        exclude = ['user']
 
 
 class SubTenantForm(ModelForm):

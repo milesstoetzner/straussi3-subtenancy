@@ -128,25 +128,6 @@ def update_contract(request, pk):
 @login_required
 @permission_required('contracts.view_contract')
 @require_GET
-def view_contract_pdf(request, pk, v):
-    """
-    Displays a contract as PDF identified by given primary key and a version number.
-    """
-
-    contract = get_object_or_404(Contract, pk=pk)
-    pdf, filename = contract.view_contract_pdf(v)
-
-    if pdf:
-        response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'inline; filename=' + filename
-        return response
-    else:
-        return HttpResponseNotFound()
-
-
-@login_required
-@permission_required('contracts.view_contract')
-@require_GET
 def preview_contract_pdf(request, pk):
     """
     Previews the contract as PDF identified by a given primary key.
@@ -178,6 +159,25 @@ def save_contract_pdf(request, pk):
         messages.error(request, 'PDF konnte nicht erstellt werden!')
 
     return redirect(reverse('contracts:ContractView', args=(contract.id,)))
+
+
+@login_required
+@permission_required('contracts.view_contract')
+@require_GET
+def view_contract_pdf(request, pk, v):
+    """
+    Displays a contract as PDF identified by given primary key and a version number.
+    """
+
+    contract = get_object_or_404(Contract, pk=pk)
+    pdf, filename = contract.view_contract_pdf(v)
+
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'inline; filename=' + filename
+        return response
+    else:
+        return HttpResponseNotFound()
 
 
 class ContractsActive(LoginRequiredMixin, PermissionRequiredMixin, ListView):

@@ -47,13 +47,9 @@ def create_contract(request):
             form.instance.subtenant.is_searching = False
             form.instance.subtenant.save()
 
-            # TODO: pass possible error for transaction rollback
-            status = contract.save_contract_pdf()
+            contract.save_contract_pdf()
 
-            if status:
-                messages.success(request, 'Vertrag wurde erfolgreich erstellt!')
-            else:
-                messages.error(request, 'Vertrag wurde erstellt! Allerdings konnte die PDF nicht gespeichert werden.')
+            messages.success(request, 'Vertrag wurde erfolgreich erstellt!')
 
             return redirect(contract.get_absolute_url())
 
@@ -151,12 +147,9 @@ def save_contract_pdf(request, pk):
 
     contract = get_object_or_404(Contract, pk=pk)
 
-    status = contract.save_contract_pdf()
+    contract.save_contract_pdf()
 
-    if status:
-        messages.success(request, 'PDF wurde erfolgreich erstellt!')
-    else:
-        messages.error(request, 'PDF konnte nicht erstellt werden!')
+    messages.success(request, 'PDF wurde erfolgreich erstellt!')
 
     return redirect(reverse('contracts:ContractView', args=(contract.id,)))
 

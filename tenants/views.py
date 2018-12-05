@@ -16,7 +16,6 @@ from smtplib import SMTPException
 from django.views.generic import ListView
 from django.contrib.auth.models import Group
 
-
 import datetime
 
 
@@ -95,14 +94,64 @@ def view_profile(request):
     return render(request, 'tenants/view.html', context)
 
 
-# TODO: update_profile
 @atomic
 @csrf_protect
 @login_required
 @permission_required(['tenants.change_own'])
 @require_http_methods(['GET', 'POST'])
 def update_profile(request):
-    pass
+    """
+    Updates the details about a user and his corresponding maintenant/subtenant.
+    NOTE: this is copy and pasted (and adjusted) from update_tenant
+    """
+
+    context = {}
+
+    tenant = request.user
+
+    if request.method == 'GET':
+        # Displays the two forms: user creation form and maintenant/subtenant creation form
+
+        user_form = UserUpdateForm(instance=tenant)
+        tenant_form = MainTenantUpdateForm(instance=tenant.maintenant) if tenant.is_maintenant else SubTenantUpdateForm(
+            instance=tenant.subtenant)
+        context['get'] = True
+
+    else:
+        # Validates the received form data.
+        # Iff the data of both forms are valid and there had been changes, the changes will be saved to the database.
+
+        user_form = UserUpdateForm(request.POST, instance=tenant)
+        tenant_form = MainTenantUpdateForm(request.POST,
+                                           instance=tenant.maintenant) if tenant.is_maintenant else SubTenantUpdateForm(
+            request.POST, instance=tenant.subtenant)
+
+        if user_form.is_valid() and tenant_form.is_valid():
+
+            if user_form.has_changed() or tenant_form.has_changed():
+
+                changes_user = get_verbose_changed_data(user_form.changed_data, User)
+                changes_tenant = get_verbose_changed_data(tenant_form.changed_data,
+                                                          MainTenant if tenant.is_maintenant else SubTenant)
+
+                user_form.save()
+                tenant_form.save()
+
+                messages.success(request, 'Änderungen wurden erfolgreich übernommen!')
+                messages.success(request,
+                                 "Folgende Felder wurden geändert: %s." % ", ".join(changes_user + changes_tenant))
+
+            else:
+                messages.info(request, 'Es gab keine Änderungen!')
+
+            return redirect(reverse('Profile'))
+
+    context['title'] = str(tenant) + ' aktualisieren'
+    context['user_form'] = user_form
+    context['tenant_form'] = tenant_form
+    context['tenant'] = tenant
+
+    return render(request, 'tenants/update_profile.html', context)
 
 
 @atomic
@@ -171,14 +220,12 @@ def view_tenant(request, pk):
 @login_required
 @permission_required(['tenants.change_user', 'tenants.change_maintenant', 'tenants.change_subtenant'])
 @require_http_methods(['GET', 'POST'])
-def update_tenant(request, pk):
+def update_tenant(request, pk, is_owner=False):
     """
     Updates the details about a user and his corresponding maintenant/subtenant.
     """
 
     context = {}
-
-    # TODO: update own profile
 
     tenant = get_object_or_404(User, pk=pk)
 
@@ -291,7 +338,8 @@ def contact_subtenant(request, pk):
             messages.error(request, 'Untermieter konnte nicht kontaktiert werden!')
             return redirect('Requests')
 
-        messages.success(request, 'Untermieter wurde erfolgreich kontaktiert! Wir haben dir als Bestätigung der Kontaktaufnahme eine Email gesendet.')
+        messages.success(request,
+                         'Untermieter wurde erfolgreich kontaktiert! Wir haben dir als Bestätigung der Kontaktaufnahme eine Email gesendet.')
         return redirect('Requests')
 
 

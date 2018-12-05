@@ -15,13 +15,9 @@ def html_to_pdf(source, context):
 
 def save_html_as_pdf(source, context, destination):
     pdf = html_to_pdf(source, context)
-    try:
-        file = open(destination, "w+b")
-        file.write(pdf)
-        file.close()
-        return True
-    except IOError:
-        return False
+    file = open(destination, "w+b")
+    file.write(pdf)
+    file.close()
 
 
 # Credits to Andreas Balogh

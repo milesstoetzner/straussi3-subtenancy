@@ -220,7 +220,7 @@ def view_tenant(request, pk):
 @login_required
 @permission_required(['tenants.change_user', 'tenants.change_maintenant', 'tenants.change_subtenant'])
 @require_http_methods(['GET', 'POST'])
-def update_tenant(request, pk, is_owner=False):
+def update_tenant(request, pk):
     """
     Updates the details about a user and his corresponding maintenant/subtenant.
     """

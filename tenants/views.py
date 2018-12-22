@@ -254,16 +254,14 @@ def update_tenant(request, pk):
 
             if user_form.has_changed() or tenant_form.has_changed():
 
-                changes_user = get_verbose_changed_data(user_form.changed_data, User)
-                changes_tenant = get_verbose_changed_data(tenant_form.changed_data,
-                                                          MainTenant if tenant.is_maintenant else SubTenant)
+                # changes_user = get_verbose_changed_data(user_form.changed_data, User)
+                # changes_tenant = get_verbose_changed_data(tenant_form.changed_data, MainTenant if tenant.is_maintenant else SubTenant)
 
                 user_form.save()
                 tenant_form.save()
 
                 messages.success(request, 'Änderungen wurden erfolgreich übernommen!')
-                messages.success(request,
-                                 "Folgende Felder wurden geändert: %s." % ", ".join(changes_user + changes_tenant))
+                # messages.success(request, "Folgende Felder wurden geändert: %s." % ", ".join(changes_user + changes_tenant))
 
             else:
                 messages.info(request, 'Es gab keine Änderungen!')

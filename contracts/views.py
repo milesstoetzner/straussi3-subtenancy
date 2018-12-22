@@ -105,13 +105,13 @@ def update_contract(request, pk):
         if form.is_valid():
             if form.has_changed():
 
-                changes = get_verbose_changed_data(form.changed_data, Contract)
+                # changes = get_verbose_changed_data(form.changed_data, Contract)
 
                 form.instance.is_changed = True
                 form.save()
 
                 messages.success(request, 'Änderungen erfolgreich übernommen!')
-                messages.success(request, "Folgende Felder wurden geändert: %s." % ", ".join(changes))
+                # messages.success(request, "Folgende Felder wurden geändert: %s." % ", ".join(changes))
 
             else:
                 messages.info(request, 'Es gab keine Änderungen!')

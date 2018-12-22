@@ -59,9 +59,16 @@ Each change to the tenant is stored permanently - including login times.
 #### Create Contract
 #### Update Contract
 #### Delete Contract
+#### Inactive Contract
+
 #### Running Contracts
 
+All current active contracts are listed in `/contracts/active`.
+
 #### Archive
+
+All inactive contracts are listed in `/contracts/archive`.
+
 
 #### History
 

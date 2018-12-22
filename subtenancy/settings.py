@@ -29,7 +29,7 @@ SECRET_KEY = '8k#@xfj+$39!n+)q=d$x=y0-5cv^au$9dkfr#7d2@!r)*m!w5%'
 DEBUG = True
 
 # DEP: set allowed_hosts
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ferienmiete.str3.de']
 
 
 # Application definition
@@ -127,6 +127,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 LOGIN_URL = '/login'
 
@@ -145,3 +146,16 @@ EMAIL_USE_TLS = True
 
 # DEP: add email for errors
 # DEFAULT_FROM_EMAIL = 'HmjyGTxWRP1vtcLT@web.de'
+# SERVER_EMAIL = 'HmjyGTxWRP1vtcLT@web.de'
+
+# Security according to `manage.py check --deploy`
+# DEP: activate security settings
+# SECURE_HSTS_SECONDS = 3600
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_HSTS_PRELOAD = True
+# SECURE_CONTENT_TYPE_NOSNIFF = True
+# SECURE_BROWSER_XSS_FILTER = True
+# SECURE_SSL_REDIRECT = True  # DEP: SECURE_PROXY_SSL_HEADER?
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# X_FRAME_OPTIONS = 'DENY'

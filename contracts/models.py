@@ -59,7 +59,7 @@ class Contract(models.Model):
                and self.updated_at >= self.subtenant.updated_at \
                and self.updated_at >= self.subtenant.user.updated_at
 
-    def get_rents(contract):
+    def get_rents(self):
         """
         Returns one list containing the rents and one containing the corresponding months.
         Each list has the length of 6.
@@ -67,16 +67,16 @@ class Contract(models.Model):
 
         months = []
         rents = []
-        current = contract.begin.replace(day=1)
-        end = contract.end.replace(day=1)
-        daily_rent = contract.maintenant.rent / 30
+        current = self.begin.replace(day=1)
+        end = self.end.replace(day=1)
+        daily_rent = self.maintenant.rent / 30
 
         # first month
         months.append(current)
         current = add_one_month(current)
 
         # rent first month
-        delta = current - contract.begin
+        delta = current - self.begin
         rents.append(round(delta.days * daily_rent, 2))
 
         while current < end:
@@ -84,7 +84,7 @@ class Contract(models.Model):
             months.append(current)
 
             # add rents between first and last rent
-            rents.append(contract.maintenant.rent)
+            rents.append(self.maintenant.rent)
 
             current = add_one_month(current)
 
@@ -92,10 +92,10 @@ class Contract(models.Model):
         months.append(end)
 
         # add last rent
-        if is_end_of_month(contract.end):
-            rents.append(contract.maintenant.rent)
+        if is_end_of_month(self.end):
+            rents.append(self.maintenant.rent)
         else:
-            rents.append(round(contract.end.day * daily_rent, 2))
+            rents.append(round(self.end.day * daily_rent, 2))
 
         # fill array until 6 entries (for displaying contract details)
         while len(months) < 6:
@@ -135,12 +135,12 @@ class Contract(models.Model):
         self.is_changed = False
         self.save()
 
-
-
     def view_contract_pdf(self, v):
         """
         Displays a contract as PDF identified by given primary key and a version number.
         """
+
+        # TODO: is this vulnerable to command injection?
 
         fs = FileSystemStorage()
         filename = 'contract_' + str(self.id) + '_version_' + str(v) + '.pdf'

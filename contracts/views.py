@@ -1,4 +1,5 @@
 import datetime
+import os
 
 from django.db.transaction import atomic
 from django.urls import reverse
@@ -16,6 +17,8 @@ from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
+from .utils import html_to_pdf
+
 
 
 @atomic
@@ -164,6 +167,28 @@ def view_contract_pdf(request, pk, v):
 
     contract = get_object_or_404(Contract, pk=pk)
     pdf, filename = contract.view_contract_pdf(v)
+
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'inline; filename=' + filename
+        return response
+    else:
+        return HttpResponseNotFound()
+
+
+@login_required
+@permission_required('contracts.view_short_contract')
+@require_GET
+def print_active_contracts(request):
+    """
+    Displays a list of all contracts that are active and still running as PDF for the SWS
+    """
+    queryset = Contract.objects.filter(is_active=True, end__gte=datetime.datetime.now()) \
+        .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number')
+
+    path = os.path.join('contracts', 'contracts', 'print.html')
+    pdf = html_to_pdf(path, {'contracts': queryset})
+    filename = str(datetime.datetime.now())
 
     if pdf:
         response = HttpResponse(pdf, content_type='application/pdf')

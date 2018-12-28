@@ -141,6 +141,9 @@ class MainTenant(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def get_room(self):
+        return self.house_number + ' ' + self.room_number
+
     def get_amount_of_days(self):
         """
         Returns the amount of days a maintenant has subleased his room.

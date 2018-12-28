@@ -19,7 +19,7 @@ urlpatterns = [
 
     # external
     path('active', views.ContractsActive.as_view(), name='ContractsActive'),
-    #TODO: path('print', views.ContractsPrintActive.as_view(), name='ContractsPrintActive'),
+    path('print', views.print_active_contracts, name='ContractsPrintActive'),
     path('archive', views.ContractsArchive.as_view(), name='ContractsArchive')
 
 ]

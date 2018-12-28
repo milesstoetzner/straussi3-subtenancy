@@ -59,7 +59,7 @@ faq_maintenant = [
 faq_subtenant = [
 
     {'question': 'Darf ich ein Zimmer mieten?',
-     'answer': 'Mietberechtigt ist, wer in Augen des <a href="https://www.studierendenwerk-stuttgart.de/" target="_blank">Studierendenwerk Stuttgarts</a> (SWS) mietberechtigt ist (siehe <a href="https://www.studierendenwerk-stuttgart.de/fileadmin/Mediendatenbank_Studierendenwerk/02_Wohnen_WOW/026_PDF/2017-08-16_WOW_Mietbedingungen_DE.pdf" target="_blank">Allgemeine Mietbedingungen</a>).<br>In Sonderfällen kann unter Angabe eines triftigen Grundes nach Absprache eine Untermiete abgeschlossen werden. Ein triftiger Grund ist beispielweise beispielsweise eine Sprachreise oder ein Pratikum in Stuttgart.'},
+     'answer': 'Mietberechtigt ist, wer in Augen des <a href="https://www.studierendenwerk-stuttgart.de/" target="_blank">Studierendenwerk Stuttgarts</a> (SWS) mietberechtigt ist (siehe <a href="https://www.studierendenwerk-stuttgart.de/fileadmin/Mediendatenbank_Studierendenwerk/02_Wohnen_WOW/026_PDF/2017-08-16_WOW_Mietbedingungen_DE.pdf" target="_blank">Allgemeine Mietbedingungen</a>).<br>In Sonderfällen kann unter Angabe eines triftigen Grundes nach Absprache eine Untermiete abgeschlossen werden. Ein triftiger Grund ist beispielsweise beispielsweise eine Sprachreise oder ein Pratikum in Stuttgart.'},
 
     {'question': 'Wie finde ich ein Zimmer bzw. einen Hauptmieter?',
      'answer': '<p><ol>'

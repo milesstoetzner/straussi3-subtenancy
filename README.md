@@ -45,7 +45,8 @@ To create/change/delete an entry of those lists contact the admin.
 
 #### Inactive
 
-Inactive tenants are not allowed to login. Therefore the admin has to set the corresponding tenant to `inactive`.
+Inactive tenants are not allowed to login
+. Therefore the admin has to set the corresponding tenant to `inactive`.
 
 #### History
 

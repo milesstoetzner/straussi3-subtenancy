@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from .secrets import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,16 +21,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-# DEP: new secret_key as env?!
-SECRET_KEY = '8k#@xfj+$39!n+)q=d$x=y0-5cv^au$9dkfr#7d2@!r)*m!w5%'
-
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEP: set False
 DEBUG = True
 
 # DEP: set allowed_hosts
-ALLOWED_HOSTS = ['ferienmiete.str3.de']
+
 
 
 # Application definition
@@ -135,28 +132,3 @@ LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/profile'
 
 LOGOUT_REDIRECT_URL = '/'
-
-
-# Email configuration
-# DEP: other account and credentials in enviroment variable
-EMAIL_HOST = 'smtp.web.de'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'HmjyGTxWRP1vtcLT'
-EMAIL_HOST_PASSWORD = '8kLDfx5UxkW76FX'
-EMAIL_USE_TLS = True
-
-# DEP: add email for errors
-# DEFAULT_FROM_EMAIL = 'HmjyGTxWRP1vtcLT@web.de'
-# SERVER_EMAIL = 'HmjyGTxWRP1vtcLT@web.de'
-
-# Security according to `manage.py check --deploy`
-# DEP: activate security settings
-# SECURE_HSTS_SECONDS = 3600
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-# SECURE_HSTS_PRELOAD = True
-# SECURE_CONTENT_TYPE_NOSNIFF = True
-# SECURE_BROWSER_XSS_FILTER = True
-# SECURE_SSL_REDIRECT = True  # DEP: SECURE_PROXY_SSL_HEADER?
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
-# X_FRAME_OPTIONS = 'DENY'

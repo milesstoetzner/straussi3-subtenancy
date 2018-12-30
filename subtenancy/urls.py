@@ -23,5 +23,3 @@ urlpatterns = [
     path('password/reset/', views.PasswordReset.as_view(), name='password_reset'),
     path('password/reset/<slug:uidb64>/<slug:token>/', views.PasswordResetConfirm.as_view(), name='password_reset_confirm'),
 ]
-
-# TODO: custom error view for 404, 500, 403 and 400

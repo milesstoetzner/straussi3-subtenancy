@@ -16,17 +16,11 @@ from .SECRETS import *
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# DEP: https
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEP: set False
-DEBUG = True
-
-# DEP: set allowed_hosts
-
+DEBUG = False
 
 
 # Application definition
@@ -123,7 +117,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-# DEP: STATIC_URL should resolve to a web server serving the static files
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
@@ -132,3 +125,15 @@ LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/profile'
 
 LOGOUT_REDIRECT_URL = '/'
+
+# Security according to `manage.py check --deploy`
+# DEP: SECURE_HSTS_SECONDS = 3600
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_SSL_REDIRECT = True
+# DEP: SECURE_PROXY_SSL_HEADER = True necessary?
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+X_FRAME_OPTIONS = 'DENY'

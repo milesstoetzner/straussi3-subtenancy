@@ -320,14 +320,14 @@ def contact_subtenant(request, pk):
         try:
             mail = EmailMessage('Ferienmiete Straußäcker 3 Kontaktaufnahme',
                                 '<b>Für eine Kontaktaufnahme bitte nicht auf diese Email direkt antworten, sondern auf die unten angegebene!</b><br><br>' + msg,
-                                'HmjyGTxWRP1vtcLT@web.de',  # DEP: change email
+                                '',
                                 [subtenant.email])
             mail.content_subtype = "html"
             mail.send()
 
             mail = EmailMessage('Bestätigung Ferienmiete Straußäcker 3 Kontaktaufnahme',
                                 '<b>Bestätigung folgender Kontaktaufnahme:</b><br><br>' + msg,
-                                'HmjyGTxWRP1vtcLT@web.de',  # DEP: change email
+                                '',
                                 [request.user.email])
             mail.content_subtype = "html"
             mail.send()

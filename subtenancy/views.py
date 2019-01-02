@@ -77,7 +77,6 @@ class PasswordReset(SuccessMessageMixin, PasswordResetView):
         return context
 
 
-# DEP: set up email and test
 class PasswordResetConfirm(SuccessMessageMixin, PasswordResetConfirmView):
     """
     Resets the password of a user authenticated by an OTP send to the user's email.

@@ -20,6 +20,8 @@ urlpatterns = [
     path('login/', views.Login.as_view(), name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('password/change/', views.PasswordChange.as_view(), name='password_change'),
+
+    # TODO: password reset resp. set does not work
     path('password/reset/', views.PasswordReset.as_view(), name='password_reset'),
     path('password/reset/<slug:uidb64>/<slug:token>/', views.PasswordResetConfirm.as_view(), name='password_reset_confirm'),
 ]

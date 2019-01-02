@@ -4,7 +4,7 @@ SECURITY WARNING: Never ever use this config in production!
 
 from .settings import *
 
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 # Security according to `manage.py check --deploy`

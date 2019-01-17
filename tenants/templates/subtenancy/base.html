@@ -130,9 +130,6 @@
                        id="{% url 'contracts:ContractsArchive' %}"><i
                             class="fas fa-archive icon-text"></i>Archiv</a>
 
-                    <a class="btn btn-orange" href="{% url 'tenants:Blacklist' %}"
-                       id="{% url 'tenants:Blacklist' %}"><i
-                            class="fas fa-exclamation-triangle icon-text"></i>Schwarze Liste</a>
                     <li class="nav-item dropdown">
 
                         <input class="form-control" type="search" placeholder="Suchen" aria-label="Search"
@@ -145,6 +142,14 @@
 
                     </li>
 
+                    <a class="btn btn-orange" href="{% url 'contracts:ContractsPrintActive' %}"
+                       id="{% url 'contracts:ContractsPrintActive' %}" target="_blank"><i
+                            class="fas fa-file-export icon-text"></i>SWS</a>
+
+                    <a class="btn btn-orange" href="{% url 'tenants:Blacklist' %}"
+                       id="{% url 'tenants:Blacklist' %}"><i
+                            class="fas fa-exclamation-triangle icon-text"></i>Schwarze Liste</a>
+
                 </div>
             </div>
         </nav>
@@ -154,18 +159,16 @@
     {% if user.is_authenticated and user.is_external %}
 
         <nav class="navbar navbar-expand-md navbar-dark bg-orange">
-            <div class="collapse navbar-collapse" id="navbarExternal">
+            <div class="collapse navbar-collapse justify-content-center" id="navbarAssistant">
                 <div class="navbar-nav">
-
 
                     <a class="btn btn-orange" href="{% url 'contracts:ContractsActive' %}"
                        id="{% url 'contracts:ContractsActive' %}"><i class="fas fa-home icon-text"></i>Aktive
                         Verträge</a>
 
-                    <a class="btn btn-orange" href="{% url 'contracts:ContractsArchive' %}"
-                       id="{% url 'contracts:ContractsArchive' %}"><i
-                            class="fas fa-archive icon-text"></i>Archiv</a>
-
+                    <a class="btn btn-orange" href="{% url 'contracts:ContractsPrintActive' %}"
+                       id="{% url 'contracts:ContractsPrintActive' %}" target="_blank"><i
+                            class="fas fa-file-export icon-text"></i>Druckansicht</a>
 
                 </div>
             </div>

@@ -60,7 +60,7 @@ coverage.xml
 # Django stuff:
 *.log
 local_settings.py
-# DEP: db.sqlite3
+db.sqlite3
 
 # Flask stuff:
 instance/

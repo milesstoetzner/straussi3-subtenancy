@@ -1,6 +1,7 @@
 .idea
 static
 subtenancy/secrets.py
+contracts/contracts/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

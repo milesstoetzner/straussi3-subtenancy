@@ -178,7 +178,6 @@ class SubTenant(models.Model):
     # Information about sub tenant
     nationality = models.CharField('Nationalität', max_length=100)
     is_eu = models.BooleanField('Ist dein Herkunftsland in der EU?')
-    # TODO status = models.CharField('Status', choices=STATUS_CHOICES)
     student_id = models.PositiveIntegerField('Matrikelnummer', unique=True)
 
     # Information about subtenancy

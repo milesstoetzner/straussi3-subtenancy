@@ -92,7 +92,7 @@ def update_contract(request, pk):
 
     contract = get_object_or_404(Contract, pk=pk)
     context = {}
-    context['title'] = 'Vertrag ändern'
+    context['title'] = 'Vertrag ' + str(contract.id) + ' ändern'
 
     if request.method == 'GET':
         # Displays the contract update form

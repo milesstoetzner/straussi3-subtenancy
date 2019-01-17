@@ -21,7 +21,7 @@ class Login(RatelimitMixin, SuccessMessageMixin, LoginView):
     title = 'Login'
 
     ratelimit_key = 'ip'
-    ratelimit_rate = '3/3m'
+    ratelimit_rate = '10/5m'
     ratelimit_block = True
     ratelimit_method = 'POST'
 

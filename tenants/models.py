@@ -91,7 +91,7 @@ class User(AbstractUser):
 
     first_name = models.CharField('Vorname', max_length=150)
     last_name = models.CharField('Nachname', max_length=150)
-    email = models.EmailField('Email Adresse', max_length=150)
+    email = models.EmailField('Email Adresse', max_length=150, unique=True)
     birthday = models.DateField('Geburtstag')
     phone_number = models.CharField('Telefonnummer', max_length=15)
     is_maintenant = models.BooleanField('Hauptmieter', default=False)

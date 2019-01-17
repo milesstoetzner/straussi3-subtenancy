@@ -11,7 +11,7 @@ Eine Web Anwendung für die Verwaltung der Ferienmiete des Studentenwohnheims St
 To create a new maintenant or subtenant visit the route `/register/maintenant` resp. `/register/subtenant`.
 Each tenant has to create a new account and provide additional conditional personal information.
 After registration every tenant receives a unique `id`.
-The requested/ stored information can be found in [Database Overview](/doc/database.pdf).
+The requested/stored information can be found in [Database Overview](/doc/database.pdf).
 
 #### Update Maintenant/Subtenant
 
@@ -74,6 +74,10 @@ All inactive contracts are listed in `/contracts/archive`.
 #### History
 
 Each change to the contract is stored permanently.
+
+#### SWS
+
+The SWS expects each month a list of all active contracts. The list can be accessed at `/contracts/print`. 
 
 
 

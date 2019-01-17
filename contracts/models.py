@@ -140,8 +140,6 @@ class Contract(models.Model):
         Displays a contract as PDF identified by given primary key and a version number.
         """
 
-        # TODO: is this vulnerable to command injection?
-
         fs = FileSystemStorage()
         filename = 'contract_' + str(self.id) + '_version_' + str(v) + '.pdf'
         path = os.path.join('contracts', 'contracts', filename)

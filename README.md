@@ -26,8 +26,8 @@ Therefore he has to visit `/profile/delete`.
 #### Change or Reset Password
 
 Only the tenant himself can change or reset his account password.
-* To change his password visit `/password/change` (the tenant needs to be logged in).
-* To reset his password visit `/password/reset` (the tenant needs access to his email account).
+* To change his password visit `/password_change` (the tenant needs to be logged in).
+* To reset his password visit `password_reset` (the tenant needs access to his email account).
 
 
 #### Contact Subtenant

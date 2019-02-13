@@ -65,7 +65,23 @@ Vagrant.configure("2") do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
+
     apt-get update
-    apt-get install -y nginx python3 vim
+    # apt-get upgrade
+    apt-get install -y python3 vim python3-pip nginx
+
+    pip3 install Django
+    pip3 install uwsgi
+
+    cd /vagrant_data
+    pip3 install -r requirements.txt
+
+    # sudo ln -s /vagrant_data/subtenancy_nginx.conf /etc/nginx/sites-enabled/
+    sudo /etc/init.d/nginx stop
+    # sudo /etc/init.d/nginx start
+
+    sudo uwsgi --http :80 --module subtenancy.wsgi
+    # sudo uwsgi --ini subtenancy_uwsgi.ini
+
   SHELL
 end

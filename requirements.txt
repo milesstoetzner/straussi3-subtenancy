@@ -1,0 +1,4 @@
+django-simple-history==2.5.1
+django-ratelimit==1.1.0
+Django==2.1.2
+xhtml2pdf==0.2.3

@@ -24,6 +24,7 @@ Vagrant.configure("2") do |config|
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # NOTE: This will enable public access to the opened port
   config.vm.network "forwarded_port", guest: 80, host: 80
+  config.vm.network "forwarded_port", guest: 8000, host: 8000
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine and only allow access
@@ -76,11 +77,18 @@ Vagrant.configure("2") do |config|
     cd /vagrant_data
     pip3 install -r requirements.txt
 
-    # sudo ln -s /vagrant_data/subtenancy_nginx.conf /etc/nginx/sites-enabled/
+    # set up nginx
     sudo /etc/init.d/nginx stop
-    # sudo /etc/init.d/nginx start
+    sudo rm /etc/nginx/sites-enabled/default
+    sudo rm /etc/nginx/sites-available/default
+    sudo ln -s /vagrant_data/subtenancy_nginx.conf /etc/nginx/sites-enabled/default
 
-    sudo uwsgi --http :80 --module subtenancy.wsgi
+    # start uwsgi
+    sudo uwsgi --socket :8001 --module subtenancy.wsgi
+
+    # start nginx connected to uwsgi
+    sudo /etc/init.d/nginx start
+
     # sudo uwsgi --ini subtenancy_uwsgi.ini
 
   SHELL

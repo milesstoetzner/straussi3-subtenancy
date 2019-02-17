@@ -83,13 +83,11 @@ Vagrant.configure("2") do |config|
     sudo rm /etc/nginx/sites-available/default
     sudo ln -s /vagrant_data/subtenancy_nginx.conf /etc/nginx/sites-enabled/default
 
-    # start uwsgi
-    sudo uwsgi --socket :8001 --module subtenancy.wsgi
-
-    # start nginx connected to uwsgi
+    # start nginx and uwsgi
     sudo /etc/init.d/nginx start
+    sudo uwsgi --ini subtenancy_uwsgi.ini
 
-    # sudo uwsgi --ini subtenancy_uwsgi.ini
+    # for killing uwsgi: sudo pkill -f uwsgi -9
 
   SHELL
 end

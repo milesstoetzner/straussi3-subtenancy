@@ -144,7 +144,7 @@ class Contract(models.Model):
         filename = 'contract_' + str(self.id) + '_version_' + str(v) + '.pdf'
         path = os.path.join('contracts', 'contracts', filename)
         if fs.exists(path):
-            pdf = fs.open(path, 'r')
+            pdf = fs.open(path, 'rb')
             return pdf, filename
 
         return None, None

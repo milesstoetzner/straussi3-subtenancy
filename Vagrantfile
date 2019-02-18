@@ -71,13 +71,22 @@ Vagrant.configure("2") do |config|
 
     apt-get update
     # apt-get upgrade
-    apt-get install -y python3 vim python3-pip nginx
+    apt-get install -y python3 vim python3-pip nginx virtualenvwrapper virtualenv python3-virtualenv python3-venv bash-completion
 
-    pip3 install Django
-    pip3 install uwsgi
+    # selber rumfummeln -> sudo -u www-data bash
+    # sudo -u www-data pyvenv /var/www/ferienmiete
 
+    #pip3 install Django
+    #pip3 install uwsgi
+
+    ## venv aktivieren:
+    # sudo -u www-data bash
+    # cd /var/www/ferienmiete/
+    # source bin/activate
+    ## venv deaktivieren
+    # deactivate
     cd /vagrant_data
-    pip3 install -r requirements.txt
+    #pip3 install -r requirements.txt
 
     # set up nginx
     sudo /etc/init.d/nginx stop

@@ -70,7 +70,6 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
 
     apt-get update
-    # apt-get upgrade
     apt-get install -y python3 vim python3-pip nginx virtualenvwrapper virtualenv python3-virtualenv python3-venv bash-completion
 
     # selber rumfummeln -> sudo -u www-data bash

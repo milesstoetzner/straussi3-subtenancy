@@ -1,14 +1,22 @@
+import os
 from io import BytesIO
+from datetime import timedelta
+from django.conf import settings
+from django.http import HttpResponse
+from django.template import Context
 from django.template.loader import get_template
 from xhtml2pdf import pisa
-from datetime import timedelta
+
+
+def link_callback(uri, rel):
+    return os.path.join(settings.STATIC_ROOT, uri.replace(settings.STATIC_URL, ""))
 
 
 def html_to_pdf(source, context):
     template = get_template(source)
     html = template.render(context)
     result = BytesIO()
-    pdf = pisa.pisaDocument(BytesIO(html.encode("utf-8")), result)
+    pdf = pisa.pisaDocument(BytesIO(html.encode("utf-8")), result, link_callback=link_callback, encoding='UTF-8')
     return result.getvalue()
 
 

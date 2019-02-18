@@ -15,6 +15,7 @@ from django.core.mail import EmailMessage
 from smtplib import SMTPException
 from django.views.generic import ListView
 from django.contrib.auth.models import Group
+from subtenancy.SECRETS import DEFAULT_FROM_EMAIL
 
 import datetime
 
@@ -319,19 +320,20 @@ def contact_subtenant(request, pk):
         try:
             mail = EmailMessage('Ferienmiete Straußäcker 3 Kontaktaufnahme',
                                 '<b>Für eine Kontaktaufnahme bitte nicht auf diese Email direkt antworten, sondern auf die unten angegebene!</b><br><br>' + msg,
-                                '',
+                                DEFAULT_FROM_EMAIL,
                                 [subtenant.email])
             mail.content_subtype = "html"
             mail.send()
 
             mail = EmailMessage('Bestätigung Ferienmiete Straußäcker 3 Kontaktaufnahme',
                                 '<b>Bestätigung folgender Kontaktaufnahme:</b><br><br>' + msg,
-                                '',
+                                DEFAULT_FROM_EMAIL,
                                 [request.user.email])
             mail.content_subtype = "html"
             mail.send()
 
         except SMTPException as e:
+            print(e)
             messages.error(request, 'Untermieter konnte nicht kontaktiert werden!')
             return redirect('Requests')
 

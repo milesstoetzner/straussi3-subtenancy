@@ -74,7 +74,7 @@ faq_subtenant = [
     {'question': 'Welche Dokumente müssen von mir vorgelegt werden?',
      'answer': '<b>Dokumente können nicht nachgereicht werden!</b>'
                '<ol>'
-               '<li>Staatlich ausgestelltes, <b>offizielles Lichtbildausweis</b> Dokument(dein Studierendenausweis oder deine Jahreskarte für den Bus mit einem Foto von dir ist nicht ausreichend!)</li>'
+               '<li>Staatlich ausgestelltes <b>offizielles Lichtbildausweis</b> Dokument (dein Studierendenausweis oder deine Jahreskarte für den Bus mit einem Foto von dir ist nicht ausreichend!)</li>'
                '<li>Ein <b>Studentenvisum</b> oder einen <b>Aufenthaltstitel</b>, falls vorhanden. Nicht jeder braucht ein Visum, um in Deutschland studieren zu dürfen.</li>'
                '<li>Einen Immatrikulationsnachweis. Ein Dokument, ausgestellt von einer Universität/Hochschule, auf dem der Name, der Studiengang und der Immatrikulationszeitraum steht und somit bestätigt, dass du über den Zeitraum der Untermiete ein eingeschriebener Student sein wirst!</li>'
                '</ol>'},

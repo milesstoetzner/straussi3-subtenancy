@@ -75,8 +75,8 @@ Vagrant.configure("2") do |config|
     # selber rumfummeln -> sudo -u www-data bash
     # sudo -u www-data pyvenv /var/www/ferienmiete
 
-    #pip3 install Django
-    #pip3 install uwsgi
+    pip3 install Django
+    pip3 install uwsgi
 
     ## venv aktivieren:
     # sudo -u www-data bash
@@ -85,17 +85,17 @@ Vagrant.configure("2") do |config|
     ## venv deaktivieren
     # deactivate
     cd /vagrant_data
-    #pip3 install -r requirements.txt
+    pip3 install -r requirements.txt
 
     # set up nginx
-    sudo /etc/init.d/nginx stop
-    sudo rm /etc/nginx/sites-enabled/default
-    sudo rm /etc/nginx/sites-available/default
-    sudo ln -s /vagrant_data/subtenancy_nginx.conf /etc/nginx/sites-enabled/default
+    # sudo /etc/init.d/nginx stop
+    # sudo rm /etc/nginx/sites-enabled/default
+    # sudo rm /etc/nginx/sites-available/default
+    # sudo ln -s /vagrant_data/subtenancy_nginx.conf /etc/nginx/sites-enabled/default
 
     # start nginx and uwsgi
-    sudo /etc/init.d/nginx start
-    sudo uwsgi --ini subtenancy_uwsgi.ini
+    # sudo /etc/init.d/nginx start
+    # sudo uwsgi --ini subtenancy_uwsgi.ini
 
     # for killing uwsgi: sudo pkill -f uwsgi -9
 

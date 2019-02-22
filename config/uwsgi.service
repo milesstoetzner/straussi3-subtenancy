@@ -2,7 +2,7 @@
 Description=uWSGI Emperor service
 
 [Service]
-#ExecStartPre=/bin/bash -c 'mkdir -p /var/run/uwsgi; chown www-data:www-data /var/run/uwsgi'
+#ExecStartPre=/bin/bash -c 'sudo mkdir -p /var/run/uwsgi; chown www-data:www-data /var/run/uwsgi'
 ExecStart=/usr/bin/uwsgi_python3 --emperor /etc/uwsgi/sites --uid www-data --gid www-data --venv /var/www/ferienmiete/
 Restart=always
 KillSignal=SIGQUIT

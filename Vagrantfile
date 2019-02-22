@@ -24,6 +24,7 @@ Vagrant.configure("2") do |config|
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # NOTE: This will enable public access to the opened port
   config.vm.network "forwarded_port", guest: 443, host: 443
+  config.vm.network "forwarded_port", guest: 80, host: 80
 
   # TODO: disable port
   config.vm.network "forwarded_port", guest: 8000, host: 8000
@@ -47,7 +48,7 @@ Vagrant.configure("2") do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
-  config.vm.synced_folder "./", "/vagrant_data"
+  config.vm.synced_folder "./", "/var/www/ferienmiete"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -72,32 +73,54 @@ Vagrant.configure("2") do |config|
     apt-get update
     apt-get install -y python3 vim python3-pip nginx virtualenvwrapper virtualenv python3-virtualenv python3-venv bash-completion
 
+    pip3 install uwsgi
+
+    # virtual environment
+    sudo mkdir -p /var/www/ferienmiete
+    sudo chown www-data:www-data /var/www/ferienmiete
+    cd /var/www/ferienmiete/
+    # source bin/activate
+
+    # install requirements
+    pip3 install -r requirements.txt
+    # deactivate
+
+    # start nginx
+    sudo systemctl stop nginx
+    sudo mkdir -p /etc/letsencrypt/live/str3.ext.selfnet.de/
+
+    sudo ln -s /var/www/ferienmiete/config/certificate.pem /etc/letsencrypt/live/str3.ext.selfnet.de/fullchain.pem
+    sudo ln -s /var/www/ferienmiete/config/key.pem /etc/letsencrypt/live/str3.ext.selfnet.de/privkey.pem
+
+    sudo ln -s /var/www/ferienmiete/config/options-ssl-nginx.conf /etc/letsencrypt/
+    sudo ln -s /var/www/ferienmiete/config/ssl-dhparams.pem /etc/letsencrypt/
+
+    sudo ln -sf /var/www/ferienmiete/config/ferienmiete.conf /etc/nginx/sites-available/ferienmiete.conf
+    sudo ln -sf /etc/nginx/sites-available/ferienmiete.conf /etc/nginx/sites-enabled/ferienmiete.conf
+    sudo rm -f /etc/nginx/sites-enabled/default
+
+    sudo systemctl enable nginx
+    sudo systemctl restart nginx
+
+    # start uwsgi service
+    # systemctl stop uwsgi.service
+    # systemctl disable uwsgi.service
+    sudo mkdir -p /etc/uwsgi/sites/
+    sudo mkdir -p /var/run/uwsgi
+    sudo chown www-data:www-data /var/run/uwsgi
+    sudo ln -sf /var/www/ferienmiete/config/ferienmiete.ini /etc/uwsgi/sites/ferienmiete.ini
+    sudo ln -sf /var/www/ferienmiete/config/uwsgi.service /etc/systemd/system/uwsgi.service
+    sudo systemctl daemon-reload
+    sudo systemctl enable uwsgi.service
+    sudo systemctl restart uwsgi.service
+
+    # for killing uwsgi: sudo pkill -f uwsgi -9
+
     # selber rumfummeln -> sudo -u www-data bash
     # sudo -u www-data pyvenv /var/www/ferienmiete
 
-    pip3 install Django
-    pip3 install uwsgi
-
-    ## venv aktivieren:
-    # sudo -u www-data bash
-    # cd /var/www/ferienmiete/
-    # source bin/activate
     ## venv deaktivieren
     # deactivate
-    cd /vagrant_data
-    pip3 install -r requirements.txt
-
-    # set up nginx
-    # sudo /etc/init.d/nginx stop
-    # sudo rm /etc/nginx/sites-enabled/default
-    # sudo rm /etc/nginx/sites-available/default
-    # sudo ln -s /vagrant_data/subtenancy_nginx.conf /etc/nginx/sites-enabled/default
-
-    # start nginx and uwsgi
-    # sudo /etc/init.d/nginx start
-    # sudo uwsgi --ini subtenancy_uwsgi.ini
-
-    # for killing uwsgi: sudo pkill -f uwsgi -9
 
   SHELL
 end

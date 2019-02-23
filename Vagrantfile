@@ -102,6 +102,10 @@ Vagrant.configure("2") do |config|
     sudo systemctl enable nginx
     sudo systemctl restart nginx
 
+    # TODO: postgresql
+    # install postgresql
+    # set up user for django
+
     # start uwsgi service
     # systemctl stop uwsgi.service
     # systemctl disable uwsgi.service

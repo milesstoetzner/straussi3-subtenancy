@@ -60,8 +60,8 @@ def create_tenant(request, is_maintenant):
 
             messages.success(request, 'Registrierung war erfolgreich. Du kannst dich nun einloggen')
             messages.success(request,
-                             'Bei Kommunikation mit unserer Sprechstunde gebe bitte immer deine ID an. Deine ID lautet: ' + str(
-                                 user.pk))
+                             'Bei Kommunikation mit unserer Sprechstunde gebe bitte immer deine ID ' + str(
+                                 user.pk) + ' an.')
             return redirect(reverse('login'))
 
     context['title'] = 'Hauptmieter Registrierung' if is_maintenant else 'Untermieter Registrierung'

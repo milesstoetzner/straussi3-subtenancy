@@ -1,8 +1,10 @@
 .idea
 static
-subtenancy/secrets.py
+subtenancy/SECRETS.py
 contracts/contracts/*
 .vagrant/
+bin/
+pyvenv.cfg
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

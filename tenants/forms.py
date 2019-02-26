@@ -84,7 +84,7 @@ class MainTenantForm(ModelForm):
         # positive rent
         if rent:
             if rent < 0:
-                self.add_error('rent', 'Die Tagesmiete muss positiv sein!')
+                self.add_error('rent', 'Die Monatsmiete muss positiv sein!')
 
     class Meta:
         model = MainTenant

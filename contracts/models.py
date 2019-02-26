@@ -23,11 +23,11 @@ class Contract(models.Model):
     condition_flat = models.BooleanField(
         'Sind die Gemeinschaftsräume gereinigt und steht ein Staurum in Küche/Kühleschrank bereit?', default=False)
     condition_comment = models.CharField('Sonstige Anmerkungen zum Zimmer oder zur Wohnung', max_length=75, blank=True)
-    caution = models.FloatField('Höhe der Kaution in Euro', default=0)
+    caution = models.DecimalField('Höhe der Kaution in Euro', max_digits=5, decimal_places=2)
     caution_comment = models.CharField('Anmerkungen zur Kaution', max_length=150, blank=True)
     is_identified = models.BooleanField('Lichtbildausweis kontrolliert?')
     is_matriculated = models.BooleanField('Immatrikulationsbescheinigung kontrolliert?')
-    donation = models.FloatField('Freiwillige Spende in Euro', default=0)
+    donation = models.DecimalField('Freiwillige Spende in Euro', max_digits=5, decimal_places=2)
     is_active = models.BooleanField('Ist dieser Vertrag gültig?', default=True)
 
     has_special_permission = models.BooleanField(

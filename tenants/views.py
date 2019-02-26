@@ -58,10 +58,18 @@ def create_tenant(request, is_maintenant):
             tenant.user = user
             tenant.save()
 
-            messages.success(request, 'Registrierung war erfolgreich. Du kannst dich nun einloggen')
-            messages.success(request,
-                             'Bei Kommunikation mit unserer Sprechstunde gebe bitte immer deine ID ' + str(
-                                 user.pk) + ' an.')
+            messages.success(request, 'Registrierung war erfolgreich. Du kannst dich nun einloggen.')
+
+            mail = EmailMessage('Ferienmiete Straußäcker 3 Registrierung',
+                                '<b>Hallo ' + str(user.get_full_name()) +
+                                '!<br><br>Du hast dich erfolgreich bei der Ferienmiete des Straußäcker 3 registriert.' +
+                                'Gebe bei zukünftiger Kommunikation mit unserem Wohnheimsreferat immer deine ID ' + str(
+                                    user.pk) + ' an.' +
+                                '<br><br>Viele Grüße,<br>dein Straußäcker 3 Team', '',
+                                [user.email])
+            mail.content_subtype = "html"
+            mail.send()
+
             return redirect(reverse('login'))
 
     context['title'] = 'Hauptmieter Registrierung' if is_maintenant else 'Untermieter Registrierung'

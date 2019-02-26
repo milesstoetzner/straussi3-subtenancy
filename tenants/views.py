@@ -68,7 +68,7 @@ def create_tenant(request, is_maintenant):
                                 '<br><br>Viele Grüße,<br>dein Straußäcker 3 Team', '',
                                 [user.email])
             mail.content_subtype = "html"
-            mail.send(fail_silently=False) #TODO: True
+            mail.send(fail_silently=True)
 
             return redirect(reverse('login'))
 

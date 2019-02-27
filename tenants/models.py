@@ -144,13 +144,18 @@ class MainTenant(models.Model):
     def get_room(self):
         return self.house_number + ' ' + self.room_number
 
-    def get_amount_of_days(self):
+    def get_amount_of_days(self, exclude=None):
         """
         Returns the amount of days a maintenant has subleased his room.
         """
 
         amount = 0
-        contracts = self.contract_set.filter(is_active=True)
+
+        if exclude:
+            contracts = self.contract_set.filter(is_active=True).exclude(id=exclude)
+        else:
+            contracts = self.contract_set.filter(is_active=True)
+
         for contract in contracts:
             delta = contract.end - contract.begin
             amount += delta.days + 1

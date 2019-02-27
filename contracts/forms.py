@@ -87,7 +87,7 @@ class ContractForm(ModelForm):
         if maintenant and begin and end:
             if not has_special_permission:
                 d = end - begin
-                if maintenant.get_amount_of_days() + d.days + 1 > 93:
+                if maintenant.get_amount_of_days(self.instance.id) + d.days + 1 > 93:
                     self.add_error('end',
                                    'Der Hauptmieter überschreitet die 3 Monate Grenze! Falls er eine Sondergenehmigung besitzt, kann dies unten angegeben werden.')
 
@@ -141,5 +141,6 @@ class ContractUpdateForm(ContractForm):
     """
     Updates an existing contract. The only difference to the creation is that the field 'is_active' is available.
     """
+
     class Meta(ContractForm.Meta):
         exclude = ['version', 'is_changed']

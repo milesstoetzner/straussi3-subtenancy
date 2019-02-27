@@ -18,8 +18,7 @@ urlpatterns = [
     path('pdf/<int:pk>/<int:v>', views.view_contract_pdf, name='ContractViewPDF'),
 
     # external
-    path('active', views.ContractsActive.as_view(), name='ContractsActive'),
-    path('print', views.print_active_contracts, name='ContractsPrintActive'),
-    path('archive', views.ContractsArchive.as_view(), name='ContractsArchive')
+    path('sws', views.print_active_contracts, {'file': 'sws.html'}, name='ContractsPrintActive'),
+    path('caretaker', views.print_active_contracts, {'file': 'caretaker.html'}, name='ContractsPrintCaretaker'),
 
 ]

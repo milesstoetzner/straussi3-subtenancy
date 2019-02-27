@@ -179,14 +179,14 @@ def view_contract_pdf(request, pk, v):
 @login_required
 @permission_required('contracts.view_short_contract')
 @require_GET
-def print_active_contracts(request):
+def print_active_contracts(request, file):
     """
     Displays a list of all contracts that are active and still running as PDF for the SWS
     """
     queryset = Contract.objects.filter(is_active=True, end__gte=datetime.datetime.now()) \
-        .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number')
+        .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number', 'begin', 'end')
 
-    path = os.path.join('contracts', 'contracts', 'print.html')
+    path = os.path.join('contracts', 'contracts', file)
     pdf = html_to_pdf(path, {'contracts': queryset})
     filename = str(datetime.datetime.now())
 
@@ -196,36 +196,6 @@ def print_active_contracts(request):
         return response
     else:
         return HttpResponseNotFound()
-
-
-class ContractsActive(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    """
-    Displays a list of all contracts that are active and still running.
-    """
-
-    permission_required = 'contracts.view_short_contract'
-
-    title = 'Aktive Verträge'
-    template_name = 'contracts/list.html'
-    paginate_by = 50
-    max_width = '100%'
-    queryset = Contract.objects.filter(is_active=True, end__gte=datetime.datetime.now()) \
-        .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number')
-
-
-class ContractsArchive(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    """
-    Displays a list of all contracts that are inactive or not running anymore.
-    """
-
-    permission_required = 'contracts.view_short_contract'
-
-    title = 'Archiv'
-    template_name = 'contracts/list.html'
-    paginate_by = 50
-    max_width = '100%'
-    queryset = Contract.objects.filter(Q(is_active=False) | Q(end__lt=datetime.datetime.now())) \
-        .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number')
 
 
 @csrf_protect

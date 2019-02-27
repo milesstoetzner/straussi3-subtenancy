@@ -121,14 +121,6 @@
                        id="{% url 'contracts:ContractCreate' %}"><i
                             class="fas fa-file-signature icon-text"></i>Vertrag erstellen</a>
 
-                    <a class="btn btn-orange" href="{% url 'contracts:ContractsActive' %}"
-                       id="{% url 'contracts:ContractsActive' %}"><i class="fas fa-home icon-text"></i>Aktive
-                        Verträge</a>
-
-                    <a class="btn btn-orange" href="{% url 'contracts:ContractsArchive' %}"
-                       id="{% url 'contracts:ContractsArchive' %}"><i
-                            class="fas fa-archive icon-text"></i>Archiv</a>
-
                     <li class="nav-item dropdown">
 
                         <input class="form-control" type="search" placeholder="Suchen" aria-label="Search"
@@ -144,6 +136,10 @@
                     <a class="btn btn-orange" href="{% url 'contracts:ContractsPrintActive' %}"
                        id="{% url 'contracts:ContractsPrintActive' %}" target="_blank"><i
                             class="fas fa-file-export icon-text"></i>SWS</a>
+
+                    <a class="btn btn-orange" href="{% url 'contracts:ContractsPrintCaretaker' %}"
+                       id="{% url 'contracts:ContractsPrintCaretaker' %}" target="_blank"><i
+                            class="fas fa-file-export icon-text"></i>Hausmeister</a>
 
                     <a class="btn btn-orange" href="{% url 'tenants:Blacklist' %}"
                        id="{% url 'tenants:Blacklist' %}"><i

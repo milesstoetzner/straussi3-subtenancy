@@ -10,18 +10,18 @@ class ContractForm(ModelForm):
     """
 
     def clean(self):
-        cleaned_date = super().clean()
-        maintenant = cleaned_date.get('maintenant')
-        subtenant = cleaned_date.get('subtenant')
-        begin = cleaned_date.get('begin')
-        end = cleaned_date.get('end')
-        condition_room = cleaned_date.get('condition_room')
-        condition_flat = cleaned_date.get('condition_flat')
-        caution = cleaned_date.get('caution')
-        is_identified = cleaned_date.get('is_identified')
-        is_matriculated = cleaned_date.get('is_matriculated')
-        donation = cleaned_date.get('donation')
-        has_special_permission = cleaned_date.get('has_special_permission')
+        cleaned_data = super().clean()
+        maintenant = cleaned_data.get('maintenant')
+        subtenant = cleaned_data.get('subtenant')
+        begin = cleaned_data.get('begin')
+        end = cleaned_data.get('end')
+        condition_room = cleaned_data.get('condition_room')
+        condition_flat = cleaned_data.get('condition_flat')
+        caution = cleaned_data.get('caution')
+        is_identified = cleaned_data.get('is_identified')
+        is_matriculated = cleaned_data.get('is_matriculated')
+        donation = cleaned_data.get('donation')
+        has_special_permission = cleaned_data.get('has_special_permission')
 
         # begin < end
         if begin and end:

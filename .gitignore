@@ -6,6 +6,7 @@ contracts/contracts/*
 bin/
 pyvenv.cfg
 lib64
+/ferienmiete/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

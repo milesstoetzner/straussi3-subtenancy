@@ -12,9 +12,7 @@ from django.views.decorators.http import require_POST, require_GET, require_http
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.shortcuts import redirect, render, get_object_or_404
-from subtenancy.utils import get_verbose_changed_data
 from django.db.models import Q
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
 from .utils import html_to_pdf

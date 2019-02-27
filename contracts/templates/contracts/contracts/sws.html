@@ -152,7 +152,6 @@
             <th style="text-align: left">Zimmer</th>
             <th style="text-align: left">Beginn</th>
             <th style="text-align: left">Ende</th>
-            <th style="text-align: left">Widereinzug</th>
         </tr>
 
         {% for contract in contracts %}
@@ -163,7 +162,6 @@
                 <td> {{ contract.maintenant.get_room }}</td>
                 <td> {{ contract.begin|date:"SHORT_DATE_FORMAT" }}</td>
                 <td> {{ contract.end|date:"SHORT_DATE_FORMAT" }}</td>
-                <td> {{ contract.maintenant.is_returning|yesno:"Ja, Nein" }}</td>
             </tr>
 
         {% endfor %}

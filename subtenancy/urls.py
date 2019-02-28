@@ -24,4 +24,7 @@ urlpatterns = [
 
     path('password_reset/', views.PasswordReset.as_view(), name='password_reset'),
     path('password_reset/callback/<uidb64>/<token>/', views.PasswordResetCallback.as_view(), name='password_reset_confirm'),
+
+    path('i18n/', include('django.conf.urls.i18n')),
+
 ]

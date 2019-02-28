@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from ratelimit.mixins import RatelimitMixin
 from django.shortcuts import redirect, render
 from .faq import faq_subtenant, faq_maintenant
+from django.utils import translation
 
 
 class Login(RatelimitMixin, SuccessMessageMixin, LoginView):
@@ -99,7 +100,6 @@ def index(request):
     """
     Displays the landing page with FAQ for maintenants and subtenants.
     """
-
     return render(request, 'subtenancy/index.html',
                   {'title': 'Ferienmiete Straußäcker 3', 'faq_maintenant': faq_maintenant,
                    'faq_subtenant': faq_subtenant})

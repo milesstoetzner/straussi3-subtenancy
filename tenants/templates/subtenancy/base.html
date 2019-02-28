@@ -31,8 +31,11 @@
 
     {% if user.is_authenticated and user.is_assistant %}
 
-        <h5 class="d-none d-md-block" style="text-align: center; padding-top: 1rem; margin-bottom: 1rem;">Ferienmiete
-            Straußäcker 3</h5>
+        <a href="/" style="color:#212529">
+            <h5 class="d-none d-md-block" style="text-align: center; padding-top: 1rem; margin-bottom: 1rem; color:#212529">Ferienmiete
+                Straußäcker 3
+            </h5>
+        </a>
 
     {% else %}
 
@@ -40,7 +43,7 @@
             <a href="/"><img src="{% static 'subtenancy/logo.svg' %}"
                              style="width: 60px; margin: 1rem 0 1rem 0"></a>
 
-            <h5>Ferienmiete<br>Straußäcker 3</h5>
+            <a href="/" style="color:#212529"><h5>Ferienmiete<br>Straußäcker 3</h5></a>
 
         </div>
 

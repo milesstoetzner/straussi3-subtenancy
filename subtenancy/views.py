@@ -50,9 +50,7 @@ class PasswordChange(SuccessMessageMixin, PasswordChangeView):
 
     template_name = 'registration/password_change.html'
     success_message = 'Passwort wurde erfolgreich geändert!'
-
-    def get_success_url(self):
-        return redirect(self.request.user.get_absolute_url())
+    success_url = '/profile'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -84,9 +82,12 @@ class PasswordResetConfirm(SuccessMessageMixin, PasswordResetConfirmView):
 
     template_name = 'registration/password_confirm.html'
     success_message = 'Dein Passwort wurder erfolgreich zurückgesetzt!'
+    success_url = '/'
+    """
 
     def get_success_url(self):
         return redirect(reverse('login'))
+    """
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -1,34 +1,38 @@
 {% extends "subtenancy/base.html" %}
+{% load i18n %}
 
 {% block content %}
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">{{ title }}</h5>
 
-            <p class="text-block">Willkommen auf der Startseite der Ferienmiete des Studierendenwohnheim Straußäcker 3 in Stuttgart. Hier hast
-            du die Möglichkeit als Hauptmieter dein Zimmer zu vermieten oder korrespondierend als Untermieter ein Zimmer
-                mieten. Alle nötigen Informationen hierfür stehen weiter unten.</p>
+            <p class="text-block">{% trans "Willkommen auf der Startseite der Ferienmiete des Studierendenwohnheim Straußäcker 3 in Stuttgart. Hier hast du die Möglichkeit als Hauptmieter dein Zimmer zu vermieten oder korrespondierend als Untermieter ein Zimmer mieten. Alle nötigen Informationen hierfür stehen weiter unten." %}</p>
 
-                    <div class="card bg-primary text-white text-center" style="margin-top: 1.5rem">
-                        <div class="card-body">
-                            <p class="card-text">Hier findest du eine Liste aller aktuellen Anfragen. Über die Liste kannst du mögliche Untermieter kontaktieren.</p>
-                            <a href="{% url 'Requests' %}" target="_blank" class="btn btn-light">Liste aller Anfragen</a>
-                        </div>
-                    </div>
+            <div class="card bg-primary text-white text-center" style="margin-top: 1.5rem">
+                <div class="card-body">
+                    <p class="card-text">Hier findest du eine Liste aller aktuellen Anfragen. Über die Liste kannst du
+                        mögliche Untermieter kontaktieren.</p>
+                    <a href="{% url 'Requests' %}" target="_blank" class="btn btn-light">Liste aller Anfragen</a>
+                </div>
+            </div>
 
-                    <div class="card bg-info text-white text-center" style="margin-top: 1.5rem">
-                        <div class="card-body">
-                            <p class="card-text">Wenn du dein Zimmer vermieten möchtest, kannst du dich hier als Hauptmieter registrieren.</p>
-                            <a href="{% url 'MainTenantCreate' %}" target="_blank" class="btn btn-light">Als Hauptmieter registrieren</a>
-                        </div>
-                    </div>
+            <div class="card bg-info text-white text-center" style="margin-top: 1.5rem">
+                <div class="card-body">
+                    <p class="card-text">Wenn du dein Zimmer vermieten möchtest, kannst du dich hier als Hauptmieter
+                        registrieren.</p>
+                    <a href="{% url 'MainTenantCreate' %}" target="_blank" class="btn btn-light">Als Hauptmieter
+                        registrieren</a>
+                </div>
+            </div>
 
-                    <div class="card bg-success text-white text-center" style="margin-top: 1.5rem">
-                        <div class="card-body">
-                            <p class="card-text">Wenn du ein Zimmer mieten möchtest, kannt du dich hier als Untermieter registrieren.</p>
-                            <a href="{% url 'SubTenantCreate' %}" target="_blank" class="btn btn-light">Als Untermieter registrieren</a>
-                        </div>
-                    </div>
+            <div class="card bg-success text-white text-center" style="margin-top: 1.5rem">
+                <div class="card-body">
+                    <p class="card-text">Wenn du ein Zimmer mieten möchtest, kannt du dich hier als Untermieter
+                        registrieren.</p>
+                    <a href="{% url 'SubTenantCreate' %}" target="_blank" class="btn btn-light">Als Untermieter
+                        registrieren</a>
+                </div>
+            </div>
 
         </div>
 
@@ -40,7 +44,10 @@
 
             <div class="alert bg-danger text-white text-center">
                 Die Summe aller Untermieten eines Hauptmieters darf 3 Monate nicht überschreiten! Es kann ein
-                Sonderantrag auf Verlängerung bei <a href="https://www.studierendenwerk-stuttgart.de/wohnen/wohnanlagen/straussaecker-iii/#panel-4969-1" target="_blank" style="color:white;">unserer Sachbearbeiterin beim SWS</a> gestellt werden. Jeder Antrag wird
+                Sonderantrag auf Verlängerung bei <a
+                    href="https://www.studierendenwerk-stuttgart.de/wohnen/wohnanlagen/straussaecker-iii/#panel-4969-1"
+                    target="_blank" style="color:white;">unserer Sachbearbeiterin beim SWS</a> gestellt werden. Jeder
+                Antrag wird
                 individuell entschieden. Dabei muss ein nachweisbarer ausschlaggebender Grund für die Verlängerung
                 angegeben werden.
             </div>

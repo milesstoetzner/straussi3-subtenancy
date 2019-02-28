@@ -1,5 +1,7 @@
 {% load custom_extras %}
 {% load staticfiles %}
+{% load i18n %}
+
 
 <!DOCTYPE html>
 <html lang="de">
@@ -11,7 +13,7 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{% static 'subtenancy/fontawesome/css/all.css' %}" >
+    <link rel="stylesheet" type="text/css" href="{% static 'subtenancy/fontawesome/css/all.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'subtenancy/style.css' %}">
     <link rel="shortcut icon" href="{% static 'subtenancy/favicon.ico' %}">
 </head>
@@ -32,7 +34,8 @@
     {% if user.is_authenticated and user.is_assistant %}
 
         <a href="/" style="color:#212529">
-            <h5 class="d-none d-md-block" style="text-align: center; padding-top: 1rem; margin-bottom: 1rem; color:#212529">Ferienmiete
+            <h5 class="d-none d-md-block"
+                style="text-align: center; padding-top: 1rem; margin-bottom: 1rem; color:#212529">Ferienmiete
                 Straußäcker 3
             </h5>
         </a>
@@ -99,6 +102,31 @@
                 <a class="btn btn-primary" href="{% url 'Impressum' %}" id="{% url 'Impressum' %}"><i
                         class="fas fa-info-circle icon-text"></i>Impressum</a>
 
+                {% get_current_language as LANGUAGE_CODE %}
+                {% get_language_info for LANGUAGE_CODE as lang %}
+                {% get_available_languages as LANGUAGES %}
+                {% get_language_info_list for LANGUAGES as languages %}
+
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown">
+                        <i class="fas fa-globe-europe icon-text"></i>{{ lang.name_local }}({{ LANGUAGE_CODE }})
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                        {% for language in languages %}
+
+                            <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+
+                                <input name="language" value="{{ language.code }}" readonly hidden>
+                                <button class="btn dropdown-item">{{ language.name_local }} ({{ language.code }})</button>
+                            </form>
+
+                        {% endfor %}
+
+
+                    </div>
+                </div>
 
                 {% if user.is_authenticated %}
 
@@ -176,7 +204,6 @@
     {% endif %}
 
 </header>
-
 
 <div class="container-fluid" style="max-width:
         {% if view.max_width or max_width %}{{ view.max_width }}{{ max_width }}{% else %}600px{% endif %}"

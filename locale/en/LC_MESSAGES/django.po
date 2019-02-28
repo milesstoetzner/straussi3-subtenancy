@@ -1,0 +1,43 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-02-28 22:01+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\subtenancy\settings.py:116
+msgid "Deutsch"
+msgstr "German"
+
+#: .\subtenancy\settings.py:117
+msgid "Englisch"
+msgstr "English"
+
+#: .\tenants\templates\subtenancy\index.html:9
+msgid "ich bin deutsch"
+msgstr "now im english lol"
+
+#: .\tenants\templates\subtenancy\index.html:10
+msgid ""
+"Willkommen auf der Startseite der Ferienmiete des Studierendenwohnheim "
+"Straußäcker 3 in Stuttgart. Hier hast du die Möglichkeit als Hauptmieter "
+"dein Zimmer zu vermieten oder korrespondierend als Untermieter ein Zimmer "
+"mieten. Alle nötigen Informationen hierfür stehen weiter unten."
+msgstr ""
+"Welcome to the landing page of the subtenancy of the residential home "
+"Straußäcker 3 in Stuttgart. Here you have the ability to sublet your room as "
+"a maintenant or to rent a room as a subtenant. All necessary information can "
+"be found below."

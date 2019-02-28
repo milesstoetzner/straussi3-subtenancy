@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 from .SECRETS import *
+from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -33,12 +34,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'tenants',
     'contracts',
-    'simple_history'
+    'simple_history',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -110,7 +112,16 @@ AUTH_USER_MODEL = "tenants.User"
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
+LANGUAGES = [
+    ('de', _('Deutsch')),
+    ('en', _('Englisch'))
+]
+
 LANGUAGE_CODE = 'de'
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
 
 TIME_ZONE = 'UTC'
 

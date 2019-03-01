@@ -1,6 +1,8 @@
-from django.forms import ModelForm, DateInput, Select, Textarea
+from django.forms import ModelForm, DateInput, Select
 from .models import User, MainTenant, SubTenant, ResidentialHome, BlockedTenantID, BlockedStudentID
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.utils.translation import gettext_lazy as _
+
 
 BOOLEAN_CHOICES = ((False, 'Nein'), (True, 'Ja'))
 
@@ -60,37 +62,37 @@ class MainTenantForm(ModelForm):
         if tenant_id:
             try:
                 blocked = BlockedTenantID.objects.get(pk=tenant_id)
-                self.add_error('tenant_id', 'Deine Mieternummer steht auf der Schwarzen Liste!')
+                self.add_error('tenant_id', _('Deine Mieternummer steht auf der Schwarzen Liste!'))
             except BlockedTenantID.DoesNotExist:
                 pass
 
         # begin_rent_agreement < end_rent_agreement
         if begin_rent_agreement and end_rent_agreement:
             if begin_rent_agreement >= end_rent_agreement:
-                self.add_error('end_rent_agreement', 'Das Ende des Mietvertrages muss nach dem Beginn sein!')
+                self.add_error('end_rent_agreement', _('Das Ende des Mietvertrages muss nach dem Beginn sein!'))
 
         # house_number of residential_home
         if residential_home and house_number:
             if house_number not in residential_home.get_house_numbers_as_list():
                 self.add_error('house_number',
-                               'Diese Hausnummer existiert nicht. Erlaubt sind: ' + residential_home.house_numbers)
+                               _('Diese Hausnummer existiert nicht. Erlaubt sind: ') + residential_home.house_numbers)
 
         # room_number of residential_home
         if residential_home and room_number:
             if room_number not in residential_home.get_room_numbers_as_list():
                 self.add_error('room_number',
-                               'Diese Zimmernummer existiert nicht. Erlaubt sind: ' + residential_home.room_numbers)
+                               _('Diese Zimmernummer existiert nicht. Erlaubt sind: ') + residential_home.room_numbers)
 
         # positive rent
         if rent:
             if rent < 0:
-                self.add_error('rent', 'Die Monatsmiete muss positiv sein!')
+                self.add_error('rent', _('Die Monatsmiete muss positiv sein!'))
 
     class Meta:
         model = MainTenant
         exclude = ['user']
         help_texts = {
-            'is_returning': 'Sofern kein Wiedereinzug geplant ist und der Hauptmieter somit vollständig auszieht, wird die Kaution über den Hausmeister zurückerstattet.',
+            'is_returning': _('Sofern kein Wiedereinzug geplant ist und der Hauptmieter somit vollständig auszieht, wird die Kaution über den Hausmeister zurückerstattet.'),
         }
         widgets = {
             'begin_rent_agreement': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
@@ -123,14 +125,14 @@ class SubTenantForm(ModelForm):
         if student_id:
             try:
                 blocked = BlockedStudentID.objects.get(pk=student_id)
-                self.add_error('student_id', 'Deine Matrikelnummer steht auf der Schwarzen Liste!')
+                self.add_error('student_id', _('Deine Matrikelnummer steht auf der Schwarzen Liste!'))
             except BlockedStudentID.DoesNotExist:
                 pass
 
         # begin_subtenancy < end_subtenancy
         if begin_subtenancy and end_subtenancy:
             if begin_subtenancy >= end_subtenancy:
-                self.add_error('end_subtenancy', 'Das Ende des Untermietvertrages muss nach dem Beginn sein!')
+                self.add_error('end_subtenancy', _('Das Ende des Untermietvertrages muss nach dem Beginn sein!'))
 
     class Meta:
         model = SubTenant

@@ -1,5 +1,7 @@
 {% extends "subtenancy/base.html" %}
+
 {% load custom_extras %}
+{% load i18n %}
 
 {% block content %}
 
@@ -8,7 +10,7 @@
         <div class="card-body">
             <h5 class="card-title">{{ title }}</h5>
 
-            <h6 class="card-subtitle mb-2 text-muted">Informationen über den Account</h6>
+            <h6 class="card-subtitle mb-2 text-muted">{% trans "Informationen über den Account" %}</h6>
 
             <fieldset disabled>
 
@@ -19,9 +21,9 @@
             {% if tenant.is_maintenant or tenant.is_subtenant %}
 
 
-                <h6 class="card-subtitle mb-2 text-muted" style="padding-top: 2rem">Informationen über den
-                    {% if tenant.is_maintenant %}
-                        Hauptmieter{% else %}Untermieter{% endif %}</h6>
+                <h6 class="card-subtitle mb-2 text-muted" style="padding-top: 2rem">
+                    {% if is_maintenant %}{% trans "Informationen über den Hauptmieter" %}{% else %}
+                        {% trans "Informationen über den Untermieter" %}{% endif %}</h6>
 
 
                 <fieldset disabled>
@@ -31,20 +33,22 @@
                 </fieldset>
 
                 {% if user.id == tenant.id %}
-                    <a href="{% url 'ProfileUpdate' %}" class="btn btn-success btn-block">Informationen
-                        aktualisieren</a>
+                    <a href="{% url 'ProfileUpdate' %}"
+                       class="btn btn-success btn-block">{% trans "Informationen aktualisieren" %}</a>
 
                     {% if tenant.id == user.id %}
-                        <a href="{% url 'password_change' %}" class="btn btn-success btn-block">Passwort ändern</a>
+                        <a href="{% url 'password_change' %}"
+                           class="btn btn-success btn-block">{% trans "Passwort ändern" %}</a>
                     {% endif %}
 
-                    <a href="{% url 'ProfileDelete' %}" class="btn btn-danger btn-block">Account löschen</a>
+                    <a href="{% url 'ProfileDelete' %}"
+                       class="btn btn-danger btn-block">{% trans "Account löschen" %}</a>
                 {% endif %}
 
                 {% if user.is_assistant %}
 
-                    <a href="{% url 'tenants:TenantUpdate' tenant.id %}" class="btn btn-success btn-block">Informationen
-                        aktualisieren</a>
+                    <a href="{% url 'tenants:TenantUpdate' tenant.id %}"
+                       class="btn btn-success btn-block">{% trans "Informationen aktualisieren" %}</a>
 
                 {% endif %}
 
@@ -60,7 +64,7 @@
 
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Verträge</h5>
+                <h5 class="card-title">{% trans "Verträge" %}</h5>
 
 
                 {% if tenant.is_maintenant %}
@@ -73,7 +77,7 @@
 
                     {% empty %}
                         <div class="alert bg-info text-white text-center" role="alert">
-                            Keine Verträge vorhanden
+                            {% trans "Keine Verträge vorhanden" %}
                         </div>
                     {% endfor %}
 
@@ -88,7 +92,7 @@
                     {% empty %}
 
                         <div class="alert bg-info text-white text-center" role="alert">
-                            Keine Verträge vorhanden
+                            {% trans "Keine Verträge vorhanden" %}
                         </div>
 
                     {% endfor %}

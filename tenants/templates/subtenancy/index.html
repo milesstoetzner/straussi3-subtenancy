@@ -10,27 +10,22 @@
 
             <div class="card bg-primary text-white text-center" style="margin-top: 1.5rem">
                 <div class="card-body">
-                    <p class="card-text">Hier findest du eine Liste aller aktuellen Anfragen. Über die Liste kannst du
-                        mögliche Untermieter kontaktieren.</p>
-                    <a href="{% url 'Requests' %}" target="_blank" class="btn btn-light">Liste aller Anfragen</a>
+                    <p class="card-text">{% trans "Hier findest du eine Liste aller aktuellen Anfragen. Über die Liste kannst du mögliche Untermieter kontaktieren." %}</p>
+                    <a href="{% url 'Requests' %}" target="_blank" class="btn btn-light">{% trans "Liste aller Anfragen" %}</a>
                 </div>
             </div>
 
             <div class="card bg-info text-white text-center" style="margin-top: 1.5rem">
                 <div class="card-body">
-                    <p class="card-text">Wenn du dein Zimmer vermieten möchtest, kannst du dich hier als Hauptmieter
-                        registrieren.</p>
-                    <a href="{% url 'MainTenantCreate' %}" target="_blank" class="btn btn-light">Als Hauptmieter
-                        registrieren</a>
+                    <p class="card-text">{% trans "Wenn du dein Zimmer vermieten möchtest, kannst du dich hier als Hauptmieter registrieren." %}</p>
+                    <a href="{% url 'MainTenantCreate' %}" target="_blank" class="btn btn-light">{% trans "Als Hauptmieter registrieren" %}</a>
                 </div>
             </div>
 
             <div class="card bg-success text-white text-center" style="margin-top: 1.5rem">
                 <div class="card-body">
-                    <p class="card-text">Wenn du ein Zimmer mieten möchtest, kannt du dich hier als Untermieter
-                        registrieren.</p>
-                    <a href="{% url 'SubTenantCreate' %}" target="_blank" class="btn btn-light">Als Untermieter
-                        registrieren</a>
+                    <p class="card-text">{% trans "Wenn du ein Zimmer mieten möchtest, kannt du dich hier als Untermieter registrieren." %}</p>
+                    <a href="{% url 'SubTenantCreate' %}" target="_blank" class="btn btn-light">{% trans "Als Untermieter registrieren" %}</a>
                 </div>
             </div>
 
@@ -40,7 +35,7 @@
 
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title" id="faq_maintenant">Informationen für einen Hauptmieter</h5>
+            <h5 class="card-title" id="faq_maintenant">{% trans "Informationen für einen Hauptmieter" %}</h5>
 
             <div class="alert bg-danger text-white text-center">
                 Die Summe aller Untermieten eines Hauptmieters darf 3 Monate nicht überschreiten! Es kann ein
@@ -77,7 +72,7 @@
 
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title" id="faq_subtenant">Informationen für einen Untermieter</h5>
+            <h5 class="card-title" id="faq_subtenant">{% trans "Informationen für einen Untermieter" %}</h5>
 
             {% for entry in faq_subtenant %}
 

@@ -7,6 +7,7 @@ from tenants.models import MainTenant, SubTenant, ResidentialHome
 from .utils import add_one_month, is_end_of_month, html_to_pdf, save_html_as_pdf
 from simple_history.models import HistoricalRecords
 from django.db.transaction import atomic
+from django.utils.translation import gettext_lazy as _
 
 
 class Contract(models.Model):
@@ -14,24 +15,24 @@ class Contract(models.Model):
     Model for a subtenancy contract between a maintenant and a subtenant. Every change to a record is logged.
     """
 
-    maintenant = models.ForeignKey(MainTenant, on_delete=models.PROTECT, verbose_name='Hauptmieter')
-    subtenant = models.ForeignKey(SubTenant, on_delete=models.PROTECT, verbose_name='Untermieter')
-    begin = models.DateField('Beginn des Untermietvertrages')
-    end = models.DateField('Ende des Untermietvertrages')
-    condition_room = models.BooleanField('Ist das Zimmer gereinigt und in einem ordnungsgemäßen Zustand?',
+    maintenant = models.ForeignKey(MainTenant, on_delete=models.PROTECT, verbose_name=_('Hauptmieter'))
+    subtenant = models.ForeignKey(SubTenant, on_delete=models.PROTECT, verbose_name=_('Untermieter'))
+    begin = models.DateField(_('Beginn des Untermietvertrages'))
+    end = models.DateField(_('Ende des Untermietvertrages'))
+    condition_room = models.BooleanField(_('Ist das Zimmer gereinigt und in einem ordnungsgemäßen Zustand?'),
                                          default=False)
     condition_flat = models.BooleanField(
-        'Sind die Gemeinschaftsräume gereinigt und steht ein Staurum in Küche/Kühleschrank bereit?', default=False)
-    condition_comment = models.CharField('Sonstige Anmerkungen zum Zimmer oder zur Wohnung', max_length=75, blank=True)
-    caution = models.DecimalField('Höhe der Kaution in Euro', max_digits=5, decimal_places=2)
-    caution_comment = models.CharField('Anmerkungen zur Kaution', max_length=150, blank=True)
-    is_identified = models.BooleanField('Lichtbildausweis kontrolliert?')
-    is_matriculated = models.BooleanField('Immatrikulationsbescheinigung kontrolliert?')
-    donation = models.DecimalField('Freiwillige Spende in Euro', max_digits=5, decimal_places=2)
-    is_active = models.BooleanField('Ist dieser Vertrag gültig?', default=True)
+        _('Sind die Gemeinschaftsräume gereinigt und steht ein Staurum in Küche/Kühleschrank bereit?'), default=False)
+    condition_comment = models.CharField(_('Sonstige Anmerkungen zum Zimmer oder zur Wohnung'), max_length=75, blank=True)
+    caution = models.DecimalField(_('Höhe der Kaution in Euro'), max_digits=5, decimal_places=2)
+    caution_comment = models.CharField(_('Anmerkungen zur Kaution'), max_length=150, blank=True)
+    is_identified = models.BooleanField(_('Lichtbildausweis kontrolliert?'))
+    is_matriculated = models.BooleanField(_('Immatrikulationsbescheinigung kontrolliert?'))
+    donation = models.DecimalField(_('Freiwillige Spende in Euro'), max_digits=5, decimal_places=2)
+    is_active = models.BooleanField(_('Ist dieser Vertrag gültig?'), default=True)
 
     has_special_permission = models.BooleanField(
-        'Hat der Hauptmieter eine Sondergenehmigung, um den Zeitraum von 3 Monaten zu überschreiten?', default=False)
+        _('Hat der Hauptmieter eine Sondergenehmigung, um den Zeitraum von 3 Monaten zu überschreiten?'), default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -156,8 +157,8 @@ class Contract(models.Model):
             self.subtenant.pk) + ')'
 
     class Meta:
-        verbose_name = 'Vertrag'
-        verbose_name_plural = 'Vertäge'
+        verbose_name = _('Vertrag')
+        verbose_name_plural = _('Verträge')
         permissions = (
             ("view_short_contract", "Can view short version of a contract"),
         )

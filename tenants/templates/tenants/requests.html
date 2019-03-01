@@ -1,5 +1,7 @@
 {% extends "subtenancy/base.html" %}
 
+{% load i18n %}
+
 {% block content %}
 
 
@@ -9,10 +11,9 @@
             <h5 class="card-title">{{ view.title }}</h5>
 
 
-            <p class="card-text text-block">Wenn du dich für eine Anfrage interessierst, dann kannst du unten die jeweilige Person
-                kontaktieren und ihr deine Kontaktdaten zukommen lassen.<br>
+            <p class="card-text text-block">{% trans "Wenn du dich für eine Anfrage interessierst, dann kannst du unten die jeweilige Person kontaktieren und ihr deine Kontaktdaten zukommen lassen." %}<br>
 
-                <br>Die Liste ist nach Beginn und Ende sortiert.</p>
+                <br>{% trans "Die Liste ist nach Beginn und Ende sortiert." %}</p>
 
             {% if object_list %}
 
@@ -20,9 +21,9 @@
 
                     <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Beginn der Untermiete</th>
-                        <th>Ende der Untermiete</th>
+                        <th>{% trans "ID" %}</th>
+                        <th>{% trans "Beginn der Untermiete" %}</th>
+                        <th>{% trans "Ende der Untermiete" %}</th>
                         <th></th>
                     </tr>
 
@@ -50,7 +51,7 @@
             {% else %}
 
                 <div class="alert bg-info text-center text-white">
-                    Aktuell gibt es leider keine Anfragen.
+                    {% trans "Aktuell gibt es leider keine Anfragen." %}
                 </div>
 
             {% endif %}

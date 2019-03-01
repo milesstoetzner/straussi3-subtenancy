@@ -15,8 +15,11 @@ from django.core.mail import EmailMessage
 from smtplib import SMTPException
 from django.views.generic import ListView
 from django.contrib.auth.models import Group
+from django.utils.translation import gettext_lazy as _
 
 import datetime
+
+# TODO: some translations are missing!
 
 
 @atomic
@@ -58,7 +61,7 @@ def create_tenant(request, is_maintenant):
             tenant.user = user
             tenant.save()
 
-            messages.success(request, 'Registrierung war erfolgreich. Du kannst dich nun einloggen.')
+            messages.success(request, _('Registrierung war erfolgreich. Du kannst dich nun einloggen.'))
 
             mail = EmailMessage('Ferienmiete Straußäcker 3 Registrierung',
                                 'Hallo ' + str(user.get_full_name()) +
@@ -72,7 +75,7 @@ def create_tenant(request, is_maintenant):
 
             return redirect(reverse('login'))
 
-    context['title'] = 'Hauptmieter Registrierung' if is_maintenant else 'Untermieter Registrierung'
+    context['title'] = _('Hauptmieter Registrierung') if is_maintenant else _('Untermieter Registrierung')
     context['user_form'] = user_form
     context['tenant_form'] = tenant_form
     context['is_maintenant'] = is_maintenant
@@ -144,12 +147,11 @@ def update_profile(request):
                 user_form.save()
                 tenant_form.save()
 
-                messages.success(request, 'Änderungen wurden erfolgreich übernommen!')
-                messages.success(request,
-                                 "Folgende Felder wurden geändert: %s." % ", ".join(changes_user + changes_tenant))
+                messages.success(request, _('Änderungen wurden erfolgreich übernommen!'))
+
 
             else:
-                messages.info(request, 'Es gab keine Änderungen!')
+                messages.info(request, _('Es gab keine Änderungen!'))
 
             return redirect(reverse('Profile'))
 
@@ -188,10 +190,10 @@ def delete_profile(request):
             user.delete()
         except ProtectedError:
             messages.error(request,
-                           'Der Account kann nicht gelöscht werden, da mindestens ein Vertrag mit diesem Account abgeschlossen wurde!')
+                           _('Der Account kann nicht gelöscht werden, da mindestens ein Vertrag mit diesem Account abgeschlossen wurde!'))
             return redirect(reverse('Profile'))
 
-        messages.success(request, 'Der Account wurde erfolgreich gelöscht!')
+        messages.success(request, _('Der Account wurde erfolgreich gelöscht!'))
         return redirect('Index')
 
 
@@ -267,7 +269,7 @@ def update_tenant(request, pk):
                 user_form.save()
                 tenant_form.save()
 
-                messages.success(request, 'Änderungen wurden erfolgreich übernommen!')
+                messages.success(request, _('Änderungen wurden erfolgreich übernommen!'))
                 # messages.success(request, "Folgende Felder wurden geändert: %s." % ", ".join(changes_user + changes_tenant))
 
             else:
@@ -317,7 +319,7 @@ def contact_subtenant(request, pk):
 
         context = {}
         context['subtenant'] = subtenant
-        context['title'] = 'Kontaktaufnahme'
+        context['title'] = _('Kontaktaufnahme')
         context['msg'] = msg
         return render(request, 'tenants/contact.html', context)
 
@@ -341,11 +343,11 @@ def contact_subtenant(request, pk):
 
         except SMTPException as e:
             print(e)
-            messages.error(request, 'Untermieter konnte nicht kontaktiert werden!')
+            messages.error(request, _('Untermieter konnte nicht kontaktiert werden!'))
             return redirect('Requests')
 
         messages.success(request,
-                         'Untermieter wurde erfolgreich kontaktiert! Wir haben dir als Bestätigung der Kontaktaufnahme eine Email gesendet.')
+                         _('Untermieter wurde erfolgreich kontaktiert! Wir haben dir als Bestätigung der Kontaktaufnahme eine Email gesendet.'))
         return redirect('Requests')
 
 
@@ -358,7 +360,7 @@ def blacklist(request):
     """
 
     context = {}
-    context['title'] = 'Schwarze Liste'
+    context['title'] = _('Schwarze Liste')
     context['tenant_ids'] = BlockedTenantID.objects.all()
     context['student_ids'] = BlockedStudentID.objects.all()
 
@@ -370,7 +372,7 @@ class Requests(ListView):
     Displays a list of all subtenants' requests.
     """
 
-    title = 'Anfragen von Untermietern'
+    title = _('Anfragen von Untermietern')
     template_name = 'tenants/requests.html'
 
     def get_queryset(self):

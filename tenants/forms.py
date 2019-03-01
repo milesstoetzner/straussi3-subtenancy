@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.utils.translation import gettext_lazy as _
 
 
-BOOLEAN_CHOICES = ((False, 'Nein'), (True, 'Ja'))
+BOOLEAN_CHOICES = ((False, _('Nein')), (True, _('Ja')))
 
 
 class ResidentialHomeForm(ModelForm):
@@ -16,8 +16,8 @@ class ResidentialHomeForm(ModelForm):
         model = ResidentialHome
         fields = '__all__'
         help_texts = {
-            'house_numbers': "Liste der Form: 'a', 'b', 'c'",
-            'room_numbers': "Liste der Form:  1, 2, 3"
+            'house_numbers': _("Liste der Form: 'a', 'b', 'c'"),
+            'room_numbers': _("Liste der Form:  1, 2, 3")
         }
 
 

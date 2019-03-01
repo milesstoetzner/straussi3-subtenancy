@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from ratelimit.mixins import RatelimitMixin
 from django.shortcuts import redirect, render
 from .faq import faq_subtenant, faq_maintenant
-from django.utils import translation
+from django.utils.translation import gettext_lazy as _
 
 
 class Login(RatelimitMixin, SuccessMessageMixin, LoginView):
@@ -27,7 +27,7 @@ class Login(RatelimitMixin, SuccessMessageMixin, LoginView):
     ratelimit_method = 'POST'
 
     def get_success_message(self, cleaned_data):
-        return 'Willkommen zurück, ' + self.request.user.get_full_name() + '!'
+        return _('Willkommen zurück') + ', ' + self.request.user.get_full_name() + '!'
 
 
 @csrf_protect
@@ -39,7 +39,7 @@ def logout_view(request):
     """
 
     logout(request)
-    messages.success(request, 'Du hast dich erfolgreich ausgeloggt!')
+    messages.success(request, _('Du hast dich erfolgreich ausgeloggt!'))
 
     return redirect(reverse('Index'))
 
@@ -50,7 +50,7 @@ class PasswordChange(SuccessMessageMixin, PasswordChangeView):
     """
 
     template_name = 'registration/password_change.html'
-    success_message = 'Passwort wurde erfolgreich geändert!'
+    success_message = _('Passwort wurde erfolgreich geändert!')
 
     def get_success_url(self):
         return reverse('Profile')
@@ -68,7 +68,7 @@ class PasswordReset(SuccessMessageMixin, PasswordResetView):
     """
 
     template_name = 'registration/password_reset.html'
-    success_message = 'Wir haben eine E-Mail zum Zurücksetzen des Passwortes an die angegebene E-Mail-Adresse gesendet, sofern ein entsprechendes Konto existiert. Sie sollte in Kürze ankommen. Falls die E-Mail nicht angekommen sein sollte, bitte die E-Mail-Adresse auf Richtigkeit und gegebenenfalls den Spam-Ordner überprüfen.'
+    success_message = _('Wir haben eine E-Mail zum Zurücksetzen des Passwortes an die angegebene E-Mail-Adresse gesendet, sofern ein entsprechendes Konto existiert. Sie sollte in Kürze ankommen. Falls die E-Mail nicht angekommen sein sollte, bitte die E-Mail-Adresse auf Richtigkeit und gegebenenfalls den Spam-Ordner überprüfen.')
     success_url = '/'
 
     def get_context_data(self, **kwargs):
@@ -84,7 +84,7 @@ class PasswordResetCallback(SuccessMessageMixin, PasswordResetConfirmView):
     """
 
     template_name = 'registration/password_confirm.html'
-    success_message = 'Dein Passwort wurder erfolgreich zurückgesetzt!'
+    success_message = _('Dein Passwort wurder erfolgreich zurückgesetzt!')
 
     def get_success_url(self):
         return reverse('login')
@@ -101,7 +101,7 @@ def index(request):
     Displays the landing page with FAQ for maintenants and subtenants.
     """
     return render(request, 'subtenancy/index.html',
-                  {'title': 'Ferienmiete Straußäcker 3', 'faq_maintenant': faq_maintenant,
+                  {'title': _('Ferienmiete') + 'Straußäcker 3', 'faq_maintenant': faq_maintenant,
                    'faq_subtenant': faq_subtenant})
 
 
@@ -110,4 +110,4 @@ def legal_notice(request):
     Displays legal notice, disclaimer, data protection declaration and some acknowledgments.
     """
 
-    return render(request, 'subtenancy/legal_notice.html', {'title': 'Impressum'})
+    return render(request, 'subtenancy/legal_notice.html', {'title': _('Impressum')})

@@ -1,5 +1,7 @@
 {% extends "subtenancy/base.html" %}
 
+{% load i18n %}
+
 {% block content %}
 
 
@@ -7,7 +9,7 @@
         <div class="card-body">
             <h5 class="card-title">{{ title }}</h5>
 
-            <p>Möchstest du folgende Nachricht an die Person mit der ID {{ subtenant.pk }} senden?</p>
+            <p>{% trans "Möchstest du folgende Nachricht an die Person mit der ID {{ subtenant.pk }} senden?" %}</p>
 
             <div class="alert bg-grey" role="alert">
 
@@ -19,15 +21,15 @@
 
                 {% csrf_token %}
 
-                <button class="btn btn-success btn-block">Kontaktieren</button>
+                <button class="btn btn-success btn-block">{% trans "Kontaktieren" %}</button>
 
 
                 {% if user.is_maintenant %}
-                    <a href="{% url 'Requests' %}" class="btn btn-danger btn-block">Abbrechen</a>
+                    <a href="{% url 'Requests' %}" class="btn btn-danger btn-block">{% trans "Abbrechen" %}</a>
                 {% elif user.is_subtenant %}
-                    <a href="{% url 'Offers' %}" class="btn btn-danger btn-block">Abbrechen</a>
+                    <a href="{% url 'Offers' %}" class="btn btn-danger btn-block">{% trans "Abbrechen" %}</a>
                 {% else %}
-                    <a href="{% url 'Profile' %}" class="btn btn-danger btn-block">Abbrechen</a>
+                    <a href="{% url 'Profile' %}" class="btn btn-danger btn-block">{% trans "Abbrechen" %}</a>
                 {% endif %}
             </form>
 

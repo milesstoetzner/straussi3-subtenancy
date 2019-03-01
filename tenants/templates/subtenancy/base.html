@@ -25,7 +25,7 @@
 
         <div class="bg-grey d-none d-md-block" style="font-size: 12px; color: #495057">
 
-            Als {{ user.get_full_name }} eingeloggt.
+            {% blocktrans %}Als {{ user.get_full_name }} eingeloggt.{% endblocktrans %}
 
         </div>
 
@@ -35,8 +35,7 @@
 
         <a href="/" style="color:#212529">
             <h5 class="d-none d-md-block"
-                style="text-align: center; padding-top: 1rem; margin-bottom: 1rem; color:#212529">Ferienmiete
-                Straußäcker 3
+                style="text-align: center; padding-top: 1rem; margin-bottom: 1rem; color:#212529">{% trans "Ferienmiete" %} Straußäcker 3
             </h5>
         </a>
 
@@ -46,7 +45,7 @@
             <a href="/"><img src="{% static 'subtenancy/logo.svg' %}"
                              style="width: 60px; margin: 1rem 0 1rem 0"></a>
 
-            <a href="/" style="color:#212529"><h5>Ferienmiete<br>Straußäcker 3</h5></a>
+            <a href="/" style="color:#212529"><h5>{% trans "Ferienmiete" %}<br>Straußäcker 3</h5></a>
 
         </div>
 
@@ -55,7 +54,7 @@
 
     <nav class="navbar navbar-expand-md navbar-dark bg-primary">
 
-        <a class="navbar-brand d-block d-md-none btn" href="/">Ferienmiete Straußäcker 3</a>
+        <a class="navbar-brand d-block d-md-none btn" href="/">{% trans "Ferienmiete" %} Straußäcker 3</a>
 
         <button class="d-block d-md-none btn btn-primary" type="button" data-toggle="collapse"
                 data-target="#navbarTenant, #navbarAssistant, #navbarExternal"
@@ -68,7 +67,7 @@
 
                 {% if user.is_authenticated %}
                     <a class="btn btn-primary disabled d-block d-md-none text-white"
-                       style="opacity: 1">Als {{ user.get_full_name }} eingeloggt.</a>
+                       style="opacity: 1">{% blocktrans %}Als {{ user.get_full_name }} eingeloggt.{% endblocktrans %}</a>
 
                 {% else %}
                     <a class="btn btn-primary " href="{% url 'login' %}" id="{% url 'login' %}"><i
@@ -81,7 +80,7 @@
                 {% if user.is_authenticated %}
 
                     <a class="btn btn-primary" href="{% url 'Profile' %}" id="{% url 'Profile' %}"><i
-                            class="fas fa-user icon-text"></i>Profil</a>
+                            class="fas fa-user icon-text"></i>{% trans "Profil" %}</a>
 
                 {% endif %}
 
@@ -89,18 +88,18 @@
 
 
                     <a class="btn btn-primary" href="{% url 'MainTenantCreate' %}" id="{% url 'MainTenantCreate' %}"><i
-                            class="fas fa-user-edit icon-text"></i>Hauptmieter</a>
+                            class="fas fa-user-edit icon-text"></i>{% trans "Hauptmieter" %}</a>
 
                     <a class="btn btn-primary" href="{% url 'SubTenantCreate' %}" id="{% url 'SubTenantCreate' %}"><i
-                            class="fas fa-user-edit icon-text"></i>Untermieter</a>
+                            class="fas fa-user-edit icon-text"></i>{% trans "Untermieter" %}</a>
 
                 {% endif %}
 
                 <a class="btn btn-primary" href="{% url 'Requests' %}" id="{% url 'Requests' %}"><i
-                        class="fas fa-file-alt icon-text"></i>Anfragen</a>
+                        class="fas fa-file-alt icon-text"></i>{% trans "Anfragen" %}</a>
 
                 <a class="btn btn-primary" href="{% url 'Impressum' %}" id="{% url 'Impressum' %}"><i
-                        class="fas fa-info-circle icon-text"></i>Impressum</a>
+                        class="fas fa-info-circle icon-text"></i>{% trans "Impressum" %}</a>
 
                 {% get_current_language as LANGUAGE_CODE %}
                 {% get_language_info for LANGUAGE_CODE as lang %}
@@ -109,7 +108,7 @@
 
                 <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-toggle="dropdown">
+                            data-toggle="dropdown" style="border-radius: 0">
                         <i class="fas fa-globe-europe icon-text"></i>{{ lang.name_local }} ({{ LANGUAGE_CODE }})
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -149,7 +148,7 @@
 
                     <a class="btn btn-orange" href="{% url 'contracts:ContractCreate' %}"
                        id="{% url 'contracts:ContractCreate' %}"><i
-                            class="fas fa-file-signature icon-text"></i>Vertrag erstellen</a>
+                            class="fas fa-file-signature icon-text"></i>{% trans "Vertrag erstellen" %}</a>
 
                     <li class="nav-item dropdown">
 
@@ -169,11 +168,11 @@
 
                     <a class="btn btn-orange" href="{% url 'contracts:ContractsPrintCaretaker' %}"
                        id="{% url 'contracts:ContractsPrintCaretaker' %}" target="_blank"><i
-                            class="fas fa-file-export icon-text"></i>Hausmeister</a>
+                            class="fas fa-file-export icon-text"></i>{% trans "Hausmeister" %}</a>
 
                     <a class="btn btn-orange" href="{% url 'tenants:Blacklist' %}"
                        id="{% url 'tenants:Blacklist' %}"><i
-                            class="fas fa-exclamation-triangle icon-text"></i>Schwarze Liste</a>
+                            class="fas fa-exclamation-triangle icon-text"></i>{% trans "Schwarze Liste" %}</a>
 
                 </div>
             </div>
@@ -193,7 +192,7 @@
 
                     <a class="btn btn-orange" href="{% url 'contracts:ContractsPrintCaretaker' %}"
                        id="{% url 'contracts:ContractsPrintCaretaker' %}" target="_blank"><i
-                            class="fas fa-file-export icon-text"></i>Hausmeister</a>
+                            class="fas fa-file-export icon-text"></i>{% trans "Hausmeister" %}</a>
 
                 </div>
             </div>

@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 from simple_history.models import HistoricalRecords
+from django.utils.translation import gettext_lazy as _
 
 
 class ResidentialHome(models.Model):
@@ -9,14 +10,14 @@ class ResidentialHome(models.Model):
     Model for a residential home. Every change to a record is logged.
     """
 
-    name = models.CharField('Name', max_length=250)
-    short = models.CharField('Abkürzung', max_length=4)
-    street = models.CharField('Straße', max_length=250)
-    house_numbers = models.CharField('Hausnummern', max_length=1000)
-    room_numbers = models.CharField('Zimmernummern', max_length=1000)
-    postcode = models.CharField('Postleitzahl', max_length=25)
-    city = models.CharField('Ort', max_length=250)
-    country = models.CharField('Land', max_length=250)
+    name = models.CharField(_('Name'), max_length=250)
+    short = models.CharField(_('Abkürzung'), max_length=4)
+    street = models.CharField(_('Straße'), max_length=250)
+    house_numbers = models.CharField(_('Hausnummern'), max_length=1000)
+    room_numbers = models.CharField(_('Zimmernummern'), max_length=1000)
+    postcode = models.CharField(_('Postleitzahl'), max_length=25)
+    city = models.CharField(_('Ort'), max_length=250)
+    country = models.CharField(_('Land'), max_length=250)
 
     history = HistoricalRecords()
 
@@ -41,8 +42,8 @@ class ResidentialHome(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = 'Wohnheim'
-        verbose_name_plural = 'Wohnheime'
+        verbose_name = _('Wohnheim')
+        verbose_name_plural = _('Wohnheime')
 
 
 class BlockedTenantID(models.Model):
@@ -51,8 +52,8 @@ class BlockedTenantID(models.Model):
     Every change to a record is logged.
     """
 
-    id = models.PositiveIntegerField('Mieterummer', unique=True, primary_key=True)
-    description = models.CharField('Beschreibung', max_length=500, blank=True)
+    id = models.PositiveIntegerField(_('Mieterummer'), unique=True, primary_key=True)
+    description = models.CharField(_('Beschreibung'), max_length=500, blank=True)
 
     history = HistoricalRecords()
 
@@ -60,8 +61,8 @@ class BlockedTenantID(models.Model):
         return str(self.id)
 
     class Meta:
-        verbose_name = 'Blockierte Mieternummer'
-        verbose_name_plural = 'Blockierte Mieternummern'
+        verbose_name = _('Blockierte Mieternummer')
+        verbose_name_plural = _('Blockierte Mieternummern')
 
 
 class BlockedStudentID(models.Model):
@@ -70,8 +71,8 @@ class BlockedStudentID(models.Model):
     Every change to a record is logged.
     """
 
-    id = models.PositiveIntegerField('Matrikelnummer', unique=True, primary_key=True)
-    description = models.CharField('Beschreibung', max_length=500, blank=True)
+    id = models.PositiveIntegerField(_('Matrikelnummer'), unique=True, primary_key=True)
+    description = models.CharField(_('Beschreibung'), max_length=500, blank=True)
 
     history = HistoricalRecords()
 
@@ -79,8 +80,8 @@ class BlockedStudentID(models.Model):
         return str(self.id)
 
     class Meta:
-        verbose_name = 'Blockierte Matrikelnummer'
-        verbose_name_plural = 'Blockierte Matrikelnummern'
+        verbose_name = _('Blockierte Matrikelnummer')
+        verbose_name_plural = _('Blockierte Matrikelnummern')
 
 
 class User(AbstractUser):
@@ -89,15 +90,15 @@ class User(AbstractUser):
     Every change to a record is logged.
     """
 
-    first_name = models.CharField('Vorname', max_length=150)
-    last_name = models.CharField('Nachname', max_length=150)
-    email = models.EmailField('Email Adresse', max_length=150, unique=True)
-    birthday = models.DateField('Geburtstag')
-    phone_number = models.CharField('Telefonnummer', max_length=15)
-    is_maintenant = models.BooleanField('Hauptmieter', default=False)
-    is_subtenant = models.BooleanField('Untermieter', default=False)
-    is_external = models.BooleanField('SWS oder Hausmeister', default=False)
-    is_assistant = models.BooleanField('Sprechstunde', default=False)
+    first_name = models.CharField(_('Vorname'), max_length=150)
+    last_name = models.CharField(_('Nachname'), max_length=150)
+    email = models.EmailField(_('Email Adresse'), max_length=150, unique=True)
+    birthday = models.DateField(_('Geburtstag'))
+    phone_number = models.CharField(_('Telefonnummer'), max_length=15)
+    is_maintenant = models.BooleanField(_('Hauptmieter'), default=False)
+    is_subtenant = models.BooleanField(_('Untermieter'), default=False)
+    is_external = models.BooleanField(_('SWS oder Hausmeister'), default=False)
+    is_assistant = models.BooleanField(_('Sprechstunde'), default=False)
 
     history = HistoricalRecords()
 
@@ -108,7 +109,7 @@ class User(AbstractUser):
         return reverse('tenants:TenantView', kwargs={'pk': self.pk})
 
     def __str__(self):
-        return self.first_name + ' ' + self.last_name + ' (' + str(self.pk) + ')'
+        return str(self.first_name) + ' ' + str(self.last_name) + ' (' + str(self.pk) + ')'
 
     class Meta:
         permissions = (
@@ -125,16 +126,16 @@ class MainTenant(models.Model):
 
     # Information about main tenant
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    tenant_id = models.PositiveIntegerField('Mieternummer', unique=True)
-    begin_rent_agreement = models.DateField('Beginn des Mietvertrages')
-    end_rent_agreement = models.DateField('Ende des Mietvertrages')
+    tenant_id = models.PositiveIntegerField(_('Mieternummer'), unique=True)
+    begin_rent_agreement = models.DateField(_('Beginn des Mietvertrages'))
+    end_rent_agreement = models.DateField(_('Ende des Mietvertrages'))
 
     # Information about subtenancy
-    residential_home = models.ForeignKey(ResidentialHome, on_delete=models.PROTECT, verbose_name='Wohnheim')
-    house_number = models.CharField('Hausnummer', max_length=10)
-    room_number = models.CharField('Zimmernummer', max_length=10)
-    rent = models.DecimalField('Monatsmiete in Euro', max_digits=5, decimal_places=2)
-    is_returning = models.BooleanField('Ist ein Wiedereinzug ins Zimmer geplant?')
+    residential_home = models.ForeignKey(ResidentialHome, on_delete=models.PROTECT, verbose_name=_('Wohnheim'))
+    house_number = models.CharField(_('Hausnummer'), max_length=10)
+    room_number = models.CharField(_('Zimmernummer'), max_length=10)
+    rent = models.DecimalField(_('Monatsmiete in Euro'), max_digits=5, decimal_places=2)
+    is_returning = models.BooleanField(_('Ist ein Wiedereinzug ins Zimmer geplant?'))
 
     history = HistoricalRecords()
 
@@ -142,7 +143,7 @@ class MainTenant(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def get_room(self):
-        return self.house_number + ' ' + self.room_number
+        return str(self.house_number) + ' ' + str(self.room_number)
 
     def get_amount_of_days(self, exclude=None):
         """
@@ -162,11 +163,11 @@ class MainTenant(models.Model):
         return amount
 
     def __str__(self):
-        return str(self.pk) + ': ' + self.user.first_name + ' ' + self.user.last_name + ' (' + str(self.user.birthday) + ')' + ' (' + str(self.tenant_id) + ')'
+        return str(self.pk) + ': ' + str(self.user.first_name) + ' ' + str(self.user.last_name) + ' (' + str(self.user.birthday) + ')' + ' (' + str(self.tenant_id) + ')'
 
     class Meta:
-        verbose_name = 'Hauptmieter'
-        verbose_name_plural = 'Haupmieter'
+        verbose_name = _('Hauptmieter')
+        verbose_name_plural = _('Haupmieter')
         permissions = (
             ("contact_subtenant", "Can contact subtenant"),
         )
@@ -181,22 +182,22 @@ class SubTenant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     # Information about sub tenant
-    nationality = models.CharField('Nationalität', max_length=100)
-    is_eu = models.BooleanField('Ist dein Herkunftsland in der EU?')
-    student_id = models.PositiveIntegerField('Matrikelnummer', unique=True)
+    nationality = models.CharField(_('Nationalität'), max_length=100)
+    is_eu = models.BooleanField(_('Ist dein Herkunftsland in der EU?'))
+    student_id = models.PositiveIntegerField(_('Matrikelnummer'), unique=True)
 
     # Information about subtenancy
-    begin_subtenancy = models.DateField('Beginn der Untermiete')
-    end_subtenancy = models.DateField('Ende der Untermiete')
-    is_searching = models.BooleanField('Ich suche für den oben genannten Zeitraum ein Zimmer', default=True)
+    begin_subtenancy = models.DateField(_('Beginn der Untermiete'))
+    end_subtenancy = models.DateField(_('Ende der Untermiete'))
+    is_searching = models.BooleanField(_('Ich suche für den oben genannten Zeitraum ein Zimmer'), default=True)
 
     # Correspondence address
-    name = models.CharField('Name', max_length=250)
-    street = models.CharField('Straße', max_length=250)
-    house_number = models.CharField('Hausnummer', max_length=10)
-    postcode = models.PositiveIntegerField('Postleitzahl')
-    city = models.CharField('Ort', max_length=250)
-    country = models.CharField('Land', max_length=250)
+    name = models.CharField(_('Name'), max_length=250)
+    street = models.CharField(_('Straße'), max_length=250)
+    house_number = models.CharField(_('Hausnummer'), max_length=10)
+    postcode = models.PositiveIntegerField(_('Postleitzahl'))
+    city = models.CharField(_('Ort'), max_length=250)
+    country = models.CharField(_('Land'), max_length=250)
 
     history = HistoricalRecords()
 
@@ -204,8 +205,8 @@ class SubTenant(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.pk) + ': ' + self.user.first_name + ' ' + self.user.last_name + ' (' + str(self.user.birthday) + ')' + ' (' + str(self.student_id) + ')'
+        return str(self.pk) + ': ' + str(self.user.first_name) + ' ' + str(self.user.last_name) + ' (' + str(self.user.birthday) + ')' + ' (' + str(self.student_id) + ')'
 
     class Meta:
-        verbose_name = 'Untermieter'
-        verbose_name_plural = 'Untermieter'
+        verbose_name = _('Untermieter')
+        verbose_name_plural = _('Untermieter')

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-01 22:43+0100\n"
+"POT-Creation-Date: 2019-03-02 00:12+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,117 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\contracts\forms.py:30 .\tenants\forms.py:135
+msgid "Das Ende des Untermietvertrages muss nach dem Beginn sein!"
+msgstr "The end of the subtenancy contract has to be after the begin!"
+
+#: .\contracts\forms.py:35
+msgid "Der Account des Hauptmieters ist gesperrt!"
+msgstr "The Maintenant's Account is blocked!"
+
+#: .\contracts\forms.py:40
+#, fuzzy
+#| msgid "Beginn des Untermietvertrages"
+msgid "Der Account des Untermieters ist gesperrt!"
+msgstr "Begin of Subtenancy Contract"
+
+#: .\contracts\forms.py:47
+#, fuzzy
+#| msgid "Das Ende des Untermietvertrages muss nach dem Beginn sein!"
+msgid ""
+"Der Begin des Untermietvertrages ist vor dem Beginn des Hauptmietvertrages!"
+msgstr "The end of the subtenancy contract has to be after the begin!"
+
+#: .\contracts\forms.py:53
+#, fuzzy
+#| msgid "Das Ende des Untermietvertrages muss nach dem Beginn sein!"
+msgid ""
+"Das Ende des Untermietvertrages ist nach dem Ende des Hauptmietvertrages!"
+msgstr "The end of the subtenancy contract has to be after the begin!"
+
+#: .\contracts\forms.py:63
+msgid ""
+"Der Begin des Vertrages liegt innerhalb des Zeitraums eines bereits "
+"existierenden Vertrages mit dem Hauptmieter!"
+msgstr ""
+
+#: .\contracts\forms.py:66
+msgid ""
+"Das Ende des Vertrages liegt innerhalb des Zeitraums eines bereits "
+"existierenden Vertrages mit dem Hauptmieter!"
+msgstr ""
+
+#: .\contracts\forms.py:69
+msgid ""
+"Es existriert bereits ein Vertrag mit dem Hauptmieter innerhalb des "
+"angegebene Zeitraums!"
+msgstr ""
+
+#: .\contracts\forms.py:79
+msgid ""
+"Der Begin des Vertrages liegt innerhalb des Zeitraums eines bereits "
+"existierenden Vertrages mit dem Untermieter!"
+msgstr ""
+
+#: .\contracts\forms.py:82
+msgid ""
+"Das Ende des Vertrages liegt innerhalb des Zeitraums eines bereits "
+"existierenden Vertrages mit dem Untermieter!"
+msgstr ""
+
+#: .\contracts\forms.py:85
+msgid ""
+"Es existriert bereits ein Vertrag mit dem Untermieter innerhalb des "
+"angegebene Zeitraums!"
+msgstr ""
+
+#: .\contracts\forms.py:93
+msgid ""
+"Der Hauptmieter überschreitet die 3 Monate Grenze! Falls er eine "
+"Sondergenehmigung besitzt, kann dies unten angegeben werden."
+msgstr ""
+
+#: .\contracts\forms.py:97
+#, fuzzy
+#| msgid "Ist das Zimmer gereinigt und in einem ordnungsgemäßen Zustand?"
+msgid "Dein Zimmer muss in einem ordnungsgemäßen Zustand sein!"
+msgstr "Is the Room clean and in a proper Condition?"
+
+#: .\contracts\forms.py:101
+#, fuzzy
+#| msgid "Ist das Zimmer gereinigt und in einem ordnungsgemäßen Zustand?"
+msgid "Deine Wohnung muss in einem ordnungsgemäßen Zustand sein!"
+msgstr "Is the Room clean and in a proper Condition?"
+
+#: .\contracts\forms.py:106
+#, fuzzy
+#| msgid "Die Monatsmiete muss positiv sein!"
+msgid "Die Kaution muss positiv sein!"
+msgstr "The monthly rent has to be positive!"
+
+#: .\contracts\forms.py:110
+#, fuzzy
+#| msgid "Lichtbildausweis kontrolliert?"
+msgid "Lichtbildausweis muss kontrolliert werden!"
+msgstr "Photo Identification checked?"
+
+#: .\contracts\forms.py:114
+#, fuzzy
+#| msgid "Immatrikulationsbescheinigung kontrolliert?"
+msgid "Immatrikulationsbescheinigung muss kontrolliert werden!"
+msgstr "Certificate of Matriculation checked?"
+
+#: .\contracts\forms.py:119
+msgid "Die Spende darf nicht negativ sein!"
+msgstr "The Donation has to be positive!"
+
+#: .\contracts\forms.py:125
+msgid ""
+"Ein ordnungsgemäßer Zustand schließt die Vollständigkeit des Inventars "
+"entsprechend des Hauptmietvertrages ein."
+msgstr ""
+
 #: .\contracts\models.py:18 .\contracts\templates\contracts\list.html:19
 #: .\contracts\templates\contracts\search_result.html:7 .\tenants\models.py:98
 #: .\tenants\models.py:169 .\tenants\templates\subtenancy\base.html:91
@@ -24,9 +135,7 @@ msgid "Hauptmieter"
 msgstr "Maintenant"
 
 #: .\contracts\models.py:19 .\contracts\templates\contracts\list.html:20
-#: .\contracts\templates\contracts\search_result.html:21
-#: .\tenants\models.py:99
-#: .\tenants\models.py:211 .\tenants\models.py:212
+#: .\tenants\models.py:99 .\tenants\models.py:211 .\tenants\models.py:212
 #: .\tenants\templates\subtenancy\base.html:94
 msgid "Untermieter"
 msgstr "Subtenant"
@@ -47,7 +156,8 @@ msgstr "Is the Room clean and in a proper Condition?"
 msgid ""
 "Sind die Gemeinschaftsräume gereinigt und steht ein Staurum in Küche/"
 "Kühleschrank bereit?"
-msgstr "Are the Common Rooms cleaned and is Storage Space available in the Kitchen?"
+msgstr ""
+"Are the Common Rooms cleaned and is Storage Space available in the Kitchen?"
 
 #: .\contracts\models.py:26
 msgid "Sonstige Anmerkungen zum Zimmer oder zur Wohnung"
@@ -88,7 +198,7 @@ msgid "Vertrag"
 msgstr "Contract"
 
 #: .\contracts\models.py:161
-#: .\contracts\templates\contracts\search_result.html:35
+#: .\contracts\templates\contracts\search_result.html:36
 #: .\tenants\templates\tenants\view.html:67
 msgid "Verträge"
 msgstr "Contracts"
@@ -105,7 +215,7 @@ msgstr "Display Maintenant"
 msgid "Untermieter anzeigen"
 msgstr "Display Subtenant"
 
-#: .\contracts\templates\contracts\create.html:42
+#: .\contracts\templates\contracts\create.html:42 .\contracts\views.py:57
 #: .\tenants\templates\subtenancy\base.html:151
 msgid "Vertrag erstellen"
 msgstr "Create Contract"
@@ -148,8 +258,8 @@ msgid "Weiter"
 msgstr "Next"
 
 #: .\contracts\templates\contracts\search_result.html:15
-#: .\contracts\templates\contracts\search_result.html:29
-#: .\contracts\templates\contracts\search_result.html:43
+#: .\contracts\templates\contracts\search_result.html:30
+#: .\contracts\templates\contracts\search_result.html:44
 msgid "Keine Suchergebnisse!"
 msgstr "No search results!"
 
@@ -171,7 +281,9 @@ msgstr "Do you really want to make the changes?"
 msgid ""
 "Es gab eine Änderung. Eine Änderung kann auftreten, wenn du Details geändert "
 "hast oder einer der Mieter seine Informationen geändert hat."
-msgstr "There had been some changes. A change can occur when you or a tenant changed details about him or the contract."
+msgstr ""
+"There had been some changes. A change can occur when you or a tenant changed "
+"details about him or the contract."
 
 #: .\contracts\templates\contracts\view.html:12
 msgid ""
@@ -209,6 +321,26 @@ msgstr "Current Version"
 msgid "Version"
 msgstr "Version"
 
+#: .\contracts\views.py:53
+msgid "Vertrag wurde erfolgreich erstellt!"
+msgstr "The Contract has been successfully created!"
+
+#: .\contracts\views.py:112
+#, fuzzy
+#| msgid "Änderungen vornehmen"
+msgid "Änderungen erfolgreich übernommen!"
+msgstr "Make Changes"
+
+#: .\contracts\views.py:115 .\tenants\views.py:154
+#, fuzzy
+#| msgid "Änderungen"
+msgid "Es gab keine Änderungen!"
+msgstr "Changes"
+
+#: .\contracts\views.py:150
+msgid "PDF wurde erfolgreich erstellt!"
+msgstr "PDF has been successfully generated!"
+
 #: .\subtenancy\settings.py:116
 msgid "Deutsch"
 msgstr "German"
@@ -225,39 +357,93 @@ msgstr "Arabic"
 msgid "Chinesisch"
 msgstr "Chinese"
 
+#: .\subtenancy\views.py:30
+msgid "Willkommen zurück"
+msgstr "Welcome back"
+
+#: .\subtenancy\views.py:42
+#, fuzzy
+#| msgid "Der Account wurde erfolgreich gelöscht!"
+msgid "Du hast dich erfolgreich ausgeloggt!"
+msgstr "The Account has been successfully deleted!"
+
+#: .\subtenancy\views.py:53
+#, fuzzy
+#| msgid "Der Account wurde erfolgreich gelöscht!"
+msgid "Passwort wurde erfolgreich geändert!"
+msgstr "The Account has been successfully deleted!"
+
+#: .\subtenancy\views.py:71
+msgid ""
+"Wir haben eine E-Mail zum Zurücksetzen des Passwortes an die angegebene E-"
+"Mail-Adresse gesendet, sofern ein entsprechendes Konto existiert. Sie sollte "
+"in Kürze ankommen. Falls die E-Mail nicht angekommen sein sollte, bitte die "
+"E-Mail-Adresse auf Richtigkeit und gegebenenfalls den Spam-Ordner überprüfen."
+msgstr ""
+
+#: .\subtenancy\views.py:87
+#, fuzzy
+#| msgid "Der Account wurde erfolgreich gelöscht!"
+msgid "Dein Passwort wurder erfolgreich zurückgesetzt!"
+msgstr "The Account has been successfully deleted!"
+
+#: .\subtenancy\views.py:104 .\tenants\templates\subtenancy\base.html:38
+#: .\tenants\templates\subtenancy\base.html:48
+#: .\tenants\templates\subtenancy\base.html:57
+msgid "Ferienmiete"
+msgstr "Subtenancy"
+
+#: .\subtenancy\views.py:113 .\tenants\templates\subtenancy\base.html:102
+msgid "Impressum"
+msgstr "Legal Notice"
+
+#: .\tenants\forms.py:7
+msgid "Nein"
+msgstr "No"
+
+#: .\tenants\forms.py:7
+msgid "Ja"
+msgstr "Yes"
+
+#: .\tenants\forms.py:19
+msgid "Liste der Form: 'a', 'b', 'c'"
+msgstr "List of the Form: 'a', 'b', 'c'"
+
+#: .\tenants\forms.py:20
+msgid "Liste der Form:  1, 2, 3"
+msgstr "List of the Form: 1, 2, 3"
+
 #: .\tenants\forms.py:65
 msgid "Deine Mieternummer steht auf der Schwarzen Liste!"
-msgstr "Your tenant id is on the black list!"
+msgstr "Your Tenant ID is on the Black List!"
 
 #: .\tenants\forms.py:72
 msgid "Das Ende des Mietvertrages muss nach dem Beginn sein!"
-msgstr "The end of the contract has to be after the begin!"
+msgstr "The End of the Contract has to be after the Begin!"
 
 #: .\tenants\forms.py:78
 msgid "Diese Hausnummer existiert nicht. Erlaubt sind: "
-msgstr "The house number does not exists. Allowed are: "
+msgstr "The House Number does not exists. Allowed are: "
 
 #: .\tenants\forms.py:84
 msgid "Diese Zimmernummer existiert nicht. Erlaubt sind: "
-msgstr "The room number does not exists. Allowed are: "
+msgstr "The Room Number does not exists. Allowed are: "
 
 #: .\tenants\forms.py:89
 msgid "Die Monatsmiete muss positiv sein!"
-msgstr "The monthly rent has to be positive!"
+msgstr "The monthly Rent has to be positive!"
 
 #: .\tenants\forms.py:95
 msgid ""
 "Sofern kein Wiedereinzug geplant ist und der Hauptmieter somit vollständig "
 "auszieht, wird die Kaution über den Hausmeister zurückerstattet."
-msgstr "If the maintenant does not return after the subtenancy the caretaker will refund the deposit."
+msgstr ""
+"If the Maintenant does not return after the Subtenancy the Caretaker will "
+"refund the Deposit."
 
 #: .\tenants\forms.py:128
 msgid "Deine Matrikelnummer steht auf der Schwarzen Liste!"
-msgstr "Your student id is on the black list!"
-
-#: .\tenants\forms.py:135
-msgid "Das Ende des Untermietvertrages muss nach dem Beginn sein!"
-msgstr "The end of the subtenancy contract has to be after the begin!"
+msgstr "Your Student ID is on the Black List!"
 
 #: .\tenants\models.py:13 .\tenants\models.py:195
 msgid "Name"
@@ -396,7 +582,7 @@ msgstr "Nationality"
 
 #: .\tenants\models.py:186
 msgid "Ist dein Herkunftsland in der EU?"
-msgstr "Is your country of origin part of the EU?"
+msgstr "Is your Country of Origin Part of the EU?"
 
 #: .\tenants\models.py:190 .\tenants\templates\tenants\requests.html:25
 msgid "Beginn der Untermiete"
@@ -422,11 +608,13 @@ msgstr "Wrong Username and/ or Password!"
 msgid ""
 "Du hast leider nicht die benötigten Rechte, um diese Seite zu sehen. Bitte "
 "logge dich mit einem Account ein, der diese Rechte besitzt."
-msgstr "You sadly do not have the rights to access this page. Please log into an account with the corresponding rights"
+msgstr ""
+"You sadly do not have the Rights to access this Page. Please log into an "
+"Account with the corresponding Rights"
 
 #: .\tenants\templates\registration\login.html:26
 msgid "Du musst dich einloggen, um diese Seite zu sehen."
-msgstr "You have to be logged in to access this site."
+msgstr "You have to be logged in to access this Site."
 
 #: .\tenants\templates\registration\login.html:37
 msgid "Passwort vergessen?"
@@ -453,25 +641,23 @@ msgstr "Set new Password"
 msgid ""
 "Deine Anfrage ist ungültig! Eventuell wurde der Link bereits verwendet. Du "
 "kannst dein Passwort erneut zurücksetzen lassen."
-msgstr "Your Request is invalid! Maybe the Link already has been used. You can request resetting your Password a second Time."
+msgstr ""
+"Your Request is invalid! Maybe the Link already has been used. You can "
+"request resetting your Password a second Time."
 
 #: .\tenants\templates\registration\password_reset.html:13
 msgid ""
 "Passwort vergessen? Einfach die E-Mail-Adresse unten eingeben und den "
 "Anweisungen zum Zurücksetzen des Passworts in der E-Mail folgen."
-msgstr "Did you forgot your Password? Provide your E-Mail-Addresse and we will send you an E-Mail with Instructions."
+msgstr ""
+"Did you forgot your Password? Provide your E-Mail-Addresse and we will send "
+"you an E-Mail with Instructions."
 
 #: .\tenants\templates\subtenancy\base.html:28
 #: .\tenants\templates\subtenancy\base.html:70
 #, python-format
 msgid "Als %(user.get_full_name)s eingeloggt."
 msgstr "Logged in as %(user.get_full_name)s"
-
-#: .\tenants\templates\subtenancy\base.html:38
-#: .\tenants\templates\subtenancy\base.html:48
-#: .\tenants\templates\subtenancy\base.html:57
-msgid "Ferienmiete"
-msgstr "Subtenancy"
 
 #: .\tenants\templates\subtenancy\base.html:83
 msgid "Profil"
@@ -481,16 +667,16 @@ msgstr "Profile"
 msgid "Anfragen"
 msgstr "Requests"
 
-#: .\tenants\templates\subtenancy\base.html:102
-msgid "Impressum"
-msgstr "Legal Notice"
+#: .\tenants\templates\subtenancy\base.html:155
+msgid "Suchen"
+msgstr "Search"
 
 #: .\tenants\templates\subtenancy\base.html:171
 #: .\tenants\templates\subtenancy\base.html:195
 msgid "Hausmeister"
 msgstr "Caretaker"
 
-#: .\tenants\templates\subtenancy\base.html:175
+#: .\tenants\templates\subtenancy\base.html:175 .\tenants\views.py:363
 msgid "Schwarze Liste"
 msgstr "Black List"
 
@@ -504,13 +690,18 @@ msgid ""
 "Straußäcker 3 in Stuttgart. Hier hast du die Möglichkeit als Hauptmieter "
 "dein Zimmer zu vermieten oder korrespondierend als Untermieter ein Zimmer "
 "mieten. Alle nötigen Informationen hierfür stehen weiter unten."
-msgstr "Welcome to the Subtenancy of the Residential Home Straußäcker 3 in Stuttgart. Here you can sublet or rent a room. All necessary Information are below."
+msgstr ""
+"Welcome to the Subtenancy of the Residential Home Straußäcker 3 in "
+"Stuttgart. Here you can sublet or rent a room. All necessary Information are "
+"below."
 
 #: .\tenants\templates\subtenancy\index.html:13
 msgid ""
 "Hier findest du eine Liste aller aktuellen Anfragen. Über die Liste kannst "
 "du mögliche Untermieter kontaktieren."
-msgstr "Here is a list of all Requests. You can use the List to contact potential Subtenants."
+msgstr ""
+"Here is a list of all Requests. You can use the List to contact potential "
+"Subtenants."
 
 #: .\tenants\templates\subtenancy\index.html:14
 msgid "Liste aller Anfragen"
@@ -548,7 +739,9 @@ msgstr "Information for a Subtenant"
 msgid ""
 "Du wurdest von Hans, dem dabbenden Einhorn, besucht!<br>Er wünscht dir einen "
 "wunderschönen Tag!"
-msgstr "You have been visited by Hans the dabbing Unicorn!<br>He wishes you a beautiful day"
+msgstr ""
+"You have been visited by Hans the dabbing Unicorn!<br>He wishes you a "
+"beautiful day"
 
 #: .\tenants\templates\subtenancy\unicorn.html:19
 msgid "Dab zurück!"
@@ -559,7 +752,9 @@ msgid ""
 "In diesen Listen stehen die Mieternummern und Matrikelnummern der Personen, "
 "die sich aus irgendeinem Grund eine zukünftige Zusammenarbeit mit uns "
 "verwehrt haben."
-msgstr "Here you can see the List of blocked Tenant IDs and Student IDs. We do not make any Contracts with blocked IDs."
+msgstr ""
+"Here you can see the List of blocked Tenant IDs and Student IDs. We do not "
+"make any Contracts with blocked IDs."
 
 #: .\tenants\templates\tenants\blacklist.html:46
 msgid "Die Liste der blockierten Mieternummern ist leer."
@@ -573,7 +768,9 @@ msgstr "List of blocked Student IDs is empty."
 msgid ""
 "Möchstest du folgende Nachricht an die Person mit der ID {{ subtenant.pk }} "
 "senden?"
-msgstr "Do you want to send the following message to the Person with the Subtenancy ID {{ subtenant.pk }}?"
+msgstr ""
+"Do you want to send the following message to the Person with the Subtenancy "
+"ID {{ subtenant.pk }}?"
 
 #: .\tenants\templates\tenants\contact.html:24
 msgid "Kontaktieren"
@@ -622,7 +819,9 @@ msgstr "Delete"
 msgid ""
 "Wenn du dich für eine Anfrage interessierst, dann kannst du unten die "
 "jeweilige Person kontaktieren und ihr deine Kontaktdaten zukommen lassen."
-msgstr "If you are interested in a specific Request, you can contact the potential Subtenant by sharing your Contact Details with him."
+msgstr ""
+"If you are interested in a specific Request, you can contact the potential "
+"Subtenant by sharing your Contact Details with him."
 
 #: .\tenants\templates\tenants\requests.html:16
 msgid "Die Liste ist nach Beginn und Ende sortiert."
@@ -654,3 +853,57 @@ msgstr "Delete Account"
 #: .\tenants\templates\tenants\view.html:95
 msgid "Keine Verträge vorhanden"
 msgstr "No Contracts available"
+
+#: .\tenants\views.py:64
+msgid "Registrierung war erfolgreich. Du kannst dich nun einloggen."
+msgstr "Registration had been successful. You can now log into your Account."
+
+#: .\tenants\views.py:78
+#, fuzzy
+#| msgid "Als Hauptmieter registrieren"
+msgid "Hauptmieter Registrierung"
+msgstr "Register as Maintenant"
+
+#: .\tenants\views.py:78
+#, fuzzy
+#| msgid "Als Untermieter registrieren"
+msgid "Untermieter Registrierung"
+msgstr "Register as Subtenant"
+
+#: .\tenants\views.py:150 .\tenants\views.py:272
+msgid "Änderungen wurden erfolgreich übernommen!"
+msgstr "Changes have been successfully made!"
+
+#: .\tenants\views.py:193
+msgid ""
+"Der Account kann nicht gelöscht werden, da mindestens ein Vertrag mit diesem "
+"Account abgeschlossen wurde!"
+msgstr ""
+"The Account can not be deleted since at least one Contract in respect to "
+"this Account exists!"
+
+#: .\tenants\views.py:196
+msgid "Der Account wurde erfolgreich gelöscht!"
+msgstr "The Account has been successfully deleted!"
+
+#: .\tenants\views.py:322
+msgid "Kontaktaufnahme"
+msgstr "Contact"
+
+#: .\tenants\views.py:346
+msgid "Untermieter konnte nicht kontaktiert werden!"
+msgstr "Could not contact Subtenant!"
+
+#: .\tenants\views.py:350
+msgid ""
+"Untermieter wurde erfolgreich kontaktiert! Wir haben dir als Bestätigung der "
+"Kontaktaufnahme eine Email gesendet."
+msgstr ""
+"Subtenant has been successfully contacted! We have sent you an Confirmation "
+"E-Mail."
+
+#: .\tenants\views.py:375
+#, fuzzy
+#| msgid "Informationen über den Untermieter"
+msgid "Anfragen von Untermietern"
+msgstr "Information about the Subtenant"

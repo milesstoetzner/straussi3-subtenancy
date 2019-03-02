@@ -28,6 +28,8 @@
                 <button class="btn btn-success btn-block" data-toggle="modal" data-target="#updateModal" onclick="" id="modalButton">
                    {% trans "Änderungen vornehmen" %}
                 </button>
+                <a href="{% url 'contracts:ContractView' form.instance.id %}"
+                   class="btn btn-danger btn-block">{% trans "Abbrechen" %}</a>
 
                 <!-- Modal -->
                 <div class="modal fade" id="updateModal" tabindex="-1" role="dialog"

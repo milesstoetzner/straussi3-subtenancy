@@ -84,7 +84,7 @@ class PasswordResetCallback(SuccessMessageMixin, PasswordResetConfirmView):
     """
 
     template_name = 'registration/password_confirm.html'
-    success_message = _('Dein Passwort wurder erfolgreich zurückgesetzt!')
+    success_message = _('Dein Passwort wurde erfolgreich zurückgesetzt!')
 
     def get_success_url(self):
         return reverse('login')

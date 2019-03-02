@@ -9,7 +9,7 @@
         <div class="card-body">
             <h5 class="card-title">{{ title }}</h5>
 
-            <p>{% trans "Möchstest du folgende Nachricht an die Person mit der ID {{ subtenant.pk }} senden?" %}</p>
+            <p>{% blocktrans with subtenant.pk as pk%}Möchtest du folgende Nachricht an die Person mit der ID {{ pk }} senden?{% endblocktrans %}</p>
 
             <div class="alert bg-grey" role="alert">
 

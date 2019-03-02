@@ -16,6 +16,10 @@ body {
 }
 */
 
+.btn {
+    white-space: normal;
+}
+
 .container-fluid {
     padding: 0;
 }

@@ -220,6 +220,7 @@ def view_tenant(request, pk):
     if tenant.is_maintenant or tenant.is_subtenant:
         context['tenant_form'] = MainTenantUpdateForm(
             instance=tenant.maintenant) if tenant.is_maintenant else SubTenantUpdateForm(instance=tenant.subtenant)
+        context['is_maintenant'] = tenant.is_maintenant
 
     return render(request, 'tenants/view.html', context)
 

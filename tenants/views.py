@@ -312,8 +312,8 @@ def contact_subtenant(request, pk):
     # email content
     msg = 'Hey,<br><br>ich interessiere mich für deine Anfrage in dem Zeitraum ' + str(
         subtenant.subtenant.begin_subtenancy) + ' bis ' + str(
-        subtenant.subtenant.end_subtenancy) + '.<br>Du kannst mich über folgende Email kontaktieren: ' + subtenant.email + '<br><br>Grüße,<br>' + str(
-        subtenant)
+        subtenant.subtenant.end_subtenancy) + '.<br>Du kannst mich über folgende Email kontaktieren: ' + request.user.email + '<br><br>Grüße,<br>' + str(
+        request.user)
 
     if request.method == 'GET':
         # Asks for consent

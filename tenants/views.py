@@ -6,7 +6,7 @@ from tenants.forms import UserForm, UserUpdateForm, MainTenantForm, MainTenantUp
 from django.urls import reverse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.decorators.http import require_http_methods, require_GET
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponseForbidden
 from django.db.models import ProtectedError
@@ -16,11 +16,12 @@ from smtplib import SMTPException
 from django.views.generic import ListView
 from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
+from django.template.loader import get_template
 
 import datetime
 
-# TODO: some translations are missing!
 
+# TODO: some translations are missing!
 
 @atomic
 @csrf_protect
@@ -63,13 +64,9 @@ def create_tenant(request, is_maintenant):
 
             messages.success(request, _('Registrierung war erfolgreich. Du kannst dich nun einloggen.'))
 
-            mail = EmailMessage('Ferienmiete Straußäcker 3 Registrierung',
-                                'Hallo ' + str(user.get_full_name()) +
-                                '!<br><br>Du hast dich erfolgreich bei der Ferienmiete des Straußäcker 3 registriert.' +
-                                '<br>Gebe bei zukünftiger Kommunikation mit unserem Wohnheimsreferat immer deine Ferienmiete ID ' + str(
-                                    user.pk) + ' an.' +
-                                '<br><br>Viele Grüße,<br>dein Straußäcker 3 Team', '',
-                                [user.email])
+            content = get_template('tenants/register_email.html').render({'user': user})
+            mail = EmailMessage('Ferienmiete Straußäcker 3 Registrierung/ Subtenancy Straußäcker 3 Registration', content,
+                                '', [user.email])
             mail.content_subtype = "html"
             mail.send(fail_silently=True)
 
@@ -190,7 +187,8 @@ def delete_profile(request):
             user.delete()
         except ProtectedError:
             messages.error(request,
-                           _('Der Account kann nicht gelöscht werden, da mindestens ein Vertrag mit diesem Account abgeschlossen wurde!'))
+                           _(
+                               'Der Account kann nicht gelöscht werden, da mindestens ein Vertrag mit diesem Account abgeschlossen wurde!'))
             return redirect(reverse('Profile'))
 
         messages.success(request, _('Der Account wurde erfolgreich gelöscht!'))
@@ -310,10 +308,7 @@ def contact_subtenant(request, pk):
         return HttpResponseForbidden()
 
     # email content
-    msg = 'Hey,<br><br>ich interessiere mich für deine Anfrage in dem Zeitraum ' + str(
-        subtenant.subtenant.begin_subtenancy) + ' bis ' + str(
-        subtenant.subtenant.end_subtenancy) + '.<br>Du kannst mich über folgende Email kontaktieren: ' + request.user.email + '<br><br>Grüße,<br>' + str(
-        request.user)
+    content = get_template('tenants/contact_email.html').render({'user': request.user, 'subtenant': subtenant})
 
     if request.method == 'GET':
         # Asks for consent
@@ -321,22 +316,24 @@ def contact_subtenant(request, pk):
         context = {}
         context['subtenant'] = subtenant
         context['title'] = _('Kontaktaufnahme')
-        context['msg'] = msg
+        context['msg'] = content
         return render(request, 'tenants/contact.html', context)
 
     else:
         # Sends email with maintenant's contact details to the subtenant
 
         try:
-            mail = EmailMessage('Ferienmiete Straußäcker 3 Kontaktaufnahme',
-                                '<b>Für eine Kontaktaufnahme bitte nicht auf diese Email direkt antworten, sondern auf die unten angegebene!</b><br><br>' + msg,
+            mail = EmailMessage('Ferienmiete Straußäcker 3 Kontaktaufnahme/ First Contact',
+                                '<b>Für eine Kontaktaufnahme bitte nicht auf diese Email direkt antworten, sondern auf die unten angegebene!' +
+                                '<br>Do not answer directly to this Email!</b><br><br>' + content,
                                 '',
                                 [subtenant.email])
             mail.content_subtype = "html"
             mail.send()
 
-            mail = EmailMessage('Bestätigung Ferienmiete Straußäcker 3 Kontaktaufnahme',
-                                '<b>Bestätigung folgender Kontaktaufnahme:</b><br><br>' + msg,
+            mail = EmailMessage('Bestätigung Ferienmiete Straußäcker 3 Kontaktaufnahme/ First Contact Confirmation',
+                                '<b>Bestätigung folgender Kontaktaufnahme.' +
+                                '<br>Confirmation of the following first contact.</b><br><br>' + content,
                                 '',
                                 [request.user.email])
             mail.content_subtype = "html"
@@ -348,7 +345,8 @@ def contact_subtenant(request, pk):
             return redirect('Requests')
 
         messages.success(request,
-                         _('Untermieter wurde erfolgreich kontaktiert! Wir haben dir als Bestätigung der Kontaktaufnahme eine Email gesendet.'))
+                         _(
+                             'Untermieter wurde erfolgreich kontaktiert! Wir haben dir als Bestätigung der Kontaktaufnahme eine Email gesendet.'))
         return redirect('Requests')
 
 

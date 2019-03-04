@@ -168,6 +168,7 @@ class MainTenant(models.Model):
     class Meta:
         verbose_name = _('Hauptmieter')
         verbose_name_plural = _('Haupmieter')
+        ordering = ['-user__id']
         permissions = (
             ("contact_subtenant", "Can contact subtenant"),
         )
@@ -210,3 +211,4 @@ class SubTenant(models.Model):
     class Meta:
         verbose_name = _('Untermieter')
         verbose_name_plural = _('Untermieter')
+        ordering = ['-user__id']

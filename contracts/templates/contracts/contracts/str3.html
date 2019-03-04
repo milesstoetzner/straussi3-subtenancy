@@ -409,7 +409,7 @@
             <tbody>
 
             <tr>
-                <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
+                <td> Stuttgart, {% now "d.m.Y" %}<br>Ort, Datum</td>
                 <td></td>
                 <td class="signature"> Unterschrift Hauptmieter</td>
                 <td class="signature"> Unterschrift Untermieter</td>
@@ -427,7 +427,7 @@
             <tbody>
 
             <tr>
-                <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
+                <td> Stuttgart, {% now "d.m.Y" %}<br>Ort, Datum</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -445,7 +445,7 @@
             <tbody>
 
             <tr>
-                <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
+                <td> Stuttgart, {% now "d.m.Y" %}<br>Ort, Datum</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -462,7 +462,7 @@
             <tbody>
 
             <tr>
-                <td> Stuttgart, {% now "SHORT_DATE_FORMAT" %}<br>Ort, Datum</td>
+                <td> Stuttgart, {% now "d.m.Y" %}<br>Ort, Datum</td>
                 <td></td>
                 <td></td>
                 <td class="signature" colspan="2">Unterschrift des Wohnungsgebers<br>oder der beauftragten Person</td>
@@ -498,12 +498,12 @@
 
         <tr>
             <td>Begin</td>
-            <td> {{ contract.begin|date:"SHORT_DATE_FORMAT" }}</td>
+            <td> {{ contract.begin|date:"d.m.Y" }}</td>
         </tr>
 
         <tr>
             <td>Ende</td>
-            <td> {{ contract.end|date:"SHORT_DATE_FORMAT" }}</td>
+            <td> {{ contract.end|date:"d.m.Y" }}</td>
         </tr>
 
         </tbody>
@@ -546,8 +546,8 @@
 
         <tr>
             <td>Mietzeitraum</td>
-            <td> {{ main.begin_rent_agreement|date:"SHORT_DATE_FORMAT" }}
-                - {{ main.end_rent_agreement|date:"SHORT_DATE_FORMAT" }}</td>
+            <td> {{ main.begin_rent_agreement|date:"d.m.Y" }}
+                - {{ main.end_rent_agreement|date:"d.m.Y" }}</td>
         </tr>
 
         <tr>
@@ -598,7 +598,7 @@
 
         <tr>
             <td>Geburtstag</td>
-            <td> {{ sub.user.birthday|date:"SHORT_DATE_FORMAT" }}</td>
+            <td> {{ sub.user.birthday|date:"d.m.Y" }}</td>
         </tr>
 
         <tr>
@@ -732,12 +732,12 @@
 
         <tr>
             <td>Begin</td>
-            <td> {{ contract.begin|date:"SHORT_DATE_FORMAT" }}</td>
+            <td> {{ contract.begin|date:"d.m.Y" }}</td>
         </tr>
 
         <tr>
             <td>Ende</td>
-            <td> {{ contract.end|date:"SHORT_DATE_FORMAT" }}</td>
+            <td> {{ contract.end|date:"d.m.Y" }}</td>
         </tr>
         </tbody>
     </table>
@@ -783,12 +783,12 @@
 
         <tr>
             <td>Begin</td>
-            <td> {{ contract.begin|date:"SHORT_DATE_FORMAT" }}</td>
+            <td> {{ contract.begin|date:"d.m.Y" }}</td>
         </tr>
 
         <tr>
             <td>Ende</td>
-            <td> {{ contract.end|date:"SHORT_DATE_FORMAT" }}</td>
+            <td> {{ contract.end|date:"d.m.Y" }}</td>
         </tr>
         </tbody>
     </table>
@@ -865,12 +865,12 @@
 
         <tr>
             <td>Begin</td>
-            <td> {{ contract.begin|date:"SHORT_DATE_FORMAT" }}</td>
+            <td> {{ contract.begin|date:"d.m.Y" }}</td>
         </tr>
 
         <tr>
             <td>Ende</td>
-            <td> {{ contract.end|date:"SHORT_DATE_FORMAT" }}</td>
+            <td> {{ contract.end|date:"d.m.Y" }}</td>
         </tr>
 
         <tr>
@@ -1014,7 +1014,7 @@
         </tbody>
     </table>
 
-    <p>{{ sub.user.get_full_name }} ist in die vorher genannte Wohnung am {{ contract.begin|date:"SHORT_DATE_FORMAT" }}
+    <p>{{ sub.user.get_full_name }} ist in die vorher genannte Wohnung am {{ contract.begin|date:"d.m.Y" }}
         eingezogen.</p>
 
 

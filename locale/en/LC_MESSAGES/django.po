@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-02 13:12+0100\n"
+"POT-Creation-Date: 2019-03-04 14:08+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -116,15 +116,14 @@ msgid ""
 "entsprechend des Hauptmietvertrages ein."
 msgstr ""
 
-#: .\contracts\models.py:18 .\contracts\templates\contracts\list.html:19
-#: .\contracts\templates\contracts\search_result.html:7 .\tenants\models.py:98
-#: .\tenants\models.py:169 .\tenants\templates\subtenancy\base.html:91
+#: .\contracts\models.py:18
+#: .\contracts\templates\contracts\search_result.html:7 .\tenants\models.py:99
+#: .\tenants\models.py:170 .\tenants\templates\subtenancy\base.html:91
 msgid "Hauptmieter"
 msgstr "Maintenant"
 
-#: .\contracts\models.py:19 .\contracts\templates\contracts\list.html:20
-#: .\tenants\models.py:99 .\tenants\models.py:211 .\tenants\models.py:212
-#: .\tenants\templates\subtenancy\base.html:94
+#: .\contracts\models.py:19 .\tenants\models.py:100 .\tenants\models.py:213
+#: .\tenants\models.py:214 .\tenants\templates\subtenancy\base.html:94
 msgid "Untermieter"
 msgstr "Subtenant"
 
@@ -141,9 +140,13 @@ msgid "Ist das Zimmer gereinigt und in einem ordnungsgemäßen Zustand?"
 msgstr "Is the Room clean and in a proper Condition?"
 
 #: .\contracts\models.py:25
+#, fuzzy
+#| msgid ""
+#| "Sind die Gemeinschaftsräume gereinigt und steht ein Staurum in Küche/"
+#| "Kühleschrank bereit?"
 msgid ""
-"Sind die Gemeinschaftsräume gereinigt und steht ein Staurum in Küche/"
-"Kühleschrank bereit?"
+"Sind die Gemeinschaftsräume gereinigt und steht ein Stauraum in Küche/"
+"Kühlschrank bereit?"
 msgstr ""
 "Are the Common Rooms cleaned and is Storage Space available in the Kitchen?"
 
@@ -223,18 +226,6 @@ msgstr "Do you really want to create the contract?"
 #: .\tenants\templates\tenants\update_profile.html:27
 msgid "Abbrechen"
 msgstr "Cancel"
-
-#: .\contracts\templates\contracts\list.html:21
-msgid "Zimmer"
-msgstr "Room"
-
-#: .\contracts\templates\contracts\list.html:22
-msgid "Beginn"
-msgstr "Begin"
-
-#: .\contracts\templates\contracts\list.html:23
-msgid "Ende"
-msgstr "End"
 
 #: .\contracts\templates\contracts\pagination.html:8
 #: .\contracts\templates\contracts\pagination.html:11
@@ -318,7 +309,7 @@ msgstr "The Contract has been successfully created!"
 msgid "Änderungen erfolgreich übernommen!"
 msgstr "Changes successfully made!"
 
-#: .\contracts\views.py:115 .\tenants\views.py:154
+#: .\contracts\views.py:115 .\tenants\views.py:151
 msgid "Es gab keine Änderungen!"
 msgstr "No Changes detected!"
 
@@ -364,19 +355,1023 @@ msgstr ""
 "We have sent you an E-Mail with Instructions for Resetting your Password. "
 "Please check your Spam Folder."
 
-#: .\subtenancy\views.py:87
+#: .\subtenancy\views.py:88
 msgid "Dein Passwort wurde erfolgreich zurückgesetzt!"
 msgstr "Your Password has been successfully resetted!"
 
-#: .\subtenancy\views.py:104 .\tenants\templates\subtenancy\base.html:38
+#: .\subtenancy\views.py:105 .\tenants\templates\subtenancy\base.html:38
 #: .\tenants\templates\subtenancy\base.html:48
 #: .\tenants\templates\subtenancy\base.html:57
 msgid "Ferienmiete"
 msgstr "Subtenancy"
 
-#: .\subtenancy\views.py:113 .\tenants\templates\subtenancy\base.html:102
+#: .\subtenancy\views.py:114 .\tenants\templates\subtenancy\base.html:102
 msgid "Impressum"
 msgstr "Legal Notice"
+
+#: .\tenants\COUNTRIES.py:4
+msgid "Andorra"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:5
+msgid "Vereinigte Arabische Emirate"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:6
+msgid "Afghanistan"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:7
+msgid "Antigua und Barbuda"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:8
+msgid "Anguilla"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:9
+msgid "Albanien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:10
+msgid "Armenien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:11
+msgid "Niederländische Antillen"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:12
+msgid "Angola"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:13
+msgid "Antarktis"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:14
+msgid "Argentinien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:15
+msgid "Amerikanisch-Samoa"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:16
+msgid "Österreich"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:17
+msgid "Australien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:18
+msgid "Aruba"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:19
+msgid "Åland"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:20
+msgid "Aserbaidschan"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:21
+msgid "Bosnien und Herzegowina"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:22
+msgid "Barbados"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:23
+msgid "Bangladesch"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:24
+msgid "Belgien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:25
+msgid "Burkina Faso"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:26
+msgid "Bulgarien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:27
+msgid "Bahrain"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:28
+msgid "Burundi"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:29
+msgid "Benin"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:30
+msgid "Bermuda"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:31
+msgid "Brunei Darussalam"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:32
+msgid "Bolivien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:33
+msgid "Brasilien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:34
+msgid "Bahamas"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:35
+msgid "Bhutan"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:36
+msgid "Bouvetinsel"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:37
+msgid "Botswana"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:38
+msgid "Belarus (Weißrussland)"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:39
+msgid "Belize"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:40
+msgid "Kanada"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:41
+msgid "Kokosinseln (Keelinginseln)"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:42
+msgid "Kongo"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:43
+msgid "Zentralafrikanische Republik"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:44
+msgid "Republik Kongo"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:45
+msgid "Schweiz"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:46
+msgid "Elfenbeinküste"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:47
+msgid "Cookinseln"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:48
+msgid "Chile"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:49
+msgid "Kamerun"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:50
+msgid "China, Volksrepublik"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:51
+msgid "Kolumbien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:52
+msgid "Costa Rica"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:53
+msgid "Kuba"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:54
+msgid "Kap Verde"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:55
+msgid "Weihnachtsinsel"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:56
+msgid "Zypern"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:57
+msgid "Tschechische Republik"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:58
+#, fuzzy
+#| msgid "Deutsch"
+msgid "Deutschland"
+msgstr "German"
+
+#: .\tenants\COUNTRIES.py:59
+msgid "Dschibuti"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:60
+msgid "Dänemark"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:61
+msgid "Dominica"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:62
+msgid "Dominikanische Republik"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:63
+msgid "Algerien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:64
+msgid "Ecuador"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:65
+msgid "Estland (Reval)"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:66
+msgid "Ägypten"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:67
+msgid "Westsahara"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:68
+msgid "Eritrea"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:69
+msgid "Spanien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:70
+msgid "Äthiopien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:71
+msgid "Finnland"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:72
+msgid "Fidschi"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:73
+msgid "Falklandinseln (Malwinen)"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:74
+msgid "Mikronesien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:75
+msgid "Färöer"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:76
+msgid "Frankreich"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:77
+msgid "Gabun"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:78
+msgid "Großbritannien und Nordirland"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:79
+msgid "Grenada"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:80
+msgid "Georgien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:81
+msgid "Französisch-Guayana"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:82
+msgid "Guernsey (Kanalinsel)"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:83
+msgid "Ghana"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:84
+msgid "Gibraltar"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:85
+msgid "Grönland"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:86
+msgid "Gambia"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:87
+msgid "Guinea"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:88
+msgid "Guadeloupe"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:89
+msgid "Äquatorialguinea"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:90
+msgid "Griechenland"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:91
+msgid "Südgeorgien und die Südl. Sandwichinseln"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:92
+msgid "Guatemala"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:93
+msgid "Guam"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:94
+msgid "Guinea-Bissau"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:95
+msgid "Guyana"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:96
+msgid "Hongkong"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:97
+msgid "Heard- und McDonald-Inseln"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:98
+msgid "Honduras"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:99
+msgid "Kroatien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:100
+msgid "Haiti"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:101
+msgid "Ungarn"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:102
+msgid "Indonesien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:103
+msgid "Irland"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:104
+msgid "Israel"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:105
+msgid "Insel Man"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:106
+msgid "Indien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:107
+msgid "Britisches Territorium im Indischen Ozean"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:108
+msgid "Irak"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:109
+msgid "Iran"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:110
+msgid "Island"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:111
+msgid "Italien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:112
+msgid "Jersey (Kanalinsel)"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:113
+msgid "Jamaika"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:114
+msgid "Jordanien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:115
+msgid "Japan"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:116
+msgid "Kenia"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:117
+msgid "Kirgisistan"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:118
+msgid "Kambodscha"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:119
+msgid "Kiribati"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:120
+msgid "Komoren"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:121
+msgid "St. Kitts und Nevis"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:122
+msgid "Nordkorea"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:123
+msgid "Südkorea"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:124
+msgid "Kuwait"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:125
+msgid "Kaimaninseln"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:126
+msgid "Kasachstan"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:127
+msgid "Laos"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:128
+msgid "Libanon"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:129
+msgid "St. Lucia"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:130
+msgid "Liechtenstein"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:131
+msgid "Sri Lanka"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:132
+msgid "Liberia"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:133
+msgid "Lesotho"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:134
+msgid "Litauen"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:135
+msgid "Luxemburg"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:136
+msgid "Lettland"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:137
+msgid "Libyen"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:138
+msgid "Marokko"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:139
+msgid "Monaco"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:140
+msgid "Moldawien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:141
+msgid "Madagaskar"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:142
+msgid "Marshallinseln"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:143
+msgid "Mazedonien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:144
+msgid "Mali"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:145
+msgid "Myanmar (Burma)"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:146
+msgid "Mongolei"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:147
+msgid "Macau"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:148
+msgid "Nördliche Marianen"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:149
+msgid "Martinique"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:150
+msgid "Mauretanien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:151
+msgid "Montserrat"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:152
+msgid "Malta"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:153
+msgid "Mauritius"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:154
+msgid "Malediven"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:155
+msgid "Malawi"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:156
+msgid "Mexiko"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:157
+msgid "Malaysia"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:158
+msgid "Mosambik"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:159
+msgid "Namibia"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:160
+msgid "Neukaledonien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:161
+msgid "Niger"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:162
+msgid "Norfolkinsel"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:163
+msgid "Nigeria"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:164
+msgid "Nicaragua"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:165
+msgid "Niederlande"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:166
+msgid "Norwegen"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:167
+msgid "Nepal"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:168
+msgid "Nauru"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:169
+msgid "Niue"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:170
+msgid "Neuseeland"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:171
+msgid "Oman"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:172
+msgid "Panama"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:173
+msgid "Peru"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:174
+msgid "Französisch-Polynesien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:175
+msgid "Papua-Neuguinea"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:176
+msgid "Philippinen"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:177
+msgid "Pakistan"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:178
+msgid "Polen"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:179
+msgid "St. Pierre und Miquelon"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:180
+msgid "Pitcairninseln"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:181
+msgid "Puerto Rico"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:182
+msgid "Palästina"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:183
+msgid "Portugal"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:184
+msgid "Palau"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:185
+msgid "Paraguay"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:186
+msgid "Katar"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:187
+msgid "Réunion"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:188
+msgid "Rumänien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:189
+msgid "Russische Föderation"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:190
+msgid "Ruanda"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:191
+msgid "Saudi-Arabien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:192
+msgid "Salomonen"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:193
+msgid "Seychellen"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:194
+msgid "Sudan"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:195
+msgid "Schweden"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:196
+msgid "Singapur"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:197
+msgid "St. Helena"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:198
+msgid "Slowenien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:199
+msgid "Svalbard und Jan Mayen"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:200
+msgid "Slowakei"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:201
+msgid "Sierra Leone"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:202
+msgid "San Marino"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:203
+msgid "Senegal"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:204
+msgid "Somalia"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:205
+#, fuzzy
+#| msgid "Vorname"
+msgid "Suriname"
+msgstr "First Name"
+
+#: .\tenants\COUNTRIES.py:206
+msgid "São Tomé und Príncipe"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:207
+msgid "El Salvador"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:208
+msgid "Syrien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:209
+msgid "Swasiland"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:210
+msgid "Turks- und Caicosinseln"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:211
+msgid "Tschad"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:212
+msgid "Französische Süd- und Antarktisgebiete"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:213
+msgid "Togo"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:214
+msgid "Thailand"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:215
+msgid "Tadschikistan"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:216
+msgid "Tokelau"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:217
+msgid "Timor-Leste"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:218
+msgid "Turkmenistan"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:219
+msgid "Tunesien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:220
+msgid "Tonga"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:221
+msgid "Türkei"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:222
+msgid "Trinidad und Tobago"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:223
+msgid "Tuvalu"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:224
+msgid "Taiwan"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:225
+msgid "Tansania"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:226
+msgid "Ukraine"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:227
+msgid "Uganda"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:228
+msgid "Amerikanisch-Ozeanien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:229
+msgid "Vereinigte Staaten von Amerika"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:230
+msgid "Uruguay"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:231
+msgid "Usbekistan"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:232
+msgid "Vatikanstadt"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:233
+msgid "St. Vincent und die Grenadinen"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:234
+msgid "Venezuela"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:235
+msgid "Britische Jungferninseln"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:236
+msgid "Amerikanische Jungferninseln"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:237
+msgid "Vietnam"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:238
+msgid "Vanuatu"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:239
+msgid "Wallis und Futuna"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:240
+msgid "Samoa"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:241
+msgid "Jemen"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:242
+msgid "Mayotte"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:243
+msgid "Südafrika"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:244
+msgid "Sambia"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:245
+msgid "Simbabwe"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:246
+msgid "Serbien"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:247
+msgid "Montenegro"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:248
+msgid "Saint-Barthélemy"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:249
+msgid "Bonaire, Sint Eustatius und Saba"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:250
+msgid "Curaçao"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:251
+msgid "Saint-Martin (franz. Teil)"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:252
+msgid "Sint Maarten (niederl. Teil)"
+msgstr ""
+
+#: .\tenants\COUNTRIES.py:253
+msgid "Südsudan"
+msgstr ""
 
 #: .\tenants\forms.py:7
 msgid "Nein"
@@ -426,154 +1421,154 @@ msgstr ""
 msgid "Deine Matrikelnummer steht auf der Schwarzen Liste!"
 msgstr "Your Student ID is on the Black List!"
 
-#: .\tenants\models.py:13 .\tenants\models.py:195
+#: .\tenants\models.py:14 .\tenants\models.py:197
 msgid "Name"
 msgstr "Name"
 
-#: .\tenants\models.py:14
+#: .\tenants\models.py:15
 msgid "Abkürzung"
 msgstr "Acronym"
 
-#: .\tenants\models.py:15 .\tenants\models.py:196
+#: .\tenants\models.py:16 .\tenants\models.py:198
 msgid "Straße"
 msgstr "Street"
 
-#: .\tenants\models.py:16
+#: .\tenants\models.py:17
 msgid "Hausnummern"
 msgstr "House Numbers"
 
-#: .\tenants\models.py:17
+#: .\tenants\models.py:18
 msgid "Zimmernummern"
 msgstr "Room Numbers"
 
-#: .\tenants\models.py:18 .\tenants\models.py:198
+#: .\tenants\models.py:19 .\tenants\models.py:200
 msgid "Postleitzahl"
 msgstr "Post Code"
 
-#: .\tenants\models.py:19 .\tenants\models.py:199
+#: .\tenants\models.py:20 .\tenants\models.py:201
 msgid "Ort"
 msgstr "City"
 
-#: .\tenants\models.py:20 .\tenants\models.py:200
+#: .\tenants\models.py:21 .\tenants\models.py:202
 msgid "Land"
 msgstr "Country"
 
-#: .\tenants\models.py:45 .\tenants\models.py:134
+#: .\tenants\models.py:46 .\tenants\models.py:135
 msgid "Wohnheim"
 msgstr "Residential Home"
 
-#: .\tenants\models.py:46
+#: .\tenants\models.py:47
 msgid "Wohnheime"
 msgstr "Residential Homes"
 
-#: .\tenants\models.py:55
+#: .\tenants\models.py:56
 msgid "Mieterummer"
 msgstr "Tenant ID"
 
-#: .\tenants\models.py:56 .\tenants\models.py:75
+#: .\tenants\models.py:57 .\tenants\models.py:76
 #: .\tenants\templates\tenants\blacklist.html:22
 #: .\tenants\templates\tenants\blacklist.html:59
 msgid "Beschreibung"
 msgstr "Description"
 
-#: .\tenants\models.py:64
+#: .\tenants\models.py:65
 msgid "Blockierte Mieternummer"
 msgstr "Blocked Tenant ID"
 
-#: .\tenants\models.py:65
+#: .\tenants\models.py:66
 msgid "Blockierte Mieternummern"
 msgstr "Blocked Tenant IDs"
 
-#: .\tenants\models.py:74 .\tenants\models.py:187
+#: .\tenants\models.py:75 .\tenants\models.py:189
 #: .\tenants\templates\tenants\blacklist.html:58
 msgid "Matrikelnummer"
 msgstr "Student ID"
 
-#: .\tenants\models.py:83
+#: .\tenants\models.py:84
 msgid "Blockierte Matrikelnummer"
 msgstr "Blocked Student ID"
 
-#: .\tenants\models.py:84
+#: .\tenants\models.py:85
 msgid "Blockierte Matrikelnummern"
 msgstr "Blocked Student IDs"
 
-#: .\tenants\models.py:93
+#: .\tenants\models.py:94
 msgid "Vorname"
 msgstr "First Name"
 
-#: .\tenants\models.py:94
+#: .\tenants\models.py:95
 msgid "Nachname"
 msgstr "Last Name"
 
-#: .\tenants\models.py:95
+#: .\tenants\models.py:96
 msgid "Email Adresse"
 msgstr "E-Mail Address"
 
-#: .\tenants\models.py:96
+#: .\tenants\models.py:97
 msgid "Geburtstag"
 msgstr "Birthday"
 
-#: .\tenants\models.py:97
+#: .\tenants\models.py:98
 msgid "Telefonnummer"
 msgstr "Telephone Number"
 
-#: .\tenants\models.py:100
+#: .\tenants\models.py:101
 msgid "SWS oder Hausmeister"
 msgstr "SWS or Caretaker"
 
-#: .\tenants\models.py:101
+#: .\tenants\models.py:102
 msgid "Sprechstunde"
 msgstr "Assistant"
 
-#: .\tenants\models.py:129 .\tenants\templates\tenants\blacklist.html:21
+#: .\tenants\models.py:130 .\tenants\templates\tenants\blacklist.html:21
 msgid "Mieternummer"
 msgstr "Tenant ID"
 
-#: .\tenants\models.py:130
+#: .\tenants\models.py:131
 msgid "Beginn des Mietvertrages"
 msgstr "Begin of Contract"
 
-#: .\tenants\models.py:131
+#: .\tenants\models.py:132
 msgid "Ende des Mietvertrages"
 msgstr "End of Contract"
 
-#: .\tenants\models.py:135 .\tenants\models.py:197
+#: .\tenants\models.py:136 .\tenants\models.py:199
 msgid "Hausnummer"
 msgstr "House Number"
 
-#: .\tenants\models.py:136
+#: .\tenants\models.py:137
 msgid "Zimmernummer"
 msgstr "Room Number"
 
-#: .\tenants\models.py:137
+#: .\tenants\models.py:138
 msgid "Monatsmiete in Euro"
 msgstr "Monthly Rent in Euro"
 
-#: .\tenants\models.py:138
+#: .\tenants\models.py:139
 msgid "Ist ein Wiedereinzug ins Zimmer geplant?"
 msgstr "Is the Maintenant returning?"
 
-#: .\tenants\models.py:170
+#: .\tenants\models.py:171
 msgid "Haupmieter"
 msgstr "Maintenants"
 
-#: .\tenants\models.py:185
+#: .\tenants\models.py:187
 msgid "Nationalität"
 msgstr "Nationality"
 
-#: .\tenants\models.py:186
+#: .\tenants\models.py:188
 msgid "Ist dein Herkunftsland in der EU?"
 msgstr "Is your Country of Origin Part of the EU?"
 
-#: .\tenants\models.py:190 .\tenants\templates\tenants\requests.html:25
+#: .\tenants\models.py:192 .\tenants\templates\tenants\requests.html:25
 msgid "Beginn der Untermiete"
 msgstr "Begin of Subtenancy"
 
-#: .\tenants\models.py:191 .\tenants\templates\tenants\requests.html:26
+#: .\tenants\models.py:193 .\tenants\templates\tenants\requests.html:26
 msgid "Ende der Untermiete"
 msgstr "End of Subtenancy"
 
-#: .\tenants\models.py:192
+#: .\tenants\models.py:194
 msgid "Ich suche für den oben genannten Zeitraum ein Zimmer"
 msgstr "I am currently searching a Room for the above-named Period"
 
@@ -658,7 +1653,7 @@ msgstr "Search"
 msgid "Hausmeister"
 msgstr "Caretaker"
 
-#: .\tenants\templates\subtenancy\base.html:175 .\tenants\views.py:364
+#: .\tenants\templates\subtenancy\base.html:175 .\tenants\views.py:362
 msgid "Schwarze Liste"
 msgstr "Black List"
 
@@ -834,23 +1829,23 @@ msgstr "Delete Account"
 msgid "Keine Verträge vorhanden"
 msgstr "No Contracts available"
 
-#: .\tenants\views.py:64
+#: .\tenants\views.py:65
 msgid "Registrierung war erfolgreich. Du kannst dich nun einloggen."
 msgstr "Registration had been successful. You can now log into your Account."
 
-#: .\tenants\views.py:78
+#: .\tenants\views.py:75
 msgid "Hauptmieter Registrierung"
 msgstr "Maintenant Registration"
 
-#: .\tenants\views.py:78
+#: .\tenants\views.py:75
 msgid "Untermieter Registrierung"
 msgstr "Stubtenant Registration"
 
-#: .\tenants\views.py:150 .\tenants\views.py:273
+#: .\tenants\views.py:147 .\tenants\views.py:271
 msgid "Änderungen wurden erfolgreich übernommen!"
 msgstr "Changes have been successfully made!"
 
-#: .\tenants\views.py:193
+#: .\tenants\views.py:191
 msgid ""
 "Der Account kann nicht gelöscht werden, da mindestens ein Vertrag mit diesem "
 "Account abgeschlossen wurde!"
@@ -858,19 +1853,19 @@ msgstr ""
 "The Account can not be deleted since at least one Contract in respect to "
 "this Account exists!"
 
-#: .\tenants\views.py:196
+#: .\tenants\views.py:194
 msgid "Der Account wurde erfolgreich gelöscht!"
 msgstr "The Account has been successfully deleted!"
 
-#: .\tenants\views.py:323
+#: .\tenants\views.py:318
 msgid "Kontaktaufnahme"
 msgstr "Contact"
 
-#: .\tenants\views.py:347
+#: .\tenants\views.py:344
 msgid "Untermieter konnte nicht kontaktiert werden!"
 msgstr "Could not contact Subtenant!"
 
-#: .\tenants\views.py:351
+#: .\tenants\views.py:349
 msgid ""
 "Untermieter wurde erfolgreich kontaktiert! Wir haben dir als Bestätigung der "
 "Kontaktaufnahme eine Email gesendet."
@@ -878,6 +1873,15 @@ msgstr ""
 "Subtenant has been successfully contacted! We have sent you an Confirmation "
 "E-Mail."
 
-#: .\tenants\views.py:376
+#: .\tenants\views.py:374
 msgid "Anfragen von Untermietern"
 msgstr "Subtenant Requests"
+
+#~ msgid "Zimmer"
+#~ msgstr "Room"
+
+#~ msgid "Beginn"
+#~ msgstr "Begin"
+
+#~ msgid "Ende"
+#~ msgstr "End"

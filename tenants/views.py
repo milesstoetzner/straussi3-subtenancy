@@ -323,17 +323,17 @@ def contact_subtenant(request, pk):
         # Sends email with maintenant's contact details to the subtenant
 
         try:
-            mail = EmailMessage('Ferienmiete Straußäcker 3 Kontaktaufnahme/ First Contact',
-                                '<b>Für eine Kontaktaufnahme bitte nicht auf diese Email direkt antworten, sondern auf die unten angegebene!' +
-                                '<br>Do not answer directly to this Email!</b><br><br>' + content,
+            mail = EmailMessage('Ferienmiete Straußäcker 3 Kontaktaufnahme/ Subtenancy Straußäcker 3 First Contact',
+                                '<b>Do not answer directly to this Email!' +
+                                '<br>Für eine Kontaktaufnahme bitte nicht auf diese Email direkt antworten, sondern auf die unten angegebene!</b><br><br>' + content,
                                 '',
                                 [subtenant.email])
             mail.content_subtype = "html"
             mail.send()
 
-            mail = EmailMessage('Bestätigung Ferienmiete Straußäcker 3 Kontaktaufnahme/ First Contact Confirmation',
-                                '<b>Bestätigung folgender Kontaktaufnahme.' +
-                                '<br>Confirmation of the following first contact.</b><br><br>' + content,
+            mail = EmailMessage('Bestätigung Ferienmiete Straußäcker 3 Kontaktaufnahme/ Subtenancy Straußäcker 3 First Contact Confirmation',
+                                '<b>Confirmation of the following first contact.' +
+                                '<br>Bestätigung folgender Kontaktaufnahme.</b><br><br>' + content,
                                 '',
                                 [request.user.email])
             mail.content_subtype = "html"

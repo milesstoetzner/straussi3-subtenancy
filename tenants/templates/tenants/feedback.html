@@ -1,0 +1,28 @@
+{% extends "subtenancy/base.html" %}
+
+{% load custom_extras %}
+{% load i18n %}
+
+{% block content %}
+
+    <form action="{% url 'Feedback' %}" method="post" novalidate>
+
+        {% csrf_token %}
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ title }}</h5>
+
+                <p>{% trans "Hier kannst du Probleme oder allgemein Feedback an uns senden. Wir freuen uns über jede Nachricht." %}</p>
+
+                {% bootstrap form get %}
+
+                <button class="btn btn-success btn-block"><i class="fas fa-envelope icon-text"></i>{% trans "Feedback senden" %}</button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+{% endblock %}

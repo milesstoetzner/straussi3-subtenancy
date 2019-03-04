@@ -2,7 +2,7 @@ from django.db.transaction import atomic
 from subtenancy.utils import get_verbose_changed_data
 from tenants.models import User, MainTenant, SubTenant, BlockedTenantID, BlockedStudentID
 from tenants.forms import UserForm, UserUpdateForm, MainTenantForm, MainTenantUpdateForm, SubTenantForm, \
-    SubTenantUpdateForm
+    SubTenantUpdateForm, FeedbackForm
 from django.urls import reverse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.decorators.http import require_http_methods, require_GET
@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponseForbidden
 from django.db.models import ProtectedError
 from django.contrib import messages
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, mail_admins
 from smtplib import SMTPException
 from django.views.generic import ListView
 from django.contrib.auth.models import Group
@@ -65,7 +65,8 @@ def create_tenant(request, is_maintenant):
             messages.success(request, _('Registrierung war erfolgreich. Du kannst dich nun einloggen.'))
 
             content = get_template('tenants/register_email.html').render({'user': user})
-            mail = EmailMessage('Ferienmiete Straußäcker 3 Registrierung/ Subtenancy Straußäcker 3 Registration', content,
+            mail = EmailMessage('Ferienmiete Straußäcker 3 Registrierung/ Subtenancy Straußäcker 3 Registration',
+                                content,
                                 '', [user.email])
             mail.content_subtype = "html"
             mail.send(fail_silently=True)
@@ -331,11 +332,12 @@ def contact_subtenant(request, pk):
             mail.content_subtype = "html"
             mail.send()
 
-            mail = EmailMessage('Bestätigung Ferienmiete Straußäcker 3 Kontaktaufnahme/ Subtenancy Straußäcker 3 First Contact Confirmation',
-                                '<b>Confirmation of the following first contact.' +
-                                '<br>Bestätigung folgender Kontaktaufnahme.</b><br><br>' + content,
-                                '',
-                                [request.user.email])
+            mail = EmailMessage(
+                'Bestätigung Ferienmiete Straußäcker 3 Kontaktaufnahme/ Subtenancy Straußäcker 3 First Contact Confirmation',
+                '<b>Confirmation of the following first contact.' +
+                '<br>Bestätigung folgender Kontaktaufnahme.</b><br><br>' + content,
+                '',
+                [request.user.email])
             mail.content_subtype = "html"
             mail.send()
 
@@ -378,3 +380,37 @@ class Requests(ListView):
         return SubTenant.objects.filter(user__is_active=True, is_searching=True,
                                         end_subtenancy__gt=datetime.datetime.now()).order_by('begin_subtenancy',
                                                                                              'end_subtenancy')
+
+
+@csrf_protect
+@require_http_methods(['GET', 'POST'])
+def create_feedback(request):
+    """
+    User sends feedback that is stored in the database and send as Email to the admins.
+    """
+
+    context = {}
+
+    if request.method == 'GET':
+
+        form = FeedbackForm()
+        context['get'] = True
+
+    else:
+
+        form = FeedbackForm(request.POST)
+
+        if form.is_valid():
+            feedback = form.save()
+
+            content = get_template('tenants/feedback_email.html').render({'feedback': feedback})
+            mail_admins(subject='Ferienmiete Straußäcker 3 Neues Feedback', message=content, fail_silently=True,
+                        html_message=content)
+
+            messages.success(request, _('Danke für dein Feedback!'))
+            return redirect('Index')
+
+    context['title'] = _('Feedback senden')
+    context['form'] = form
+
+    return render(request, 'tenants/feedback.html', context)

@@ -1,5 +1,5 @@
-from django.forms import ModelForm, DateInput, Select
-from .models import User, MainTenant, SubTenant, ResidentialHome, BlockedTenantID, BlockedStudentID
+from django.forms import ModelForm, DateInput, Select, Textarea
+from .models import User, MainTenant, SubTenant, ResidentialHome, BlockedTenantID, BlockedStudentID, Feedback
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.utils.translation import gettext_lazy as _
 
@@ -151,3 +151,15 @@ class SubTenantUpdateForm(SubTenantForm):
     """
     class Meta(SubTenantForm.Meta):
         exclude = ['user']
+
+
+class FeedbackForm(ModelForm):
+    """
+    User creates feedback.
+    """
+    class Meta:
+        model = Feedback
+        exclude = ["is_done"]
+        widgets = {
+            "description": Textarea(attrs={'rows': 10})
+        }

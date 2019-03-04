@@ -1,6 +1,5 @@
 from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordResetView, PasswordResetConfirmView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import redirect
 from django.contrib.auth import logout
 from django.contrib import messages
 from django.urls import reverse
@@ -11,7 +10,7 @@ from ratelimit.mixins import RatelimitMixin
 from django.shortcuts import redirect, render
 from .faq import faq_subtenant, faq_maintenant
 from django.utils.translation import gettext_lazy as _
-from django.http import HttpResponse
+from tenants.forms import FeedbackForm
 
 
 class Login(RatelimitMixin, SuccessMessageMixin, LoginView):
@@ -117,26 +116,41 @@ def legal_notice(request):
 
 
 def handler400(request, exception=None):
-    messages.error(request, _('Es tut mir leid, aber deine Anfrage konnte nicht verarbeitet werden!'))
-    return render(request, 'subtenancy/error.html', status=400)
+    messages.error(request, _('Es tut uns Leid, aber deine Anfrage konnte nicht verarbeitet werden!'))
+    return redirect_to_feedback(request, 400)
 
 
 def handler403(request, exception=None):
-    messages.error(request, _('Es tut mir leid, aber auf diese Seite hast du keinen Zugriff!'))
-    return render(request, 'subtenancy/error.html', status=403)
+    messages.error(request, _('Es tut uns Leid, aber auf diese Seite hast du keinen Zugriff!'))
+    return redirect_to_feedback(request, 403)
 
 
 def handler404(request, exception=None):
-    messages.error(request, _('Es tut mir leid, aber die angefragte URL %(path)s wurde nicht gefunden!') % {
+    messages.error(request, _('Es tut uns Leid, aber die angefragte URL %(path)s wurde nicht gefunden!') % {
         'path': str(request.path)})
-    return render(request, 'subtenancy/error.html', status=404)
+    return redirect_to_feedback(request, 404)
 
 
 def handler500(request, exception=None):
-    messages.error(request, _('Es tut mir leid, aber ein unerwarteter Fehler ist aufgetreten!'))
-    return render(request, 'subtenancy/error.html', status=500)
+    messages.error(request, _('Es tut uns Leid, aber ein unerwarteter Fehler ist aufgetreten!'))
+    return redirect_to_feedback(request, 500)
 
 
 def handlerCSRF(request, reason=""):
-    messages.error(request, _('Es tut mir leid, aber die CSRF Überprüfung ist fehlgeschlagen!'))
-    return render(request, 'subtenancy/error.html', status=403)
+    messages.error(request, _('Es tut uns Leid, aber die CSRF Überprüfung ist fehlgeschlagen!'))
+    return redirect_to_feedback(request, 403)
+
+
+def redirect_to_feedback(request, status):
+    """
+    Render for each error the feedback page.
+    """
+
+    form = FeedbackForm()
+
+    context = {}
+    context['get'] = True
+    context['title'] = _('Feedback senden')
+    context['form'] = form
+
+    return render(request, 'tenants/feedback.html', status=status, context=context)

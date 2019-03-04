@@ -213,3 +213,20 @@ class SubTenant(models.Model):
         verbose_name = _('Untermieter')
         verbose_name_plural = _('Untermieter')
         ordering = ['-user__id']
+
+
+class Feedback(models.Model):
+    """
+    User can send some feedback.
+    """
+
+    title = models.CharField(_('Titel'), max_length=250)
+    description = models.CharField(_('Beschreibung'), max_length=1000)
+    is_done = models.BooleanField(_('Bearbeitet?'), default=False)
+
+    def __str__(self):
+        return str(self.pk) + ': ' + str(self.title)
+
+    class Meta:
+        verbose_name = _('Feedback')
+        verbose_name_plural = _('Feedbacks')

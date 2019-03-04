@@ -22,7 +22,7 @@ class Contract(models.Model):
     condition_room = models.BooleanField(_('Ist das Zimmer gereinigt und in einem ordnungsgemäßen Zustand?'),
                                          default=False)
     condition_flat = models.BooleanField(
-        _('Sind die Gemeinschaftsräume gereinigt und steht ein Staurum in Küche/Kühleschrank bereit?'), default=False)
+        _('Sind die Gemeinschaftsräume gereinigt und steht ein Stauraum in Küche/Kühlschrank bereit?'), default=False)
     condition_comment = models.CharField(_('Sonstige Anmerkungen zum Zimmer oder zur Wohnung'), max_length=75, blank=True)
     caution = models.DecimalField(_('Höhe der Kaution in Euro'), max_digits=5, decimal_places=2)
     caution_comment = models.CharField(_('Anmerkungen zur Kaution'), max_length=150, blank=True)

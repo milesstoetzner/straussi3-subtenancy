@@ -11,6 +11,7 @@ from ratelimit.mixins import RatelimitMixin
 from django.shortcuts import redirect, render
 from .faq import faq_subtenant, faq_maintenant
 from django.utils.translation import gettext_lazy as _
+from django.http import HttpResponse
 
 
 class Login(RatelimitMixin, SuccessMessageMixin, LoginView):
@@ -68,7 +69,8 @@ class PasswordReset(SuccessMessageMixin, PasswordResetView):
     """
 
     template_name = 'registration/password_reset.html'
-    success_message = _('Wir haben eine E-Mail zum Zurücksetzen des Passwortes an die angegebene E-Mail-Adresse gesendet, sofern ein entsprechendes Konto existiert. Sie sollte in Kürze ankommen. Falls die E-Mail nicht angekommen sein sollte, bitte die E-Mail-Adresse auf Richtigkeit und gegebenenfalls den Spam-Ordner überprüfen.')
+    success_message = _(
+        'Wir haben eine E-Mail zum Zurücksetzen des Passwortes an die angegebene E-Mail-Adresse gesendet, sofern ein entsprechendes Konto existiert. Sie sollte in Kürze ankommen. Falls die E-Mail nicht angekommen sein sollte, bitte die E-Mail-Adresse auf Richtigkeit und gegebenenfalls den Spam-Ordner überprüfen.')
     success_url = '/'
     html_email_template_name = 'registration/password_email.html'
 
@@ -112,3 +114,29 @@ def legal_notice(request):
     """
 
     return render(request, 'subtenancy/legal_notice.html', {'title': _('Impressum')})
+
+
+def handler400(request, exception=None):
+    messages.error(request, _('Es tut mir leid, aber deine Anfrage konnte nicht verarbeitet werden!'))
+    return render(request, 'subtenancy/error.html', status=400)
+
+
+def handler403(request, exception=None):
+    messages.error(request, _('Es tut mir leid, aber auf diese Seite hast du keinen Zugriff!'))
+    return render(request, 'subtenancy/error.html', status=403)
+
+
+def handler404(request, exception=None):
+    messages.error(request, _('Es tut mir leid, aber die angefragte URL %(path)s wurde nicht gefunden!') % {
+        'path': str(request.path)})
+    return render(request, 'subtenancy/error.html', status=404)
+
+
+def handler500(request, exception=None):
+    messages.error(request, _('Es tut mir leid, aber ein unerwarteter Fehler ist aufgetreten!'))
+    return render(request, 'subtenancy/error.html', status=500)
+
+
+def handlerCSRF(request, reason=""):
+    messages.error(request, _('Es tut mir leid, aber die CSRF Überprüfung ist fehlgeschlagen!'))
+    return render(request, 'subtenancy/error.html', status=403)

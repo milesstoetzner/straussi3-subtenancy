@@ -4,6 +4,7 @@ from tenants import views as tenant_views
 from . import views
 
 urlpatterns = [
+
     path('', views.index, name='Index'),
     path('admin/', admin.site.urls),
     path('profile/', tenant_views.view_profile, name='Profile'),
@@ -28,3 +29,9 @@ urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
 
 ]
+
+
+handler400 = views.handler400
+handler403 = views.handler403
+handler404 = views.handler404
+handler500 = views.handler500

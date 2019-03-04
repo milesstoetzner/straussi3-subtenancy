@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 from simple_history.models import HistoricalRecords
 from django.utils.translation import gettext_lazy as _
+from django_countries.fields import CountryField
 
 
 class ResidentialHome(models.Model):
@@ -183,7 +184,7 @@ class SubTenant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     # Information about sub tenant
-    nationality = models.CharField(_('Nationalität'), max_length=100)
+    nationality = CountryField(_('Nationalität'))
     is_eu = models.BooleanField(_('Ist dein Herkunftsland in der EU?'))
     student_id = models.PositiveIntegerField(_('Matrikelnummer'), unique=True)
 
@@ -198,7 +199,7 @@ class SubTenant(models.Model):
     house_number = models.CharField(_('Hausnummer'), max_length=10)
     postcode = models.PositiveIntegerField(_('Postleitzahl'))
     city = models.CharField(_('Ort'), max_length=250)
-    country = models.CharField(_('Land'), max_length=250)
+    country = CountryField(_('Land'))
 
     history = HistoricalRecords()
 

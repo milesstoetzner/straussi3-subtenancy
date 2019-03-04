@@ -4,7 +4,7 @@ SECURITY WARNING: Never ever use this config in production!
 
 from .settings import *
 
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = ['*']
 
 DATABASES = {

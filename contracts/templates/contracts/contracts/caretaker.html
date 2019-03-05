@@ -142,6 +142,8 @@
 
     <p>Eine maschinell erstellte Liste der aktuell laufenden Untermietverträge des Wohnheims Straußäcker 3.</p>
 
+    {% if contracts %}
+
     <table>
 
         <tbody>
@@ -171,6 +173,11 @@
         </tbody>
     </table>
 
+    {% else %}
+
+        <p>Aktuell gibt es keine aktiven Untermietverträge.</p>
+
+    {% endif %}
 
     <!-- Content for Static Frame 'footer_frame' -->
     <div id="footer_content" style="text-align: right">Seite

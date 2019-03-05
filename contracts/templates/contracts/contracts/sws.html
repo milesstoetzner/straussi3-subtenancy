@@ -142,32 +142,40 @@
 
     <p>Eine maschinell erstellte Liste der aktuell laufenden Untermietverträge des Wohnheims Straußäcker 3.</p>
 
-    <table>
+    {% if contracts %}
 
-        <tbody>
+        <table>
 
-        <tr>
-            <th style="text-align: left">Hauptmieter</th>
-            <th style="text-align: left">Untermieter</th>
-            <th style="text-align: left">Zimmer</th>
-            <th style="text-align: left">Beginn</th>
-            <th style="text-align: left">Ende</th>
-        </tr>
-
-        {% for contract in contracts %}
+            <tbody>
 
             <tr>
-                <td> {{ contract.maintenant.user.get_full_name }}</td>
-                <td> {{ contract.subtenant.user.get_full_name }}</td>
-                <td> {{ contract.maintenant.get_room }}</td>
-                <td> {{ contract.begin|date:"d.m.Y" }}</td>
-                <td> {{ contract.end|date:"d.m.Y" }}</td>
+                <th style="text-align: left">Hauptmieter</th>
+                <th style="text-align: left">Untermieter</th>
+                <th style="text-align: left">Zimmer</th>
+                <th style="text-align: left">Beginn</th>
+                <th style="text-align: left">Ende</th>
             </tr>
 
-        {% endfor %}
+            {% for contract in contracts %}
 
-        </tbody>
-    </table>
+                <tr>
+                    <td> {{ contract.maintenant.user.get_full_name }}</td>
+                    <td> {{ contract.subtenant.user.get_full_name }}</td>
+                    <td> {{ contract.maintenant.get_room }}</td>
+                    <td> {{ contract.begin|date:"d.m.Y" }}</td>
+                    <td> {{ contract.end|date:"d.m.Y" }}</td>
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    {% else %}
+
+        <p>Aktuell gibt es keine aktiven Untermietverträge.</p>
+
+    {% endif %}
 
 
     <!-- Content for Static Frame 'footer_frame' -->

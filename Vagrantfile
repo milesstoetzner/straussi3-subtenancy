@@ -26,7 +26,6 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 443, host: 443
   config.vm.network "forwarded_port", guest: 80, host: 80
 
-  # TODO: disable port
   config.vm.network "forwarded_port", guest: 8000, host: 8000
 
   # Create a forwarded port mapping which allows access to a specific port
@@ -102,7 +101,6 @@ Vagrant.configure("2") do |config|
     sudo systemctl enable nginx
     sudo systemctl restart nginx
 
-    # TODO: postgresql
     # install postgresql
     # set up user for django
 

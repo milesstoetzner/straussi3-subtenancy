@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-10 11:51+0100\n"
+"POT-Creation-Date: 2019-03-10 12:42+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -122,8 +122,10 @@ msgstr ""
 msgid "Hauptmieter"
 msgstr "Maintenant"
 
-#: .\contracts\models.py:19 .\tenants\models.py:100 .\tenants\models.py:213
-#: .\tenants\models.py:214 .\tenants\templates\subtenancy\base.html:94
+#: .\contracts\models.py:19
+#: .\contracts\templates\contracts\search_result.html:21
+#: .\tenants\models.py:100 .\tenants\models.py:213 .\tenants\models.py:214
+#: .\tenants\templates\subtenancy\base.html:94
 msgid "Untermieter"
 msgstr "Subtenant"
 
@@ -189,8 +191,8 @@ msgid "Vertrag"
 msgstr "Contract"
 
 #: .\contracts\models.py:161
-#: .\contracts\templates\contracts\search_result.html:36
-#: .\tenants\templates\tenants\view.html:67
+#: .\contracts\templates\contracts\search_result.html:35
+#: .\tenants\templates\tenants\view.html:70
 msgid "Verträge"
 msgstr "Contracts"
 
@@ -224,6 +226,7 @@ msgstr "Do you really want to create the contract?"
 #: .\tenants\templates\tenants\delete.html:18
 #: .\tenants\templates\tenants\update.html:28
 #: .\tenants\templates\tenants\update_profile.html:27
+#: .\tenants\templates\tenants\update_request.html:19
 msgid "Abbrechen"
 msgstr "Cancel"
 
@@ -238,8 +241,8 @@ msgid "Weiter"
 msgstr "Next"
 
 #: .\contracts\templates\contracts\search_result.html:15
-#: .\contracts\templates\contracts\search_result.html:30
-#: .\contracts\templates\contracts\search_result.html:44
+#: .\contracts\templates\contracts\search_result.html:29
+#: .\contracts\templates\contracts\search_result.html:43
 msgid "Keine Suchergebnisse!"
 msgstr "No search results!"
 
@@ -309,7 +312,7 @@ msgstr "The Contract has been successfully created!"
 msgid "Änderungen erfolgreich übernommen!"
 msgstr "Changes successfully made!"
 
-#: .\contracts\views.py:115 .\tenants\views.py:150
+#: .\contracts\views.py:115 .\tenants\views.py:146 .\tenants\views.py:195
 msgid "Es gab keine Änderungen!"
 msgstr "No Changes detected!"
 
@@ -391,43 +394,43 @@ msgid "Es tut uns Leid, aber die CSRF Überprüfung ist fehlgeschlagen!"
 msgstr ""
 
 #: .\subtenancy\views.py:153 .\tenants\templates\tenants\feedback.html:20
-#: .\tenants\views.py:411
+#: .\tenants\views.py:450
 msgid "Feedback senden"
 msgstr ""
 
-#: .\tenants\forms.py:7
+#: .\tenants\forms.py:6
 msgid "Nein"
 msgstr "No"
 
-#: .\tenants\forms.py:7
+#: .\tenants\forms.py:6
 msgid "Ja"
 msgstr "Yes"
 
-#: .\tenants\forms.py:19
+#: .\tenants\forms.py:18
 msgid "Liste der Form: 'a', 'b', 'c'"
 msgstr "List of the Form: 'a', 'b', 'c'"
 
-#: .\tenants\forms.py:20
+#: .\tenants\forms.py:19
 msgid "Liste der Form:  1, 2, 3"
 msgstr "List of the Form: 1, 2, 3"
 
-#: .\tenants\forms.py:65
+#: .\tenants\forms.py:64
 msgid "Deine Mieternummer steht auf der Schwarzen Liste!"
 msgstr "Your Tenant ID is on the Black List!"
 
-#: .\tenants\forms.py:72
+#: .\tenants\forms.py:71
 msgid "Das Ende des Mietvertrages muss nach dem Beginn sein!"
 msgstr "The End of the Contract has to be after the Begin!"
 
-#: .\tenants\forms.py:78
+#: .\tenants\forms.py:77
 msgid "Diese Hausnummer existiert nicht. Erlaubt sind: "
 msgstr "The House Number does not exists. Allowed are: "
 
-#: .\tenants\forms.py:84
+#: .\tenants\forms.py:83
 msgid "Diese Zimmernummer existiert nicht. Erlaubt sind: "
 msgstr "The Room Number does not exists. Allowed are: "
 
-#: .\tenants\forms.py:89
+#: .\tenants\forms.py:88
 msgid "Die Monatsmiete muss positiv sein!"
 msgstr "The monthly Rent has to be positive!"
 
@@ -442,6 +445,15 @@ msgstr ""
 #: .\tenants\forms.py:128
 msgid "Deine Matrikelnummer steht auf der Schwarzen Liste!"
 msgstr "Your Student ID is on the Black List!"
+
+#: .\tenants\forms.py:156
+msgid ""
+"Wenn dieser Wert auf \"Nein\" gesetzt ist, taucht deine Anfrage mit dem oben "
+"genannten Zeitraum NICHT in der Anfragenliste auf. Sobald ein Vertrag "
+"abgeschlossen wird, wird dieser Wert automatisch auf \"Nein\" gesetzt. Das "
+"beudetet: Wenn deine Anfrage mit dem oben angegebenen Zeitraum in die "
+"Anfragenliste wieder aufgenommen werden soll, muss dieser Wert \"Ja\" lauten."
+msgstr ""
 
 #: .\tenants\models.py:14 .\tenants\models.py:197
 msgid "Name"
@@ -638,7 +650,7 @@ msgstr "Forgot Password?"
 
 #: .\tenants\templates\registration\password_change.html:12
 #: .\tenants\templates\registration\password_change.html:15
-#: .\tenants\templates\tenants\view.html:41
+#: .\tenants\templates\tenants\view.html:44
 msgid "Passwort ändern"
 msgstr "Change Password"
 
@@ -691,7 +703,7 @@ msgstr "Search"
 msgid "Hausmeister"
 msgstr "Caretaker"
 
-#: .\tenants\templates\subtenancy\base.html:175 .\tenants\views.py:362
+#: .\tenants\templates\subtenancy\base.html:175 .\tenants\views.py:401
 msgid "Schwarze Liste"
 msgstr "Black List"
 
@@ -856,20 +868,27 @@ msgstr "Currently there are no Requests."
 
 #: .\tenants\templates\tenants\update.html:26
 #: .\tenants\templates\tenants\update_profile.html:26
+#: .\tenants\templates\tenants\update_request.html:18
 msgid "Aktualisieren"
 msgstr "Update"
 
 #: .\tenants\templates\tenants\view.html:37
-#: .\tenants\templates\tenants\view.html:51
+#: .\tenants\templates\tenants\view.html:54
 msgid "Informationen aktualisieren"
 msgstr "Update Information"
 
-#: .\tenants\templates\tenants\view.html:45 .\tenants\views.py:179
+#: .\tenants\templates\tenants\view.html:40 .\tenants\views.py:199
+#, fuzzy
+#| msgid "Informationen aktualisieren"
+msgid "Anfrage aktualisieren"
+msgstr "Update Information"
+
+#: .\tenants\templates\tenants\view.html:48 .\tenants\views.py:222
 msgid "Account löschen"
 msgstr "Delete Account"
 
-#: .\tenants\templates\tenants\view.html:80
-#: .\tenants\templates\tenants\view.html:95
+#: .\tenants\templates\tenants\view.html:83
+#: .\tenants\templates\tenants\view.html:98
 msgid "Keine Verträge vorhanden"
 msgstr "No Contracts available"
 
@@ -1889,17 +1908,17 @@ msgstr "Maintenant Registration"
 msgid "Untermieter Registrierung"
 msgstr "Stubtenant Registration"
 
-#: .\tenants\views.py:146 .\tenants\views.py:270
+#: .\tenants\views.py:142 .\tenants\views.py:192 .\tenants\views.py:310
 msgid "Änderungen wurden erfolgreich übernommen!"
 msgstr "Changes have been successfully made!"
 
-#: .\tenants\views.py:154
+#: .\tenants\views.py:150
 #, fuzzy
 #| msgid "Aktualisieren"
 msgid "Profil aktualisieren!"
 msgstr "Update"
 
-#: .\tenants\views.py:190
+#: .\tenants\views.py:233
 msgid ""
 "Der Account kann nicht gelöscht werden, da mindestens ein Vertrag mit diesem "
 "Account abgeschlossen wurde!"
@@ -1907,25 +1926,25 @@ msgstr ""
 "The Account can not be deleted since at least one Contract in respect to "
 "this Account exists!"
 
-#: .\tenants\views.py:193
+#: .\tenants\views.py:236
 msgid "Der Account wurde erfolgreich gelöscht!"
 msgstr "The Account has been successfully deleted!"
 
-#: .\tenants\views.py:278
+#: .\tenants\views.py:317
 #, fuzzy, python-format
 #| msgid "%(tenant)s löschen"
 msgid "%(tenant)s aktualisieren!"
 msgstr "Delete %(tenant)s"
 
-#: .\tenants\views.py:317
+#: .\tenants\views.py:356
 msgid "Kontaktaufnahme"
 msgstr "Contact"
 
-#: .\tenants\views.py:344
+#: .\tenants\views.py:383
 msgid "Untermieter konnte nicht kontaktiert werden!"
 msgstr "Could not contact Subtenant!"
 
-#: .\tenants\views.py:349
+#: .\tenants\views.py:388
 msgid ""
 "Untermieter wurde erfolgreich kontaktiert! Wir haben dir als Bestätigung der "
 "Kontaktaufnahme eine Email gesendet."
@@ -1933,11 +1952,11 @@ msgstr ""
 "Subtenant has been successfully contacted! We have sent you an Confirmation "
 "E-Mail."
 
-#: .\tenants\views.py:374
+#: .\tenants\views.py:413
 msgid "Anfragen von Untermietern"
 msgstr "Subtenant Requests"
 
-#: .\tenants\views.py:408
+#: .\tenants\views.py:447
 msgid "Danke für dein Feedback!"
 msgstr ""
 

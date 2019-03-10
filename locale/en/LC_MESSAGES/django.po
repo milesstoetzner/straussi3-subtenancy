@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-10 16:13+0100\n"
+"POT-Creation-Date: 2019-03-10 23:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -118,14 +118,14 @@ msgstr ""
 
 #: .\contracts\models.py:18
 #: .\contracts\templates\contracts\search_result.html:7 .\tenants\models.py:99
-#: .\tenants\models.py:170 .\tenants\templates\subtenancy\base.html:92
+#: .\tenants\models.py:170 .\tenants\templates\subtenancy\base.html:91
 msgid "Hauptmieter"
 msgstr "Maintenant"
 
 #: .\contracts\models.py:19
 #: .\contracts\templates\contracts\search_result.html:21
 #: .\tenants\models.py:100 .\tenants\models.py:213 .\tenants\models.py:214
-#: .\tenants\templates\subtenancy\base.html:95
+#: .\tenants\templates\subtenancy\base.html:94
 msgid "Untermieter"
 msgstr "Subtenant"
 
@@ -192,7 +192,7 @@ msgstr "Contract"
 
 #: .\contracts\models.py:161
 #: .\contracts\templates\contracts\search_result.html:35
-#: .\tenants\templates\tenants\view.html:70
+#: .\tenants\templates\tenants\view.html:72
 msgid "Verträge"
 msgstr "Contracts"
 
@@ -209,7 +209,7 @@ msgid "Untermieter anzeigen"
 msgstr "Display Subtenant"
 
 #: .\contracts\templates\contracts\create.html:42 .\contracts\views.py:57
-#: .\tenants\templates\subtenancy\base.html:149
+#: .\tenants\templates\subtenancy\base.html:148
 msgid "Vertrag erstellen"
 msgstr "Create Contract"
 
@@ -312,7 +312,7 @@ msgstr "The Contract has been successfully created!"
 msgid "Änderungen erfolgreich übernommen!"
 msgstr "Changes successfully made!"
 
-#: .\contracts\views.py:115 .\tenants\views.py:146 .\tenants\views.py:195
+#: .\contracts\views.py:115 .\tenants\views.py:145 .\tenants\views.py:194
 msgid "Es gab keine Änderungen!"
 msgstr "No Changes detected!"
 
@@ -327,14 +327,6 @@ msgstr "German"
 #: .\subtenancy\settings.py:119
 msgid "Englisch"
 msgstr "English"
-
-#: .\subtenancy\settings.py:120
-msgid "Arabisch"
-msgstr "Arabic"
-
-#: .\subtenancy\settings.py:121
-msgid "Chinesisch"
-msgstr "Chinese"
 
 #: .\subtenancy\views.py:30
 msgid "Willkommen zurück"
@@ -368,7 +360,7 @@ msgstr "Your Password has been successfully resetted!"
 msgid "Ferienmiete"
 msgstr "Subtenancy"
 
-#: .\subtenancy\views.py:115 .\tenants\templates\subtenancy\base.html:272
+#: .\subtenancy\views.py:115 .\tenants\templates\subtenancy\base.html:271
 msgid "Impressum"
 msgstr "Legal Notice"
 
@@ -393,8 +385,8 @@ msgstr ""
 msgid "Es tut uns Leid, aber die CSRF Überprüfung ist fehlgeschlagen!"
 msgstr ""
 
-#: .\subtenancy\views.py:153 .\tenants\templates\subtenancy\base.html:273
-#: .\tenants\templates\tenants\feedback.html:20 .\tenants\views.py:450
+#: .\subtenancy\views.py:153 .\tenants\templates\subtenancy\base.html:272
+#: .\tenants\templates\tenants\feedback.html:20 .\tenants\views.py:449
 msgid "Feedback senden"
 msgstr ""
 
@@ -624,8 +616,8 @@ msgstr ""
 
 #: .\tenants\templates\registration\login.html:14
 #: .\tenants\templates\registration\login.html:33
-#: .\tenants\templates\subtenancy\base.html:75
-#: .\tenants\templates\subtenancy\base.html:238
+#: .\tenants\templates\subtenancy\base.html:74
+#: .\tenants\templates\subtenancy\base.html:237
 msgid "Einloggen"
 msgstr "Login"
 
@@ -651,7 +643,7 @@ msgstr "Forgot Password?"
 
 #: .\tenants\templates\registration\password_change.html:12
 #: .\tenants\templates\registration\password_change.html:15
-#: .\tenants\templates\tenants\view.html:44
+#: .\tenants\templates\tenants\view.html:46
 msgid "Passwort ändern"
 msgstr "Change Password"
 
@@ -690,82 +682,82 @@ msgid ""
 msgstr ""
 
 #: .\tenants\templates\subtenancy\base.html:28
-#: .\tenants\templates\subtenancy\base.html:71
+#: .\tenants\templates\subtenancy\base.html:70
 msgid "Eingeloggt als"
 msgstr "Logged in as"
 
-#: .\tenants\templates\subtenancy\base.html:84
-#: .\tenants\templates\subtenancy\base.html:243 .\tenants\views.py:93
+#: .\tenants\templates\subtenancy\base.html:83
+#: .\tenants\templates\subtenancy\base.html:242
 msgid "Profil"
 msgstr "Profile"
 
-#: .\tenants\templates\subtenancy\base.html:100
+#: .\tenants\templates\subtenancy\base.html:99
 msgid "Anfragen"
 msgstr "Requests"
 
-#: .\tenants\templates\subtenancy\base.html:153
+#: .\tenants\templates\subtenancy\base.html:152
 msgid "Suchen"
 msgstr "Search"
 
-#: .\tenants\templates\subtenancy\base.html:169
-#: .\tenants\templates\subtenancy\base.html:193
+#: .\tenants\templates\subtenancy\base.html:168
+#: .\tenants\templates\subtenancy\base.html:192
 msgid "Hausmeister"
 msgstr "Caretaker"
 
-#: .\tenants\templates\subtenancy\base.html:173 .\tenants\views.py:401
+#: .\tenants\templates\subtenancy\base.html:172 .\tenants\views.py:400
 msgid "Schwarze Liste"
 msgstr "Black List"
 
-#: .\tenants\templates\subtenancy\base.html:240
+#: .\tenants\templates\subtenancy\base.html:239
 #, fuzzy
 #| msgid "Passwort vergessen?"
 msgid "Password vergessen"
 msgstr "Forgot Password?"
 
-#: .\tenants\templates\subtenancy\base.html:242
+#: .\tenants\templates\subtenancy\base.html:241
 #, fuzzy
 #| msgid "Passwort ändern"
 msgid "Password ändern"
 msgstr "Change Password"
 
-#: .\tenants\templates\subtenancy\base.html:245
+#: .\tenants\templates\subtenancy\base.html:244
 #, fuzzy
 #| msgid "Aktualisieren"
 msgid "Profil aktualisieren"
 msgstr "Update"
 
-#: .\tenants\templates\subtenancy\base.html:247
-#: .\tenants\templates\subtenancy\base.html:264
-#: .\tenants\templates\tenants\view.html:40 .\tenants\views.py:199
+#: .\tenants\templates\subtenancy\base.html:246
+#: .\tenants\templates\subtenancy\base.html:263
+#: .\tenants\templates\tenants\view.html:41 .\tenants\views.py:198
 #, fuzzy
 #| msgid "Informationen aktualisieren"
 msgid "Anfrage aktualisieren"
 msgstr "Update Information"
 
-#: .\tenants\templates\subtenancy\base.html:254
+#: .\tenants\templates\subtenancy\base.html:253
 msgid "Allgemeine Informationen"
 msgstr ""
 
-#: .\tenants\templates\subtenancy\base.html:256
+#: .\tenants\templates\subtenancy\base.html:255
 #: .\tenants\templates\subtenancy\index.html:21
 msgid "Als Hauptmieter registrieren"
 msgstr "Register as Maintenant"
 
-#: .\tenants\templates\subtenancy\base.html:259
+#: .\tenants\templates\subtenancy\base.html:258
 #: .\tenants\templates\subtenancy\index.html:28
 msgid "Als Untermieter registrieren"
 msgstr "Register as Subtenant"
 
-#: .\tenants\templates\subtenancy\base.html:261
+#: .\tenants\templates\subtenancy\base.html:260
 #: .\tenants\templates\subtenancy\index.html:14
 msgid "Liste aller Anfragen"
 msgstr "Request List"
 
-#: .\tenants\templates\subtenancy\base.html:270
+#: .\tenants\templates\subtenancy\base.html:269
 msgid "Homepage"
 msgstr ""
 
-#: .\tenants\templates\subtenancy\base.html:275
+#: .\tenants\templates\subtenancy\base.html:274
 msgid "GitHub"
 msgstr ""
 
@@ -929,16 +921,16 @@ msgid "Aktualisieren"
 msgstr "Update"
 
 #: .\tenants\templates\tenants\view.html:37
-#: .\tenants\templates\tenants\view.html:54
+#: .\tenants\templates\tenants\view.html:56
 msgid "Informationen aktualisieren"
 msgstr "Update Information"
 
-#: .\tenants\templates\tenants\view.html:48 .\tenants\views.py:222
+#: .\tenants\templates\tenants\view.html:50 .\tenants\views.py:221
 msgid "Account löschen"
 msgstr "Delete Account"
 
-#: .\tenants\templates\tenants\view.html:83
-#: .\tenants\templates\tenants\view.html:98
+#: .\tenants\templates\tenants\view.html:85
+#: .\tenants\templates\tenants\view.html:100
 msgid "Keine Verträge vorhanden"
 msgstr "No Contracts available"
 
@@ -1946,29 +1938,35 @@ msgstr ""
 msgid "Südsudan"
 msgstr ""
 
-#: .\tenants\views.py:63
+#: .\tenants\views.py:62
 msgid "Registrierung war erfolgreich. Du kannst dich nun einloggen."
 msgstr "Registration had been successful. You can now log into your Account."
 
-#: .\tenants\views.py:74
+#: .\tenants\views.py:73
 msgid "Hauptmieter Registrierung"
 msgstr "Maintenant Registration"
 
-#: .\tenants\views.py:74
+#: .\tenants\views.py:73
 msgid "Untermieter Registrierung"
 msgstr "Stubtenant Registration"
 
-#: .\tenants\views.py:142 .\tenants\views.py:192 .\tenants\views.py:310
+#: .\tenants\views.py:92
+#, fuzzy
+#| msgid "Profil"
+msgid "Profil von"
+msgstr "Profile"
+
+#: .\tenants\views.py:141 .\tenants\views.py:191 .\tenants\views.py:309
 msgid "Änderungen wurden erfolgreich übernommen!"
 msgstr "Changes have been successfully made!"
 
-#: .\tenants\views.py:150
+#: .\tenants\views.py:149
 #, fuzzy
 #| msgid "Aktualisieren"
 msgid "Profil aktualisieren!"
 msgstr "Update"
 
-#: .\tenants\views.py:233
+#: .\tenants\views.py:232
 msgid ""
 "Der Account kann nicht gelöscht werden, da mindestens ein Vertrag mit diesem "
 "Account abgeschlossen wurde!"
@@ -1976,25 +1974,25 @@ msgstr ""
 "The Account can not be deleted since at least one Contract in respect to "
 "this Account exists!"
 
-#: .\tenants\views.py:236
+#: .\tenants\views.py:235
 msgid "Der Account wurde erfolgreich gelöscht!"
 msgstr "The Account has been successfully deleted!"
 
-#: .\tenants\views.py:317
+#: .\tenants\views.py:316
 #, fuzzy, python-format
 #| msgid "%(tenant)s löschen"
 msgid "%(tenant)s aktualisieren!"
 msgstr "Delete %(tenant)s"
 
-#: .\tenants\views.py:356
+#: .\tenants\views.py:355
 msgid "Kontaktaufnahme"
 msgstr "Contact"
 
-#: .\tenants\views.py:383
+#: .\tenants\views.py:382
 msgid "Untermieter konnte nicht kontaktiert werden!"
 msgstr "Could not contact Subtenant!"
 
-#: .\tenants\views.py:388
+#: .\tenants\views.py:387
 msgid ""
 "Untermieter wurde erfolgreich kontaktiert! Wir haben dir als Bestätigung der "
 "Kontaktaufnahme eine Email gesendet."
@@ -2002,13 +2000,19 @@ msgstr ""
 "Subtenant has been successfully contacted! We have sent you an Confirmation "
 "E-Mail."
 
-#: .\tenants\views.py:413
+#: .\tenants\views.py:412
 msgid "Anfragen von Untermietern"
 msgstr "Subtenant Requests"
 
-#: .\tenants\views.py:447
+#: .\tenants\views.py:446
 msgid "Danke für dein Feedback!"
 msgstr ""
+
+#~ msgid "Arabisch"
+#~ msgstr "Arabic"
+
+#~ msgid "Chinesisch"
+#~ msgstr "Chinese"
 
 #~ msgid "Zimmer"
 #~ msgstr "Room"

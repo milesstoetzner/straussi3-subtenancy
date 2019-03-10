@@ -36,8 +36,10 @@
                     <a href="{% url 'ProfileUpdate' %}"
                        class="btn btn-success btn-block">{% trans "Informationen aktualisieren" %}</a>
 
-                    <a href="{% url 'RequestUpdate' %}"
-                       class="btn btn-success btn-block">{% trans "Anfrage aktualisieren" %}</a>
+                    {% if tenant.is_subtenant %}
+                        <a href="{% url 'RequestUpdate' %}"
+                           class="btn btn-success btn-block">{% trans "Anfrage aktualisieren" %}</a>
+                    {% endif %}
 
                     {% if tenant.id == user.id %}
                         <a href="{% url 'password_change' %}"

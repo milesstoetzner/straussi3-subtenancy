@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-10 12:42+0100\n"
+"POT-Creation-Date: 2019-03-10 16:13+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -118,14 +118,14 @@ msgstr ""
 
 #: .\contracts\models.py:18
 #: .\contracts\templates\contracts\search_result.html:7 .\tenants\models.py:99
-#: .\tenants\models.py:170 .\tenants\templates\subtenancy\base.html:91
+#: .\tenants\models.py:170 .\tenants\templates\subtenancy\base.html:92
 msgid "Hauptmieter"
 msgstr "Maintenant"
 
 #: .\contracts\models.py:19
 #: .\contracts\templates\contracts\search_result.html:21
 #: .\tenants\models.py:100 .\tenants\models.py:213 .\tenants\models.py:214
-#: .\tenants\templates\subtenancy\base.html:94
+#: .\tenants\templates\subtenancy\base.html:95
 msgid "Untermieter"
 msgstr "Subtenant"
 
@@ -209,7 +209,7 @@ msgid "Untermieter anzeigen"
 msgstr "Display Subtenant"
 
 #: .\contracts\templates\contracts\create.html:42 .\contracts\views.py:57
-#: .\tenants\templates\subtenancy\base.html:151
+#: .\tenants\templates\subtenancy\base.html:149
 msgid "Vertrag erstellen"
 msgstr "Create Contract"
 
@@ -363,12 +363,12 @@ msgid "Dein Passwort wurde erfolgreich zurückgesetzt!"
 msgstr "Your Password has been successfully resetted!"
 
 #: .\subtenancy\views.py:106 .\tenants\templates\subtenancy\base.html:38
-#: .\tenants\templates\subtenancy\base.html:48
-#: .\tenants\templates\subtenancy\base.html:57
+#: .\tenants\templates\subtenancy\base.html:49
+#: .\tenants\templates\subtenancy\base.html:58
 msgid "Ferienmiete"
 msgstr "Subtenancy"
 
-#: .\subtenancy\views.py:115 .\tenants\templates\subtenancy\base.html:102
+#: .\subtenancy\views.py:115 .\tenants\templates\subtenancy\base.html:272
 msgid "Impressum"
 msgstr "Legal Notice"
 
@@ -393,8 +393,8 @@ msgstr ""
 msgid "Es tut uns Leid, aber die CSRF Überprüfung ist fehlgeschlagen!"
 msgstr ""
 
-#: .\subtenancy\views.py:153 .\tenants\templates\tenants\feedback.html:20
-#: .\tenants\views.py:450
+#: .\subtenancy\views.py:153 .\tenants\templates\subtenancy\base.html:273
+#: .\tenants\templates\tenants\feedback.html:20 .\tenants\views.py:450
 msgid "Feedback senden"
 msgstr ""
 
@@ -624,7 +624,8 @@ msgstr ""
 
 #: .\tenants\templates\registration\login.html:14
 #: .\tenants\templates\registration\login.html:33
-#: .\tenants\templates\subtenancy\base.html:74
+#: .\tenants\templates\subtenancy\base.html:75
+#: .\tenants\templates\subtenancy\base.html:238
 msgid "Einloggen"
 msgstr "Login"
 
@@ -657,7 +658,7 @@ msgstr "Change Password"
 #: .\tenants\templates\registration\password_confirm.html:12
 #: .\tenants\templates\registration\password_confirm.html:26
 #: .\tenants\templates\registration\password_reset.html:12
-#: .\tenants\templates\registration\password_reset.html:16
+#: .\tenants\templates\registration\password_reset.html:17
 msgid "Passwort zurücksetzen"
 msgstr "Reset Password"
 
@@ -681,31 +682,92 @@ msgstr ""
 "Did you forgot your Password? Provide your E-Mail-Addresse and we will send "
 "you an E-Mail with Instructions."
 
+#: .\tenants\templates\registration\password_reset.html:14
+msgid ""
+"ACHTUNG: Es ist unbedingt notwendig, dass die unten angegebene E-Mail-"
+"Adresse genau so wie während der Registrierung geschrieben wird. Das "
+"schließt beispielsweise Groß- und Kleinschreibung mit ein."
+msgstr ""
+
 #: .\tenants\templates\subtenancy\base.html:28
-#: .\tenants\templates\subtenancy\base.html:70
+#: .\tenants\templates\subtenancy\base.html:71
 msgid "Eingeloggt als"
 msgstr "Logged in as"
 
-#: .\tenants\templates\subtenancy\base.html:83 .\tenants\views.py:93
+#: .\tenants\templates\subtenancy\base.html:84
+#: .\tenants\templates\subtenancy\base.html:243 .\tenants\views.py:93
 msgid "Profil"
 msgstr "Profile"
 
-#: .\tenants\templates\subtenancy\base.html:99
+#: .\tenants\templates\subtenancy\base.html:100
 msgid "Anfragen"
 msgstr "Requests"
 
-#: .\tenants\templates\subtenancy\base.html:155
+#: .\tenants\templates\subtenancy\base.html:153
 msgid "Suchen"
 msgstr "Search"
 
-#: .\tenants\templates\subtenancy\base.html:171
-#: .\tenants\templates\subtenancy\base.html:195
+#: .\tenants\templates\subtenancy\base.html:169
+#: .\tenants\templates\subtenancy\base.html:193
 msgid "Hausmeister"
 msgstr "Caretaker"
 
-#: .\tenants\templates\subtenancy\base.html:175 .\tenants\views.py:401
+#: .\tenants\templates\subtenancy\base.html:173 .\tenants\views.py:401
 msgid "Schwarze Liste"
 msgstr "Black List"
+
+#: .\tenants\templates\subtenancy\base.html:240
+#, fuzzy
+#| msgid "Passwort vergessen?"
+msgid "Password vergessen"
+msgstr "Forgot Password?"
+
+#: .\tenants\templates\subtenancy\base.html:242
+#, fuzzy
+#| msgid "Passwort ändern"
+msgid "Password ändern"
+msgstr "Change Password"
+
+#: .\tenants\templates\subtenancy\base.html:245
+#, fuzzy
+#| msgid "Aktualisieren"
+msgid "Profil aktualisieren"
+msgstr "Update"
+
+#: .\tenants\templates\subtenancy\base.html:247
+#: .\tenants\templates\subtenancy\base.html:264
+#: .\tenants\templates\tenants\view.html:40 .\tenants\views.py:199
+#, fuzzy
+#| msgid "Informationen aktualisieren"
+msgid "Anfrage aktualisieren"
+msgstr "Update Information"
+
+#: .\tenants\templates\subtenancy\base.html:254
+msgid "Allgemeine Informationen"
+msgstr ""
+
+#: .\tenants\templates\subtenancy\base.html:256
+#: .\tenants\templates\subtenancy\index.html:21
+msgid "Als Hauptmieter registrieren"
+msgstr "Register as Maintenant"
+
+#: .\tenants\templates\subtenancy\base.html:259
+#: .\tenants\templates\subtenancy\index.html:28
+msgid "Als Untermieter registrieren"
+msgstr "Register as Subtenant"
+
+#: .\tenants\templates\subtenancy\base.html:261
+#: .\tenants\templates\subtenancy\index.html:14
+msgid "Liste aller Anfragen"
+msgstr "Request List"
+
+#: .\tenants\templates\subtenancy\base.html:270
+msgid "Homepage"
+msgstr ""
+
+#: .\tenants\templates\subtenancy\base.html:275
+msgid "GitHub"
+msgstr ""
 
 #: .\tenants\templates\subtenancy\bootstrap_form.html:13
 msgid "Alles in Ordnung!"
@@ -730,29 +792,17 @@ msgstr ""
 "Here is a list of all Requests. You can use the List to contact potential "
 "Subtenants."
 
-#: .\tenants\templates\subtenancy\index.html:14
-msgid "Liste aller Anfragen"
-msgstr "Request List"
-
 #: .\tenants\templates\subtenancy\index.html:20
 msgid ""
 "Wenn du dein Zimmer vermieten möchtest, kannst du dich hier als Hauptmieter "
 "registrieren."
 msgstr "If you want to sublet your room, register as Maintenant."
 
-#: .\tenants\templates\subtenancy\index.html:21
-msgid "Als Hauptmieter registrieren"
-msgstr "Register as Maintenant"
-
 #: .\tenants\templates\subtenancy\index.html:27
 msgid ""
 "Wenn du ein Zimmer mieten möchtest, kannt du dich hier als Untermieter "
 "registrieren."
 msgstr "If you want to renat a room, register as Subtenant."
-
-#: .\tenants\templates\subtenancy\index.html:28
-msgid "Als Untermieter registrieren"
-msgstr "Register as Subtenant"
 
 #: .\tenants\templates\subtenancy\index.html:38
 msgid "Informationen für einen Hauptmieter"
@@ -763,14 +813,20 @@ msgid "Informationen für einen Untermieter"
 msgstr "Information for a Subtenant"
 
 #: .\tenants\templates\subtenancy\unicorn.html:15
-msgid ""
-"Du wurdest von Hans, dem dabbenden Einhorn, besucht!<br>Er wünscht dir einen "
-"wunderschönen Tag!"
+#, fuzzy
+#| msgid ""
+#| "Du wurdest von Hans, dem dabbenden Einhorn, besucht!<br>Er wünscht dir "
+#| "einen wunderschönen Tag!"
+msgid "Du wurdest von Hans, dem dabbenden Einhorn, besucht!"
 msgstr ""
 "You have been visited by Hans the dabbing Unicorn!<br>He wishes you a "
 "beautiful day"
 
-#: .\tenants\templates\subtenancy\unicorn.html:19
+#: .\tenants\templates\subtenancy\unicorn.html:16
+msgid "Er wünscht dir einen wunderschönen Tag!"
+msgstr ""
+
+#: .\tenants\templates\subtenancy\unicorn.html:21
 msgid "Dab zurück!"
 msgstr "Dab back!"
 
@@ -875,12 +931,6 @@ msgstr "Update"
 #: .\tenants\templates\tenants\view.html:37
 #: .\tenants\templates\tenants\view.html:54
 msgid "Informationen aktualisieren"
-msgstr "Update Information"
-
-#: .\tenants\templates\tenants\view.html:40 .\tenants\views.py:199
-#, fuzzy
-#| msgid "Informationen aktualisieren"
-msgid "Anfrage aktualisieren"
 msgstr "Update Information"
 
 #: .\tenants\templates\tenants\view.html:48 .\tenants\views.py:222

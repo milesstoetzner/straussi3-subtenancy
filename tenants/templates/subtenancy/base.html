@@ -300,6 +300,22 @@
 <script>
     "use strict";
 
+    // show footer at the bottom of the page if there is not enough content
+    $(function () {
+
+        const footer = $("footer");
+
+        const windowHeight = $(window).height();
+        const contHeight = $("#custom-container").height();
+        const footHeight = footer.height();
+        const testHeight = windowHeight - footHeight;
+
+        if (contHeight < testHeight) {
+            footer.css("bottom", "0");
+            footer.css("left", "0");
+        }
+    });
+
     // for displaying active link in the navigation
     let active = document.getElementById(window.location.pathname);
     if (active) {

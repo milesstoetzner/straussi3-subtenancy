@@ -90,7 +90,7 @@ def view_profile(request):
     context['get'] = True
     context['user_form'] = UserUpdateForm(instance=request.user)
     context['tenant'] = request.user
-    context['title'] = _('Profil')
+    context['title'] = _('Profil') + str(request.user)
 
     if request.user.is_maintenant or request.user.is_subtenant:
         context['tenant_form'] = MainTenantUpdateForm(

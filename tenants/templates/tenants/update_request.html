@@ -1,0 +1,27 @@
+{% extends "subtenancy/base.html" %}
+
+{% load custom_extras %}
+{% load i18n %}
+
+{% block content %}
+
+    <form action="{% url 'RequestUpdate' %}" method="post" novalidate>
+
+        {% csrf_token %}
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ title }}</h5>
+
+                {% bootstrap form get %}
+
+                <button class="btn btn-success btn-block">{% trans "Aktualisieren" %}</button>
+                <a href="{% url 'Profile' %}" class="btn btn-danger btn-block">{% trans "Abbrechen" %}</a>
+
+            </div>
+
+        </div>
+
+    </form>
+
+{% endblock %}

@@ -1,6 +1,5 @@
 from django.db.transaction import atomic
-from subtenancy.utils import get_verbose_changed_data
-from tenants.models import User, MainTenant, SubTenant, BlockedTenantID, BlockedStudentID
+from tenants.models import User, SubTenant, BlockedTenantID, BlockedStudentID
 from tenants.forms import UserForm, UserUpdateForm, MainTenantForm, MainTenantUpdateForm, SubTenantForm, \
     SubTenantUpdateForm, FeedbackForm, RequestUpdateForm
 from django.urls import reverse

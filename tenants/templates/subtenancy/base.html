@@ -200,8 +200,8 @@
 
 </header>
 
-<div class="container-fluid" style="max-width:
-        {% if view.max_width or max_width %}{{ view.max_width }}{{ max_width }}{% else %}600px{% endif %}"
+<main class="container-fluid" style="padding-bottom: 3rem; max-width:
+        {% if view.max_width or max_width %}{{ view.max_width }}{{ max_width }}{% else %}600px{% endif %};"
      id="custom-container">
 
     {% if messages %}
@@ -222,11 +222,11 @@
     {% block content %}
     {% endblock %}
 
-</div>
+</main>
 
 
-<footer class="bg-grey text-center" style="margin-top:3rem; padding-top: 3.5rem; font-size: 12px; color: #495057">
-    <div class="container-fluid" style="max-width:
+<footer class="bg-grey text-center">
+    <div class="container-fluid" style="padding-top: 3rem; max-width:
             {% if view.max_width or max_width %}{{ view.max_width }}{{ max_width }}{% else %}600px{% endif %}">
         <div class="card">
             <div class="card-body bg-grey">
@@ -283,7 +283,7 @@
 
     </div>
 
-    <button class="btn bg-transparent btn-block text-light" onclick=dab()>{% trans "Trau dich" %}</button>
+    <button class="btn bg-transparent btn-block" style="color: #eaeaea; height: 2rem" onclick=dab()></button>
 
 </footer>
 
@@ -303,16 +303,15 @@
     // show footer at the bottom of the page if there is not enough content
     $(function () {
 
-        const footer = $("footer");
+        const main = $("main");
 
         const windowHeight = $(window).height();
-        const contHeight = $("#custom-container").height();
-        const footHeight = footer.height();
-        const testHeight = windowHeight - footHeight;
+        const mainHeight = main.height();
+        const headerHeight = $("header").height();
+        const footHeight = $("footer").height();
 
-        if (contHeight < testHeight) {
-            footer.css("bottom", "0");
-            footer.css("left", "0");
+        if (mainHeight < (windowHeight - footHeight)) {
+            main.css("min-height", windowHeight - headerHeight - footHeight);
         }
     });
 

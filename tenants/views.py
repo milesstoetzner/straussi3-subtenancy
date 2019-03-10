@@ -21,8 +21,6 @@ from django.template.loader import get_template
 import datetime
 
 
-# TODO: some translations are missing!
-
 @atomic
 @csrf_protect
 @require_http_methods(['GET', 'POST'])
@@ -92,7 +90,7 @@ def view_profile(request):
     context['get'] = True
     context['user_form'] = UserUpdateForm(instance=request.user)
     context['tenant'] = request.user
-    context['title'] = str(request.user)
+    context['title'] = _('Profil')
 
     if request.user.is_maintenant or request.user.is_subtenant:
         context['tenant_form'] = MainTenantUpdateForm(
@@ -153,7 +151,7 @@ def update_profile(request):
 
             return redirect(reverse('Profile'))
 
-    context['title'] = str(tenant) + ' aktualisieren'
+    context['title'] = _('Profil aktualisieren!')
     context['user_form'] = user_form
     context['tenant_form'] = tenant_form
     context['tenant'] = tenant
@@ -178,7 +176,7 @@ def delete_profile(request):
 
         context = {}
         context['tenant'] = user
-        context['title'] = str(user) + ' löschen'
+        context['title'] = _('Account löschen')
         return render(request, 'tenants/delete.html', context)
 
     else:
@@ -277,7 +275,7 @@ def update_tenant(request, pk):
 
             return redirect(reverse('tenants:TenantView', kwargs={'pk': tenant.pk}))
 
-    context['title'] = str(tenant) + ' aktualisieren'
+    context['title'] = _('%(tenant)s aktualisieren!') % {'tenant': str(tenant)}
     context['user_form'] = user_form
     context['tenant_form'] = tenant_form
     context['tenant'] = tenant

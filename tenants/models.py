@@ -197,7 +197,7 @@ class SubTenant(models.Model):
     name = models.CharField(_('Name'), max_length=250)
     street = models.CharField(_('Straße'), max_length=250)
     house_number = models.CharField(_('Hausnummer'), max_length=10)
-    postcode = models.PositiveIntegerField(_('Postleitzahl'))
+    postcode = models.CharField(_('Postleitzahl'), max_length=50)
     city = models.CharField(_('Ort'), max_length=250)
     country = models.CharField(_('Land'), choices=COUNTRIES, max_length=2)
 

@@ -35,7 +35,8 @@
 
         <a href="/" style="color:#212529">
             <h5 class="d-none d-md-block"
-                style="text-align: center; padding-top: 1rem; margin-bottom: 1rem; color:#212529">{% trans "Ferienmiete" %} Straußäcker 3
+                style="text-align: center; padding-top: 1rem; margin-bottom: 1rem; color:#212529">{% trans "Ferienmiete" %}
+                Straußäcker 3
             </h5>
         </a>
 
@@ -97,9 +98,6 @@
 
                 <a class="btn btn-primary" href="{% url 'Requests' %}" id="{% url 'Requests' %}"><i
                         class="fas fa-file-alt icon-text"></i>{% trans "Anfragen" %}</a>
-
-                <a class="btn btn-primary" href="{% url 'Impressum' %}" id="{% url 'Impressum' %}"><i
-                        class="fas fa-info-circle icon-text"></i>{% trans "Impressum" %}</a>
 
                 {% get_current_language as LANGUAGE_CODE %}
                 {% get_language_info for LANGUAGE_CODE as lang %}
@@ -226,7 +224,66 @@
 
 </div>
 
-<footer style="margin-top: 10rem">
+
+<footer class="bg-grey text-center" style="margin-top:3rem; padding-top: 3.5rem; font-size: 12px; color: #495057">
+    <div class="container-fluid" style="max-width:
+            {% if view.max_width or max_width %}{{ view.max_width }}{{ max_width }}{% else %}600px{% endif %}">
+        <div class="card">
+            <div class="card-body bg-grey">
+
+                <div class="row">
+                    <div class="col-12 col-md">
+                        <h6>Account</h6>
+                        <ul class="list-unstyled">
+                            <li><a class="text-muted" href="{% url 'login' %}">{% trans "Einloggen" %}</a></li>
+                            <li><a class="text-muted"
+                                   href="{% url 'password_reset' %}">{% trans "Password vergessen" %}</a></li>
+                            <li><a class="text-muted"
+                                   href="{% url 'password_change' %}">{% trans "Password ändern" %}</a></li>
+                            <li><a class="text-muted" href="{% url 'Profile' %}">{% trans "Profil" %}</a></li>
+                            <li><a class="text-muted"
+                                   href="{% url 'ProfileUpdate' %}">{% trans "Profil aktualisieren" %}</a></li>
+                            <li><a class="text-muted"
+                                   href="{% url 'RequestUpdate' %}">{% trans "Anfrage aktualisieren" %}</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-12 col-md">
+                        <h6>Ferienmiete</h6>
+                        <ul class="list-unstyled">
+                            <li><a class="text-muted"
+                                   href="{% url 'Index' %}">{% trans "Allgemeine Informationen" %}</a></li>
+                            <li><a class="text-muted"
+                                   href="{% url 'MainTenantCreate' %}">{% trans "Als Hauptmieter registrieren" %}</a>
+                            </li>
+                            <li><a class="text-muted"
+                                   href="{% url 'SubTenantCreate' %}">{% trans "Als Untermieter registrieren" %}</a>
+                            </li>
+                            <li><a class="text-muted" href="{% url 'Requests' %}">{% trans "Liste aller Anfragen" %}</a>
+                            </li>
+                            <li><a class="text-muted"
+                                   href="{% url 'RequestUpdate' %}">{% trans "Anfrage aktualisieren" %}</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-12 col-md">
+                        <h6>Über uns</h6>
+                        <ul class="list-unstyled">
+                            <li><a class="text-muted" href="https://str3.wh-stuttgart.net/">{% trans "Homepage" %}</a>
+                            </li>
+                            <li><a class="text-muted" href="{% url 'Impressum' %}">{% trans "Impressum" %}</a></li>
+                            <li><a class="text-muted" href="{% url 'Feedback' %}">{% trans "Feedback senden" %}</a></li>
+                            <li><a class="text-muted"
+                                   href="https://github.com/milesstoetzner/ferienmiete">{% trans "GitHub" %}</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <button class="btn bg-transparent btn-block text-light" onclick=dab()>{% trans "Trau dich" %}</button>
 
 </footer>
 
@@ -250,8 +307,12 @@
     }
 
     // for dabbing reasons
-    const dab = Math.random();
-    if (dab < 0.001) {
+    const prob = Math.random();
+    if (prob < 0.001) {
+        dab();
+    }
+
+    function dab() {
         document.getElementById('unicorn').click();
     }
 

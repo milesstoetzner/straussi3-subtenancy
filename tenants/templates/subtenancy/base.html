@@ -201,7 +201,7 @@
 
 <main class="container-fluid" style="padding-bottom: 3rem; max-width:
         {% if view.max_width or max_width %}{{ view.max_width }}{{ max_width }}{% else %}600px{% endif %};"
-     id="custom-container">
+      id="custom-container">
 
     {% if messages %}
         {% for message in messages %}
@@ -232,7 +232,7 @@
 
                 <div class="row">
                     <div class="col-12 col-md">
-                        <h6>Account</h6>
+                        <h6>{% trans "Account" %}</h6>
                         <ul class="list-unstyled">
                             <li><a class="text-muted" href="{% url 'login' %}">{% trans "Einloggen" %}</a></li>
                             <li><a class="text-muted"
@@ -247,7 +247,7 @@
                         </ul>
                     </div>
                     <div class="col-12 col-md">
-                        <h6>Ferienmiete</h6>
+                        <h6>{% trans "Ferienmiete" %}</h6>
                         <ul class="list-unstyled">
                             <li><a class="text-muted"
                                    href="{% url 'Index' %}">{% trans "Allgemeine Informationen" %}</a></li>
@@ -264,9 +264,13 @@
                         </ul>
                     </div>
                     <div class="col-12 col-md">
-                        <h6>Über uns</h6>
+                        <h6>{% trans "Über uns" %}</h6>
                         <ul class="list-unstyled">
                             <li><a class="text-muted" href="https://str3.wh-stuttgart.net/">{% trans "Homepage" %}</a>
+                            </li>
+                            <li><a href="https://www.facebook.com/straussi3">{% trans "Facebook Seite" %}</a>
+                            </li>
+                            <li><a href="https://www.facebook.com/groups/straussi3">{% trans "Facebook Gruppe" %}</a>
                             </li>
                             <li><a class="text-muted" href="{% url 'Impressum' %}">{% trans "Impressum" %}</a></li>
                             <li><a class="text-muted" href="{% url 'Feedback' %}">{% trans "Feedback senden" %}</a></li>

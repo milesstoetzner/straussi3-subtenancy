@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-10 23:25+0100\n"
+"POT-Creation-Date: 2019-03-10 23:44+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -357,10 +357,11 @@ msgstr "Your Password has been successfully resetted!"
 #: .\subtenancy\views.py:106 .\tenants\templates\subtenancy\base.html:38
 #: .\tenants\templates\subtenancy\base.html:49
 #: .\tenants\templates\subtenancy\base.html:58
+#: .\tenants\templates\subtenancy\base.html:250
 msgid "Ferienmiete"
 msgstr "Subtenancy"
 
-#: .\subtenancy\views.py:115 .\tenants\templates\subtenancy\base.html:271
+#: .\subtenancy\views.py:115 .\tenants\templates\subtenancy\base.html:275
 msgid "Impressum"
 msgstr "Legal Notice"
 
@@ -385,7 +386,7 @@ msgstr ""
 msgid "Es tut uns Leid, aber die CSRF Überprüfung ist fehlgeschlagen!"
 msgstr ""
 
-#: .\subtenancy\views.py:153 .\tenants\templates\subtenancy\base.html:272
+#: .\subtenancy\views.py:153 .\tenants\templates\subtenancy\base.html:276
 #: .\tenants\templates\tenants\feedback.html:20 .\tenants\views.py:449
 msgid "Feedback senden"
 msgstr ""
@@ -708,6 +709,12 @@ msgstr "Caretaker"
 msgid "Schwarze Liste"
 msgstr "Black List"
 
+#: .\tenants\templates\subtenancy\base.html:235
+#, fuzzy
+#| msgid "Account löschen"
+msgid "Account"
+msgstr "Delete Account"
+
 #: .\tenants\templates\subtenancy\base.html:239
 #, fuzzy
 #| msgid "Passwort vergessen?"
@@ -753,11 +760,23 @@ msgstr "Register as Subtenant"
 msgid "Liste aller Anfragen"
 msgstr "Request List"
 
+#: .\tenants\templates\subtenancy\base.html:267
+msgid "Über uns"
+msgstr ""
+
 #: .\tenants\templates\subtenancy\base.html:269
 msgid "Homepage"
 msgstr ""
 
-#: .\tenants\templates\subtenancy\base.html:274
+#: .\tenants\templates\subtenancy\base.html:271
+msgid "Facebook Seite"
+msgstr ""
+
+#: .\tenants\templates\subtenancy\base.html:273
+msgid "Facebook Gruppe"
+msgstr ""
+
+#: .\tenants\templates\subtenancy\base.html:278
 msgid "GitHub"
 msgstr ""
 

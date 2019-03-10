@@ -2,7 +2,7 @@ from django.db.transaction import atomic
 from subtenancy.utils import get_verbose_changed_data
 from tenants.models import User, MainTenant, SubTenant, BlockedTenantID, BlockedStudentID
 from tenants.forms import UserForm, UserUpdateForm, MainTenantForm, MainTenantUpdateForm, SubTenantForm, \
-    SubTenantUpdateForm, FeedbackForm
+    SubTenantUpdateForm, FeedbackForm, RequestUpdateForm
 from django.urls import reverse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.decorators.http import require_http_methods, require_GET
@@ -136,10 +136,6 @@ def update_profile(request):
 
             if user_form.has_changed() or tenant_form.has_changed():
 
-                changes_user = get_verbose_changed_data(user_form.changed_data, User)
-                changes_tenant = get_verbose_changed_data(tenant_form.changed_data,
-                                                          MainTenant if tenant.is_maintenant else SubTenant)
-
                 user_form.save()
                 tenant_form.save()
 
@@ -157,6 +153,53 @@ def update_profile(request):
     context['tenant'] = tenant
 
     return render(request, 'tenants/update_profile.html', context)
+
+
+@atomic
+@csrf_protect
+@login_required
+@permission_required(['tenants.change_own'])
+@require_http_methods(['GET', 'POST'])
+def update_request(request):
+    """
+    Updates the details about a user and his corresponding maintenant/subtenant.
+    NOTE: this is copy and pasted (and adjusted) from update_tenant
+    """
+
+    context = {}
+
+    tenant = request.user
+
+    # only tenants can be updated
+    if not tenant.is_subtenant:
+        return HttpResponseForbidden()
+
+    subtenant = tenant.subtenant
+
+    if request.method == 'GET':
+
+        form = RequestUpdateForm(instance=subtenant)
+        context['get'] = True
+
+    else:
+
+        form = RequestUpdateForm(request.POST, instance=subtenant)
+
+        if form.is_valid():
+            if form.has_changed():
+                form.save()
+
+                messages.success(request, _('Änderungen wurden erfolgreich übernommen!'))
+
+            else:
+                messages.info(request, _('Es gab keine Änderungen!'))
+
+            return redirect(reverse('Profile'))
+
+    context['title'] = _('Anfrage aktualisieren')
+    context['form'] = form
+
+    return render(request, 'tenants/update_request.html', context)
 
 
 @atomic
@@ -180,7 +223,7 @@ def delete_profile(request):
         return render(request, 'tenants/delete.html', context)
 
     else:
-        # Deletes the user and his correspoding maintenant/subtenant iff no contracts exist.
+        # Deletes the user and his corresponding maintenant/subtenant iff no contracts exist.
 
         try:
             user.delete()
@@ -261,14 +304,10 @@ def update_tenant(request, pk):
 
             if user_form.has_changed() or tenant_form.has_changed():
 
-                # changes_user = get_verbose_changed_data(user_form.changed_data, User)
-                # changes_tenant = get_verbose_changed_data(tenant_form.changed_data, MainTenant if tenant.is_maintenant else SubTenant)
-
                 user_form.save()
                 tenant_form.save()
 
                 messages.success(request, _('Änderungen wurden erfolgreich übernommen!'))
-                # messages.success(request, "Folgende Felder wurden geändert: %s." % ", ".join(changes_user + changes_tenant))
 
             else:
                 messages.info(request, 'Es gab keine Änderungen!')

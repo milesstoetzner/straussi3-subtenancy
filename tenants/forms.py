@@ -3,7 +3,6 @@ from .models import User, MainTenant, SubTenant, ResidentialHome, BlockedTenantI
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.utils.translation import gettext_lazy as _
 
-
 BOOLEAN_CHOICES = ((False, _('Nein')), (True, _('Ja')))
 
 
@@ -92,7 +91,8 @@ class MainTenantForm(ModelForm):
         model = MainTenant
         exclude = ['user']
         help_texts = {
-            'is_returning': _('Sofern kein Wiedereinzug geplant ist und der Hauptmieter somit vollständig auszieht, wird die Kaution über den Hausmeister zurückerstattet.'),
+            'is_returning': _(
+                'Sofern kein Wiedereinzug geplant ist und der Hauptmieter somit vollständig auszieht, wird die Kaution über den Hausmeister zurückerstattet.'),
         }
         widgets = {
             'begin_rent_agreement': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
@@ -149,14 +149,29 @@ class SubTenantUpdateForm(SubTenantForm):
     """
     Updates a subtenant. The difference to creating a subtenant is the now available field is_searching.
     """
+
     class Meta(SubTenantForm.Meta):
+        help_texts = {
+            'is_searching': _(
+                'Wenn dieser Wert auf "Nein" gesetzt ist, taucht deine Anfrage mit dem oben genannten Zeitraum NICHT in der Anfragenliste auf. Sobald ein Vertrag abgeschlossen wird, wird dieser Wert automatisch auf "Nein" gesetzt. Das beudetet: Wenn deine Anfrage mit dem oben angegebenen Zeitraum in die Anfragenliste wieder aufgenommen werden soll, muss dieser Wert "Ja" lauten.')
+        }
         exclude = ['user']
+
+
+class RequestUpdateForm(SubTenantForm):
+    """
+    Subtenant can update only his request.
+    """
+
+    class Meta(SubTenantUpdateForm.Meta):
+        fields = ['begin_subtenancy', 'end_subtenancy', 'is_searching']
 
 
 class FeedbackForm(ModelForm):
     """
     User creates feedback.
     """
+
     class Meta:
         model = Feedback
         exclude = ["is_done"]

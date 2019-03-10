@@ -67,8 +67,7 @@
             <div class="navbar-nav">
 
                 {% if user.is_authenticated %}
-                    <a class="btn btn-primary disabled d-block d-md-none text-white"
-                       style="opacity: 1">{% trans "Eingeloggt als" %} {{ user.get_full_name }}.</a>
+                    <a class="btn btn-primary disabled d-block d-md-none text-white">{% trans "Eingeloggt als" %} {{ user.get_full_name }}.</a>
 
                 {% else %}
                     <a class="btn btn-primary " href="{% url 'login' %}" id="{% url 'login' %}"><i

@@ -117,8 +117,6 @@ AUTH_USER_MODEL = "tenants.User"
 LANGUAGES = [
     ('de', _('Deutsch')),
     ('en', _('Englisch')),
-    ('ar', _('Arabisch')),
-    ('zh-hans', _('Chinesisch')),
 ]
 
 LANGUAGE_CODE = 'de'

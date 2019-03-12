@@ -189,8 +189,8 @@ class SubTenant(models.Model):
     student_id = models.PositiveIntegerField(_('Matrikelnummer'), unique=True)
 
     # Information about subtenancy
-    begin_subtenancy = models.DateField(_('Beginn der Untermiete'))
-    end_subtenancy = models.DateField(_('Ende der Untermiete'))
+    begin_subtenancy = models.DateField(_('Beginn der angefragten Untermiete'))
+    end_subtenancy = models.DateField(_('Ende der angefragten Untermiete'))
     is_searching = models.BooleanField(_('Ich suche für den oben genannten Zeitraum ein Zimmer'), default=True)
 
     # Correspondence address

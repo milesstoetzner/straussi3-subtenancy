@@ -29,7 +29,7 @@ class ContractForm(ModelForm):
         # begin < end
         if begin and end:
             if begin >= end:
-                self.add_error('end', _('Das Ende des Untermietvertrages muss nach dem Beginn sein!'))
+                self.add_error('end', _('Das Ende der Untermiete muss nach dem Beginn sein!'))
 
         # maintenant account is not blocked
         if maintenant:
@@ -46,13 +46,13 @@ class ContractForm(ModelForm):
             if maintenant.begin_rent_agreement:
                 if maintenant.begin_rent_agreement > begin:
                     self.add_error('begin',
-                                   _('Der Begin des Untermietvertrages ist vor dem Beginn des Hauptmietvertrages!'))
+                                   _('Der Begin der Untermiete ist vor dem Beginn des Hauptmietvertrages!'))
 
         # maintenant.end_rent_agreement >= end
         if maintenant and end:
             if maintenant.end_rent_agreement:
                 if maintenant.end_rent_agreement < end:
-                    self.add_error('end', _('Das Ende des Untermietvertrages ist nach dem Ende des Hauptmietvertrages!'))
+                    self.add_error('end', _('Das Ende der Untermiete ist nach dem Ende des Hauptmietvertrages!'))
 
         # check for intersection with other contracts regarding maintenant
         if maintenant and begin and end:
@@ -122,7 +122,7 @@ class ContractForm(ModelForm):
 
         # is_subtenant_allowed_in_DE
         if not is_subtenant_allowed_in_DE:
-            self.add_error('is_subtenant_allowed_in_DE', _('Untermieter muss bereichtigt sein, sich in Deutschland aufzuhalten!'))
+            self.add_error('is_subtenant_allowed_in_DE', _('Der Untermieter muss berechtigt sein, sich in Deutschland aufzuhalten!'))
 
         # positive donation
         if donation:

@@ -17,8 +17,8 @@ class Contract(models.Model):
 
     maintenant = models.ForeignKey(MainTenant, on_delete=models.PROTECT, verbose_name=_('Hauptmieter'))
     subtenant = models.ForeignKey(SubTenant, on_delete=models.PROTECT, verbose_name=_('Untermieter'))
-    begin = models.DateField(_('Beginn des Untermietvertrages'))
-    end = models.DateField(_('Ende des Untermietvertrages'))
+    begin = models.DateField(_('Beginn der Untermiete'))
+    end = models.DateField(_('Ende der Untermiete'))
     condition_room = models.BooleanField(_('Ist das Zimmer gereinigt und in einem ordnungsgemäßen Zustand?'),
                                          default=False)
     condition_flat = models.BooleanField(

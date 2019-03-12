@@ -10,6 +10,16 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.AlterField(
+            model_name='historicalresidentialhome',
+            name='short',
+            field=models.CharField(max_length=4, verbose_name='Abkürzung'),
+        ),
+        migrations.AlterField(
+            model_name='residentialhome',
+            name='short',
+            field=models.CharField(max_length=4, verbose_name='Abkürzung'),
+        ),
         migrations.AddField(
             model_name='historicalresidentialhome',
             name='id',
@@ -22,14 +32,5 @@ class Migration(migrations.Migration):
             field=models.AutoField(auto_created=True, default=1, primary_key=True, serialize=False, verbose_name='ID'),
             preserve_default=False,
         ),
-        migrations.AlterField(
-            model_name='historicalresidentialhome',
-            name='short',
-            field=models.CharField(max_length=4, verbose_name='Abkürzung'),
-        ),
-        migrations.AlterField(
-            model_name='residentialhome',
-            name='short',
-            field=models.CharField(max_length=4, verbose_name='Abkürzung'),
-        ),
+
     ]

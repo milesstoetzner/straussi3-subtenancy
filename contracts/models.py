@@ -19,20 +19,16 @@ class Contract(models.Model):
     subtenant = models.ForeignKey(SubTenant, on_delete=models.PROTECT, verbose_name=_('Untermieter'))
     begin = models.DateField(_('Beginn der Untermiete'))
     end = models.DateField(_('Ende der Untermiete'))
-    condition_room = models.BooleanField(_('Ist das Zimmer gereinigt und in einem ordnungsgemäßen Zustand?'),
-                                         default=False)
-    condition_flat = models.BooleanField(
-        _('Sind die Gemeinschaftsräume gereinigt und steht ein Stauraum in Küche/Kühlschrank bereit?'), default=False)
+    condition = models.BooleanField(_('Ist das Zimmer und die Wohnung gereinigt und in einem ordnungsgemäßen Zustand?'), default=False)
     condition_comment = models.CharField(_('Sonstige Anmerkungen zum Zimmer oder zur Wohnung'), max_length=75, blank=True)
-    caution = models.DecimalField(_('Höhe der Kaution in Euro'), max_digits=5, decimal_places=2)
+    caution = models.DecimalField(_('Höhe der Kaution in Euro'), max_digits=5, decimal_places=2, default=0)
     caution_comment = models.CharField(_('Anmerkungen zur Kaution'), max_length=150, blank=True)
     is_maintenant_identified = models.BooleanField(_('Wurde der Lichtbildausweis des Hauptmieters kontrolliert?'), default=False)
     is_subtenant_identified = models.BooleanField(_('Wurde der Lichtbildausweis des Untermieters kontrolliert?'), default=False)
     is_subtenant_matriculated = models.BooleanField(_('Wurde die Immatrikulationsbescheinigung des Untermieters kontrolliert?'), default=False)
     is_subtenant_allowed_in_DE = models.BooleanField(_('Darf der Untermieter sich für den Zeitraum in Deutschland aufhalten?'), default=False)
-    donation = models.DecimalField(_('Freiwillige Spende in Euro'), max_digits=5, decimal_places=2)
-    has_special_permission = models.BooleanField(
-        _('Hat der Hauptmieter eine Sondergenehmigung, um den Zeitraum von 3 Monaten zu überschreiten?'), default=False)
+    donation = models.DecimalField(_('Freiwillige Spende in Euro'), max_digits=5, decimal_places=2, default=0)
+    has_special_permission = models.BooleanField(_('Hat der Hauptmieter eine Sondergenehmigung, um den Zeitraum von 3 Monaten zu überschreiten?'), default=False)
     is_active = models.BooleanField(_('Ist dieser Vertrag gültig?'), default=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -159,5 +155,5 @@ class Contract(models.Model):
         verbose_name = _('Vertrag')
         verbose_name_plural = _('Verträge')
         permissions = (
-            ("view_short_contract", "Can view short version of a contract"),
+            ("view_short_contract", _("Can view short version of a contract")),
         )

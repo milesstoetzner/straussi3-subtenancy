@@ -11,6 +11,29 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.AddField(
+            model_name='historicalresidentialhome',
+            name='id',
+            field=models.IntegerField(auto_created=True, blank=True, db_index=True, default=1, verbose_name='ID'),
+            preserve_default=False,
+        ),
+        migrations.AddField(
+            model_name='residentialhome',
+            name='id',
+            field=models.AutoField(auto_created=True, default=1, primary_key=True, serialize=False, verbose_name='ID'),
+            preserve_default=False,
+        ),
+        migrations.AlterField(
+            model_name='historicalresidentialhome',
+            name='short',
+            field=models.CharField(max_length=4, verbose_name='Abkürzung'),
+        ),
+        migrations.AlterField(
+            model_name='residentialhome',
+            name='short',
+            field=models.CharField(max_length=4, verbose_name='Abkürzung'),
+        ),
+
         migrations.AlterField(
             model_name='historicalmaintenant',
             name='residential_home',

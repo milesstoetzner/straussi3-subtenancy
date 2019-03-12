@@ -132,7 +132,7 @@ class MainTenant(models.Model):
     end_rent_agreement = models.DateField(_('Ende des Mietvertrages'))
 
     # Information about subtenancy
-    residential_home = models.ForeignKey(ResidentialHome, on_delete=models.PROTECT, verbose_name=_('Wohnheim'), default='str3')
+    residential_home = models.ForeignKey(ResidentialHome, on_delete=models.PROTECT, verbose_name=_('Wohnheim'), default=1)
     house_number = models.CharField(_('Hausnummer'), max_length=10)
     room_number = models.CharField(_('Zimmernummer'), max_length=10)
     rent = models.DecimalField(_('Monatsmiete in Euro'), max_digits=5, decimal_places=2)

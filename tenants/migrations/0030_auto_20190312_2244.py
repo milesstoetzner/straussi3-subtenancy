@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='maintenant',
             name='residential_home',
-            field=models.ForeignKey(default='str3', on_delete=django.db.models.deletion.PROTECT, to='tenants.ResidentialHome', verbose_name='Wohnheim'),
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.PROTECT, to='tenants.ResidentialHome', verbose_name='Wohnheim'),
         ),
     ]

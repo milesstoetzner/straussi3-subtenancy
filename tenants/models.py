@@ -11,8 +11,8 @@ class ResidentialHome(models.Model):
     Model for a residential home. Every change to a record is logged.
     """
 
+    id = models.CharField(_('Abkürzung'), max_length=4, primary_key=True)
     name = models.CharField(_('Name'), max_length=250)
-    short = models.CharField(_('Abkürzung'), max_length=4)
     street = models.CharField(_('Straße'), max_length=250)
     house_numbers = models.CharField(_('Hausnummern'), max_length=1000)
     room_numbers = models.CharField(_('Zimmernummern'), max_length=1000)
@@ -132,7 +132,7 @@ class MainTenant(models.Model):
     end_rent_agreement = models.DateField(_('Ende des Mietvertrages'))
 
     # Information about subtenancy
-    residential_home = models.ForeignKey(ResidentialHome, on_delete=models.PROTECT, verbose_name=_('Wohnheim'), default=1)
+    residential_home = models.ForeignKey(ResidentialHome, on_delete=models.PROTECT, verbose_name=_('Wohnheim'), default='str3')
     house_number = models.CharField(_('Hausnummer'), max_length=10)
     room_number = models.CharField(_('Zimmernummer'), max_length=10)
     rent = models.DecimalField(_('Monatsmiete in Euro'), max_digits=5, decimal_places=2)

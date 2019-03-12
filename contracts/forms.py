@@ -118,7 +118,7 @@ class ContractForm(ModelForm):
 
         # is_subtenant_matriculated
         if not is_subtenant_matriculated:
-            self.add_error('is_matriculated', _('Immatrikulationsbescheinigung des Untermieters muss kontrolliert werden!'))
+            self.add_error('is_subtenant_matriculated', _('Immatrikulationsbescheinigung des Untermieters muss kontrolliert werden!'))
 
         # is_subtenant_allowed_in_DE
         if not is_subtenant_allowed_in_DE:

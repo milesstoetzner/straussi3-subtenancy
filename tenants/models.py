@@ -11,7 +11,7 @@ class ResidentialHome(models.Model):
     Model for a residential home. Every change to a record is logged.
     """
 
-    id = models.CharField(_('Abkürzung'), max_length=4, primary_key=True)
+    short = models.CharField(_('Abkürzung'), max_length=4, primary_key=True)
     name = models.CharField(_('Name'), max_length=250)
     street = models.CharField(_('Straße'), max_length=250)
     house_numbers = models.CharField(_('Hausnummern'), max_length=1000)

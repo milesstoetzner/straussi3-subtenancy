@@ -108,7 +108,7 @@ class Contract(models.Model):
         Renders the contract as a PDF file and returns the PDF without saving.
         """
 
-        source = os.path.join('contracts', 'contracts', str(self.maintenant.residential_home.id) + '.html')
+        source = os.path.join('contracts', 'contracts', str(self.maintenant.residential_home.short) + '.html')
         pdf = html_to_pdf(source, {'contract': self})
         return pdf
 
@@ -122,7 +122,7 @@ class Contract(models.Model):
 
         self.version += 1
 
-        source = os.path.join('contracts', 'contracts', str(self.maintenant.residential_home.id) + '.html')
+        source = os.path.join('contracts', 'contracts', str(self.maintenant.residential_home.short) + '.html')
         destination = os.path.join('contracts', 'contracts',
                                    'contract_' + str(self.pk) + '_version_' + str(self.version) + '.pdf')
 

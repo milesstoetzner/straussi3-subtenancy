@@ -3,10 +3,9 @@ import os
 
 from django.db.transaction import atomic
 from django.urls import reverse
-from django.views.generic import ListView
 from .models import Contract
 from tenants.models import MainTenant, SubTenant
-from .forms import ContractForm, ContractUpdateForm
+from .forms import ContractForm
 from django.http import HttpResponseNotFound
 from django.views.decorators.http import require_POST, require_GET, require_http_methods
 from django.views.decorators.csrf import csrf_protect
@@ -71,7 +70,7 @@ def view_contract(request, pk):
     contract = get_object_or_404(Contract, pk=pk)
 
     context = {}
-    context['form'] = ContractUpdateForm(instance=contract)
+    context['form'] = ContractForm(instance=contract)
     context['title'] = str(contract)
     context['is_latest'] = contract.is_latest()
 
@@ -96,13 +95,13 @@ def update_contract(request, pk):
         # Displays the contract update form
 
         context['get'] = True
-        context['form'] = ContractUpdateForm(instance=contract)
+        context['form'] = ContractForm(instance=contract)
 
     else:
         # Validates the received form data.
         # Iff the data are valid and there had been changes, the changes will be saved to the database.
 
-        form = ContractUpdateForm(request.POST, instance=contract)
+        form = ContractForm(request.POST, instance=contract)
         if form.is_valid():
             if form.has_changed():
 
@@ -231,3 +230,11 @@ def search(request):
     }
 
     return render(request, 'contracts/search_result.html', context)
+
+
+@login_required
+@permission_required('contracts.add_contract')
+@require_http_methods(['GET'])
+def view_help(request):
+    messages.error(request, 'Sry, aber diese Seite befindet sich noch im Aufbau.')
+    return render(request, 'contracts/help.html')

@@ -19,8 +19,10 @@ class ContractForm(ModelForm):
         condition_room = cleaned_data.get('condition_room')
         condition_flat = cleaned_data.get('condition_flat')
         caution = cleaned_data.get('caution')
-        is_identified = cleaned_data.get('is_identified')
-        is_matriculated = cleaned_data.get('is_matriculated')
+        is_maintenant_identified = cleaned_data.get('is_maintenant_identified')
+        is_subtenant_identified = cleaned_data.get('is_subtenant_identified')
+        is_subtenant_matriculated = cleaned_data.get('is_subtenant_matriculated')
+        is_subtenant_allowed_in_DE = cleaned_data.get('is_subtenant_allowed_in_DE')
         donation = cleaned_data.get('donation')
         has_special_permission = cleaned_data.get('has_special_permission')
 
@@ -105,13 +107,22 @@ class ContractForm(ModelForm):
             if caution < 0:
                 self.add_error('caution', _('Die Kaution muss positiv sein!'))
 
-        # is_identified
-        if not is_identified:
-            self.add_error('is_identified', _('Lichtbildausweis muss kontrolliert werden!'))
+        # is_maintenant_identified
+        if not is_maintenant_identified:
+            self.add_error('is_maintenant_identified', _('Lichtbildausweis des Hauptmieters muss kontrolliert werden!'))
 
-        # is_matriculated
-        if not is_matriculated:
-            self.add_error('is_matriculated', _('Immatrikulationsbescheinigung muss kontrolliert werden!'))
+        # is_subtenant_identified
+        if not is_subtenant_identified:
+            self.add_error('is_subtenant_identified',
+                           _('Lichtbildausweis des Untermieters muss kontrolliert werden!'))
+
+        # is_subtenant_matriculated
+        if not is_subtenant_matriculated:
+            self.add_error('is_matriculated', _('Immatrikulationsbescheinigung des Untermieters muss kontrolliert werden!'))
+
+        # is_subtenant_allowed_in_DE
+        if not is_subtenant_allowed_in_DE:
+            self.add_error('is_subtenant_allowed_in_DE', _('Untermieter muss bereichtigt sein, sich in Deutschland aufzuhalten!'))
 
         # positive donation
         if donation:
@@ -120,9 +131,11 @@ class ContractForm(ModelForm):
 
     class Meta:
         model = Contract
-        exclude = ['is_active', 'version', 'is_changed']
+        exclude = ['version', 'is_changed']
         help_texts = {
-            'condition_room': _('Ein ordnungsgemäßer Zustand schließt die Vollständigkeit des Inventars entsprechend des Hauptmietvertrages ein.')
+            'condition_room': _('Ein ordnungsgemäßer Zustand schließt die Vollständigkeit des Inventars entsprechend des Hauptmietvertrages ein.'),
+            'donation': _('Eine freiwillige Spende in Höhe von 2.50€ pro Woche ist angemessen.'),
+            'is_active': _('Wenn der Vertrag nicht gültig ist, dann wird er nicht in der Liste für das SWS augeführt. Ein Vertrag ist beispielsweise nicht gültig, wenn noch nicht alle Parteien unterschrieben haben.')
         }
         widgets = {
             'begin': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
@@ -131,17 +144,10 @@ class ContractForm(ModelForm):
             'condition_flat': Select(choices=BOOLEAN_CHOICES),
             'condition_comment': Textarea(attrs={'rows': 1}),
             'caution_comment': Textarea(attrs={'rows': 1}),
-            'is_identified': Select(choices=BOOLEAN_CHOICES),
-            'is_matriculated': Select(choices=BOOLEAN_CHOICES),
+            'is_maintenant_identified': Select(choices=BOOLEAN_CHOICES),
+            'is_subtenant_identified': Select(choices=BOOLEAN_CHOICES),
+            'is_subtenant_matriculated': Select(choices=BOOLEAN_CHOICES),
+            'is_subtenant_allowed_in_DE': Select(choices=BOOLEAN_CHOICES),
             'is_active': Select(choices=BOOLEAN_CHOICES),
             'has_special_permission': Select(choices=BOOLEAN_CHOICES)
         }
-
-
-class ContractUpdateForm(ContractForm):
-    """
-    Updates an existing contract. The only difference to the creation is that the field 'is_active' is available.
-    """
-
-    class Meta(ContractForm.Meta):
-        exclude = ['version', 'is_changed']

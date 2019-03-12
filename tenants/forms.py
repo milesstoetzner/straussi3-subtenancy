@@ -132,7 +132,7 @@ class SubTenantForm(ModelForm):
         # begin_subtenancy < end_subtenancy
         if begin_subtenancy and end_subtenancy:
             if begin_subtenancy >= end_subtenancy:
-                self.add_error('end_subtenancy', _('Das Ende des Untermietvertrages muss nach dem Beginn sein!'))
+                self.add_error('end_subtenancy', _('Das Ende der angefragten Untermiete muss nach dem Beginn sein!'))
 
     class Meta:
         model = SubTenant

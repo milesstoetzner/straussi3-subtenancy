@@ -26,21 +26,20 @@ class Contract(models.Model):
     condition_comment = models.CharField(_('Sonstige Anmerkungen zum Zimmer oder zur Wohnung'), max_length=75, blank=True)
     caution = models.DecimalField(_('Höhe der Kaution in Euro'), max_digits=5, decimal_places=2)
     caution_comment = models.CharField(_('Anmerkungen zur Kaution'), max_length=150, blank=True)
-    is_identified = models.BooleanField(_('Lichtbildausweis kontrolliert?'))
-    is_matriculated = models.BooleanField(_('Immatrikulationsbescheinigung kontrolliert?'))
+    is_maintenant_identified = models.BooleanField(_('Wurde der Lichtbildausweis des Hauptmieters kontrolliert?'), default=False)
+    is_subtenant_identified = models.BooleanField(_('Wurde der Lichtbildausweis des Untermieters kontrolliert?'), default=False)
+    is_subtenant_matriculated = models.BooleanField(_('Wurde die Immatrikulationsbescheinigung des Untermieters kontrolliert?'), default=False)
+    is_subtenant_allowed_in_DE = models.BooleanField(_('Darf der Untermieter sich für den Zeitraum in Deutschland aufhalten?'), default=False)
     donation = models.DecimalField(_('Freiwillige Spende in Euro'), max_digits=5, decimal_places=2)
-    is_active = models.BooleanField(_('Ist dieser Vertrag gültig?'), default=True)
-
     has_special_permission = models.BooleanField(
         _('Hat der Hauptmieter eine Sondergenehmigung, um den Zeitraum von 3 Monaten zu überschreiten?'), default=False)
+    is_active = models.BooleanField(_('Ist dieser Vertrag gültig?'), default=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     is_changed = models.BooleanField(default=True)
-
     version = models.IntegerField(default=0)
-
     history = HistoricalRecords()
 
     def get_absolute_url(self):

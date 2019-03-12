@@ -16,8 +16,7 @@ class ContractForm(ModelForm):
         subtenant = cleaned_data.get('subtenant')
         begin = cleaned_data.get('begin')
         end = cleaned_data.get('end')
-        condition_room = cleaned_data.get('condition_room')
-        condition_flat = cleaned_data.get('condition_flat')
+        condition = cleaned_data.get('condition')
         caution = cleaned_data.get('caution')
         is_maintenant_identified = cleaned_data.get('is_maintenant_identified')
         is_subtenant_identified = cleaned_data.get('is_subtenant_identified')
@@ -94,13 +93,9 @@ class ContractForm(ModelForm):
                     self.add_error('end',
                                    _('Der Hauptmieter überschreitet die 3 Monate Grenze! Falls er eine Sondergenehmigung besitzt, kann dies unten angegeben werden.'))
 
-        # condition_room is false
-        if not condition_room:
-            self.add_error('condition_room', _('Dein Zimmer muss in einem ordnungsgemäßen Zustand sein!'))
-
-        # flat_condition is false
-        if not condition_flat:
-            self.add_error('condition_flat', _('Deine Wohnung muss in einem ordnungsgemäßen Zustand sein!'))
+        # condition is false
+        if not condition:
+            self.add_error('condition', _('Deine Wohnung muss in einem ordnungsgemäßen Zustand sein!'))
 
         # positive caution
         if caution:
@@ -133,15 +128,14 @@ class ContractForm(ModelForm):
         model = Contract
         exclude = ['version', 'is_changed']
         help_texts = {
-            'condition_room': _('Ein ordnungsgemäßer Zustand schließt die Vollständigkeit des Inventars entsprechend des Hauptmietvertrages ein.'),
+            'condition': _('Ein ordnungsgemäßer Zustand schließt die Vollständigkeit des Inventars entsprechend des Hauptmietvertrages ein.'),
             'donation': _('Eine freiwillige Spende in Höhe von 2.50€ pro Woche ist angemessen.'),
             'is_active': _('Wenn der Vertrag nicht gültig ist, dann wird er nicht in der Liste für das SWS augeführt. Ein Vertrag ist beispielsweise nicht gültig, wenn noch nicht alle Parteien unterschrieben haben.')
         }
         widgets = {
             'begin': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'end': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-            'condition_room': Select(choices=BOOLEAN_CHOICES),
-            'condition_flat': Select(choices=BOOLEAN_CHOICES),
+            'condition': Select(choices=BOOLEAN_CHOICES),
             'condition_comment': Textarea(attrs={'rows': 1}),
             'caution_comment': Textarea(attrs={'rows': 1}),
             'is_maintenant_identified': Select(choices=BOOLEAN_CHOICES),

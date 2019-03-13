@@ -252,3 +252,6 @@ COUNTRIES = (
     ('SX', _('Sint Maarten (niederl. Teil)')),
     ('SS', _('Südsudan')),
 )
+
+TYPES = (('HM', _('Hauptmieter')), ('UM', _('Untermieter')), ('SWS', _('Studierendenwerk Stuttgart')),
+         ('SS', _('Sprechstunde')),)

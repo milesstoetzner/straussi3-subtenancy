@@ -11,7 +11,7 @@
 
             <p class="text-block">{% trans "In diesen Listen stehen die Mieternummern und Matrikelnummern der Personen, die sich aus irgendeinem Grund eine zukünftige Zusammenarbeit mit uns verwehrt haben." %}</p>
 
-            {% if tenant_ids %}
+            {% if blacklist %}
 
                 <div class="table">
                     <table class="table table-striped" style="text-align: center; table-layout:fixed;">
@@ -19,43 +19,8 @@
                         <thead>
                         <tr>
                             <th>{% trans "Mieternummer" %}</th>
-                            <th>{% trans "Beschreibung" %}</th>
-                        </tr>
-
-                        </thead>
-
-                        <tbody>
-
-                        {% for tenant_id in tenant_ids %}
-
-                            <tr>
-                                <td title="{{ tenant_id.description }}"
-                                    style="vertical-align: middle">{{ tenant_id.id }}</td>
-                                <td class="text-block" style="white-space: break-word;">{{ tenant_id.description }}</td>
-                            </tr>
-
-                        {% endfor %}
-
-
-                        </tbody>
-                    </table>
-                </div>
-
-            {% else %}
-                <div class="alert bg-info text-white text-center" style="margin-bottom: 1rem">
-                    {% trans "Die Liste der blockierten Mieternummern ist leer." %}
-                </div>
-
-            {% endif %}
-
-            {% if student_ids %}
-
-                <div class="table-responsive">
-                    <table class="table table-striped" style="white-space: nowrap; text-align: center">
-
-                        <thead>
-                        <tr>
                             <th>{% trans "Matrikelnummer" %}</th>
+                            <th>{% trans "Name" %}</th>
                             <th>{% trans "Beschreibung" %}</th>
                         </tr>
 
@@ -63,11 +28,12 @@
 
                         <tbody>
 
-                        {% for student_id in student_ids %}
+                        {% for blocked in blacklist %}
 
                             <tr>
-                                <td class="align-middle">{{ student_id.id }}</td>
-                                <td class="text-block" style="white-space: break-word;">{{ student_id.description }}</td>
+                                <td style="vertical-align: middle">{{ blocked.tenand_id }}</td>
+                                <td class="text-block" style="white-space: break-word; vertical-align: middle">{{ blocked.name }}</td>
+                                <td class="text-block" style="white-space: break-word;">{{ blocked.description }}</td>
                             </tr>
 
                         {% endfor %}
@@ -77,15 +43,14 @@
                     </table>
                 </div>
 
-                </div>
-
             {% else %}
 
-                <div class="alert bg-info text-white text-center">
-                    {% trans "Die Liste der blockierten Matrikelnummern ist leer." %}
+                <div class="alert bg-info text-white text-center" style="margin-bottom: 1rem">
+                    {% trans "Die schwarze Liste ist leer." %}
                 </div>
 
             {% endif %}
+
 
         {% include 'contracts/pagination.html' %}
 

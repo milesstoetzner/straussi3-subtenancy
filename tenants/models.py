@@ -86,6 +86,31 @@ class BlockedStudentID(models.Model):
         verbose_name_plural = _('Blockierte Matrikelnummern')
 
 
+class Blacklist(models.Model):
+    """
+    Model for a blocked student id. A subtenant with this id can not register an account.
+    Every change to a record is logged.
+    """
+
+    tenant_id = models.PositiveIntegerField(_('Mieternummer'), unique=True, null=True, blank=True)
+    student_id = models.PositiveIntegerField(_('Matrikelnummer'), unique=True, null=True, blank=True)
+    name = models.CharField(_('Vollständiger Name'), max_length=500, unique=True)
+    email = models.EmailField(_('Email Adresse'), max_length=150, unique=True, null=True, blank=True)
+    description = models.CharField(_('Beschreibung'), max_length=500)
+
+    history = HistoricalRecords()
+
+    def get_absolute_url(self):
+        return reverse('tenants:Blacklist')
+
+    def __str__(self):
+        return str(self.id)
+
+    class Meta:
+        verbose_name = _('Blockierter Mieter')
+        verbose_name_plural = _('Blockierte Mieter')
+
+
 class User(AbstractUser):
     """
     Model for user. A user can be an assistant, maintenant, subtenant or external.
@@ -186,7 +211,6 @@ class SubTenant(models.Model):
 
     # Information about sub tenant
     nationality = models.CharField(_('Nationalität'), choices=COUNTRIES, max_length=2)
-    is_eu = models.BooleanField(_('Ist dein Herkunftsland in der EU?'))
     student_id = models.PositiveIntegerField(_('Matrikelnummer'), unique=True)
 
     # Information about subtenancy

@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>763</x>
-      <y>147</y>
+      <x>728</x>
+      <y>161</y>
       <w>126</w>
       <h>112</h>
     </coordinates>
@@ -24,8 +24,8 @@ updated_at</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>546</x>
-      <y>385</y>
+      <x>511</x>
+      <y>399</y>
       <w>203</w>
       <h>126</h>
     </coordinates>
@@ -45,13 +45,14 @@ updated_at</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>763</x>
+      <x>728</x>
       <y>0</y>
       <w>126</w>
-      <h>112</h>
+      <h>126</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AbstractUser&gt;&gt;
 --
+id
 username
 first_name
 last_name
@@ -65,8 +66,8 @@ is_superuser</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>819</x>
-      <y>105</y>
+      <x>784</x>
+      <y>119</y>
       <w>21</w>
       <h>56</h>
     </coordinates>
@@ -76,8 +77,8 @@ is_superuser</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>637</x>
-      <y>252</y>
+      <x>602</x>
+      <y>266</y>
       <w>203</w>
       <h>147</h>
     </coordinates>
@@ -87,15 +88,14 @@ is_superuser</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>903</x>
-      <y>378</y>
+      <x>868</x>
+      <y>392</y>
       <w>189</w>
-      <h>182</h>
+      <h>175</h>
     </coordinates>
     <panel_attributes>SubTenant
 --
 nationality
-is_eu
 student_id
 begin_subtenancy
 end_subtenancy
@@ -113,8 +113,8 @@ updated_at</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>819</x>
-      <y>287</y>
+      <x>784</x>
+      <y>301</y>
       <w>203</w>
       <h>105</h>
     </coordinates>
@@ -124,13 +124,14 @@ updated_at</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>231</x>
-      <y>399</y>
+      <x>196</x>
+      <y>413</y>
       <w>154</w>
-      <h>133</h>
+      <h>147</h>
     </coordinates>
     <panel_attributes>ResidentialHome
 --
+id
 name
 short
 street
@@ -146,22 +147,24 @@ updated_at</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>756</x>
-      <y>700</y>
+      <x>721</x>
+      <y>714</y>
       <w>147</w>
-      <h>182</h>
+      <h>203</h>
     </coordinates>
     <panel_attributes>Contract
 --
+id
 begin
 end
-condition_room
-condition_flat
+condition
 condition_comment
 caution
 caution_comment
-is_identified
-is_matriculated
+is_maintenant_identified
+is_subtenant_identified
+is_subtenant_matriculated
+is_subtenant_allowed_in_EU
 is_active
 donation
 created_at
@@ -173,19 +176,19 @@ version
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>819</x>
-      <y>553</y>
+      <x>784</x>
+      <y>560</y>
       <w>203</w>
-      <h>112</h>
+      <h>119</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>270.0;10.0;270.0;140.0;10.0;140.0</additional_attributes>
+    <additional_attributes>270.0;10.0;270.0;150.0;10.0;150.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>637</x>
-      <y>504</y>
+      <x>602</x>
+      <y>518</y>
       <w>203</w>
       <h>210</h>
     </coordinates>
@@ -195,8 +198,8 @@ version
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>378</x>
-      <y>448</y>
+      <x>343</x>
+      <y>462</y>
       <w>182</w>
       <h>21</h>
     </coordinates>
@@ -206,8 +209,8 @@ version
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>980</x>
-      <y>189</y>
+      <x>945</x>
+      <y>203</y>
       <w>182</w>
       <h>35</h>
     </coordinates>
@@ -219,8 +222,8 @@ version
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>882</x>
-      <y>196</y>
+      <x>847</x>
+      <y>210</y>
       <w>112</w>
       <h>21</h>
     </coordinates>
@@ -230,8 +233,8 @@ version
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>896</x>
-      <y>196</y>
+      <x>861</x>
+      <y>210</y>
       <w>294</w>
       <h>581</h>
     </coordinates>
@@ -241,47 +244,34 @@ version
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>280</x>
-      <y>525</y>
+      <x>245</x>
+      <y>553</y>
       <w>910</w>
-      <h>406</h>
+      <h>392</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
-    <additional_attributes>1280.0;340.0;1280.0;560.0;10.0;560.0;10.0;10.0</additional_attributes>
+    <additional_attributes>1280.0;320.0;1280.0;540.0;10.0;540.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1134</x>
-      <y>42</y>
+      <x>959</x>
+      <y>56</y>
       <w>112</w>
-      <h>49</h>
+      <h>56</h>
     </coordinates>
-    <panel_attributes>BlockedTenantID
+    <panel_attributes>Blacklist
 --
 id
-description</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>994</x>
-      <y>42</y>
-      <w>112</w>
-      <h>49</h>
-    </coordinates>
-    <panel_attributes>BlockedStudentID
---
-id
-description</panel_attributes>
+name
+reason</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1001</x>
-      <y>217</y>
+      <x>966</x>
+      <y>231</y>
       <w>63</w>
       <h>91</h>
     </coordinates>
@@ -291,23 +281,12 @@ description</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1043</x>
-      <y>84</y>
+      <x>1008</x>
+      <y>105</y>
       <w>21</w>
-      <h>119</h>
+      <h>112</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1043</x>
-      <y>84</y>
-      <w>168</w>
-      <h>63</h>
-    </coordinates>
-    <panel_attributes>lt=-</panel_attributes>
-    <additional_attributes>10.0;70.0;220.0;70.0;220.0;10.0</additional_attributes>
+    <additional_attributes>10.0;140.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>

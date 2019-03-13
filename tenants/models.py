@@ -58,10 +58,9 @@ class Blacklist(models.Model):
 
     history = HistoricalRecords()
 
-    """
     def get_absolute_url(self):
         return reverse('tenants:Blacklist')
-    """
+
     def __str__(self):
         return str(self.name)
 
@@ -207,6 +206,8 @@ class Feedback(models.Model):
     title = models.CharField(_('Titel'), max_length=250)
     description = models.CharField(_('Beschreibung'), max_length=1000)
     is_done = models.BooleanField(_('Bearbeitet?'), default=False)
+
+    history = HistoricalRecords()
 
     def __str__(self):
         return str(self.pk) + ': ' + str(self.title)

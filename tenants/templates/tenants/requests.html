@@ -46,8 +46,8 @@
                         <tr>
 
                             <td class="align-middle">{{ tenant.pk }}</td>
-                            <td class="align-middle">{{ tenant.begin_subtenancy|date:"d.m.Y" }}</td>
-                            <td class="align-middle">{{ tenant.end_subtenancy|date:"d.m.Y" }}</td>
+                            <td class="align-middle">{{ tenant.begin_request|date:"d.m.Y" }}</td>
+                            <td class="align-middle">{{ tenant.end_request|date:"d.m.Y" }}</td>
                             <td class="align-middle"><a href="{% url 'tenants:SubTenantContact' tenant.pk %}"
                                                         class="btn btn-primary"><i
                                     class="fas fa-comment-alt"></i></a></td>

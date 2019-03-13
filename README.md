@@ -109,3 +109,41 @@ The SWS expects each month a list of all active contracts. The list can be acces
     - `contract.change_contract`
 - `External`
     - `tenants.view_short_contract`
+    
+    
+# Backup
+
+```
+# .pgpass
+localhost:5432:subtenancy:djangouser:***********
+```
+
+```
+# backups.sh
+#!/bin/bash
+
+# A simple script to backup subtenancy data and upload them to Google Drive
+
+GDRIVE=1xXQ_LfwxPMNvJvJowW1EB-KeTudeWOG5
+BACKUP=/home/str3/backups/
+CONTRACTS=/var/www/ferienmiete/contracts/contracts/
+DBUSER=djangouser
+DBNAME=subtenancy
+DBHOST=localhost
+DATE=$(date +"%Y-%m-%d")
+
+# Create tar containing dump of database and all contract pdf files
+
+mkdir -p $BACKUP
+tar -cf ${BACKUP}contracts.tar -C $CONTRACTS .
+pg_dump -h $DBHOST -U $DBUSER -w -F t $DBNAME -f ${BACKUP}subtenancy.tar
+tar -cf ${BACKUP}subtenancy_backup_${DATE}.tar ${BACKUP}contracts.tar ${BACKUP}subtenancy.tar -C $BACKUP
+
+# Upload backup to gdrive
+/usr/local/bin/gdrive upload --parent $GDRIVE ${BACKUP}subtenancy_backup_${DATE}.tar
+
+# Cleanup files
+# find /backups/postgres_backups -name "customerdata*.gz" -mtime +30 -type f -delete
+rm ${BACKUP}contracts.tar
+rm ${BACKUP}subtenancy.tar
+```

@@ -396,11 +396,13 @@ def blacklist(request):
     Displays the blacklist containing all blocked tenant ids and student ids.
     """
 
+    query = Blacklist.objects.all()
+
     context = {}
     context['title'] = _('Schwarze Liste')
-    context['blacklist'] = Blacklist.objects.all()
+    context['blacklist'] = query
 
-    if not blacklist:
+    if not query:
         messages.info(request, _('Die schwarze Liste ist leer!'))
 
     return render(request, 'tenants/blacklist.html', context)

@@ -50,8 +50,7 @@ class ResidentialHome(models.Model):
 
 class Blacklist(models.Model):
     """
-    Model for a blocked student id. A subtenant with this id can not register an account.
-    Every change to a record is logged.
+    Main/Subtenant with the listed name can not register.
     """
 
     name = models.CharField(_('Vollständiger Name'), max_length=500, unique=True)
@@ -59,11 +58,12 @@ class Blacklist(models.Model):
 
     history = HistoricalRecords()
 
+    """
     def get_absolute_url(self):
         return reverse('tenants:Blacklist')
-
+    """
     def __str__(self):
-        return str(self.id)
+        return str(self.name)
 
     class Meta:
         verbose_name = _('Blockierter Mieter')

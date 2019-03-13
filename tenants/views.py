@@ -1,5 +1,5 @@
 from django.db.transaction import atomic
-from tenants.models import User, SubTenant, BlockedTenantID, BlockedStudentID
+from tenants.models import User, SubTenant, BlockedTenantID, BlockedStudentID, Blacklist
 from tenants.forms import UserForm, UserUpdateForm, MainTenantForm, MainTenantUpdateForm, SubTenantForm, \
     SubTenantUpdateForm, FeedbackForm, RequestUpdateForm
 from django.urls import reverse
@@ -398,8 +398,10 @@ def blacklist(request):
 
     context = {}
     context['title'] = _('Schwarze Liste')
-    context['tenant_ids'] = BlockedTenantID.objects.all()
-    context['student_ids'] = BlockedStudentID.objects.all()
+    context['blacklist'] = Blacklist.objects.all()
+
+    if not blacklist:
+        messages.info(request, _('Die schwarze Liste ist leer!'))
 
     return render(request, 'tenants/blacklist.html', context)
 

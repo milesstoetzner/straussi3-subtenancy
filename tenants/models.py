@@ -81,15 +81,26 @@ class User(AbstractUser):
     birthday = models.DateField(_('Geburtstag'))
     phone_number = models.CharField(_('Telefonnummer'), max_length=15)
     type = models.CharField(_('Typ'), max_length=3, choices=TYPES)
-    is_maintenant = models.BooleanField(_('Hauptmieter'), default=False)
-    is_subtenant = models.BooleanField(_('Untermieter'), default=False)
-    is_external = models.BooleanField(_('SWS oder Hausmeister'), default=False)
-    is_assistant = models.BooleanField(_('Sprechstunde'), default=False)
 
     history = HistoricalRecords()
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def is_tenant(self):
+        return self.type == 'HM' or self.type == 'UM'
+
+    def is_maintenant(self):
+        return self.type == 'HM'
+
+    def is_subtenant(self):
+        return self.type == 'UM'
+
+    def is_sws(self):
+        return self.type == 'SWS'
+
+    def is_assistant(self):
+        return self.type == 'SS'
 
     def get_absolute_url(self):
         return reverse('tenants:TenantView', kwargs={'pk': self.pk})

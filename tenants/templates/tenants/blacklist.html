@@ -18,10 +18,8 @@
 
                         <thead>
                         <tr>
-                            <th>{% trans "Mieternummer" %}</th>
-                            <th>{% trans "Matrikelnummer" %}</th>
                             <th>{% trans "Name" %}</th>
-                            <th>{% trans "Beschreibung" %}</th>
+                            <th>{% trans "Grund" %}</th>
                         </tr>
 
                         </thead>
@@ -31,9 +29,8 @@
                         {% for blocked in blacklist %}
 
                             <tr>
-                                <td style="vertical-align: middle">{{ blocked.tenand_id }}</td>
                                 <td class="text-block" style="white-space: break-word; vertical-align: middle">{{ blocked.name }}</td>
-                                <td class="text-block" style="white-space: break-word;">{{ blocked.description }}</td>
+                                <td class="text-block" style="white-space: break-word;">{{ blocked.reason }}</td>
                             </tr>
 
                         {% endfor %}

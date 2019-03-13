@@ -89,11 +89,9 @@ The SWS expects each month a list of all active contracts. The list can be acces
 ### Groups and Permissions
 - `Maintenant`:
     - `tenants.change_own`
-    - `tenants.delete_own`
     - `tenants.contact_subtenant`
 - `Subtenant`
     - `tenants.change_own`
-    - `tenants.delete_own`
 - `Assistant`
     - `tenants.view_user`
     - `tenants.change_user`
@@ -101,8 +99,7 @@ The SWS expects each month a list of all active contracts. The list can be acces
     - `tenants.change_maintenant`
     - `tenants.view_subtenant`
     - `tenants.change_subtenant`
-    - `tenants.view_blockedtenantid`
-    - `tenants.view_blockedstudentid`
+    - `tenants.view_blacklist`
     - `contract.add_contract`
     - `contract.view_contract`
     - `contract.view_short_contract`

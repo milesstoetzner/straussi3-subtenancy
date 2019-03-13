@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 from simple_history.models import HistoricalRecords
 from django.utils.translation import gettext_lazy as _
-from tenants.utils.COUNTRIES import COUNTRIES
+from tenants.utils import COUNTRIES, TYPES
 
 
 class ResidentialHome(models.Model):
@@ -80,6 +80,7 @@ class User(AbstractUser):
     email = models.EmailField(_('Email Adresse'), max_length=150, unique=True)
     birthday = models.DateField(_('Geburtstag'))
     phone_number = models.CharField(_('Telefonnummer'), max_length=15)
+    type = models.CharField(_('Typ'), max_length=3, choices=TYPES)
     is_maintenant = models.BooleanField(_('Hauptmieter'), default=False)
     is_subtenant = models.BooleanField(_('Untermieter'), default=False)
     is_external = models.BooleanField(_('SWS oder Hausmeister'), default=False)

@@ -167,7 +167,7 @@ class MainTenant(models.Model):
         verbose_name_plural = _('Haupmieter')
         ordering = ['-user__id']
         permissions = (
-            ("contact_subtenant", "Can contact subtenant"),
+            ("contact_subtenant", _("Can contact subtenant")),
         )
 
 

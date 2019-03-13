@@ -97,8 +97,8 @@ is_superuser</panel_attributes>
 --
 nationality
 student_id
-begin_subtenancy
-end_subtenancy
+begin_request
+end_request
 name
 street
 house_number

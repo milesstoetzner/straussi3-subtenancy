@@ -237,4 +237,4 @@ rm ${BACKUP}subtenancy.tar
 ### Additional configurations
 
 There are more necessary server configurations like `nftables`, `apticron`, `Unattended-Upgrade`.
-Consult (selfnet)[https://www.selfnet.de/] for help.  
+Consult [selfnet](https://www.selfnet.de/) for help.  

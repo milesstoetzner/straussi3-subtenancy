@@ -72,7 +72,8 @@
 
     </div>
 
-    {% if user.is_assistant and tenant.is_maintenant or tenant.is_subtenant %}
+    {# Show contracts only if the logged in user is an assistant and this pages shows a tenant  #}
+    {% if user.is_assistant and tenant.is_maintenant or user.is_assistant and tenant.is_subtenant %}
 
         <div class="card">
             <div class="card-body">

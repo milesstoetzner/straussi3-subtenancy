@@ -100,10 +100,7 @@ class MainTenantForm(ModelForm):
         widgets = {
             'begin_rent_agreement': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'end_rent_agreement': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-            'begin_subtenancy': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-            'end_subtenancy': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'is_returning': Select(choices=BOOLEAN_CHOICES),
-            'is_searching': Select(choices=BOOLEAN_CHOICES)
         }
 
 
@@ -120,21 +117,21 @@ class SubTenantForm(ModelForm):
 
     def clean(self):
         cleaned_date = super().clean()
-        begin_subtenancy = cleaned_date.get('begin_subtenancy')
-        end_subtenancy = cleaned_date.get('end_subtenancy')
+        begin_request = cleaned_date.get('begin_request')
+        end_request = cleaned_date.get('end_request')
 
-        # begin_subtenancy < end_subtenancy
-        if begin_subtenancy and end_subtenancy:
-            if begin_subtenancy >= end_subtenancy:
-                self.add_error('end_subtenancy', _('Das Ende der angefragten Untermiete muss nach dem Beginn sein!'))
+        # begin_request < end_request
+        if begin_request and end_request:
+            if begin_request >= end_request:
+                self.add_error('end_request', _('Das Ende der angefragten Untermiete muss nach dem Beginn sein!'))
 
     class Meta:
         model = SubTenant
         exclude = ['user', 'is_searching']
         widgets = {
             'is_eu': Select(choices=BOOLEAN_CHOICES),
-            'begin_subtenancy': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-            'end_subtenancy': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'begin_request': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'end_request': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'is_searching': Select(choices=BOOLEAN_CHOICES)
         }
 
@@ -158,7 +155,7 @@ class RequestUpdateForm(SubTenantForm):
     """
 
     class Meta(SubTenantUpdateForm.Meta):
-        fields = ['begin_subtenancy', 'end_subtenancy', 'is_searching']
+        fields = ['begin_request', 'end_request', 'is_searching']
 
 
 class FeedbackForm(ModelForm):

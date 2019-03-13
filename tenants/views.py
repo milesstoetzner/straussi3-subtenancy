@@ -418,7 +418,7 @@ class Requests(ListView):
 
     def get_queryset(self):
         return SubTenant.objects.filter(user__is_active=True, is_searching=True,
-                                        end_subtenancy__gt=datetime.datetime.now()).order_by('begin_request',
+                                        end_request__gt=datetime.datetime.now()).order_by('begin_request',
                                                                                              'end_request')
 
 

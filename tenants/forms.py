@@ -1,6 +1,6 @@
 from django.forms import ModelForm, DateInput, Select, Textarea
-from .models import User, MainTenant, SubTenant, ResidentialHome, BlockedTenantID, BlockedStudentID, Feedback
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from .models import User, MainTenant, SubTenant, ResidentialHome, Blacklist, Feedback
+from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
 
 BOOLEAN_CHOICES = ((False, _('Nein')), (True, _('Ja')))
@@ -24,6 +24,18 @@ class UserForm(UserCreationForm):
     """
     Creates a user extended by birthday and phone number.
     """
+
+    def clean(self):
+        cleaned_data = super().clean()
+        first_name = cleaned_data.get('first_name')
+        last_name = cleaned_data.get('last_name')
+
+        # check blacklist
+        if first_name and last_name:
+            blocked = Blacklist.objects.filter(name__icontains=first_name + ' ' + last_name)
+            if blocked:
+                self.add_error('first_name', _('Dein Name steht auf der schwarzen Liste!'))
+                self.add_error('last_name', _('Dein Name steht auf der schwarzen Liste!'))
 
     class Meta:
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'birthday', 'phone_number']
@@ -55,15 +67,6 @@ class MainTenantForm(ModelForm):
         house_number = cleaned_date.get('house_number')
         room_number = cleaned_date.get('room_number')
         rent = cleaned_date.get('rent')
-        tenant_id = cleaned_date.get('tenant_id')
-
-        # check black list
-        if tenant_id:
-            try:
-                blocked = BlockedTenantID.objects.get(pk=tenant_id)
-                self.add_error('tenant_id', _('Deine Mieternummer steht auf der Schwarzen Liste!'))
-            except BlockedTenantID.DoesNotExist:
-                pass
 
         # begin_rent_agreement < end_rent_agreement
         if begin_rent_agreement and end_rent_agreement:
@@ -117,17 +120,8 @@ class SubTenantForm(ModelForm):
 
     def clean(self):
         cleaned_date = super().clean()
-        student_id = cleaned_date.get('student_id')
         begin_subtenancy = cleaned_date.get('begin_subtenancy')
         end_subtenancy = cleaned_date.get('end_subtenancy')
-
-        # check black list
-        if student_id:
-            try:
-                blocked = BlockedStudentID.objects.get(pk=student_id)
-                self.add_error('student_id', _('Deine Matrikelnummer steht auf der Schwarzen Liste!'))
-            except BlockedStudentID.DoesNotExist:
-                pass
 
         # begin_subtenancy < end_subtenancy
         if begin_subtenancy and end_subtenancy:

@@ -1,5 +1,5 @@
 from django.db.transaction import atomic
-from tenants.models import User, SubTenant, BlockedTenantID, BlockedStudentID, Blacklist
+from tenants.models import User, SubTenant, Blacklist
 from tenants.forms import UserForm, UserUpdateForm, MainTenantForm, MainTenantUpdateForm, SubTenantForm, \
     SubTenantUpdateForm, FeedbackForm, RequestUpdateForm
 from django.urls import reverse
@@ -389,7 +389,7 @@ def contact_subtenant(request, pk):
 
 
 @login_required()
-@permission_required(['tenants.view_blockedtenantid', 'tenants.view_blockedstudentid'])
+@permission_required(['tenants.view_blacklist'])
 @require_GET
 def blacklist(request):
     """

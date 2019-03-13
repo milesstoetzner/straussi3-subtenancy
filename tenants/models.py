@@ -48,55 +48,14 @@ class ResidentialHome(models.Model):
         verbose_name_plural = _('Wohnheime')
 
 
-class BlockedTenantID(models.Model):
-    """
-    Model for a blocked tenant id. A maintenant with this id can not register an account.
-    Every change to a record is logged.
-    """
-
-    id = models.PositiveIntegerField(_('Mieterummer'), unique=True, primary_key=True)
-    description = models.CharField(_('Beschreibung'), max_length=500, blank=True)
-
-    history = HistoricalRecords()
-
-    def __str__(self):
-        return str(self.id)
-
-    class Meta:
-        verbose_name = _('Blockierte Mieternummer')
-        verbose_name_plural = _('Blockierte Mieternummern')
-
-
-class BlockedStudentID(models.Model):
-    """
-    Model for a blocked student id. A subtenant with this id can not register an account.
-    Every change to a record is logged.
-    """
-
-    id = models.PositiveIntegerField(_('Matrikelnummer'), unique=True, primary_key=True)
-    description = models.CharField(_('Beschreibung'), max_length=500, blank=True)
-
-    history = HistoricalRecords()
-
-    def __str__(self):
-        return str(self.id)
-
-    class Meta:
-        verbose_name = _('Blockierte Matrikelnummer')
-        verbose_name_plural = _('Blockierte Matrikelnummern')
-
-
 class Blacklist(models.Model):
     """
     Model for a blocked student id. A subtenant with this id can not register an account.
     Every change to a record is logged.
     """
 
-    tenant_id = models.PositiveIntegerField(_('Mieternummer'), unique=True, null=True, blank=True)
-    student_id = models.PositiveIntegerField(_('Matrikelnummer'), unique=True, null=True, blank=True)
     name = models.CharField(_('Vollständiger Name'), max_length=500, unique=True)
-    email = models.EmailField(_('Email Adresse'), max_length=150, unique=True, null=True, blank=True)
-    description = models.CharField(_('Beschreibung'), max_length=500)
+    reason = models.CharField(_('Beschreibung'), max_length=500)
 
     history = HistoricalRecords()
 

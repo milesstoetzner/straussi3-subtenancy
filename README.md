@@ -191,7 +191,7 @@ The following groups need to exist with the corresponding permissions:
 ### Backup
 
 A cronjob backs up the database every night. Therefore the database `subtenancy` is dumped and together with all contract pdf files uploaded to [Google Drive](https://www.google.com/drive/). 
-Therefore install [gdrive](https://github.com/gdrive-org/gdrive).
+Therefore install [gdrive](https://github.com/gdrive-org/gdrive) using this [tutorial](https://github.com/gdrive-org/gdrive/issues/426).
 
 ```
 # Cronjob

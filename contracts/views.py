@@ -6,7 +6,6 @@ from django.urls import reverse
 from .models import Contract
 from tenants.models import MainTenant, SubTenant
 from .forms import ContractForm
-from django.http import HttpResponseNotFound
 from django.views.decorators.http import require_POST, require_GET, require_http_methods
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
@@ -17,6 +16,7 @@ from django.http import HttpResponse
 from .utils import html_to_pdf
 from django.utils.translation import gettext_lazy as _
 from subtenancy.views import handler404
+from subtenancy.settings import BASE_DIR
 
 
 @atomic
@@ -159,7 +159,7 @@ def view_contract_pdf(request, pk, v):
     filename = 'contract_' + str(pk) + '_version_' + str(v) + '.pdf'
     path = '/contracts/contracts' + filename
 
-    if os.path.isfile(path):
+    if os.path.isfile(os.path.join(BASE_DIR, path)):
         response = HttpResponse()
         response['Content-Type'] = 'application/pdf'
         response["Content-Disposition"] = 'inline; filename=' + filename
@@ -188,7 +188,7 @@ def print_active_contracts(request, file):
         response['Content-Disposition'] = 'inline; filename=' + filename
         return response
     else:
-        return HttpResponseNotFound()
+        return handler404(request)
 
 
 @csrf_protect

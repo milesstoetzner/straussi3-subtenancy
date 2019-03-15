@@ -16,7 +16,6 @@ from django.http import HttpResponse
 from .utils import html_to_pdf
 from django.utils.translation import gettext_lazy as _
 from subtenancy.views import handler404
-from subtenancy.settings import BASE_DIR
 
 
 @atomic

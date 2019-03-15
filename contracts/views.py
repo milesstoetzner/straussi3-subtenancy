@@ -157,7 +157,7 @@ def save_contract_pdf(request, pk):
 @require_GET
 def view_contract_pdf(request, pk, v):
     filename = 'contract_' + str(pk) + '_version_' + str(v) + '.pdf'
-    path = '/contracts/contracts' + filename
+    path = os.path.join('contracts', 'contracts', filename)
 
     if os.path.isfile(os.path.join(BASE_DIR, path)):
         response = HttpResponse()

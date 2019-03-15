@@ -15,7 +15,7 @@ from django.views.generic import ListView
 from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
 from django.template.loader import get_template
-from subtenancy.views import handler403
+from subtenancy.views import handler403, handler400
 
 import datetime
 
@@ -169,7 +169,7 @@ def update_request(request):
 
     # only subtenants can update request
     if not tenant.is_subtenant():
-        return handler403(request)
+        return handler400(request)
 
     subtenant = tenant.subtenant
 
@@ -332,15 +332,15 @@ def contact_subtenant(request, pk):
 
     # only subtenants can be contacted
     if not subtenant.is_subtenant():
-        return handler403(request)
+        return handler400(request)
 
     # only searching subtenants can be contacted
     if not subtenant.subtenant.is_searching:
-        return handler403(request)
+        return handler400(request)
 
     # only active subtenants can be contacted
     if not subtenant.is_active:
-        return handler403(request)
+        return handler400(request)
 
     # email content
     content = get_template('tenants/contact_email.html').render({'user': request.user, 'subtenant': subtenant})

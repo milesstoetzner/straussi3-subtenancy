@@ -15,7 +15,6 @@ urlpatterns = [
     path('preview/<int:pk>/', views.preview_contract_pdf, name='ContractPreviewPDF'),
     path('save/<int:pk>/', views.save_contract_pdf, name='ContractSavePDF'),
     path('pdf/<int:pk>/<int:v>', views.view_contract_pdf, name='ContractViewPDF'),
-    path('pdf_static/<int:pk>/<int:v>', views.view_static_contract_pdf, name='ContractViewPDFStatic'),
     path('help', views.view_help, name='ContractHelp'),
 
     # external

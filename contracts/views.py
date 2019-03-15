@@ -159,7 +159,7 @@ def view_static_contract_pdf(request, pk, v):
 
     response = HttpResponse()
     response['Content-Type'] = 'application/pdf'
-    response["Content-Disposition"] = 'attachment; filename=' + filename
+    # response["Content-Disposition"] = 'attachment; filename=' + filename
     response['X-Accel-Redirect'] = '/contracts/contracts/' + filename
 
     return response

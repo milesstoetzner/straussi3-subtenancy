@@ -16,6 +16,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
 from .utils import html_to_pdf
 from django.utils.translation import gettext_lazy as _
+from subtenancy.views import handler404
 
 
 @atomic
@@ -156,13 +157,17 @@ def save_contract_pdf(request, pk):
 @require_GET
 def view_static_contract_pdf(request, pk, v):
     filename = 'contract_' + str(pk) + '_version_' + str(v) + '.pdf'
+    path = '/contracts/contracts' + filename
 
-    response = HttpResponse()
-    response['Content-Type'] = 'application/pdf'
-    response["Content-Disposition"] = 'inline; filename=' + filename
-    response['X-Accel-Redirect'] = '/contracts/contracts/' + filename
+    if os.path.isfile(path):
+        response = HttpResponse()
+        response['Content-Type'] = 'application/pdf'
+        response["Content-Disposition"] = 'inline; filename=' + filename
+        response['X-Accel-Redirect'] = path
+        return response
 
-    return response
+    return handler404(request)
+
 
 @login_required
 @permission_required('contracts.view_contract')

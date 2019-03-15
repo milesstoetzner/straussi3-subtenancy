@@ -154,6 +154,19 @@ def save_contract_pdf(request, pk):
 @login_required
 @permission_required('contracts.view_contract')
 @require_GET
+def view_static_contract_pdf(request, pk, v):
+    filename = 'contract_' + str(pk) + '_version_' + str(v) + '.pdf'
+    path = os.path.join('contracts', 'contracts', filename)
+
+    response = HttpResponse()
+    response['Content-Type'] = 'application/pdf'
+    response['X-Accel-Redirect'] = path
+
+    return response
+
+@login_required
+@permission_required('contracts.view_contract')
+@require_GET
 def view_contract_pdf(request, pk, v):
     """
     Displays a contract as PDF identified by given primary key and a version number.

@@ -159,7 +159,7 @@ def view_contract_pdf(request, pk, v):
     filename = 'contract_' + str(pk) + '_version_' + str(v) + '.pdf'
     path = '/contracts/contracts/' + filename
 
-    if os.path.isfile(os.path.join(BASE_DIR, path)):
+    if os.path.isfile(os.getcwd() + path):
         response = HttpResponse()
         response['Content-Type'] = 'application/pdf'
         response["Content-Disposition"] = 'inline; filename=' + filename

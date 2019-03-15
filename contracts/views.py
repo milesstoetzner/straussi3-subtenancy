@@ -155,7 +155,7 @@ def save_contract_pdf(request, pk):
 @login_required
 @permission_required('contracts.view_contract')
 @require_GET
-def view_static_contract_pdf(request, pk, v):
+def view_contract_pdf(request, pk, v):
     filename = 'contract_' + str(pk) + '_version_' + str(v) + '.pdf'
     path = '/contracts/contracts' + filename
 
@@ -167,25 +167,6 @@ def view_static_contract_pdf(request, pk, v):
         return response
 
     return handler404(request)
-
-
-@login_required
-@permission_required('contracts.view_contract')
-@require_GET
-def view_contract_pdf(request, pk, v):
-    """
-    Displays a contract as PDF identified by given primary key and a version number.
-    """
-
-    contract = get_object_or_404(Contract, pk=pk)
-    pdf, filename = contract.view_contract_pdf(v)
-
-    if pdf:
-        response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'inline; filename=' + filename
-        return response
-    else:
-        return HttpResponseNotFound()
 
 
 @login_required

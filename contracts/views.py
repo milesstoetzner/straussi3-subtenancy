@@ -156,12 +156,11 @@ def save_contract_pdf(request, pk):
 @require_GET
 def view_static_contract_pdf(request, pk, v):
     filename = 'contract_' + str(pk) + '_version_' + str(v) + '.pdf'
-    path = os.path.join('contracts', 'contracts', filename)
 
     response = HttpResponse()
     response['Content-Type'] = 'application/pdf'
     response["Content-Disposition"] = 'attachment; filename=' + filename
-    response['X-Accel-Redirect'] = path
+    response['X-Accel-Redirect'] = '/contracts/contracts/' + filename
 
     return response
 

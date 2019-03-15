@@ -7,7 +7,6 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.views.decorators.http import require_http_methods, require_GET
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.contrib.auth.decorators import login_required, permission_required
-from django.http import HttpResponseForbidden
 from django.db.models import ProtectedError
 from django.contrib import messages
 from django.core.mail import EmailMessage, mail_admins
@@ -16,6 +15,7 @@ from django.views.generic import ListView
 from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
 from django.template.loader import get_template
+from subtenancy.views import handler403
 
 import datetime
 
@@ -169,7 +169,7 @@ def update_request(request):
 
     # only subtenants can update request
     if not tenant.is_subtenant():
-        return HttpResponseForbidden()
+        return handler403(request)
 
     subtenant = tenant.subtenant
 
@@ -278,7 +278,7 @@ def update_tenant(request, pk):
 
     # only tenants can be updated
     if not (tenant.is_tenant()):
-        return HttpResponseForbidden()
+        return handler403(request)
 
     if request.method == 'GET':
         # Displays the two forms: user creation form and maintenant/subtenant creation form
@@ -332,15 +332,15 @@ def contact_subtenant(request, pk):
 
     # only subtenants can be contacted
     if not subtenant.is_subtenant():
-        return HttpResponseForbidden()
+        return handler403(request)
 
     # only searching subtenants can be contacted
     if not subtenant.subtenant.is_searching:
-        return HttpResponseForbidden()
+        return handler403(request)
 
     # only active subtenants can be contacted
     if not subtenant.is_active:
-        return HttpResponseForbidden()
+        return handler403(request)
 
     # email content
     content = get_template('tenants/contact_email.html').render({'user': request.user, 'subtenant': subtenant})

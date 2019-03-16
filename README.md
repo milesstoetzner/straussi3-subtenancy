@@ -222,21 +222,23 @@ DBUSER=djangouser
 DBNAME=subtenancy
 DBHOST=localhost
 DATE=$(date +"%Y-%m-%d")
+SECONDS=$(date +"%s")
 
 # Create tar containing dump of database and all contract pdf files
 
 mkdir -p $BACKUP
 tar -cf ${BACKUP}contracts.tar -C $CONTRACTS .
 pg_dump -h $DBHOST -U $DBUSER -w -F t $DBNAME -f ${BACKUP}subtenancy.tar
-tar -cf ${BACKUP}subtenancy_backup_${DATE}.tar ${BACKUP}contracts.tar ${BACKUP}subtenancy.tar -C $BACKUP
+tar -cf ${BACKUP}subtenancy_backup_${DATE}_${SECONDS}.tar ${BACKUP}contracts.tar ${BACKUP}subtenancy.tar -C $BACKUP
 
 # Upload backup to gdrive
-/usr/local/bin/gdrive upload --parent $GDRIVE ${BACKUP}subtenancy_backup_${DATE}.tar
+/home/str3/gdrive/gdrive upload --parent $GDRIVE ${BACKUP}subtenancy_backup_${DATE}_${SECONDS}.tar
 
 # Cleanup files
 # find /backups/postgres_backups -name "customerdata*.gz" -mtime +30 -type f -delete
 rm ${BACKUP}contracts.tar
 rm ${BACKUP}subtenancy.tar
+
 ```
 
 ### Additional configurations

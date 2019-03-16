@@ -1,0 +1,1 @@
+Vagrant is not configured correctly!

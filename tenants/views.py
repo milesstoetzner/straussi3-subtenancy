@@ -114,6 +114,10 @@ def update_profile(request):
 
     tenant = request.user
 
+    # only tenants can be updated
+    if not tenant.is_tenant():
+        return handler400(request)
+
     if request.method == 'GET':
         # Displays the two forms: user creation form and maintenant/subtenant creation form
 
@@ -278,8 +282,8 @@ def update_tenant(request, pk):
     tenant = get_object_or_404(User, pk=pk)
 
     # only tenants can be updated
-    if not (tenant.is_tenant()):
-        return handler403(request)
+    if not tenant.is_tenant():
+        return handler400(request)
 
     if request.method == 'GET':
         # Displays the two forms: user creation form and maintenant/subtenant creation form

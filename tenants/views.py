@@ -3,6 +3,7 @@ from tenants.models import User, SubTenant, Blacklist
 from tenants.forms import UserForm, UserUpdateForm, MainTenantForm, MainTenantUpdateForm, SubTenantForm, \
     SubTenantUpdateForm, FeedbackForm, RequestUpdateForm
 from django.urls import reverse
+from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.decorators.http import require_http_methods, require_GET
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
@@ -60,7 +61,7 @@ def create_tenant(request, is_maintenant):
 
             messages.success(request, _('Registrierung war erfolgreich. Du kannst dich nun einloggen.'))
 
-            content = get_template('tenants/register_email.html').render({'user': user})
+            content = get_template('tenants/register_email.html').render({'user': user, 'site_name': get_current_site(request).name})
             mail = EmailMessage('Ferienmiete Straußäcker 3 Registrierung/ Subtenancy Straußäcker 3 Registration',
                                 content,
                                 '', [user.email])
@@ -350,6 +351,7 @@ def contact_subtenant(request, pk):
 
         context = {}
         context['subtenant'] = subtenant
+        context['site_name'] = get_current_site(request).name
         context['title'] = _('Kontaktaufnahme')
         context['msg'] = content
         return render(request, 'tenants/contact.html', context)

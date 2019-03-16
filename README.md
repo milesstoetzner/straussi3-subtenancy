@@ -62,6 +62,11 @@ server {
     location /static {
         alias /var/www/ferienmiete/static; # your Django project's static files - amend as required
     }
+    
+    location /contracts/contracts {
+        internal;
+        alias /var/www/ferienmiete/contracts/;
+    }
 
     location / {
         uwsgi_pass  django;

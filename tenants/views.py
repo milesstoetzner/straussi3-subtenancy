@@ -344,7 +344,7 @@ def contact_subtenant(request, pk):
         return handler400(request)
 
     # email content
-    content = get_template('tenants/contact_email.html').render({'user': request.user, 'subtenant': subtenant})
+    content = get_template('tenants/contact_email.html').render({'user': request.user, 'subtenant': subtenant, 'site_name': get_current_site(request).name})
 
     if request.method == 'GET':
         # Asks for consent
@@ -378,7 +378,6 @@ def contact_subtenant(request, pk):
             mail.send()
 
         except SMTPException as e:
-            print(e)
             messages.error(request, _('Untermieter konnte nicht kontaktiert werden!'))
             return redirect('Requests')
 

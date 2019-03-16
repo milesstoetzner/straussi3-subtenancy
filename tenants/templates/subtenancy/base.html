@@ -126,7 +126,8 @@
 
                     <form action="{% url 'logout' %}" method="POST" id="logout_form">
                         {% csrf_token %}
-                        <button class="btn btn-primary"><i class="fas fa-angle-double-right icon-text"></i>{% trans "Ausloggen" %}
+                        <button class="btn btn-primary"><i
+                                class="fas fa-angle-double-right icon-text"></i>{% trans "Ausloggen" %}
                         </button>
                     </form>
 
@@ -171,7 +172,7 @@
                        id="{% url 'tenants:Blacklist' %}"><i
                             class="fas fa-exclamation-triangle icon-text"></i>{% trans "Schwarze Liste" %}</a>
 
-                                        <a class="btn btn-orange" href="{% url 'contracts:ContractHelp' %}"
+                    <a class="btn btn-orange" href="{% url 'contracts:ContractHelp' %}"
                        id="{% url 'contracts:ContractHelp' %}"><i
                             class="fas fa-ambulance icon-text"></i>{% trans "Hilfe" %}</a>
 
@@ -272,9 +273,11 @@
                         <ul class="list-unstyled">
                             <li><a class="text-muted" href="https://str3.wh-stuttgart.net/">{% trans "Homepage" %}</a>
                             </li>
-                            <li><a class="text-muted" href="https://www.facebook.com/straussi3">{% trans "Facebook Seite" %}</a>
+                            <li><a class="text-muted"
+                                   href="https://www.facebook.com/straussi3">{% trans "Facebook Seite" %}</a>
                             </li>
-                            <li><a class="text-muted" href="https://www.facebook.com/groups/straussi3">{% trans "Facebook Gruppe" %}</a>
+                            <li><a class="text-muted"
+                                   href="https://www.facebook.com/groups/straussi3">{% trans "Facebook Gruppe" %}</a>
                             </li>
                             <li><a class="text-muted" href="{% url 'Feedback' %}">{% trans "Feedback senden" %}</a></li>
                             <li><a class="text-muted" href="{% url 'Impressum' %}">{% trans "Impressum" %}</a></li>
@@ -307,6 +310,7 @@
 <script>
     "use strict";
 
+    ///////////////////////////////////////////////////////////////////////////
     // show footer at the bottom of the page if there is not enough content
     $(function () {
 
@@ -322,12 +326,14 @@
         }
     });
 
-    // for displaying active link in the navigation
+    ///////////////////////////////////////////////////////////////////////////
+    // displaying active link in the navigation
     let active = document.getElementById(window.location.pathname);
     if (active) {
         active.classList.add('active');
     }
 
+    ///////////////////////////////////////////////////////////////////////////
     // for dabbing reasons
     const prob = Math.random();
     if (prob < 0.001) {
@@ -337,6 +343,9 @@
     function dab() {
         document.getElementById('unicorn').click();
     }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // search function
 
     // ajax calls need cookie for csrf protection
     function getCookie(name) {
@@ -370,10 +379,11 @@
         }
     });
 
+    const searchResult = document.getElementById('searchResult');
+
     // search function
     $('#searchInput').keyup(function () {
 
-        let searchResult = document.getElementById('searchResult');
 
         $.ajax({
             url: '{% url 'contracts:Search' %}',
@@ -389,6 +399,17 @@
             }
         });
 
+    });
+
+    // hide search result if mouse clicks
+    $(document).mouseup(function (e) {
+        const containerResult = $("#searchResult");
+        const containerInput = $("#searchInput");
+
+        // if the target of the click isn't the container nor a descendant of the container or the search input field
+        if (!containerResult.is(e.target) && containerResult.has(e.target).length === 0 && !containerInput.is(e.target)) {
+            searchResult.innerHTML = "";
+        }
     });
 
 </script>

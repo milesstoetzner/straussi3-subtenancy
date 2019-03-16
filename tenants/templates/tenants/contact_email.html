@@ -1,13 +1,70 @@
 <p>=== English version below ===</p>
-<p>Hey,<br>
-ich interessiere mich für deine Anfrage in dem Zeitraum {{ subtenant.subtenant.begin_request|date:"d.m.Y" }} bis {{ subtenant.subtenant.end_request|date:"d.m.Y" }}.
+<p>Hey,</p>
+<p>
+    ich interessiere mich für deine Anfrage einer Untermiete im Straußäcker 3 in dem Zeitraum {{ subtenant.subtenant.begin_request|date:"d.m.Y" }}
+    bis {{ subtenant.subtenant.end_request|date:"d.m.Y" }}.
 </p>
-<p>Du kannst mich über folgende Email kontaktieren: {{ user.email }}</p>
-<p>Grüße,<br>{{ user }}</p>
+<p>Du kannst mich über meine Email kontaktieren: {{ user.email }}</p>
+<p>Liebe Grüße,<br>{{ user }}</p>
 
 <p><br>=== English version ===</p>
-<p>Hey,<br>
-    I am interested in your request from {{ subtenant.subtenant.begin_request|date:"d.m.Y" }} until {{ subtenant.subtenant.end_request|date:"d.m.Y" }}.
+<p>Hey,</p>
+<p>
+    I am interested in your request for a subtenancy at Straußäcker 3 from {{ subtenant.subtenant.begin_request|date:"d.m.Y" }}
+    until {{ subtenant.subtenant.end_request|date:"d.m.Y" }}.
 </p>
-<p>You can contact me by using the following Email: {{ user.email }}</p>
+<p>You can contact me via Email: {{ user.email }}</p>
 <p>Greetings,<br>{{ user }}</p>
+
+
+<p>=== English version below ===</p>
+<p>Hallo {{ user.first_name }},</p>
+<p>du hast dich erfolgreich auf bei der Ferienmiete des Straußäcker 3 registriert.</p>
+<p>Benutzername: {{ user.email }}<br>
+    Ferienmiete ID: {{ user.pk }}</p>
+<p>Nächste Schritte als Untermieter:<br>
+    Als Untermieter kannst du nicht aktiv nach einem Zimmer suchen oder einen Hauptmieter kontaktieren. Du musst warten,
+    bis dich ein Hauptmieter
+    über die <a href="{{ site_name }}{% url 'Requests' %}" target="_blank">Anfragenliste</a> kontaktiert!
+</p>
+<p>Nächste Schritte als Hauptmieter:<br>
+    Als Hauptmieter kannst du mögliche Untermieter über die <a href="{{ site_name }}{% url 'Requests' %}"
+                                                               target="_blank">Anfragenliste</a> finden und
+    kontaktieren.
+</p>
+<p>Gebe bei zukünftiger Kommunikation mit uns bitte immer deine Ferienmiete ID {{ user.pk }} an.</p>
+<p>Liebe Grüße,<br>
+    dein Straußäcker 3 Team!</p>
+<p>
+    Wohnheimreferat Straußäcker 3<br>
+    <a href="{{ site_name }}" target="_blank">{{ site_name }}</a><br>
+    <a href="mailto:wore.str3@gmail.com">wore.str3@gmail.com</a><br>
+    Dienstags 19:00 – 20:00 Uhr<br>
+    Allmandring 3D<br>
+    70569 Stuttgart
+</p>
+
+<p><br>=== English version ===</p>
+<p>Hello {{ user.first_name }},</p>
+<p>you have successfully registered for the subtenancy of Straußäcker 3.<br>
+<p>Username: {{ user.email }}<br>
+    Subtenancy ID: {{ user.pk }}</p>
+<p>Next step as a subtenant:<br>
+    As a subtenant you can not actively search for a room or contact a maintenant. You have to wait until a maintenant
+    contacts you via the <a href="{{ site_name }}{% url 'Requests' %}" target="_blank">request list</a>.
+</p>
+<p>Next step as a maintenant:<br>
+    As a maintenant you can search for a subtenant via the <a href="{{ site_name }}{% url 'Requests' %}"
+                                                              target="_blank">request list</a> and contact him.
+</p>
+<p>Please provide in future communication with us always your subtenancy id {{ user.pk }}.</p>
+<p>Greetings,
+    <br>your Straußäcker 3 Team!</p>
+<p>
+    Wohnheimreferat Straußäcker 3<br>
+    <a href="{{ site_name }}" target="_blank">{{ site_name }}</a><br>
+    <a href="mailto:wore.str3@gmail.com">wore.str3@gmail.com</a><br>
+    Dienstags 19:00 – 20:00 Uhr<br>
+    Allmandring 3D<br>
+    70569 Stuttgart
+</p>

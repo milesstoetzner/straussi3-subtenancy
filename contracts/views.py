@@ -180,7 +180,7 @@ def print_active_contracts(request, file):
 
     path = os.path.join('contracts', 'contracts', file)
     pdf = html_to_pdf(path, {'contracts': queryset})
-    filename = str(datetime.datetime.now())
+    filename = 'Ferienmiete Straußäcker 3 ' + str(datetime.datetime.now().strftime("%Y-%m-%d")) + '.pdf'
 
     if pdf:
         response = HttpResponse(pdf, content_type='application/pdf')

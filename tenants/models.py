@@ -58,11 +58,14 @@ class Blacklist(models.Model):
 
     history = HistoricalRecords()
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     def get_absolute_url(self):
         return reverse('tenants:Blacklist')
 
     def __str__(self):
-        return str(self.name)
+        return self.name
 
     class Meta:
         verbose_name = _('Blockierter Mieter')
@@ -160,7 +163,7 @@ class MainTenant(models.Model):
         return amount
 
     def __str__(self):
-        return str(self.pk) + ': ' + str(self.user.first_name) + ' ' + str(self.user.last_name) + ' (' + str(self.user.birthday) + ')' + ' (' + str(self.tenant_id) + ')'
+        return '[' + str(self.pk) + '] ' + str(self.user.first_name) + ' ' + str(self.user.last_name) + ' (' + str(self.user.birthday) + ')' + ' (' + str(self.tenant_id) + ')'
 
     class Meta:
         verbose_name = _('Hauptmieter')
@@ -202,7 +205,7 @@ class SubTenant(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.pk) + ': ' + str(self.user.first_name) + ' ' + str(self.user.last_name) + ' (' + str(self.user.birthday) + ')' + ' (' + str(self.student_id) + ')'
+        return '[' + str(self.pk) + '] ' + str(self.user.first_name) + ' ' + str(self.user.last_name) + ' (' + str(self.user.birthday) + ')' + ' (' + str(self.student_id) + ')'
 
     class Meta:
         verbose_name = _('Untermieter')
@@ -221,8 +224,11 @@ class Feedback(models.Model):
 
     history = HistoricalRecords()
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self):
-        return str(self.pk) + ': ' + str(self.title)
+        return '[' + str(self.pk) + ']   ' + str(self.title)
 
     class Meta:
         verbose_name = _('Feedback')

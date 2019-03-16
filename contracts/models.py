@@ -131,24 +131,10 @@ class Contract(models.Model):
         self.is_changed = False
         self.save()
 
-    def view_contract_pdf(self, v):
-        """
-        Displays a contract as PDF identified by given primary key and a version number.
-        """
-
-        fs = FileSystemStorage()
-        filename = 'contract_' + str(self.id) + '_version_' + str(v) + '.pdf'
-        path = os.path.join('contracts', 'contracts', filename)
-        if fs.exists(path):
-            pdf = fs.open(path, 'rb')
-            return pdf, filename
-
-        return None, None
-
     def __str__(self):
-        return str(
-            self.pk) + ': ' + self.maintenant.user.first_name + ' ' + self.maintenant.user.last_name + ' (' + str(
-            self.maintenant.pk) + ')' + ' & ' + self.subtenant.user.first_name + ' ' + self.subtenant.user.last_name + ' (' + str(
+        return '[' + str(
+            self.pk) + '] ' + self.maintenant.user.last_name + ' (' + str(
+            self.maintenant.pk) + ')' + ' & ' + self.subtenant.user.last_name + ' (' + str(
             self.subtenant.pk) + ')'
 
     class Meta:

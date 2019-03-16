@@ -2,7 +2,7 @@
 /static/
 subtenancy/SECRETS.py
 contracts/contracts/*
-.vagrant/
+.vagrant/.vagrant
 bin/
 pyvenv.cfg
 lib64

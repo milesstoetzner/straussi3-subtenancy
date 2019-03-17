@@ -1,7 +1,9 @@
+import datetime
+
 from django.db.transaction import atomic
 from tenants.models import User, SubTenant, Blacklist
-from tenants.forms import UserForm, UserUpdateForm, MainTenantForm, MainTenantUpdateForm, SubTenantForm, \
-    SubTenantUpdateForm, FeedbackForm, RequestUpdateForm
+from tenants.forms import UserUpdateForm, MainTenantCreateForm, MainTenantUpdateForm, SubTenantCreateForm, \
+    SubTenantUpdateForm, FeedbackForm, RequestUpdateCreateForm
 from django.urls import reverse
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import redirect, render, get_object_or_404
@@ -16,9 +18,7 @@ from django.views.generic import ListView
 from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
 from django.template.loader import get_template
-from subtenancy.views import handler403, handler400
-
-import datetime
+from subtenancy.views import handler400
 
 
 @atomic
@@ -35,43 +35,36 @@ def create_tenant(request, is_maintenant):
     if request.method == 'GET':
         # Displays the two forms: user creation form and maintenant/subtenant creation form
 
-        user_form = UserForm()
-        tenant_form = MainTenantForm() if is_maintenant else SubTenantForm()
+        tenant_form = MainTenantCreateForm() if is_maintenant else SubTenantCreateForm()
         context['get'] = True
 
     else:
         # Validates the received form data.
         # If data of both forms are valid a new user and his corresponding maintenant/subtenant is created.
 
-        user_form = UserForm(request.POST)
-        tenant_form = MainTenantForm(request.POST) if is_maintenant else SubTenantForm(request.POST)
+        tenant_form = MainTenantCreateForm(request.POST) if is_maintenant else SubTenantCreateForm(request.POST)
 
-        if user_form.is_valid() and tenant_form.is_valid():
-            user = user_form.save(False)
-            user.type = 'HM' if is_maintenant else 'UM'
-            user.save()
-
+        if tenant_form.is_valid():
+            tenant = tenant_form.save()
             group_verbose = 'Maintenant' if is_maintenant else 'Subtenant'
             group = Group.objects.get(name=group_verbose)
-            user.groups.add(group)
-
-            tenant = tenant_form.save(False)
-            tenant.user = user
+            tenant.user.groups.add(group)
+            tenant.type = 'HM' if is_maintenant else 'UM'
             tenant.save()
 
             messages.success(request, _('Registrierung war erfolgreich. Du kannst dich nun einloggen.'))
 
-            content = get_template('tenants/register_email.html').render({'user': user, 'site_name': get_current_site(request).name})
+            content = get_template('tenants/register_email.html').render(
+                {'user': tenant, 'site_name': get_current_site(request).name})
             mail = EmailMessage('Ferienmiete Straußäcker 3 Registrierung/ Subtenancy Straußäcker 3 Registration',
                                 content,
-                                '', [user.email])
+                                '', [tenant.email])
             mail.content_subtype = "html"
             mail.send(fail_silently=True)
 
             return redirect(reverse('login'))
 
     context['title'] = _('Hauptmieter Registrierung') if is_maintenant else _('Untermieter Registrierung')
-    context['user_form'] = user_form
     context['tenant_form'] = tenant_form
     context['is_maintenant'] = is_maintenant
 
@@ -87,7 +80,6 @@ def view_profile(request):
 
     context = {}
     context['get'] = True
-    context['user_form'] = UserUpdateForm(instance=request.user)
     context['tenant'] = request.user
     context['title'] = _('Profil von') + ' ' + str(request.user)
 
@@ -95,6 +87,8 @@ def view_profile(request):
         context['tenant_form'] = MainTenantUpdateForm(
             instance=request.user.maintenant) if request.user.is_maintenant() else SubTenantUpdateForm(
             instance=request.user.subtenant)
+    else:
+        context['tenant_form'] = UserUpdateForm(instance=request.user)
 
     return render(request, 'tenants/view.html', context)
 
@@ -112,46 +106,29 @@ def update_profile(request):
 
     context = {}
 
-    tenant = request.user
+    user = request.user
+
+    tenant = user.maintenant if user.is_maintenant() else user.subtenant
+    form = MainTenantUpdateForm if user.is_maintenant() else SubTenantUpdateForm
 
     # only tenants can be updated
     if not tenant.is_tenant():
         return handler400(request)
 
     if request.method == 'GET':
-        # Displays the two forms: user creation form and maintenant/subtenant creation form
-
-        user_form = UserUpdateForm(instance=tenant)
-        tenant_form = MainTenantUpdateForm(instance=tenant.maintenant) if tenant.is_maintenant() else SubTenantUpdateForm(
-            instance=tenant.subtenant)
+        tenant_form = form(instance=tenant)
         context['get'] = True
-
     else:
-        # Validates the received form data.
-        # Iff the data of both forms are valid and there had been changes, the changes will be saved to the database.
-
-        user_form = UserUpdateForm(request.POST, instance=tenant)
-        tenant_form = MainTenantUpdateForm(request.POST,
-                                           instance=tenant.maintenant) if tenant.is_maintenant() else SubTenantUpdateForm(
-            request.POST, instance=tenant.subtenant)
-
-        if user_form.is_valid() and tenant_form.is_valid():
-
-            if user_form.has_changed() or tenant_form.has_changed():
-
-                user_form.save()
+        tenant_form = form(request.POST, instance=tenant)
+        if tenant_form.is_valid():
+            if tenant_form.has_changed():
                 tenant_form.save()
-
                 messages.success(request, _('Änderungen wurden erfolgreich übernommen!'))
-
-
             else:
                 messages.info(request, _('Es gab keine Änderungen!'))
-
             return redirect(reverse('Profile'))
 
-    context['title'] = _('Profil aktualisieren!')
-    context['user_form'] = user_form
+    context['title'] = _('Profil aktualisieren')
     context['tenant_form'] = tenant_form
     context['tenant'] = tenant
 
@@ -176,23 +153,15 @@ def update_request(request):
     if not tenant.is_subtenant():
         return handler400(request)
 
-    subtenant = tenant.subtenant
-
     if request.method == 'GET':
-
-        form = RequestUpdateForm(instance=subtenant)
+        form = RequestUpdateCreateForm(instance=tenant.subtenant)
         context['get'] = True
-
     else:
-
-        form = RequestUpdateForm(request.POST, instance=subtenant)
-
+        form = RequestUpdateCreateForm(request.POST, instance=tenant.subtenant)
         if form.is_valid():
             if form.has_changed():
                 form.save()
-
                 messages.success(request, _('Änderungen wurden erfolgreich übernommen!'))
-
             else:
                 messages.info(request, _('Es gab keine Änderungen!'))
 
@@ -217,16 +186,11 @@ def delete_profile(request):
     user = request.user
 
     if request.method == 'GET':
-        # Asks for consent
-
         context = {}
         context['tenant'] = user
         context['title'] = _('Account löschen')
         return render(request, 'tenants/delete.html', context)
-
     else:
-        # Deletes the user and his corresponding maintenant/subtenant iff no contracts exist.
-
         try:
             user.delete()
         except ProtectedError:
@@ -244,25 +208,27 @@ def delete_profile(request):
 @require_GET
 def view_tenant(request, pk):
     """
-    Displays the details about a user and his corresponding maintenant/subtenant.
+    Displays the details about a maintenant/subtenant.
     """
 
-    tenant = get_object_or_404(User, pk=pk)
+    user = get_object_or_404(User, pk=pk)
+
+    # only tenants can be updated
+    if not user.is_tenant():
+        return handler400(request)
+
+    tenant = user.maintenant if user.is_maintenant() else user.subtenant
+    form = MainTenantUpdateForm if user.is_maintenant() else SubTenantUpdateForm
 
     context = {}
     context['get'] = True
-    context['user_form'] = UserUpdateForm(instance=tenant)
-    context['tenant'] = tenant
-    context['title'] = str(tenant)
+    context['tenant'] = user
+    context['title'] = str(user)
+    context['tenant_form'] = form(instance=tenant)
 
-    if tenant.is_maintenant():
+    if user.is_maintenant():
         messages.info(request, 'Der Zeitraum der Verträge mit diesem Hauptmieter beträgt ' + str(
-            tenant.maintenant.get_amount_of_days()) + ' Tage!')
-
-    if tenant.is_tenant():
-        context['tenant_form'] = MainTenantUpdateForm(
-            instance=tenant.maintenant) if tenant.is_maintenant() else SubTenantUpdateForm(instance=tenant.subtenant)
-        context['is_maintenant'] = tenant.is_maintenant()
+            tenant.get_amount_of_days()) + ' Tage!')
 
     return render(request, 'tenants/view.html', context)
 
@@ -274,56 +240,41 @@ def view_tenant(request, pk):
 @require_http_methods(['GET', 'POST'])
 def update_tenant(request, pk):
     """
-    Updates the details about a user and his corresponding maintenant/subtenant.
+    Updates the details about a maintenant/subtenant.
     """
 
     context = {}
 
-    tenant = get_object_or_404(User, pk=pk)
+    user = get_object_or_404(User, pk=pk)
+    tenant = user.maintenant if user.is_maintenant() else user.subtenant
+    form = MainTenantUpdateForm if user.is_maintenant() else SubTenantUpdateForm
 
     # only tenants can be updated
     if not tenant.is_tenant():
         return handler400(request)
 
     if request.method == 'GET':
-        # Displays the two forms: user creation form and maintenant/subtenant creation form
-
-        user_form = UserUpdateForm(instance=tenant)
-        tenant_form = MainTenantUpdateForm(instance=tenant.maintenant) if tenant.is_maintenant() else SubTenantUpdateForm(
-            instance=tenant.subtenant)
+        tenant_form = form(instance=tenant)
         context['get'] = True
-
     else:
-        # Validates the received form data.
-        # Iff the data of both forms are valid and there had been changes, the changes will be saved to the database.
-
-        user_form = UserUpdateForm(request.POST, instance=tenant)
-        tenant_form = MainTenantUpdateForm(request.POST,
-                                           instance=tenant.maintenant) if tenant.is_maintenant() else SubTenantUpdateForm(
-            request.POST, instance=tenant.subtenant)
-
-        if user_form.is_valid() and tenant_form.is_valid():
-
-            if user_form.has_changed() or tenant_form.has_changed():
-
-                user_form.save()
+        tenant_form = form(request.POST, instance=tenant)
+        if tenant_form.is_valid():
+            if tenant_form.has_changed():
                 tenant_form.save()
-
                 messages.success(request, _('Änderungen wurden erfolgreich übernommen!'))
-
             else:
                 messages.info(request, 'Es gab keine Änderungen!')
 
             return redirect(reverse('tenants:TenantView', kwargs={'pk': tenant.pk}))
 
-    context['title'] = _('%(tenant)s aktualisieren!') % {'tenant': str(tenant)}
-    context['user_form'] = user_form
+    context['title'] = _('%(tenant)s aktualisieren') % {'tenant': str(tenant.user)}
     context['tenant_form'] = tenant_form
     context['tenant'] = tenant
 
     return render(request, 'tenants/update.html', context)
 
 
+# TODO: restructure!
 @csrf_protect
 @login_required
 @permission_required('tenants.contact_subtenant')
@@ -333,14 +284,10 @@ def contact_subtenant(request, pk):
     A maintenant can send an active searching subtenant an email containing his contact details.
     """
 
-    subtenant = get_object_or_404(User, pk=pk)
-
-    # only subtenants can be contacted
-    if not subtenant.is_subtenant():
-        return handler400(request)
+    subtenant = get_object_or_404(SubTenant, pk=pk)
 
     # only searching subtenants can be contacted
-    if not subtenant.subtenant.is_searching:
+    if not subtenant.is_searching:
         return handler400(request)
 
     # only active subtenants can be contacted
@@ -348,7 +295,8 @@ def contact_subtenant(request, pk):
         return handler400(request)
 
     # email content
-    content = get_template('tenants/contact_email.html').render({'user': request.user, 'subtenant': subtenant, 'site_name': get_current_site(request).name})
+    content = get_template('tenants/contact_email.html').render(
+        {'user': request.user, 'subtenant': subtenant, 'site_name': get_current_site(request).name})
 
     if request.method == 'GET':
         # Asks for consent
@@ -422,7 +370,7 @@ class Requests(ListView):
     def get_queryset(self):
         return SubTenant.objects.filter(user__is_active=True, is_searching=True,
                                         end_request__gt=datetime.datetime.now()).order_by('begin_request',
-                                                                                             'end_request')
+                                                                                          'end_request')
 
 
 @csrf_protect
@@ -435,17 +383,12 @@ def create_feedback(request):
     context = {}
 
     if request.method == 'GET':
-
         form = FeedbackForm()
         context['get'] = True
-
     else:
-
         form = FeedbackForm(request.POST)
-
         if form.is_valid():
             feedback = form.save()
-
             content = get_template('tenants/feedback_email.html').render({'feedback': feedback})
             mail_admins(subject='Ferienmiete Straußäcker 3 Neues Feedback', message=content, fail_silently=True,
                         html_message=content)

@@ -1,7 +1,8 @@
 <p>=== English version below ===</p>
 <p>Hallo {{ user.first_name }},</p>
 <p>du hast dich erfolgreich auf bei der Ferienmiete des Straußäcker 3 registriert.</p>
-<p>Benutzername: {{ user.email }}<br>
+<p>Benutzername: {{ user.username }}<br>
+    Email: {{ user.email }}<br>
     Ferienmiete ID: {{ user.pk }}</p>
 <p>Nächste Schritte als Untermieter:<br>
     Als Untermieter kannst du nicht aktiv nach einem Zimmer suchen oder einen Hauptmieter kontaktieren. Du musst warten,
@@ -28,7 +29,8 @@
 <p><br>=== English version ===</p>
 <p>Hello {{ user.first_name }},</p>
 <p>you have successfully registered for the subtenancy of Straußäcker 3.<br>
-<p>Username: {{ user.email }}<br>
+<p>Username: {{ user.username }}<br>
+    Email: {{ user.email }}<br>
     Subtenancy ID: {{ user.pk }}</p>
 <p>Next step as a subtenant:<br>
     As a subtenant you can not actively search for a room or contact a maintenant. You have to wait until a maintenant

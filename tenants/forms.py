@@ -20,79 +20,74 @@ class ResidentialHomeForm(ModelForm):
         }
 
 
-class UserForm(UserCreationForm):
+class UserUpdateForm(ModelForm):
     """
-    Creates a user extended by birthday and phone number.
+    Updates a user.
     """
-
-    def clean(self):
-        cleaned_data = super().clean()
-        first_name = cleaned_data.get('first_name')
-        last_name = cleaned_data.get('last_name')
-
-        # check blacklist
-        if first_name and last_name:
-            blocked = Blacklist.objects.filter(name__icontains=first_name + ' ' + last_name)
-            if blocked:
-                self.add_error('first_name', _('Dein Name steht auf der schwarzen Liste!'))
-                self.add_error('last_name', _('Dein Name steht auf der schwarzen Liste!'))
 
     class Meta:
-        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'birthday', 'phone_number']
+        fields = ['first_name', 'last_name', 'email', 'birthday', 'phone_number']
         model = User
         widgets = {
             'birthday': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
         }
 
 
-class UserUpdateForm(ModelForm):
-    """
-    Updates a user.
-    """
+def clean_tenant(self, cleaned_data):
+    begin_rent_agreement = cleaned_data.get('begin_rent_agreement')
+    end_rent_agreement = cleaned_data.get('end_rent_agreement')
+    residential_home = cleaned_data.get('residential_home')
+    house_number = cleaned_data.get('house_number')
+    room_number = cleaned_data.get('room_number')
+    rent = cleaned_data.get('rent')
+    first_name = cleaned_data.get('first_name')
+    last_name = cleaned_data.get('last_name')
 
-    class Meta(UserForm.Meta):
-        fields = ['first_name', 'last_name', 'email', 'birthday', 'phone_number']
+    # check blacklist
+    if first_name and last_name:
+        blocked = Blacklist.objects.filter(name__icontains=first_name + ' ' + last_name)
+        if blocked:
+            self.add_error('first_name', _('Dein Name steht auf der schwarzen Liste!'))
+            self.add_error('last_name', _('Dein Name steht auf der schwarzen Liste!'))
+
+    # begin_rent_agreement < end_rent_agreement
+    if begin_rent_agreement and end_rent_agreement:
+        if begin_rent_agreement >= end_rent_agreement:
+            self.add_error('end_rent_agreement', _('Das Ende des Mietvertrages muss nach dem Beginn sein!'))
+
+    # house_number of residential_home
+    if residential_home and house_number:
+        if house_number not in residential_home.get_house_numbers_as_list():
+            self.add_error('house_number',
+                           _('Diese Hausnummer existiert nicht. Erlaubt sind: ') + residential_home.house_numbers)
+
+    # room_number of residential_home
+    if residential_home and room_number:
+        if room_number not in residential_home.get_room_numbers_as_list():
+            self.add_error('room_number',
+                           _('Diese Zimmernummer existiert nicht. Erlaubt sind: ') + residential_home.room_numbers)
+
+    # positive rent
+    if rent:
+        if rent < 0:
+            self.add_error('rent', _('Die Monatsmiete muss positiv sein!'))
 
 
-class MainTenantForm(ModelForm):
+class MainTenantCreateForm(UserCreationForm):
     """
     Creates an maintenant with additional validation.
     """
 
     def clean(self):
-        cleaned_date = super().clean()
-        begin_rent_agreement = cleaned_date.get('begin_rent_agreement')
-        end_rent_agreement = cleaned_date.get('end_rent_agreement')
-        residential_home = cleaned_date.get('residential_home')
-        house_number = cleaned_date.get('house_number')
-        room_number = cleaned_date.get('room_number')
-        rent = cleaned_date.get('rent')
-
-        # begin_rent_agreement < end_rent_agreement
-        if begin_rent_agreement and end_rent_agreement:
-            if begin_rent_agreement >= end_rent_agreement:
-                self.add_error('end_rent_agreement', _('Das Ende des Mietvertrages muss nach dem Beginn sein!'))
-
-        # house_number of residential_home
-        if residential_home and house_number:
-            if house_number not in residential_home.get_house_numbers_as_list():
-                self.add_error('house_number',
-                               _('Diese Hausnummer existiert nicht. Erlaubt sind: ') + residential_home.house_numbers)
-
-        # room_number of residential_home
-        if residential_home and room_number:
-            if room_number not in residential_home.get_room_numbers_as_list():
-                self.add_error('room_number',
-                               _('Diese Zimmernummer existiert nicht. Erlaubt sind: ') + residential_home.room_numbers)
-
-        # positive rent
-        if rent:
-            if rent < 0:
-                self.add_error('rent', _('Die Monatsmiete muss positiv sein!'))
+        cleaned_data = super().clean()
+        return clean_tenant(self, cleaned_data)
 
     class Meta:
         model = MainTenant
-        exclude = ['user']
+        fields = ['username', 'first_name', 'last_name', 'password1', 'password2', 'email', 'birthday', 'phone_number',
+                  'tenant_id', 'begin_rent_agreement', 'end_rent_agreement', 'residential_home', 'house_number',
+                  'room_number', 'rent', 'is_returning']
+
         help_texts = {
             'is_returning': _(
                 'Sofern kein Wiedereinzug geplant ist und der Hauptmieter somit vollständig auszieht, wird die Kaution über den Hausmeister zurückerstattet.'),
@@ -101,33 +96,54 @@ class MainTenantForm(ModelForm):
             'begin_rent_agreement': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'end_rent_agreement': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'is_returning': Select(choices=BOOLEAN_CHOICES),
+            'birthday': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
         }
 
 
-class MainTenantUpdateForm(MainTenantForm):
+class MainTenantUpdateForm(ModelForm):
     """
-    Updates a maintenant. The difference to creating a maintenant is the now available field is_searching.
+    Updates a maintenant. The difference to creating a maintenant is that username, password1 and password2 is not available.
     """
 
+    def clean(self):
+        cleaned_data = super().clean()
+        return clean_tenant(self, cleaned_data)
 
-class SubTenantForm(ModelForm):
+    class Meta(MainTenantCreateForm.Meta):
+        fields = ['first_name', 'last_name', 'email', 'birthday', 'phone_number',
+                  'tenant_id', 'begin_rent_agreement', 'end_rent_agreement', 'residential_home', 'house_number',
+                  'room_number', 'rent', 'is_returning']
+
+
+def clean_subtenant(self, cleaned_data):
+    begin_request = cleaned_data.get('begin_request')
+    end_request = cleaned_data.get('end_request')
+
+    # begin_request < end_request
+    if begin_request and end_request:
+        if begin_request >= end_request:
+            self.add_error('end_request', _('Das Ende der angefragten Untermiete muss nach dem Beginn sein!'))
+
+
+class SubTenantCreateForm(UserCreationForm):
     """
     Creates a subtenant with additional validation.
     """
 
     def clean(self):
-        cleaned_date = super().clean()
-        begin_request = cleaned_date.get('begin_request')
-        end_request = cleaned_date.get('end_request')
-
-        # begin_request < end_request
-        if begin_request and end_request:
-            if begin_request >= end_request:
-                self.add_error('end_request', _('Das Ende der angefragten Untermiete muss nach dem Beginn sein!'))
+        cleaned_data = super().clean()
+        return clean_subtenant(self, cleaned_data)
 
     class Meta:
         model = SubTenant
-        exclude = ['user', 'is_searching']
+        fields = ['username', 'first_name', 'last_name', 'password1', 'password2', 'email', 'birthday', 'phone_number',
+                  'nationality', 'student_id', 'begin_request', 'end_request', 'is_searching',
+                  'name', 'street', 'house_number', 'postcode', 'city', 'country']
+        help_texts = {
+            'is_searching': _(
+                'Wenn dieser Wert auf "Nein" gesetzt ist, taucht deine Anfrage mit dem oben genannten Zeitraum NICHT in der Anfragenliste auf. Sobald ein Vertrag abgeschlossen wird, wird dieser Wert automatisch auf "Nein" gesetzt. Das beudetet: Wenn deine Anfrage mit dem oben angegebenen Zeitraum in die Anfragenliste wieder aufgenommen werden soll, muss dieser Wert "Ja" lauten.'),
+            'name': _('Vollständiger Name für die Korrespondenzadresse')
+        }
         widgets = {
             'is_eu': Select(choices=BOOLEAN_CHOICES),
             'begin_request': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
@@ -136,20 +152,22 @@ class SubTenantForm(ModelForm):
         }
 
 
-class SubTenantUpdateForm(SubTenantForm):
+class SubTenantUpdateForm(ModelForm):
     """
     Updates a subtenant. The difference to creating a subtenant is the now available field is_searching.
     """
 
-    class Meta(SubTenantForm.Meta):
-        help_texts = {
-            'is_searching': _(
-                'Wenn dieser Wert auf "Nein" gesetzt ist, taucht deine Anfrage mit dem oben genannten Zeitraum NICHT in der Anfragenliste auf. Sobald ein Vertrag abgeschlossen wird, wird dieser Wert automatisch auf "Nein" gesetzt. Das beudetet: Wenn deine Anfrage mit dem oben angegebenen Zeitraum in die Anfragenliste wieder aufgenommen werden soll, muss dieser Wert "Ja" lauten.')
-        }
-        exclude = ['user']
+    def clean(self):
+        cleaned_data = super().clean()
+        return clean_subtenant(self, cleaned_data)
+
+    class Meta(SubTenantCreateForm.Meta):
+        fields = ['first_name', 'last_name', 'email', 'birthday', 'phone_number',
+                  'nationality', 'student_id', 'begin_request', 'end_request', 'is_searching',
+                  'name', 'street', 'house_number', 'postcode', 'city', 'country']
 
 
-class RequestUpdateForm(SubTenantForm):
+class RequestUpdateCreateForm(SubTenantCreateForm):
     """
     Subtenant can update only his request.
     """

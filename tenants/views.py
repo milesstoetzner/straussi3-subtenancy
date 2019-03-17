@@ -62,6 +62,8 @@ def create_tenant(request, is_maintenant):
             mail.content_subtype = "html"
             mail.send(fail_silently=True)
 
+            mail_admins(subject='ANALYSE create_tenant', message='Es gab eine Registrierung!', fail_silently=True)
+
             return redirect(reverse('login'))
 
     context['title'] = _('Hauptmieter Registrierung') if is_maintenant else _('Untermieter Registrierung')
@@ -274,7 +276,6 @@ def update_tenant(request, pk):
     return render(request, 'tenants/update.html', context)
 
 
-# TODO: restructure!
 @csrf_protect
 @login_required
 @permission_required('tenants.contact_subtenant')
@@ -328,6 +329,8 @@ def contact_subtenant(request, pk):
                 [request.user.email])
             mail.content_subtype = "html"
             mail.send()
+
+            mail_admins(subject='ANALYSE contact_subtenant', message='Es gab eine Kontaktaufnahme!', fail_silently=True)
 
         except SMTPException as e:
             messages.error(request, _('Untermieter konnte nicht kontaktiert werden!'))

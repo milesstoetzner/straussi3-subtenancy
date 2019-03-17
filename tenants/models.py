@@ -85,7 +85,7 @@ class User(AbstractUser):
     phone_number = models.CharField(_('Telefonnummer'), max_length=15)
     type = models.CharField(_('Typ'), max_length=3, choices=TYPES)
 
-    history = HistoricalRecords()
+    # history = HistoricalRecords()
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -118,7 +118,7 @@ class User(AbstractUser):
         )
 
 
-class MainTenant(models.Model):
+class MainTenant(User):
     """
     Model for a maintenant. Each maintenant record belongs to a user.
     Every change to a record is logged.
@@ -135,12 +135,9 @@ class MainTenant(models.Model):
     house_number = models.CharField(_('Hausnummer'), max_length=10)
     room_number = models.CharField(_('Zimmernummer'), max_length=10)
     rent = models.DecimalField(_('Monatsmiete in Euro'), max_digits=5, decimal_places=2)
-    is_returning = models.BooleanField(_('Ist ein Wiedereinzug ins Zimmer geplant?'))
+    is_returning = models.BooleanField(_('Ist ein Wiedereinzug ins Zimmer geplant?'), default=True)
 
-    history = HistoricalRecords()
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    # history = HistoricalRecords()
 
     def get_room(self):
         return str(self.house_number) + ' ' + str(self.room_number)
@@ -163,7 +160,7 @@ class MainTenant(models.Model):
         return amount
 
     def __str__(self):
-        return '[' + str(self.pk) + '] ' + str(self.user.first_name) + ' ' + str(self.user.last_name) + ' (' + str(self.user.birthday) + ')' + ' (' + str(self.tenant_id) + ')'
+        return '[' + str(self.pk) + '] ' + str(self.first_name) + ' ' + str(self.last_name) + ' (' + str(self.birthday) + ')' + ' (' + str(self.tenant_id) + ')'
 
     class Meta:
         verbose_name = _('Hauptmieter')
@@ -174,7 +171,7 @@ class MainTenant(models.Model):
         )
 
 
-class SubTenant(models.Model):
+class SubTenant(User):
     """
     Model for a subtenant. Each subtenant record belongs to a user.
     Every change to a record is logged.
@@ -199,13 +196,10 @@ class SubTenant(models.Model):
     city = models.CharField(_('Ort'), max_length=250)
     country = models.CharField(_('Land'), choices=COUNTRIES, max_length=2)
 
-    history = HistoricalRecords()
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    # history = HistoricalRecords()
 
     def __str__(self):
-        return '[' + str(self.pk) + '] ' + str(self.user.first_name) + ' ' + str(self.user.last_name) + ' (' + str(self.user.birthday) + ')' + ' (' + str(self.student_id) + ')'
+        return '[' + str(self.pk) + '] ' + str(self.first_name) + ' ' + str(self.last_name) + ' (' + str(self.birthday) + ')' + ' (' + str(self.student_id) + ')'
 
     class Meta:
         verbose_name = _('Untermieter')

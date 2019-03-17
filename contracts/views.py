@@ -30,20 +30,13 @@ def create_contract(request):
     context = {}
 
     if request.method == 'GET':
-        # Displays the contract form
-
         form = ContractForm()
         context['get'] = True
-
     else:
-        # Validates the received form data. If data is valid a new contract is saved to the database and as PDF.
-
         form = ContractForm(request.POST)
 
         if form.is_valid():
             contract = form.save()
-            form.instance.maintenant.is_searching = False
-            form.instance.maintenant.save()
             form.instance.subtenant.is_searching = False
             form.instance.subtenant.save()
 
@@ -92,15 +85,9 @@ def update_contract(request, pk):
     context['title'] = 'Vertrag ' + str(contract.id) + ' ändern'
 
     if request.method == 'GET':
-        # Displays the contract update form
-
         context['get'] = True
         context['form'] = ContractForm(instance=contract)
-
     else:
-        # Validates the received form data.
-        # Iff the data are valid and there had been changes, the changes will be saved to the database.
-
         form = ContractForm(request.POST, instance=contract)
         if form.is_valid():
             if form.has_changed():
@@ -213,11 +200,11 @@ def search(request):
         query_date = "1111-11-11"
 
     maintenants = MainTenant.objects.filter(
-        Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query) | Q(user_id=query_int) | Q(
-            tenant_id=query_int) | Q(user__birthday=query_date))
+        Q(first_name__icontains=query) | Q(last_name__icontains=query) | Q(user_id=query_int) | Q(
+            tenant_id=query_int) | Q(birthday=query_date))
     subtenants = SubTenant.objects.filter(
-        Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query) | Q(user_id=int(query_int)) | Q(
-            student_id=query_int) | Q(user__birthday=query_date))
+        Q(first_name__icontains=query) | Q(last_name__icontains=query) | Q(user_id=int(query_int)) | Q(
+            student_id=query_int) | Q(birthday=query_date))
     contracts = Contract.objects.filter(Q(id=query_int) | Q(begin=query_date) | Q(end=query_date))
 
     context = {

@@ -9,7 +9,8 @@
         <div class="card-body">
             <h5 class="card-title">{{ title }}</h5>
 
-            <p>{% blocktrans with subtenant.pk as pk%}Möchtest du folgende Nachricht an die Person mit der ID {{ pk }} senden?{% endblocktrans %}</p>
+            <p>{% blocktrans with subtenant.pk as pk %}Möchtest du folgende Nachricht an die Person mit der ID {{ pk }}
+                senden?{% endblocktrans %}</p>
 
             <div class="alert bg-grey" role="alert">
 
@@ -23,14 +24,8 @@
 
                 <button class="btn btn-success btn-block">{% trans "Kontaktieren" %}</button>
 
+                <a href="{% url 'Requests' %}" class="btn btn-danger btn-block">{% trans "Abbrechen" %}</a>
 
-                {% if user.is_maintenant %}
-                    <a href="{% url 'Requests' %}" class="btn btn-danger btn-block">{% trans "Abbrechen" %}</a>
-                {% elif user.is_subtenant %}
-                    <a href="{% url 'Offers' %}" class="btn btn-danger btn-block">{% trans "Abbrechen" %}</a>
-                {% else %}
-                    <a href="{% url 'Profile' %}" class="btn btn-danger btn-block">{% trans "Abbrechen" %}</a>
-                {% endif %}
             </form>
 
         </div>

@@ -19,27 +19,13 @@
 
             <h5 class="card-title">{{ title }}</h5>
 
-            <h6 class="card-subtitle mb-2 text-muted">{% trans "Informationen über den Account" %}</h6>
-
             <fieldset disabled>
 
-                {% bootstrap user_form True %}
+                {% bootstrap tenant_form True %}
 
             </fieldset>
 
             {% if tenant.is_maintenant or tenant.is_subtenant %}
-
-
-                <h6 class="card-subtitle mb-2 text-muted" style="padding-top: 2rem">
-                    {% if tenant.is_maintenant %}{% trans "Informationen über den Hauptmieter" %}{% else %}
-                        {% trans "Informationen über den Untermieter" %}{% endif %}</h6>
-
-
-                <fieldset disabled>
-
-                    {% bootstrap tenant_form True %}
-
-                </fieldset>
 
                 {% if user.id == tenant.id %}
                     <a href="{% url 'ProfileUpdate' %}"

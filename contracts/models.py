@@ -51,7 +51,7 @@ class Contract(models.Model):
 
         return not self.is_changed \
                and self.updated_at >= self.maintenant.updated_at \
-               and self.updated_at >= self.subtenant.updated_at \
+               and self.updated_at >= self.subtenant.updated_at
 
     def get_rents(self):
         """

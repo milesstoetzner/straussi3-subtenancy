@@ -85,7 +85,7 @@ class User(AbstractUser):
     phone_number = models.CharField(_('Telefonnummer'), max_length=15)
     type = models.CharField(_('Typ'), max_length=3, choices=TYPES)
 
-    # history = HistoricalRecords()
+    history = HistoricalRecords(inherit=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -125,6 +125,7 @@ class MainTenant(User):
     """
 
     # Information about main tenant
+    # NOTE: user still exists because of migrations problems while the change to multi table inherit from user
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     tenant_id = models.PositiveIntegerField(_('Mieternummer'), unique=True)
     begin_rent_agreement = models.DateField(_('Beginn des Mietvertrages'))
@@ -136,8 +137,6 @@ class MainTenant(User):
     room_number = models.CharField(_('Zimmernummer'), max_length=10)
     rent = models.DecimalField(_('Monatsmiete in Euro'), max_digits=5, decimal_places=2)
     is_returning = models.BooleanField(_('Ist ein Wiedereinzug ins Zimmer geplant?'), default=True)
-
-    # history = HistoricalRecords()
 
     def get_room(self):
         return str(self.house_number) + ' ' + str(self.room_number)
@@ -160,11 +159,11 @@ class MainTenant(User):
         return amount
 
     def __str__(self):
-        return '[' + str(self.pk) + '] ' + str(self.first_name) + ' ' + str(self.last_name) + ' (' + str(self.birthday) + ')' + ' (' + str(self.tenant_id) + ')'
+        return '[' + str(self.pk) + '] ' + self.first_name + ' ' + self.last_name + ' (' + self.birthday.strftime('%d.%m.%Y') + ')' + ' (' + str(self.tenant_id) + ')'
 
     class Meta:
         verbose_name = _('Hauptmieter')
-        verbose_name_plural = _('Haupmieter')
+        verbose_name_plural = _('Hauptmieter')
         ordering = ['-user__id']
         permissions = (
             ("contact_subtenant", _("Can contact subtenant")),
@@ -177,6 +176,7 @@ class SubTenant(User):
     Every change to a record is logged.
     """
 
+    # NOTE: user still exists because of migrations problems while the change to multi table inherit from user
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     # Information about sub tenant
@@ -196,10 +196,8 @@ class SubTenant(User):
     city = models.CharField(_('Ort'), max_length=250)
     country = models.CharField(_('Land'), choices=COUNTRIES, max_length=2)
 
-    # history = HistoricalRecords()
-
     def __str__(self):
-        return '[' + str(self.pk) + '] ' + str(self.first_name) + ' ' + str(self.last_name) + ' (' + str(self.birthday) + ')' + ' (' + str(self.student_id) + ')'
+        return '[' + str(self.pk) + '] ' + self.first_name + ' ' + self.last_name + ' (' + self.birthday.strftime('%d.%m.%Y') + ')' + ' (' + str(self.student_id) + ')'
 
     class Meta:
         verbose_name = _('Untermieter')

@@ -608,12 +608,12 @@
 
         <tr>
             <td>Lichtbildausweis o.Ä.</td>
-            <td> {{ contract.is_identified|yesno:"Kontrolliert, Nicht kontrolliert" }}</td>
+            <td> {{ contract.is_subtenant_identified|yesno:"Kontrolliert, Nicht kontrolliert" }}</td>
         </tr>
 
         <tr>
             <td>Immatrikulationsbescheinigung o.Ä.</td>
-            <td> {{ contract.is_matriculated|yesno:"Kontrolliert, Nicht kontrolliert" }}</td>
+            <td> {{ contract.is_subtenant_matriculated|yesno:"Kontrolliert, Nicht kontrolliert" }}</td>
         </tr>
 
         </tbody>

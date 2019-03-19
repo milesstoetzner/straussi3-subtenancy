@@ -12,6 +12,7 @@ urlpatterns = [
     path('update/<int:pk>', views.update_tenant, name='TenantUpdate'),
     # delete route is listed in subtenancy/urls.py
     path('contact/<int:pk>', views.contact_subtenant, name='SubTenantContact'),
-    path('blacklist/', views.blacklist, name='Blacklist')
+    path('blacklist/', views.blacklist, name='Blacklist'),
+    path('hall_of_fame/', views.hall_of_fame, name='HallOfFame')
 
 ]

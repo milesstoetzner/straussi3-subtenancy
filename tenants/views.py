@@ -1,7 +1,7 @@
 import datetime
 
 from django.db.transaction import atomic
-from tenants.models import User, SubTenant, Blacklist
+from tenants.models import User, SubTenant, Blacklist, HallOfFame
 from tenants.forms import UserUpdateForm, MainTenantCreateForm, MainTenantUpdateForm, SubTenantCreateForm, \
     SubTenantUpdateForm, FeedbackForm, RequestUpdateCreateForm
 from django.urls import reverse
@@ -402,3 +402,23 @@ def create_feedback(request):
     context['form'] = form
 
     return render(request, 'tenants/feedback.html', context)
+
+
+@login_required()
+@permission_required(['tenants.view_halloffame'])
+@require_GET
+def hall_of_fame(request):
+    """
+    Displays the blacklist containing all blocked tenant ids and student ids.
+    """
+
+    query = HallOfFame.objects.all()
+
+    context = {}
+    context['title'] = 'Hall of Fame'
+    context['hall'] = query
+
+    if not query:
+        messages.info(request, 'Die Hall of Fame ist leider leer!')
+
+    return render(request, 'tenants/hall_of_fame.html', context)

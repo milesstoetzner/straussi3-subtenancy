@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-19 18:05+0100\n"
+"POT-Creation-Date: 2019-03-19 18:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -425,11 +425,13 @@ msgstr ""
 msgid "Anfragen von Untermietern"
 msgstr "Subtenant Requests"
 
-#: .\tenants\templates\subtenancy\index.html:29
+#: .\tenants\templates\subtenancy\index.html:31
+#: .\tenants\templates\subtenancy\index.html:98
 msgid "Informationen für Hauptmieter"
 msgstr "Information for Maintenants"
 
-#: .\tenants\templates\subtenancy\index.html:66
+#: .\tenants\templates\subtenancy\index.html:69
+#: .\tenants\templates\subtenancy\index.html:244
 msgid "Informationen für Untermieter"
 msgstr "Information for Subtenants"
 
@@ -502,6 +504,8 @@ msgid ""
 "ist diese Liste nur für Hauptmieter bei der Suche nach einem Untermieter "
 "nützlich!"
 msgstr ""
+"This list does not offer rooms but searching for rooms! Therefore, this list "
+"is only useful for maintenants searching a subtenant!"
 
 #: .\tenants\templates\tenants\requests.html:17
 msgid ""
@@ -509,6 +513,9 @@ msgid ""
 "kannst du nicht aktiv nach einem Zimmer suchen. Du musst warten, bis dich "
 "ein Hauptmieter über diese Liste kontaktiert!"
 msgstr ""
+"Subtenants can not find rooms here. As a subtenant you can not actively "
+"search for a room or contact a maintenant. You have to wait until a "
+"maintenant contacts you via the request list."
 
 #: .\tenants\templates\tenants\requests.html:24
 msgid ""
@@ -528,11 +535,11 @@ msgid "ID"
 msgstr "ID"
 
 #: .\tenants\templates\tenants\requests.html:35
-msgid "Beginn der Untermiete"
+msgid "Beginn der Anfrage"
 msgstr "Begin of Subtenancy"
 
 #: .\tenants\templates\tenants\requests.html:36
-msgid "Ende der Untermiete"
+msgid "Ende der Anfrage"
 msgstr "End of Subtenancy"
 
 #: .\tenants\templates\tenants\requests.html:64

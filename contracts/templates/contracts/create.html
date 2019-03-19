@@ -2,7 +2,6 @@
 
 {% load static %}
 {% load custom_extras %}
-{% load i18n %}
 
 {% block content %}
 
@@ -18,9 +17,9 @@
 
                 <div style="margin-bottom: 1rem">
                     <a href="" class="btn btn-primary btn-block" id="view_maintenant" target="_blank"><i
-                            class="fas fa-user icon-text"></i>{% trans "Hauptmieter anzeigen" %}</a>
+                            class="fas fa-user icon-text"></i>Hauptmieter anzeigen</a>
                     <a href="" class="btn btn-primary btn-block" id="view_subtenant" target="_blank"><i
-                            class="fas fa-user icon-text"></i>{% trans "Untermieter anzeigen" %}</a>
+                            class="fas fa-user icon-text"></i>Untermieter anzeigen</a>
                 </div>
 
                 {% bootstrap form get %}
@@ -39,16 +38,16 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="createModalLabel">{% trans "Vertrag erstellen" %}</h5>
+                                <h5 class="modal-title" id="createModalLabel">Vertrag erstellen</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                {% trans "Möchtest du wirklich einen Vertrag erstellen?" %}
+                                Möchtest du wirklich einen Vertrag erstellen?
                             </div>
                             <div class="modal-footer">
-                                <button class="btn btn-danger float-left" data-dismiss="modal">{% trans "Abbrechen" %}</button>
+                                <button class="btn btn-danger float-left" data-dismiss="modal">Abbrechen</button>
                                 <button class="btn btn-success float-right"
                                         onclick="document.getElementById('createForm').submit()">{{ title }}</button>
                             </div>

@@ -1,10 +1,8 @@
-{% load i18n %}
-
 <div class="dropdown">
 
     <div class="dropdown-menu {% if query %} show {% endif %}" style="max-height: 500px; overflow: auto">
 
-        <li><p class="dropdown-item disabled text-muted" style="margin-bottom: 0">{% trans "Hauptmieter" %}</p></li>
+        <li><p class="dropdown-item disabled text-muted" style="margin-bottom: 0">Hauptmieter</p></li>
 
         {% for maintenant in maintenants %}
 
@@ -12,13 +10,13 @@
 
             {% empty %}
 
-            <li><p class="dropdown-item disabled text-danger" style="margin-bottom: 0">{% trans "Keine Suchergebnisse!" %} <i class="far fa-frown"></i></p></li>
+            <li><p class="dropdown-item disabled text-danger" style="margin-bottom: 0">Keine Suchergebnisse!<i class="far fa-frown"></i></p></li>
 
         {% endfor %}
 
         <div class="dropdown-divider"></div>
 
-        <li><p class="dropdown-item disabled text-muted" style="margin-bottom: 0">{% trans "Untermieter" %}</p></li>
+        <li><p class="dropdown-item disabled text-muted" style="margin-bottom: 0">Untermieter</p></li>
 
         {% for subtenant in subtenants %}
 
@@ -26,13 +24,13 @@
 
             {% empty %}
 
-            <li><p class="dropdown-item disabled text-danger" style="margin-bottom: 0">{% trans "Keine Suchergebnisse!" %} <i class="far fa-frown"></i></p></li>
+            <li><p class="dropdown-item disabled text-danger" style="margin-bottom: 0">Keine Suchergebnisse!<i class="far fa-frown"></i></p></li>
 
         {% endfor %}
 
         <div class="dropdown-divider"></div>
 
-        <li><p class="dropdown-item disabled text-muted" style="margin-bottom: 0">{% trans "Verträge" %}</p></li>
+        <li><p class="dropdown-item disabled text-muted" style="margin-bottom: 0">Verträge</p></li>
 
         {% for contract in contracts %}
 
@@ -40,7 +38,7 @@
 
             {% empty %}
 
-            <li><p class="dropdown-item disabled text-danger" style="margin-bottom: 0">{% trans "Keine Suchergebnisse!" %} <i class="far fa-frown"></i></p></li>
+            <li><p class="dropdown-item disabled text-danger" style="margin-bottom: 0">Keine Suchergebnisse!<i class="far fa-frown"></i></p></li>
 
 
         {% endfor %}

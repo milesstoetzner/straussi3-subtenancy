@@ -2,24 +2,20 @@
 
 {% load static %}
 {% load custom_extras %}
-{% load i18n %}
 
 {% block content %}
 
     {% if not is_latest %}
         <div class="alert adjust-alert bg-info text-light text-center" style="margin-top: 1rem">
-            <p>{% trans "Es gab eine Änderung. Eine Änderung kann auftreten, wenn du Details geändert hast oder einer der Mieter seine Informationen geändert hat." %}</p>
-            <p>{% trans "Du kannst eine Vorschau des Vertrags betrachten und gegebenenfalls einen neuen Version des Vertrags generieren." %}</p>
-            <p>{% trans "Sofern die Änderung nicht auf deine Veranlassung getätigt wurde, solltest du diese ignorieren!" %}</p>
-
-
+            <p>Es gab eine Änderung bei den Infomationen über den Vertrag, den Haupt- oder Untermieter.</p>
+            <p>Du kannst diese Änderung ignorieren, wenn du keine neue Version des Vertrages erstellen möchtest.</p>
             <form action="{% url 'contracts:ContractSavePDF' form.instance.pk %}" method="POST">
                 {% csrf_token %}
 
                 <a class="btn btn-block btn-light" href="{% url 'contracts:ContractPreviewPDF' form.instance.pk %}"
-                   target="_blank">{% trans "1. Vorschau" %}</a>
+                   target="_blank">1. Vorschau der neuen Version</a>
 
-                <button class="btn btn-block btn-light">{% trans "2. Neue PDF erstellen" %}</button>
+                <button class="btn btn-block btn-light">2. Neue Version erstellen</button>
 
             </form>
         </div>
@@ -34,12 +30,12 @@
 
                 <div style="margin-bottom: 1rem">
                     <a href="" class="btn btn-primary btn-block" id="view_maintenant" target="_blank"><i
-                            class="fas fa-user icon-text"></i>{% trans "Hauptmieter anzeigen" %}</a>
+                            class="fas fa-user icon-text"></i>Hauptmieter anzeigen</a>
                     <a href="" class="btn btn-primary btn-block" id="view_subtenant" target="_blank"><i
-                            class="fas fa-user icon-text"></i>{% trans "Untermieter anzeigen" %}</a>
+                            class="fas fa-user icon-text"></i>Untermieter anzeigen</a>
                     <a class="btn btn-block btn-success"
                        href="{% url 'contracts:ContractViewPDF' form.instance.pk form.instance.version %}"
-                       target="_blank"><i class="fas fa-file icon-text"></i>{% trans "PDF betrachten" %}</a>
+                       target="_blank"><i class="fas fa-file icon-text"></i>PDF betrachten</a>
                 </div>
 
                 <fieldset disabled>
@@ -52,7 +48,7 @@
 
 
                 <a class="btn btn-block btn-success"
-                   href="{{ form.instance.get_update_url }}">{% trans "Änderungen vornehmen" %}</a>
+                   href="{{ form.instance.get_update_url }}">Änderungen vornehmen</a>
 
             </div>
 
@@ -61,7 +57,7 @@
 
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">{% trans "Ältere Versionen" %}
+            <h5 class="card-title">Ältere Versionen
             </h5>
 
 
@@ -69,7 +65,7 @@
 
                 <a class="btn btn-block btn-info"
                    href="{% url 'contracts:ContractViewPDF' form.instance.pk v %}" target="_blank">
-                    {% if v == form.instance.version %}{% trans "Aktuelle Version" %}{% else %}{% trans "Version" %}
+                    {% if v == form.instance.version %}Aktuelle Version{% else %}Version
                         {{ v }}{% endif %}</a>
 
             {% endfor %}

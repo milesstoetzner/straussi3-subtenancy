@@ -18,74 +18,398 @@
                     class="fas fa-user-edit icon-text"></i>{% trans "Als Untermieter registrieren" %}</a>
 
 
-
-
         </div>
 
     </div>
 
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title" id="faq_maintenant">{% trans "Informationen für Hauptmieter" %}</h5>
+    {# TODO: remove hotfix with new german texts and their translations #}
+    {% get_current_language as LANGUAGE_CODE %}
+    {% if LANGUAGE_CODE == 'de' %}
 
-            <div class="alert bg-danger text-white text-center">
-                Die Summe aller Untermieten eines Hauptmieters darf 3 Monate nicht überschreiten! Es kann ein
-                Sonderantrag auf Verlängerung bei <a
-                    href="https://www.studierendenwerk-stuttgart.de/wohnen/wohnanlagen/straussaecker-iii/#panel-4969-1"
-                    target="_blank" style="color:white;">unserer Sachbearbeiterin beim SWS</a> gestellt werden. Jeder
-                Antrag wird
-                individuell entschieden. Dabei muss ein nachweisbarer ausschlaggebender Grund für die Verlängerung
-                angegeben werden.
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" id="faq_maintenant">{% trans "Informationen für Hauptmieter" %}</h5>
+
+                <div class="alert bg-danger text-white text-center">
+                    Die Summe aller Untermieten eines Hauptmieters darf 3 Monate nicht überschreiten! Es kann ein
+                    Sonderantrag auf Verlängerung bei <a
+                        href="https://www.studierendenwerk-stuttgart.de/wohnen/wohnanlagen/straussaecker-iii/#panel-4969-1"
+                        target="_blank" style="color:white;">unserer Sachbearbeiterin beim SWS</a> gestellt werden.
+                    Jeder
+                    Antrag wird
+                    individuell entschieden. Dabei muss ein nachweisbarer ausschlaggebender Grund für die Verlängerung
+                    angegeben werden.
+                </div>
+
+                {% for entry in faq_maintenant %}
+
+                    <p>
+                        <a class="btn btn-primary btn-block" style="text-align: left" data-toggle="collapse"
+                           href="#id_faq_maintenant_{{ forloop.counter }}" role="button" aria-expanded="false">
+                            {{ entry.question|safe }}
+                        </a>
+                    </p>
+                    <div class="collapse" id="id_faq_maintenant_{{ forloop.counter }}">
+                        <div class="alert bg-grey">
+
+                            {{ entry.answer|safe }}
+
+                        </div>
+                    </div>
+
+
+                {% endfor %}
+
             </div>
 
-            {% for entry in faq_maintenant %}
+        </div>
 
-                <p>
-                    <a class="btn btn-primary btn-block" style="text-align: left" data-toggle="collapse"
-                       href="#id_faq_maintenant_{{ forloop.counter }}" role="button" aria-expanded="false">
-                        {{ entry.question|safe }}
-                    </a>
-                </p>
-                <div class="collapse" id="id_faq_maintenant_{{ forloop.counter }}">
-                    <div class="alert bg-grey">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" id="faq_subtenant">{% trans "Informationen für Untermieter" %}</h5>
 
-                        {{ entry.answer|safe }}
+                {% for entry in faq_subtenant %}
 
+                    <p>
+                        <a class="btn btn-primary btn-block" style="text-align: left" data-toggle="collapse"
+                           href="#id_faq_subtenant_{{ forloop.counter }}" role="button" aria-expanded="false">
+                            {{ entry.question|safe }}
+                        </a>
+                    </p>
+                    <div class="collapse" id="id_faq_subtenant_{{ forloop.counter }}">
+                        <div class="alert bg-grey">
+
+                            {{ entry.answer|safe }}
+
+                        </div>
                     </div>
-                </div>
 
 
-            {% endfor %}
+                {% endfor %}
+
+            </div>
 
         </div>
 
-    </div>
+    {% else %}
 
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title" id="faq_subtenant">{% trans "Informationen für Untermieter" %}</h5>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" id="faq_subtenant">{% trans "Informationen für Hauptmieter" %}</h5>
 
-            {% for entry in faq_subtenant %}
-
-                <p>
-                    <a class="btn btn-primary btn-block" style="text-align: left" data-toggle="collapse"
-                       href="#id_faq_subtenant_{{ forloop.counter }}" role="button" aria-expanded="false">
-                        {{ entry.question|safe }}
-                    </a>
+                <hr>
+                <h6>I want to rent a room for a short period:</h6>
+                <p>If you want to sublet your room, please check first the following points:</p>
+                <ul>
+                    <li>You must rent a room through the dorm referent(WoRe):<br>We are officially authorized from the
+                        Studierendenwerk Stuttgart (SWS) to manage all short-term renting in the dormitory and we work
+                        as agent to make it easy for student to quickly find a tenant for their rooms. every other way
+                        of renting a room is considered(schwarzmiete).
+                    </li>
+                    <li>You are only allowed to rent a from the main tenant of that room:<br>Only tenant who have a
+                        rental contract with the SWS can sub rent their room and only during the official rental Period.
+                        Without any exceptions.
+                    </li>
+                    <li>You are only allowed to sub rent a room for 3 Months</li>
+                    <li>Sub rental contract can only be signed during the Sprechtstunde of the WoRe:<br>You and the
+                        person who will rent you his room must be present when signing the contract and if that is not
+                        possible, you should contact us to try to find a solution.
+                    </li>
+                    <li>We offer deposit contracts that we can (at will) confirm and other services that makes the whole
+                        process easy for you.
+                    </li>
+                    <li>The sub rental contract must be signed in the Sprechstunde at least 1 week before the rent
+                        period starts. After that the sub rent is no longer possible.
+                    </li>
+                </ul>
+                <hr>
+                <h6>Am I allowed to sub rent a room?</h6>
+                <p>You are qualified to rent a room in a student dormitory., when at least two of the following criteria
+                    are fulfilled:</p>
+                <ul>
+                    <li>You must be a registered student (during the complete sub rent period) at the university of
+                        Stuttgart and perusing a Bachelors, masters or an equivalent degree.<br>PhDs and researchers are
+                        not allowed to live in the student dormitory
+                    </li>
+                    <li>You must have a valid visa/residence permit to live in Germany.</li>
+                    <li>You must be a registered student at a university somewhere in the world, doing a language course
+                        in Stuttgart or doing a mandatory Internship for his studies.
+                    </li>
+                </ul>
+                <p>The WoRe needs to check your fulfillment to the criteria with written confirmation. So please bring
+                    all the needed document to the Sprechstunde.</p>
+                <hr>
+                <h6>Where can I find a room?</h6>
+                <p>There three main ways to do that:</p>
+                <ul>
+                    <li>You already know someone who is eligible to sub rent his/her room and you decide to rent his/her
+                        room.
+                    </li>
+                    <li>You submit a request through our request form and hope that someone will choose you. Then we
+                        will send him your contact Information and he will contact you.
+                    </li>
+                    <li>You can find someone online in the websites designated to such purpose. Be aware that the demand
+                        for a room there is very very high.
+                    </li>
+                </ul>
+                <ul>
+                    <li>Please clarify everything with each other before you come to our office. you don’t want any
+                        surprises in the Sprechstunde.
+                    </li>
+                </ul>
+                <hr>
+                <h6>The process of sub renting a room</h6>
+                <p>After you went through all the above and you are ready to a your room:</p>
+                <ol>
+                    <li>You and the main tenant should come to the Sprechstunde and bring all the necessary documents
+                        (see below for a list of documents).
+                    </li>
+                    <li>If requested from the main tenant your should pay a deposit for the room and you will get it
+                        back at the end of the rental:
+                        <ol>
+                            <li>If so please bring the money to the Sprechstunde. the sum must be at least equivalent to
+                                the deposit payed by the main tenant to the SWS. Alternative you can bring along a money
+                                transfer confirmation and the main tenant must confirm that he/she got the money.
+                            </li>
+                            <li>The WoRe will help fill out and sign the deposit contract.</li>
+                            <li>The Wore will confirm the deposit as an independent third party.</li>
+                        </ol>
+                    </li>
+                    <li>You must sign a document that confirms that the room furniture is there, complete, and Okay(of
+                        course you should check it out before signing). within 14 days, the you can complain and the
+                        Hausmeister will interevent to clarify the issue.
+                    </li>
+                    <li>The WoRe will help you fill out all necessary document and contract.</li>
+                    <li>You should pay a donation of 2,5€ for every rented week to the WoRe. It is only so that the WoRe
+                        finance itself and able to function. Only cash is accepted.
+                    </li>
+                    <li>The WoRe will officially confirm the sub rental and will hand out written confirmations. Both
+                        tenants will receive copies and the original will be kept with us, for as needed in the future.
+                    </li>
+                    <li>&nbsp;The rent cost muss be transferred from the subtenant to the main tenant every first day of
+                        the month.
+                    </li>
+                    <li>&nbsp;The key handover should be organized between the subtenants.</li>
+                    <li>&nbsp;Ending of the sub rental:
+                        <ol>
+                            <li>&nbsp;Option1: return the room to the main tenant after the rental is over .the main
+                                tenant has 14 days to report any damaged furniture. The Hausmeister will examine the
+                                damage and decide about the return of the deposit.
+                            </li>
+                            <li>&nbsp;Option2: yor return the room directly to the SWS. you has a period of 14 day to
+                                arrange a meeting with the Hausmeister to handover the room. the Hausmeister will
+                                confirm the room handover and that no damage has occurred. And with that you should get
+                                the deposit as soon as possible.
+                            </li>
+                        </ol>
+                    </li>
+                </ol>
+                <hr>
+                <h6>Required documents:</h6>
+                <p><span
+                        style="font-weight: 400;">All document must be <strong>present when signing the contract</strong>. There is no “i’ll bring them later” </span>
                 </p>
-                <div class="collapse" id="id_faq_subtenant_{{ forloop.counter }}">
-                    <div class="alert bg-grey">
+                <ul>
+                    <li><span style="font-weight: 400;">Documents required from the main tenant: </span>
+                        <ul>
+                            <li><span style="font-weight: 400;">Rental Contract </span></li>
+                            <li><span style="font-weight: 400;"><strong>Personal ID or A passport</strong> (for foreign students: they have to have a valid Visa)</span>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><span style="font-weight: 400;">Documents required from the subtenant: </span>
+                        <ul>
+                            <li><span style="font-weight: 400;">A <strong>valid Personal ID</strong> with a <strong>Picture</strong>.(bus ticket, or gym membership ID is a no-go)</span>
+                            </li>
+                            <li><span style="font-weight: 400;">For foreign student who require a <strong>Visa</strong> to live in Germany please bring your <strong>valid Visa</strong> with you(either on the Passport or separate document)</span>
+                            </li>
+                            <li><span style="font-weight: 400;">Official </span><b>proof of enrollment from a
+                                university: </b>the document must state your <strong>Name, Major and enrollment&nbsp;period</strong><b>. </b>For
+                                example: Students at the university of Stuttgart have an ID with the picture and the
+                                Semester-marke that they get every semester. together they present a valid proof of
+                                enrollment.Other universities have it different but the same basic Information musst be
+                                always stated on the document. For special cases you can ask your University to issue
+                                such document for you.
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
 
-                        {{ entry.answer|safe }}
-
-                    </div>
-                </div>
-
-
-            {% endfor %}
+            </div>
 
         </div>
 
-    </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" id="faq_subtenant">{% trans "Informationen für Untermieter" %}</h5>
+
+                <div id="WE641b94dee0" class="BaseDiv RNone OEWELabel OESK_WELabel_Default">
+                    <div class="OESZ OESZ_DivContent OESZG_WE641b94dee0">
+                        <h6>Attention</h6>
+                        <p>The sum of all subtenancies <strong>MUST NOT exceed 3 months</strong>! An extension can be
+                            requested from our contact person at the SWS. Each case is handled independently. Therefore
+                            you have to <strong>argue and prove</strong> why an extension is required.</p>
+                        <h6>I want to sublet my room for a limited period:</h6>
+                        <p>if you want to rent your room for a short period, the WoRe(Wohnheimsreferendariat) will help
+                            you <span style="font-weight: 400;">throughout </span> the whole process. But before you
+                            start you should know these important rules if you want to sublet your room, please check
+                            first the following points:</p>
+                        <ol>
+                            <li>you must rent your room through the dorm referent(WoRe):We are officially authorized
+                                from the Studierendenwerk Stuttgart (SWS) to manage all short-term renting in the
+                                dormitory and we work as agent to make it easy for student to quickly find a tenant for
+                                their rooms. every other way of renting your room is considered(schwarzmiete) and may in
+                                some cases cause to lose your room. further details about the consequences are in your
+                                rent contract with the SWS
+                            </li>
+                            <li>you are only allowed to rent your room if are the main tenant of that room: Only tenant
+                                who have a rental contract with the SWS can sub rent their room and only during the
+                                official rental Period. Without any exceptions.
+                            </li>
+                            <li>you are only allowed to sub rent your room for 3 Months:You can sub rent your room for 3
+                                months at a time or more than once for a shorter period but the total must not exceed 3
+                                months. If you have a good reason you must rent your room for a longer period, then you
+                                must contact the SWS and ask for a special permission.  You must bring the written
+                                permission with you when you sign your sub rental contract.
+                            </li>
+                            <li>Sub rental contract can only be signed during the Sprechstunde of the WoRe: You and the
+                                person who will rent your room must be present when signing the contract and if that is
+                                not possible, you should contact us to try to find a solution.
+                            </li>
+                            <li>we offer deposit contracts that we can (at will) confirm and other services that makes
+                                the whole process easy for you.
+                            </li>
+                            <li>the sub rental contract must be signed in the Sprechstunde at least 1 week before the
+                                rent period starts. After that the sub rent is no longer possible.
+                            </li>
+                        </ol>
+                        <hr/>
+                        <h6>To whom am I allowed to sub rent my room:</h6>
+                        <p><strong>You can rent your room to anyone who is qualified to rent a room in a student
+                            dormitory. He/she must fulfill at least two of the following criteria:</strong></p>
+                        <ol>
+                            <li>He/she must be a registered student (during the complete sub rent period) at the
+                                university of Stuttgart and <span style="font-weight: 400;">pursuing </span>a Bachelors,
+                                masters or an equivalent degree. PhDs and researchers are not allowed to live in the
+                                student dormitory
+                            </li>
+                            <li>He/she must have valid visa/residence permit to live in Germany.</li>
+                            <li>He/she must be a registered student at a university somewhere in the world and he/she is
+                                doing a language course in Stuttgart or doing a mandatory Internship for his studies.
+                            </li>
+                        </ol>
+                        <p>The WoRe needs to check you your fulfillment to the criteria with written confirmation. So
+                            please bring all the needed document to the Sprechstunde.</p>
+                        <hr/>
+                        <h6>Where can I find a subtenant?</h6>
+                        <p>There three main ways to do that:</p>
+                        <ol>
+                            <li>You already know someone who is eligible to sub rent your room and you decide to rent
+                                you room to him/her.
+                            </li>
+                            <li>You can check out our website for a list of people who are looking for a sub rent.
+                                Choose 2 or 3 and send us their ID-numbers in an email. We will reply to you with their
+                                contact information. It must be done like this because of our privacy policy.
+                            </li>
+                            <li>You can find someone online in the websites designated to such purpose. Be aware that
+                                the demand for a room there is very very high.
+                            </li>
+                        </ol>
+                        <p>Check your potential subtenant documents to make sure that he its allowed to sub rent your
+                            room. you don’t want any surprises in the Sprechstunde.</p>
+                        <hr/>
+                        <h6>The process of sub renting your room:</h6>
+                        <p>After you went through all the above and you are ready to rent your room:</p>
+                        <ol>
+                            <li>You and your subtenant should come to the Sprechstunde and bring all the necessary
+                                documents (see below for a list of documents).
+                            </li>
+                            <li>You can take a deposit from your subtenant and give back at the end of the rental:
+                                <ul>
+                                    <li>The subtenant brings the money to the Sprechstunde and the sum must be at least
+                                        equivalent to the deposit <span style="font-weight: 400;">paid </span>by the
+                                        main tenant to the SWS. Alternative the sub tenant can bring along a money
+                                        transfer confirmation and you must confirm that you got the money.
+                                    </li>
+                                    <li>The WoRe will help fill out and sign the deposit contract.</li>
+                                    <li>The WoRe will confirm the deposit as an independent third party.</li>
+                                </ul>
+                            </li>
+                            <li>You must sign a document that confirms that the room furniture is there, complete, and
+                                Okay, same for the room. within 14 days, the subtenant can complain and the Hausmeister
+                                will interevent to clarify the issue.
+                            </li>
+                            <li>The WoRe will help you fill out all necessary document and contract.</li>
+                            <li>The subtenant should a donation of 2,5€ for every rented week to the WoRe. It is only so
+                                that the WoRe finance itself and able to function. Only cash is accepted.
+                            </li>
+                            <li>The WoRe will officially confirm the sub rental and will hand out written confirmations.
+                                Both tenants will receive copies and the original will be kept with us, for as needed in
+                                the future.
+                            </li>
+                            <li>The rent cost <span style="font-weight: 400;">must </span>be transferred from the
+                                subtenant to the main tenant every first day of the month. The sub rental contract is
+                                official and is the subtenant does not pay, you should inform the SWS for them to get
+                                the money from him/her and if needed take legal action.
+                            </li>
+                            <li>If your are not coming back to live in your room again, do the following: Befor the
+                                sublet begins, go to the Hausmeister-Sprechstunde (Office Hour) and pre fill the
+                                document "Laufzettel". This is required to return your deposit when your main-rental
+                                contract ends.
+                            </li>
+                            <li>The key handover should be organized between the subtenants.</li>
+                            <li>Ending of the sub rental:
+                                <ul>
+                                    <li>Option 1: if you return to your room after the sub renal is over then you have
+                                        14 days to report any damaged furniture. The Hausmeister will examine the damage
+                                        and decide about the return of the deposit.
+                                    </li>
+                                    <li>Option 2: you are not getting back to your room and your rental contract with
+                                        the SWS ends with your Sub rental. Then the subtenant has a period of 14 day to
+                                        arrange a meeting with the Hausmeister to handover the room. the Hausmeister
+                                        will confirm the room handover and that no damage has occurred.  And with that
+                                        you should return the deposit as soon as possible.
+                                    </li>
+                                </ul>
+                            </li>
+                        </ol>
+                        <hr/>
+                        <h6>Required documents:</h6>
+                        <p><span style="font-weight: 400;">All document must be <strong>present when signing the contract</strong>. There is no “i’ll bring them later”</span>
+                        </p>
+                        <ul>
+                            <li><span style="font-weight: 400;">Documents required from the main tenant:</span>
+                                <ul>
+                                    <li><span style="font-weight: 400;">Rental Contract</span></li>
+                                    <li><span style="font-weight: 400;"><strong>Personal ID or A passport</strong> (for foreign students: they have to have a valid Visa)</span>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><span style="font-weight: 400;">Documents required from the subtenant:</span>
+                                <ul>
+                                    <li><span
+                                            style="font-weight: 400;">A <strong>valid Personal ID</strong> with a <strong>Picture</strong>.(bus ticket, or gym membership ID is a no-go)</span>
+                                    </li>
+                                    <li><span
+                                            style="font-weight: 400;">For foreign student who require a <strong>Visa</strong> to live in Germany please bring your <strong>valid Visa</strong> with you(either on the Passport or separate document)</span>
+                                    </li>
+                                    <li><span style="font-weight: 400;">Official </span><b>proof of enrollment from a
+                                        university: </b>the document must state your <strong>Name, Major and
+                                        enrollment period</strong><b>. </b>For example: Students at the university of
+                                        Stuttgart have an ID with the picture and the Semester-marke that they get every
+                                        semester. together they present a valid proof of enrollment.Other universities
+                                        have it different but the same basic Information musst be always stated on the
+                                        document. For special cases you can ask your University to issue such document
+                                        for you.
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    {% endif %}
 
 {% endblock %}

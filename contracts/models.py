@@ -1,5 +1,4 @@
 import os
-from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -7,7 +6,6 @@ from tenants.models import MainTenant, SubTenant, ResidentialHome
 from .utils import add_one_month, is_end_of_month, html_to_pdf, save_html_as_pdf
 from simple_history.models import HistoricalRecords
 from django.db.transaction import atomic
-from django.utils.translation import gettext_lazy as _
 
 
 class Contract(models.Model):
@@ -15,21 +13,21 @@ class Contract(models.Model):
     Model for a subtenancy contract between a maintenant and a subtenant. Every change to a record is logged.
     """
 
-    maintenant = models.ForeignKey(MainTenant, on_delete=models.PROTECT, verbose_name=_('Hauptmieter'))
-    subtenant = models.ForeignKey(SubTenant, on_delete=models.PROTECT, verbose_name=_('Untermieter'))
-    begin = models.DateField(_('Beginn der Untermiete'))
-    end = models.DateField(_('Ende der Untermiete'))
-    condition = models.BooleanField(_('Ist das Zimmer und die Wohnung gereinigt und in einem ordnungsgemäßen Zustand?'), default=False)
-    condition_comment = models.CharField(_('Sonstige Anmerkungen zum Zimmer oder zur Wohnung'), max_length=75, blank=True)
-    caution = models.DecimalField(_('Höhe der Kaution in Euro'), max_digits=5, decimal_places=2, default=0)
-    caution_comment = models.CharField(_('Anmerkungen zur Kaution'), max_length=150, blank=True)
-    is_maintenant_identified = models.BooleanField(_('Wurde der Lichtbildausweis des Hauptmieters kontrolliert?'), default=False)
-    is_subtenant_identified = models.BooleanField(_('Wurde der Lichtbildausweis des Untermieters kontrolliert?'), default=False)
-    is_subtenant_matriculated = models.BooleanField(_('Wurde die Immatrikulationsbescheinigung des Untermieters kontrolliert?'), default=False)
-    is_subtenant_allowed_in_DE = models.BooleanField(_('Darf der Untermieter sich für den Zeitraum in Deutschland aufhalten?'), default=False)
-    donation = models.DecimalField(_('Freiwillige Spende in Euro'), max_digits=5, decimal_places=2, default=0)
-    has_special_permission = models.BooleanField(_('Hat der Hauptmieter eine Sondergenehmigung, um den Zeitraum von 3 Monaten zu überschreiten?'), default=False)
-    is_active = models.BooleanField(_('Ist dieser Vertrag gültig?'), default=True)
+    maintenant = models.ForeignKey(MainTenant, on_delete=models.PROTECT, verbose_name='Hauptmieter')
+    subtenant = models.ForeignKey(SubTenant, on_delete=models.PROTECT, verbose_name='Untermieter')
+    begin = models.DateField('Beginn der Untermiete')
+    end = models.DateField('Ende der Untermiete')
+    condition = models.BooleanField('Ist das Zimmer und die Wohnung gereinigt und in einem ordnungsgemäßen Zustand?', default=False)
+    condition_comment = models.CharField('Sonstige Anmerkungen zum Zimmer oder zur Wohnung', max_length=75, blank=True)
+    caution = models.DecimalField('Höhe der Kaution in Euro', max_digits=5, decimal_places=2, default=0)
+    caution_comment = models.CharField('Anmerkungen zur Kaution', max_length=150, blank=True)
+    is_maintenant_identified = models.BooleanField('Wurde der Lichtbildausweis des Hauptmieters kontrolliert?', default=False)
+    is_subtenant_identified = models.BooleanField('Wurde der Lichtbildausweis des Untermieters kontrolliert?', default=False)
+    is_subtenant_matriculated = models.BooleanField('Wurde die Immatrikulationsbescheinigung des Untermieters kontrolliert?', default=False)
+    is_subtenant_allowed_in_DE = models.BooleanField('Darf der Untermieter sich für den Zeitraum in Deutschland aufhalten?', default=False)
+    donation = models.DecimalField('Freiwillige Spende in Euro', max_digits=5, decimal_places=2, default=0)
+    has_special_permission = models.BooleanField('Hat der Hauptmieter eine Sondergenehmigung, um den Zeitraum von 3 Monaten zu überschreiten?', default=False)
+    is_active = models.BooleanField('Ist dieser Vertrag gültig?', default=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -136,8 +134,8 @@ class Contract(models.Model):
             self.subtenant.pk) + ')'
 
     class Meta:
-        verbose_name = _('Vertrag')
-        verbose_name_plural = _('Verträge')
+        verbose_name = 'Vertrag'
+        verbose_name_plural = 'Verträge'
         permissions = (
-            ("view_short_contract", _("Can view short version of a contract")),
+            ("view_short_contract", "Can view short version of a contract"),
         )

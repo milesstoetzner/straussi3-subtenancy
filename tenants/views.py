@@ -103,7 +103,6 @@ def view_profile(request):
 def update_profile(request):
     """
     Updates the details about a user and his corresponding maintenant/subtenant.
-    NOTE: this is copy and pasted (and adjusted) from update_tenant
     """
 
     context = {}
@@ -263,13 +262,13 @@ def update_tenant(request, pk):
         if tenant_form.is_valid():
             if tenant_form.has_changed():
                 tenant_form.save()
-                messages.success(request, _('Änderungen wurden erfolgreich übernommen!'))
+                messages.success(request, 'Änderungen wurden erfolgreich übernommen!')
             else:
                 messages.info(request, 'Es gab keine Änderungen!')
 
             return redirect(reverse('tenants:TenantView', kwargs={'pk': tenant.pk}))
 
-    context['title'] = _('%(tenant)s aktualisieren') % {'tenant': str(tenant.user)}
+    context['title'] = str(tenant.user) + 'aktualisieren'
     context['tenant_form'] = tenant_form
     context['tenant'] = tenant
 
@@ -353,11 +352,11 @@ def blacklist(request):
     query = Blacklist.objects.all()
 
     context = {}
-    context['title'] = _('Schwarze Liste')
+    context['title'] = 'Schwarze Liste'
     context['blacklist'] = query
 
     if not query:
-        messages.info(request, _('Die schwarze Liste ist leer!'))
+        messages.info(request, 'Die schwarze Liste ist leer!')
 
     return render(request, 'tenants/blacklist.html', context)
 

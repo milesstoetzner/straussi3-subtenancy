@@ -2,7 +2,6 @@
 
 {% load static %}
 {% load custom_extras %}
-{% load i18n %}
 
 {% block content %}
 
@@ -16,8 +15,8 @@
                 </h5>
 
                <div style="margin-bottom: 1rem">
-                    <a href="" class="btn btn-primary btn-block" id="view_maintenant" target="_blank"><i class="fas fa-user icon-text"></i>{% trans "Hauptmieter anzeigen" %}</a>
-                    <a href="" class="btn btn-primary btn-block" id="view_subtenant" target="_blank"><i class="fas fa-user icon-text"></i>{% trans "Untermieter anzeigen" %}</a>
+                    <a href="" class="btn btn-primary btn-block" id="view_maintenant" target="_blank"><i class="fas fa-user icon-text"></i>Hauptmieter anzeigen</a>
+                    <a href="" class="btn btn-primary btn-block" id="view_subtenant" target="_blank"><i class="fas fa-user icon-text"></i>Untermieter anzeigen</a>
                 </div>
 
                 {% bootstrap form get %}
@@ -26,10 +25,10 @@
 
                 <!-- Button trigger modal -->
                 <button class="btn btn-success btn-block" data-toggle="modal" data-target="#updateModal" onclick="" id="modalButton">
-                   {% trans "Änderungen vornehmen" %}
+                   Änderungen vornehmen
                 </button>
                 <a href="{% url 'contracts:ContractView' form.instance.id %}"
-                   class="btn btn-danger btn-block">{% trans "Abbrechen" %}</a>
+                   class="btn btn-danger btn-block">Abbrechen</a>
 
                 <!-- Modal -->
                 <div class="modal fade" id="updateModal" tabindex="-1" role="dialog"
@@ -37,14 +36,14 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="updateModalLabel">{% trans "Änderungen" %}</h5>
+                                <h5 class="modal-title" id="updateModalLabel">Änderungen</h5>
                             </div>
                             <div class="modal-body">
-                                {% trans "Möchtest du die Änderungen wirklich speichern?" %}
+                                Möchtest du die Änderungen wirklich speichern?
                             </div>
                             <div class="modal-footer">
-                                    <button class="btn btn-danger float-left" data-dismiss="modal">{% trans "Abbrechen" %}</button>
-                                    <button class="btn btn-success float-right" onclick="document.getElementById('updateForm').submit()">{% trans "Änderungen vornehmen" %}</button>
+                                    <button class="btn btn-danger float-left" data-dismiss="modal">Abbrechen</button>
+                                    <button class="btn btn-success float-right" onclick="document.getElementById('updateForm').submit()">Änderungen vornehmen</button>
                             </div>
                         </div>
                     </div>

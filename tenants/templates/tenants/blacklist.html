@@ -1,7 +1,5 @@
 {% extends "subtenancy/base.html" %}
 
-{% load i18n %}
-
 {% block content %}
 
     <div class="card">
@@ -9,7 +7,7 @@
 
             <h5 class="card-title">{{ title }}</h5>
 
-            <p class="text-block">{% trans "In dieser Liste stehen die Namen der Personen, die sich eine zukünftige Zusammenarbeit mit uns verwehrt haben." %}</p>
+            <p class="text-block">In dieser Liste stehen die Namen der Personen, die sich eine zukünftige Zusammenarbeit mit uns verwehrt haben.</p>
 
             {% if blacklist %}
 
@@ -18,8 +16,8 @@
 
                         <thead>
                         <tr>
-                            <th>{% trans "Name" %}</th>
-                            <th>{% trans "Grund" %}</th>
+                            <th>Name</th>
+                            <th>Grund</th>
                         </tr>
 
                         </thead>
@@ -42,8 +40,6 @@
 
             {% endif %}
 
-
-        {% include 'contracts/pagination.html' %}
 
     </div>
 

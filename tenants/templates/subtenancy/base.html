@@ -75,7 +75,8 @@
                 {% endif %}
 
                 <a class="btn btn-primary" href="{% url 'Index' %}" id="{% url 'Index' %}"><i
-                        class="fas fa-check-circle icon-text"></i>Start</a>
+                        class="fas fa-question icon-text"></i>FAQ</a>
+
 
                 {% if user.is_authenticated %}
 
@@ -146,11 +147,11 @@
 
                     <a class="btn btn-orange" href="{% url 'contracts:ContractCreate' %}"
                        id="{% url 'contracts:ContractCreate' %}"><i
-                            class="fas fa-file-signature icon-text"></i>{% trans "Vertrag erstellen" %}</a>
+                            class="fas fa-file-signature icon-text"></i>Vertrag erstellen</a>
 
                     <li class="nav-item dropdown">
 
-                        <input class="form-control" type="search" placeholder="{% trans "Suchen" %}" aria-label="Search"
+                        <input class="form-control" type="search" placeholder="Suchen" aria-label="Search"
                                id="searchInput"
                                style="border-radius: 0" data-toggle="tooltip" data-placement="bootom"
                                title="Es kann nach folgenden Attributen gesucht werden: Geburtstag (dd.mm.yyyy), Vorname, Nachname, ID, Mieternummer, Matrikelnummer, Vertragsbegin (dd.mm.yyyy), Vertragsende (dd.mm.yyyy) ">
@@ -166,15 +167,15 @@
 
                     <a class="btn btn-orange" href="{% url 'contracts:ContractsPrintCaretaker' %}"
                        id="{% url 'contracts:ContractsPrintCaretaker' %}" target="_blank"><i
-                            class="fas fa-file-export icon-text"></i>{% trans "Hausmeister" %}</a>
+                            class="fas fa-file-export icon-text"></i>Hausmeister</a>
 
                     <a class="btn btn-orange" href="{% url 'tenants:Blacklist' %}"
                        id="{% url 'tenants:Blacklist' %}"><i
-                            class="fas fa-exclamation-triangle icon-text"></i>{% trans "Schwarze Liste" %}</a>
+                            class="fas fa-exclamation-triangle icon-text"></i>Schwarze Liste</a>
 
                     <a class="btn btn-orange" href="{% url 'contracts:ContractHelp' %}"
                        id="{% url 'contracts:ContractHelp' %}"><i
-                            class="fas fa-ambulance icon-text"></i>{% trans "Hilfe" %}</a>
+                            class="fas fa-ambulance icon-text"></i>Hilfe</a>
 
                 </div>
             </div>
@@ -237,14 +238,14 @@
 
                 <div class="row">
                     <div class="col-12 col-md">
-                        <h6>{% trans "Account" %}</h6>
+                        <h6>{% trans "Benutzerkonto" %}</h6>
                         <ul class="list-unstyled">
                             <li><a class="text-muted" href="{% url 'Profile' %}">{% trans "Profil" %}</a></li>
                             <li><a class="text-muted" href="{% url 'login' %}">{% trans "Einloggen" %}</a></li>
                             <li><a class="text-muted"
-                                   href="{% url 'password_reset' %}">{% trans "Password vergessen" %}</a></li>
+                                   href="{% url 'password_reset' %}">{% trans "Passwort vergessen" %}</a></li>
                             <li><a class="text-muted"
-                                   href="{% url 'password_change' %}">{% trans "Password ändern" %}</a></li>
+                                   href="{% url 'password_change' %}">{% trans "Passwort ändern" %}</a></li>
                             <li><a class="text-muted"
                                    href="{% url 'ProfileUpdate' %}">{% trans "Profil aktualisieren" %}</a></li>
                             <li><a class="text-muted"
@@ -255,14 +256,14 @@
                         <h6>{% trans "Ferienmiete" %}</h6>
                         <ul class="list-unstyled">
                             <li><a class="text-muted"
-                                   href="{% url 'Index' %}">{% trans "Allgemeine Informationen" %}</a></li>
+                                   href="{% url 'Index' %}">FAQ</a></li>
                             <li><a class="text-muted"
                                    href="{% url 'MainTenantCreate' %}">{% trans "Als Hauptmieter registrieren" %}</a>
                             </li>
                             <li><a class="text-muted"
                                    href="{% url 'SubTenantCreate' %}">{% trans "Als Untermieter registrieren" %}</a>
                             </li>
-                            <li><a class="text-muted" href="{% url 'Requests' %}">{% trans "Liste aller Anfragen" %}</a>
+                            <li><a class="text-muted" href="{% url 'Requests' %}">{% trans "Anfragenliste" %}</a>
                             </li>
                             <li><a class="text-muted"
                                    href="{% url 'RequestUpdate' %}">{% trans "Anfrage aktualisieren" %}</a></li>

@@ -12,14 +12,14 @@ class ResidentialHome(models.Model):
     """
 
     id = models.IntegerField(unique=True, primary_key=True)
-    short = models.CharField(_('Abkürzung'), max_length=4)
-    name = models.CharField(_('Name'), max_length=250)
-    street = models.CharField(_('Straße'), max_length=250)
-    house_numbers = models.CharField(_('Hausnummern'), max_length=1000)
-    room_numbers = models.CharField(_('Zimmernummern'), max_length=1000)
-    postcode = models.CharField(_('Postleitzahl'), max_length=25)
-    city = models.CharField(_('Ort'), max_length=250)
-    country = models.CharField(_('Land'), max_length=250)
+    short = models.CharField('Abkürzung', max_length=4)
+    name = models.CharField('Name', max_length=250)
+    street = models.CharField('Straße', max_length=250)
+    house_numbers = models.CharField('Hausnummern', max_length=1000)
+    room_numbers = models.CharField('Zimmernummern', max_length=1000)
+    postcode = models.CharField('Postleitzahl', max_length=25)
+    city = models.CharField('Ort', max_length=250)
+    country = models.CharField('Land', max_length=250)
 
     history = HistoricalRecords()
 
@@ -44,8 +44,8 @@ class ResidentialHome(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = _('Wohnheim')
-        verbose_name_plural = _('Wohnheime')
+        verbose_name = 'Wohnheim'
+        verbose_name_plural = 'Wohnheime'
 
 
 class Blacklist(models.Model):
@@ -53,8 +53,8 @@ class Blacklist(models.Model):
     Main/Subtenant with the listed name can not register.
     """
 
-    name = models.CharField(_('Vollständiger Name'), max_length=500, unique=True)
-    reason = models.CharField(_('Beschreibung'), max_length=500)
+    name = models.CharField('Vollständiger Name', max_length=500, unique=True)
+    reason = models.CharField('Beschreibung', max_length=500)
 
     history = HistoricalRecords()
 
@@ -68,8 +68,8 @@ class Blacklist(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = _('Blockierter Mieter')
-        verbose_name_plural = _('Blockierte Mieter')
+        verbose_name = 'Blockierter Mieter'
+        verbose_name_plural = 'Blockierte Mieter'
 
 
 class User(AbstractUser):
@@ -210,9 +210,9 @@ class Feedback(models.Model):
     User can send some feedback.
     """
 
-    title = models.CharField(_('Titel'), max_length=250)
-    description = models.CharField(_('Beschreibung'), max_length=1000)
-    is_done = models.BooleanField(_('Bearbeitet?'), default=False)
+    title = models.CharField('Titel', max_length=250)
+    description = models.CharField('Beschreibung', max_length=1000)
+    is_done = models.BooleanField('Bearbeitet?', default=False)
 
     history = HistoricalRecords()
 
@@ -223,5 +223,5 @@ class Feedback(models.Model):
         return '[' + str(self.pk) + ']   ' + str(self.title)
 
     class Meta:
-        verbose_name = _('Feedback')
-        verbose_name_plural = _('Feedbacks')
+        verbose_name = 'Feedback'
+        verbose_name_plural = 'Feedbacks'

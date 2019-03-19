@@ -1,7 +1,6 @@
 {% extends "subtenancy/base.html" %}
 
 {% load custom_extras %}
-{% load i18n %}
 
 {% block content %}
 
@@ -15,9 +14,9 @@
 
                 {% bootstrap tenant_form get %}
 
-                <button class="btn btn-success btn-block">{% trans "Aktualisieren" %}</button>
+                <button class="btn btn-success btn-block">Aktualisieren</button>
                 <a href="{% url 'tenants:TenantView' tenant.id %}"
-                   class="btn btn-danger btn-block">{% trans "Abbrechen" %}</a>
+                   class="btn btn-danger btn-block">Abbrechen</a>
 
             </div>
 

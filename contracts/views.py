@@ -1,5 +1,5 @@
-import datetime
 import os
+import datetime
 
 from django.db.transaction import atomic
 from django.urls import reverse
@@ -14,7 +14,6 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
 from .utils import html_to_pdf
-from django.utils.translation import gettext_lazy as _
 from subtenancy.views import handler404
 
 
@@ -42,11 +41,11 @@ def create_contract(request):
 
             contract.save_contract_pdf()
 
-            messages.success(request, _('Vertrag wurde erfolgreich erstellt!'))
+            messages.success(request, 'Vertrag wurde erfolgreich erstellt!')
 
             return redirect(contract.get_absolute_url())
 
-    context['title'] = _('Vertrag erstellen')
+    context['title'] = 'Vertrag erstellen'
     context['form'] = form
 
     return render(request, 'contracts/create.html', context)
@@ -95,10 +94,10 @@ def update_contract(request, pk):
                 form.instance.is_changed = True
                 form.save()
 
-                messages.success(request, _('Änderungen erfolgreich übernommen!'))
+                messages.success(request, 'Änderungen erfolgreich übernommen!')
 
             else:
-                messages.info(request, _('Es gab keine Änderungen!'))
+                messages.info(request, 'Es gab keine Änderungen!')
             return redirect(reverse('contracts:ContractView', args=(contract.id,)))
         else:
             context['form'] = form
@@ -133,7 +132,7 @@ def save_contract_pdf(request, pk):
 
     contract.save_contract_pdf()
 
-    messages.success(request, _('PDF wurde erfolgreich erstellt!'))
+    messages.success(request, 'PDF wurde erfolgreich erstellt!')
 
     return redirect(reverse('contracts:ContractView', args=(contract.id,)))
 
@@ -221,5 +220,5 @@ def search(request):
 @permission_required('contracts.add_contract')
 @require_http_methods(['GET'])
 def view_help(request):
-    messages.error(request, 'Sry, aber diese Seite befindet sich noch im Aufbau.')
+    messages.error(request, 'Sry, aber diese Seite befindet sich noch im Aufbau. Falls ihr Frage zur Bedienung der Website habt, dann ruft mich an: +49 1777 580061.')
     return render(request, 'contracts/help.html')

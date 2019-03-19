@@ -186,6 +186,7 @@ The following groups need to exist with the corresponding permissions:
     - `tenants.view_subtenant`
     - `tenants.change_subtenant`
     - `tenants.view_blacklist`
+    - `tenants.view_fameofhall`
     - `contract.add_contract`
     - `contract.view_contract`
     - `contract.view_short_contract`

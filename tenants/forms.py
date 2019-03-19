@@ -148,7 +148,8 @@ class SubTenantCreateForm(UserCreationForm):
             'is_eu': Select(choices=BOOLEAN_CHOICES),
             'begin_request': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'end_request': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-            'is_searching': Select(choices=BOOLEAN_CHOICES)
+            'is_searching': Select(choices=BOOLEAN_CHOICES),
+            'birthday': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
         }
 
 

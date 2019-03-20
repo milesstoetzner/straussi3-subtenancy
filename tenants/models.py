@@ -135,7 +135,6 @@ class MainTenant(User):
     residential_home = models.ForeignKey(ResidentialHome, on_delete=models.PROTECT, verbose_name=_('Wohnheim'), default=1)
     house_number = models.CharField(_('Hausnummer'), max_length=10)
     room_number = models.CharField(_('Zimmernummer'), max_length=10)
-    rent = models.DecimalField(_('Monatsmiete in Euro'), max_digits=5, decimal_places=2)
     is_returning = models.BooleanField(_('Ist ein Wiedereinzug ins Zimmer geplant?'), default=True)
 
     def get_room(self):

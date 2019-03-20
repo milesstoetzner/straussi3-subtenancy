@@ -11,7 +11,7 @@ urlpatterns = [
     # path('profile/delete', tenant_views.delete_profile, name='ProfileDelete'),
     path('profile/update', tenant_views.update_profile, name='ProfileUpdate'),
     path('profile/updateRequest', tenant_views.update_request, name='RequestUpdate'),
-    path('requests/', tenant_views.Requests.as_view(), name='Requests'),
+    path('requests/', tenant_views.query_requests, name='Requests'),
     path('feedback/', tenant_views.create_feedback, name='Feedback'),
     path('impressum/', views.legal_notice, name='Impressum'),
     path('tenants/', include('tenants.urls')),

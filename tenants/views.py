@@ -3,7 +3,7 @@ import datetime
 from django.db.transaction import atomic
 from tenants.models import User, SubTenant, Blacklist, HallOfFame
 from tenants.forms import UserUpdateForm, MainTenantCreateForm, MainTenantUpdateForm, SubTenantCreateForm, \
-    SubTenantUpdateForm, FeedbackForm, RequestUpdateCreateForm
+    SubTenantUpdateForm, FeedbackForm, RequestUpdateForm, RequestQueryForm
 from django.urls import reverse
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import redirect, render, get_object_or_404
@@ -155,10 +155,10 @@ def update_request(request):
         return handler400(request)
 
     if request.method == 'GET':
-        form = RequestUpdateCreateForm(instance=tenant.subtenant)
+        form = RequestUpdateForm(instance=tenant.subtenant)
         context['get'] = True
     else:
-        form = RequestUpdateCreateForm(request.POST, instance=tenant.subtenant)
+        form = RequestUpdateForm(request.POST, instance=tenant.subtenant)
         if form.is_valid():
             if form.has_changed():
                 form.save()
@@ -361,18 +361,45 @@ def blacklist(request):
     return render(request, 'tenants/blacklist.html', context)
 
 
-class Requests(ListView):
+@csrf_protect
+@require_http_methods(['GET', 'POST'])
+def query_requests(request):
     """
-    Displays a list of all subtenants' requests.
+    Maintennat querys requests
     """
 
-    title = _('Anfragen von Untermietern')
-    template_name = 'tenants/requests.html'
+    context = {}
+    default = {
+        'begin': SubTenant.objects.filter(user__is_active=True, is_searching=True).earliest('begin_request').begin_request,
+        'end': SubTenant.objects.filter(user__is_active=True, is_searching=True).latest('end_request').end_request
+    }
 
-    def get_queryset(self):
-        return SubTenant.objects.filter(user__is_active=True, is_searching=True,
-                                        end_request__gt=datetime.datetime.now()).order_by('begin_request',
-                                                                                          'end_request')
+    if request.method == 'GET':
+        form = RequestQueryForm(initial=default)
+        context['get'] = True
+    else:
+        form = RequestQueryForm(request.POST)
+        if form.is_valid():
+            messages.success(request, 'Anfrageliste erfolgreich gefiltert')
+
+            # TODO: this does not work!
+            print(form.cleaned_data)
+            context['object_list'] = SubTenant.objects.filter(user__is_active=True, is_searching=True,
+                                                              begin_request__range=(form.cleaned_data.get('begin'),
+                                                              form.cleaned_data.get('end'))).order_by(
+                'begin_request',
+                'end_request')
+
+    if request.method == 'GET' or not form.is_valid():
+        context['object_list'] = SubTenant.objects.filter(user__is_active=True, is_searching=True,
+                                                          end_request__gt=datetime.datetime.now()).order_by(
+            'begin_request',
+            'end_request')
+
+    context['title'] = _('Anfragenliste')
+    context['form'] = form
+
+    return render(request, 'tenants/requests.html', context)
 
 
 @csrf_protect

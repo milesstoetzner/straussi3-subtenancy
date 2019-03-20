@@ -1,4 +1,5 @@
-from django.forms import ModelForm, DateInput, Select, Textarea
+import datetime
+from django.forms import Form, ModelForm, DateInput, Select, Textarea, DateField
 from .models import User, MainTenant, SubTenant, ResidentialHome, Blacklist, Feedback
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
@@ -168,13 +169,32 @@ class SubTenantUpdateForm(ModelForm):
                   'name', 'street', 'house_number', 'postcode', 'city', 'country']
 
 
-class RequestUpdateCreateForm(SubTenantCreateForm):
+class RequestUpdateForm(SubTenantCreateForm):
     """
     Subtenant can update only his request.
     """
 
     class Meta(SubTenantUpdateForm.Meta):
         fields = ['begin_request', 'end_request', 'is_searching']
+
+
+class RequestQueryForm(Form):
+    """
+    Maintennat can query database.
+    """
+
+    begin = DateField(label=_('Beginn der angefragten Untermiete'), widget=DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'))
+    end = DateField(label=_('Ende der angefragten Untermiete'), widget=DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'))
+
+    def clean(self):
+        cleaned_data = super().clean()
+        begin = cleaned_data.get('begin_request')
+        end = cleaned_data.get('end_request')
+
+        # begin_request < end_request
+        if begin and end:
+            if begin >= end:
+                self.add_error('end', _('Das Ende der angefragten Untermiete muss nach dem Beginn sein!'))
 
 
 class FeedbackForm(ModelForm):

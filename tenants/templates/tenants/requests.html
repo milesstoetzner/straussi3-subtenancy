@@ -1,5 +1,6 @@
 {% extends "subtenancy/base.html" %}
 
+{% load custom_extras %}
 {% load i18n %}
 
 {% block content %}
@@ -19,11 +20,36 @@
 
             {% endif %}
 
-            <h5 class="card-title">{{ view.title }}</h5>
+            <h5 class="card-title">{{ title }}</h5>
 
             <p class="card-text text-block">{% trans "Wenn du dich als Hauptmieter für eine unten aufgelistete Anfrage eines Untermieters interessierst, dann kannst du die jeweilige Person kontaktieren und ihr deine Kontaktdaten zukommen lassen." %}<br>
 
-                <br>{% trans "Die Liste ist nach Beginn und Ende sortiert." %}</p>
+
+            <p>
+                <a class="btn btn-primary btn-block" style="text-align: left" data-toggle="collapse"
+                   href="#query" role="button" aria-expanded="false">
+                               {% trans "Anfragenliste filtern" %}
+
+                </a>
+            </p>
+            <div class="collapse" id="query">
+                <div class="alert bg-grey">
+
+                    <form action="{% url 'Requests' %}"
+                          method="post" novalidate>
+
+                        {% csrf_token %}
+
+                        {% bootstrap form get %}
+
+                        <button class="btn btn-success btn-block">{% trans "Filtern" %}</button>
+
+
+                    </form>
+
+                </div>
+            </div>
+
 
             {% if object_list %}
 

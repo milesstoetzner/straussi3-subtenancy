@@ -17,6 +17,7 @@ class Contract(models.Model):
     subtenant = models.ForeignKey(SubTenant, on_delete=models.PROTECT, verbose_name='Untermieter')
     begin = models.DateField('Beginn der Untermiete')
     end = models.DateField('Ende der Untermiete')
+    rent = models.DecimalField('Monatsmiete in Euro', max_digits=5, decimal_places=2)
     condition = models.BooleanField('Ist das Zimmer und die Wohnung gereinigt und in einem ordnungsgemäßen Zustand?', default=False)
     condition_comment = models.CharField('Sonstige Anmerkungen zum Zimmer oder zur Wohnung', max_length=75, blank=True)
     caution = models.DecimalField('Höhe der Kaution in Euro', max_digits=5, decimal_places=2, default=0)
@@ -61,7 +62,7 @@ class Contract(models.Model):
         rents = []
         current = self.begin.replace(day=1)
         end = self.end.replace(day=1)
-        daily_rent = self.maintenant.rent / 30
+        daily_rent = self.rent / 30
 
         # first month
         months.append(current)
@@ -76,7 +77,7 @@ class Contract(models.Model):
             months.append(current)
 
             # add rents between first and last rent
-            rents.append(self.maintenant.rent)
+            rents.append(self.rent)
 
             current = add_one_month(current)
 
@@ -85,7 +86,7 @@ class Contract(models.Model):
 
         # add last rent
         if is_end_of_month(self.end):
-            rents.append(self.maintenant.rent)
+            rents.append(self.rent)
         else:
             rents.append(round(self.end.day * daily_rent, 2))
 

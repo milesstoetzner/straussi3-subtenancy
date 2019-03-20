@@ -40,7 +40,6 @@ def clean_tenant(self, cleaned_data):
     residential_home = cleaned_data.get('residential_home')
     house_number = cleaned_data.get('house_number')
     room_number = cleaned_data.get('room_number')
-    rent = cleaned_data.get('rent')
     first_name = cleaned_data.get('first_name')
     last_name = cleaned_data.get('last_name')
 
@@ -68,11 +67,6 @@ def clean_tenant(self, cleaned_data):
             self.add_error('room_number',
                            _('Diese Zimmernummer existiert nicht. Erlaubt sind: ') + residential_home.room_numbers)
 
-    # positive rent
-    if rent:
-        if rent < 0:
-            self.add_error('rent', _('Die Monatsmiete muss positiv sein!'))
-
 
 class MainTenantCreateForm(UserCreationForm):
     """
@@ -87,7 +81,7 @@ class MainTenantCreateForm(UserCreationForm):
         model = MainTenant
         fields = ['username', 'first_name', 'last_name', 'password1', 'password2', 'email', 'birthday', 'phone_number',
                   'tenant_id', 'begin_rent_agreement', 'end_rent_agreement', 'residential_home', 'house_number',
-                  'room_number', 'rent', 'is_returning']
+                  'room_number', 'is_returning']
 
         help_texts = {
             'is_returning': _(
@@ -113,7 +107,7 @@ class MainTenantUpdateForm(ModelForm):
     class Meta(MainTenantCreateForm.Meta):
         fields = ['first_name', 'last_name', 'email', 'birthday', 'phone_number',
                   'tenant_id', 'begin_rent_agreement', 'end_rent_agreement', 'residential_home', 'house_number',
-                  'room_number', 'rent', 'is_returning']
+                  'room_number', 'is_returning']
 
 
 def clean_subtenant(self, cleaned_data):

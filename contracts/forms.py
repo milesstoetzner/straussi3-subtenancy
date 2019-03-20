@@ -15,6 +15,7 @@ class ContractForm(ModelForm):
         subtenant = cleaned_data.get('subtenant')
         begin = cleaned_data.get('begin')
         end = cleaned_data.get('end')
+        rent = cleaned_data.get('rent')
         condition = cleaned_data.get('condition')
         caution = cleaned_data.get('caution')
         is_maintenant_identified = cleaned_data.get('is_maintenant_identified')
@@ -28,6 +29,11 @@ class ContractForm(ModelForm):
         if begin and end:
             if begin >= end:
                 self.add_error('end', 'Das Ende der Untermiete muss nach dem Beginn sein!')
+
+        # positive rent
+        if rent:
+            if rent < 0:
+                self.add_error('rent', 'Die Monatsmiete muss positiv sein!')
 
         # maintenant account is not blocked
         if maintenant:

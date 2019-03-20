@@ -370,7 +370,8 @@ def query_requests(request):
 
     context = {}
     default = {
-        'begin': SubTenant.objects.filter(user__is_active=True, is_searching=True).earliest('begin_request').begin_request,
+        'begin': SubTenant.objects.filter(user__is_active=True, is_searching=True).earliest(
+            'begin_request').begin_request,
         'end': SubTenant.objects.filter(user__is_active=True, is_searching=True).latest('end_request').end_request
     }
 
@@ -381,15 +382,13 @@ def query_requests(request):
         form = RequestQueryForm(request.POST)
         if form.is_valid():
             messages.success(request, 'Anfrageliste erfolgreich gefiltert')
-
-            # TODO: this does not work!
-            print(form.cleaned_data)
             context['object_list'] = SubTenant.objects.filter(user__is_active=True, is_searching=True,
-                                                              begin_request__range=(form.cleaned_data.get('begin'),
-                                                              form.cleaned_data.get('end'))).order_by(
+                                                              begin_request__gte=form.cleaned_data.get('begin'),
+                                                              end_request__lte=form.cleaned_data.get('end')).order_by(
                 'begin_request',
                 'end_request')
 
+    # if GET or form is not valid return whole list
     if request.method == 'GET' or not form.is_valid():
         context['object_list'] = SubTenant.objects.filter(user__is_active=True, is_searching=True,
                                                           end_request__gt=datetime.datetime.now()).order_by(

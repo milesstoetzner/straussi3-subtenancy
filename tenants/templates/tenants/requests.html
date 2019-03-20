@@ -1,6 +1,7 @@
 {% extends "subtenancy/base.html" %}
 
 {% load custom_extras %}
+{% load static %}
 {% load i18n %}
 
 {% block content %}
@@ -53,7 +54,7 @@
 
             {% if object_list %}
 
-                <table class="table table-striped">
+                <table class="table table-striped sortable" id="requests">
 
                     <thead>
                     <tr>

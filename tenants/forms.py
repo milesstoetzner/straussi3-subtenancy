@@ -183,8 +183,8 @@ class RequestQueryForm(Form):
     Maintennat can query database.
     """
 
-    begin = DateField(label=_('Beginn der angefragten Untermiete'), widget=DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'))
-    end = DateField(label=_('Ende der angefragten Untermiete'), widget=DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'))
+    begin = DateField(label=_('Beginn der Anfrage'), widget=DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'))
+    end = DateField(label=_('Ende der Anfrage'), widget=DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'))
 
     def clean(self):
         cleaned_data = super().clean()

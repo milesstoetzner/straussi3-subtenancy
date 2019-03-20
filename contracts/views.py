@@ -220,5 +220,10 @@ def search(request):
 @permission_required('contracts.add_contract')
 @require_http_methods(['GET'])
 def view_help(request):
+    """
+    General information for assistants about tenants, contracts and the usage of this website.
+    """
+    context = {}
+    context['title'] = 'Hilfe'
     messages.error(request, 'Sry, aber diese Seite befindet sich noch im Aufbau. Falls ihr Frage zur Bedienung der Website habt, dann ruft mich an: +49 1777 580061.')
-    return render(request, 'contracts/help.html')
+    return render(request, 'contracts/help.html', context)

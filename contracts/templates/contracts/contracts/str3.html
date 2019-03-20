@@ -316,6 +316,59 @@
         }
         }
 
+                @page maintenant {
+            size: A4;
+            @frame header_frame_left { /* Static Frame */
+            -pdf-frame-content: header_content_left;
+            left: 25mm;
+            width: 100pt;
+            top: 25mm;
+            height: 60pt;
+        }
+
+        @frame header_frame_right {
+            /* Static Frame */
+        -pdf-frame-content:header_content_right;
+        right: 25mm;
+        width: 135pt;
+        top: 25mm;
+        height: 100pt;
+        }
+
+        @frame logo {
+        -pdf-frame-content:logo;
+        left: 120mm;
+        top: 24mm;
+
+        }
+
+        @frame content_frame {
+            /* Content Frame */
+        left 25mm;
+        width: 160mm;
+        top: 60mm;
+        height: 210mm;
+            /*-pdf-frame-border: 1;*/
+
+
+        }
+
+        @frame signature_frame {
+        -pdf-frame-content:signature_maintenant;
+        left: 25mm;
+        width: 160mm;
+        top: 260mm;
+        height: 12mm;
+            /*-pdf-frame-border: 1;*/
+        }
+
+        @frame footer_frame {
+            /* Another static Frame */
+        -pdf-frame-content:footer_content;
+        right: 25mm; width: 156mm; bottom: 15mm; height: 20pt;
+        }
+        }
+
         body {
             font-size: 12px;
         }
@@ -414,6 +467,24 @@
                 <td class="signature"> Unterschrift Hauptmieter</td>
                 <td class="signature"> Unterschrift Untermieter</td>
                 <td class="signature"> Unterschrift &<br>Stempel WoRe</td>
+            </tr>
+
+            </tbody>
+
+        </table>
+    </div>
+
+    <div id="signature_maintenant">
+        <table class="text-center">
+
+            <tbody>
+
+            <tr>
+                <td> Stuttgart, {% now "d.m.Y" %}<br>Ort, Datum</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="signature">Unterschrift Hauptmieter</td>
             </tr>
 
             </tbody>
@@ -752,7 +823,11 @@
 
     <p>Die Aufwandsentschädigung von {{ contract.donation }} € wurde entrichtet.</p>
 
+
+    <pdf:nexttemplate name="maintenant"/>
+
     <div class="pagebreak"></div>
+
 
     <!-----------------------------
 
@@ -793,36 +868,12 @@
         </tbody>
     </table>
 
-    <p class="skip block">Der Hauptmieter bestätigt die Vollständigkeit seines Inventars und dessen entsprechenden guten
-        Zustand. Das Zimmer wird gereinigt übergeben. Dabei sind die Gemeinschaftsräume gereinigt und der Stauraum in
+    <p class="skip block">Der Hauptmieter bestätigt die Vollständigkeit seines Inventars im Hinblick auf das Inventar des Hauptmietvertrags
+        und dessen entsprechenden guten Zustand. Das Zimmer wird gereinigt übergeben. Dabei sind die Gemeinschaftsräume gereinigt und der Stauraum in
         Küche und Kühlschrank stehen
         bereit. Der Untermieter hat eine Woche Zeit etwaige Beanstandungen zu melden. Alle Punkte sind entsprechend zu
         bestätigen.</p>
 
-    <table>
-        <tbody>
-
-        <tr>
-            <td>
-                <h2>Inventar</h2>
-                <ul style="padding-left: 5mm">
-                    <li>Bettgestell</li>
-                    <li>Bettkasten</li>
-                    <li>Matratze und Überzug</li>
-                    <li>Rückenlehne mit Bezug</li>
-                    <li>Kleiderschrank mit 3 Böden und 1 Stange</li>
-                    <li>Standregal mit 6 Böden</li>
-                    <li>Stuhl</li>
-                    <li>Schreibtisch mit Unterbau</li>
-                    <li>Deckenlampe</li>
-                    <li>Vorhangschiene ein-, zweiteilig</li>
-                    <li>Vorhang</li>
-                </ul>
-            </td>
-        </tr>
-
-        </tbody>
-    </table>
 
 
     {% if contract.condition_comment %}

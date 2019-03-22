@@ -413,7 +413,9 @@
 
         // if the target of the click isn't the container nor a descendant of the container or the search input field
         if (!containerResult.is(e.target) && containerResult.has(e.target).length === 0 && !containerInput.is(e.target)) {
-            searchResult.innerHTML = "";
+            if (searchResult) {
+                searchResult.innerHTML = "";
+            }
         }
     });
 

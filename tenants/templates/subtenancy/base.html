@@ -55,7 +55,8 @@
 
     <nav class="navbar navbar-expand-md navbar-dark bg-primary">
 
-        <a class="navbar-brand d-block d-md-none btn" href="/">{% trans "Ferienmiete" %} Straußäcker 3</a>
+        <a class="navbar-brand d-block d-md-none btn" href="/" style="font-size: 1rem">{% trans "Ferienmiete" %}
+            Straußäcker 3</a>
 
         <button class="d-block d-md-none btn btn-primary" type="button" data-toggle="collapse"
                 data-target="#navbarTenant, #navbarAssistant, #navbarExternal"
@@ -69,6 +70,9 @@
                 {% if user.is_authenticated %}
                     <a class="btn btn-primary disabled d-block d-md-none text-white">{% trans "Eingeloggt als" %} {{ user.get_full_name }}.</a>
 
+                    <a class="btn btn-primary" href="{% url 'Profile' %}" id="{% url 'Profile' %}"><i
+                            class="fas fa-user icon-text"></i>{{ user.first_name }}</a>
+
                 {% else %}
                     <a class="btn btn-primary " href="{% url 'login' %}" id="{% url 'login' %}"><i
                             class="fas fa-angle-double-right icon-text"></i>{% trans "Einloggen" %}</a>
@@ -76,14 +80,6 @@
 
                 <a class="btn btn-primary" href="{% url 'Index' %}" id="{% url 'Index' %}"><i
                         class="fas fa-question icon-text"></i>FAQ</a>
-
-
-                {% if user.is_authenticated %}
-
-                    <a class="btn btn-primary" href="{% url 'Profile' %}" id="{% url 'Profile' %}"><i
-                            class="fas fa-user icon-text"></i>{% trans "Profil" %}</a>
-
-                {% endif %}
 
                 {% if not user.is_maintenant and not user.is_subtenant %}
 
@@ -127,7 +123,7 @@
 
                     <form action="{% url 'logout' %}" method="POST" id="logout_form">
                         {% csrf_token %}
-                        <button class="btn btn-primary"><i
+                        <button class="btn btn-primary btn-block"><i
                                 class="fas fa-angle-double-right icon-text"></i>{% trans "Ausloggen" %}
                         </button>
                     </form>

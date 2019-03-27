@@ -623,7 +623,7 @@
 
         <tr>
             <td>Rückkehr</td>
-            <td> {{ contract.maintenant.is_returning|yesno:"Ja, Nein" }}</td>
+            <td> {{ contract.is_returning|yesno:"Ja, Nein" }}</td>
         </tr>
 
         <tr>
@@ -926,7 +926,7 @@
 
         <tr>
             <td>Kaution zurück</td>
-            <td> {{ contract.maintenant.is_returning|yesno:"Nein, Ja" }}</td>
+            <td> {{ contract.is_returning|yesno:"Nein, Ja" }}</td>
         </tr>
 
         </tbody>

@@ -134,7 +134,9 @@ class ContractForm(ModelForm):
         help_texts = {
             'condition': 'Ein ordnungsgemäßer Zustand schließt die Vollständigkeit des Inventars entsprechend des Hauptmietvertrages ein.',
             'donation': 'Eine freiwillige Spende in Höhe von 2.50€ pro Woche ist angemessen.',
-            'is_active': 'Wenn der Vertrag nicht gültig ist, dann wird er nicht in der Liste für das SWS augeführt. Ein Vertrag ist beispielsweise nicht gültig, wenn noch nicht alle Parteien unterschrieben haben.'
+            'is_active': 'Wenn der Vertrag nicht gültig ist, dann wird er nicht in der Liste für das SWS augeführt. Ein Vertrag ist beispielsweise nicht gültig, wenn noch nicht alle Parteien unterschrieben haben.',
+            'is_returning': 'Sofern kein Wiedereinzug geplant ist und der Hauptmieter somit vollständig auszieht, wird die Kaution über den Hausmeister zurückerstattet.',
+
         }
         widgets = {
             'begin': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
@@ -147,5 +149,6 @@ class ContractForm(ModelForm):
             'is_subtenant_matriculated': Select(choices=BOOLEAN_CHOICES),
             'is_subtenant_allowed_in_DE': Select(choices=BOOLEAN_CHOICES),
             'is_active': Select(choices=BOOLEAN_CHOICES),
-            'has_special_permission': Select(choices=BOOLEAN_CHOICES)
+            'has_special_permission': Select(choices=BOOLEAN_CHOICES),
+            'is_returning': Select(choices=BOOLEAN_CHOICES),
         }

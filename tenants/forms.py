@@ -81,16 +81,10 @@ class MainTenantCreateForm(UserCreationForm):
         model = MainTenant
         fields = ['username', 'first_name', 'last_name', 'password1', 'password2', 'email', 'birthday', 'phone_number',
                   'tenant_id', 'begin_rent_agreement', 'end_rent_agreement', 'residential_home', 'house_number',
-                  'room_number', 'is_returning']
-
-        help_texts = {
-            'is_returning': _(
-                'Sofern kein Wiedereinzug geplant ist und der Hauptmieter somit vollständig auszieht, wird die Kaution über den Hausmeister zurückerstattet.'),
-        }
+                  'room_number']
         widgets = {
             'begin_rent_agreement': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'end_rent_agreement': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-            'is_returning': Select(choices=BOOLEAN_CHOICES),
             'birthday': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
         }
 
@@ -107,7 +101,7 @@ class MainTenantUpdateForm(ModelForm):
     class Meta(MainTenantCreateForm.Meta):
         fields = ['first_name', 'last_name', 'email', 'birthday', 'phone_number',
                   'tenant_id', 'begin_rent_agreement', 'end_rent_agreement', 'residential_home', 'house_number',
-                  'room_number', 'is_returning']
+                  'room_number']
 
 
 def clean_subtenant(self, cleaned_data):

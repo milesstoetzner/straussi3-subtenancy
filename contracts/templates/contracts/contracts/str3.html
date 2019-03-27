@@ -935,7 +935,7 @@
     <h2>Checkliste</h2>
 
     <ul style="padding-left: 5mm">
-        <li class="text-red"><b>Bankdaten für die Rückzahlung der Kaution heraussuchen und Hausmeister geben</b></li>
+       {% if not contract.is_maintenant_returning %} <li class="text-red"><b>Bankdaten für die Rückzahlung der Kaution heraussuchen und Hausmeister geben</b></li>{% endif %}
         <li>Fenster, Fensterrahmen gereinigt</li>
         <li>Tür, Türrahmen gereinigt</li>
         <li>Fußboden gereinigt</li>

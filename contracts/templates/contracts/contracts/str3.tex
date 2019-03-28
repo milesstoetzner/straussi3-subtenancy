@@ -4,65 +4,55 @@
   height=9in,      % height of the text block
   width=6.5in,       % width of the text block
   top=110pt,        % distance of the text block from the top of the page
-  headheight=48pt, % height for the header block
+  headheight=60pt, % height for the header block
   headsep=12pt,    % distance from the header block to the text block
   heightrounded,   % ensure an integer number of lines
   %showframe
 ]{geometry}
 \usepackage{fancyhdr}
+
 \pagestyle{fancy}
 \fancyhf{} % clear all fields
 
-\setlength{\parindent}{0pt}
-
 \usepackage[utf8]{inputenc}
-\usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{microtype}
 \usepackage{xcolor}
+\usepackage{textcomp}
 
-{% if preview %}
-\usepackage{draftwatermark}
-\SetWatermarkText{Vorschau}
-{% endif %}
+\renewcommand{\headrulewidth}{0pt}
 
+\setlength{\parindent}{0pt}
+
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\newcommand{\signLine}{......................................}
+
+% use helvetica font
 \usepackage{helvet}
 \renewcommand{\familydefault}{\sfdefault}
 \fontfamily{phv}\selectfont
 
 \def\arraystretch{1.25}
 
+{% if preview %}
+% show preview watermark
+\usepackage{draftwatermark}
+\SetWatermarkText{Vorschau}
+{% endif %}
+
+% left header
 \lhead{Vertragsnummer {{contract.id}} \\ \ \\ \ \\ \ \\}
 
+% right header
 \rhead{Wohnheimsreferat Straußäcker 3\\
 Allmandring 3D, 70569 Stuttgart\\
 wore.str3@gmail.com\\
 https://str3.wh-stuttgart.net\\
 Sprechstunde Di. 19.00 - 20.00}
 
-% TODO: make this generic
+% footer
 \rfoot{Seite \thepage~von {% if contract.caution %}7{% else %} 6 {% endif %}}
-
-\renewcommand{\headrulewidth}{0pt}
-
-
-%\begin{figure}[H]
-% 	\centering
-%		\includegraphics[width=0.50\textwidth]{figures/Bild.pdf}
-%	\caption{Ein Beispielhaftes Bild}
-%	\label{fig: Bild}
-%\end{figure}
-
-%\begin{enumerate}[label=\textbf{\alph*})] %arabic* Roman*
-%\end{enumerate}
-
-%\begin{table}[H]
-%	\centering
-%	\begin{adjustbox}{max width=\textwidth}
-%	\begin{tabular}{|c|c|c|c|c|c|c|}
-%	\end{tabular}
-%	\end{adjustbox}
-%\end{table}
 
 \begin{document}
 
@@ -136,17 +126,16 @@ Die Mietzahlung erfolgt direkt an den  Hauptmieter.
 {% with data=contract.get_rents() %}
 \begin{tabularx}{\textwidth}{lXXXXXX}
 Monat {% for month in data.months %} & {{ month|date("M Y") }} {% endfor %}\\
-Miete in Euro {% for rent in data.rents %} & {% if rent %}{{ rent }} {% endif %} {% endfor %}\\
+Miete {% for rent in data.rents %} & {% if rent %}{{ rent }}€{% endif %} {% endfor %}\\
 \end{tabularx}
 {% endwith %}
 
 \vfill
 
-\begin{tabularx}{\textwidth}{XXXX}
-Stuttgart, {{ today|date("d.m.Y") }} & .............................. & .............................. & .............................. \\
-Ort, Datum & Hauptmieter & Untermieter & Wohnheimsreferat \\
+\begin{tabularx}{\textwidth}{@{}YYYY@{}}
+Stuttgart, {{ today|date("d.m.Y") }} & \signLine & \signLine & \signLine\\
+Ort, Datum &  Hauptmieter& Untermieter & Wohnheimsreferat\\
 \end{tabularx}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -173,13 +162,13 @@ Eine gültige Immatrikulationsbestätigung und ein Lichtbildausweis o.Ä des Unt
 Das Wohnungsreferat gibt die Meldung dem Mietvertrag entsprechend an das Studierendenwerk Stuttgart weiter.\bigskip
 
 
-Die Aufwandsentschädigung von {{ contract.donation }} Euro wurde entrichtet.
+Die Aufwandsentschädigung von {{ contract.donation }}€ wurde entrichtet.
 
 \vfill
 
-\begin{tabularx}{\textwidth}{XXXX}
-Stuttgart, {{ today|date("d.m.Y") }} &  &  & .............................. \\
-Ort, Datum &  &  & Wohnheimsreferat \\
+\begin{tabularx}{\textwidth}{@{}YYYY@{}}
+Stuttgart, {{ today|date("d.m.Y") }} &  &  & \signLine\\
+Ort, Datum &  &  & Wohnheimsreferat\\
 \end{tabularx}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -215,11 +204,10 @@ Alle Punkte sind entsprechend zu bestätigen.
 
 \vfill
 
-\begin{tabularx}{\textwidth}{XXXX}
-Stuttgart, {{ today|date("d.m.Y") }} &  &  & .............................. \\
+\begin{tabularx}{\textwidth}{@{}YYYY@{}}
+Stuttgart, {{ today|date("d.m.Y") }} &  &  & \signLine\\
 Ort, Datum &  &  & Hauptmieter\\
 \end{tabularx}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -239,7 +227,7 @@ Ort, Datum &  &  & Hauptmieter\\
 Hauptmieter & {{ contract.maintenant.get_full_name() }}\\
 Untermieter &  {{ contract.subtenant.get_full_name() }}\\
 Zimmer & {{ contract.maintenant.house_number }} {{ contract.maintenant.room_number }}\\
-Kaution & {{ contract.caution }} Euro\\
+Kaution & {{ contract.caution }}€\\
 \end{tabularx}\bigskip
 
 Hiermit wird eine Kautionszahlung in oben genannter Höhe vom Untermieter an den Hauptmieter bestätigt.
@@ -263,9 +251,9 @@ The same bail conditions are applied as written in the rental contract of the ma
 
 \vfill
 
-\begin{tabularx}{\textwidth}{XXXX}
-Stuttgart, {{ today|date("d.m.Y") }} & .............................. & .............................. & .............................. \\
-Ort, Datum & Hauptmieter & Untermieter & Wohnheimsreferat \\
+\begin{tabularx}{\textwidth}{@{}YYYY@{}}
+Stuttgart, {{ today|date("d.m.Y") }} & \signLine & \signLine & \signLine\\
+Ort, Datum &  Hauptmieter& Untermieter & Wohnheimsreferat\\
 \end{tabularx}
 
 {% endif %}
@@ -358,8 +346,9 @@ Ein Verstoß stellt ebenso eine Ordnungswidrigkeit dar wie die Ausstellung diese
 
 \vfill
 
-\begin{tabularx}{\textwidth}{ll}
-Stuttgart, {{ today|date("d.m.Y") }} &   .......................................................................................... \\
-Ort, Datum &  Unterschrift des Wohnungsgebers oder der beauftragten Person\\
+\begin{tabularx}{\textwidth}{@{}YYYY@{}}
+Stuttgart, {{ today|date("d.m.Y") }} &  &  & \signLine\\
+Ort, Datum &  &  & Unterschrift der beauftragten Person\\
 \end{tabularx}
+
 \end{document}

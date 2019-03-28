@@ -1,5 +1,6 @@
 import os
 import datetime
+import base64
 
 from django.db.transaction import atomic
 from django.urls import reverse
@@ -14,7 +15,7 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
 from .utils import html_to_pdf
-from subtenancy.views import handler404
+from subtenancy.views import handler404, handler400
 
 
 @atomic
@@ -27,6 +28,7 @@ def create_contract(request):
     Creates a new contract and saves a PDF, iff the received form data is valid. This method is atomic.
     """
     context = {}
+    context['title'] = 'Vertrag erstellen'
 
     if request.method == 'GET':
         form = ContractForm()
@@ -34,18 +36,35 @@ def create_contract(request):
     else:
         form = ContractForm(request.POST)
 
+        print(request.POST)
+
         if form.is_valid():
-            contract = form.save()
-            form.instance.subtenant.is_searching = False
-            form.instance.subtenant.save()
 
-            contract.save_contract_pdf()
+            if 'step' not in request.POST:
+                return handler400(request)
 
-            messages.success(request, 'Vertrag wurde erfolgreich erstellt!')
+            step = request.POST['step']
 
-            return redirect(contract.get_absolute_url())
+            if step == 'preview':
+                contract = form.save(commit=False)
+                pdf = contract.preview_contract_pdf()
+                context['form'] = form
+                context['pdf'] = base64.b64encode(pdf).decode('utf-8')
 
-    context['title'] = 'Vertrag erstellen'
+                return render(request, 'contracts/create.html', context)
+
+            elif step == 'save':
+                contract = form.save()
+                form.instance.subtenant.is_searching = False
+                form.instance.subtenant.save()
+
+                contract.save_contract_pdf()
+                messages.success(request, 'Vertrag wurde erfolgreich erstellt!')
+                return redirect(contract.get_absolute_url())
+
+            else:
+                return handler400(request)
+
     context['form'] = form
 
     return render(request, 'contracts/create.html', context)

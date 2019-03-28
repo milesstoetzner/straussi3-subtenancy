@@ -107,7 +107,7 @@ class Contract(models.Model):
         """
 
         source = os.path.join('contracts', 'contracts', 'str3.html')
-        pdf = html_to_pdf(source, {'contract': self})
+        pdf = html_to_pdf(source, {'contract': self, 'preview': True})
         return pdf
 
     @atomic

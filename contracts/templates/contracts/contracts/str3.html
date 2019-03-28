@@ -316,7 +316,7 @@
         }
         }
 
-                @page maintenant {
+        @page maintenant {
             size: A4;
             @frame header_frame_left { /* Static Frame */
             -pdf-frame-content: header_content_left;
@@ -555,6 +555,10 @@
             Untermietvertrag
 
     ------------------------------>
+
+    {% if preview %}
+        <h1 style="color: red; text-align: center">DAS IST NUR EINE VORSCHAU UND KEIN GÜLTIGER VERTRAG</h1>
+    {% endif %}
 
     <h1>Untermietvertrag</h1>
 
@@ -868,8 +872,10 @@
         </tbody>
     </table>
 
-    <p class="skip block">Der Hauptmieter bestätigt die Vollständigkeit seines Inventars im Hinblick auf das Inventar des Hauptmietvertrags
-        und dessen entsprechenden guten Zustand. Das Zimmer wird gereinigt übergeben. Dabei sind die Gemeinschaftsräume gereinigt und der Stauraum in
+    <p class="skip block">Der Hauptmieter bestätigt die Vollständigkeit seines Inventars im Hinblick auf das Inventar
+        des Hauptmietvertrags
+        und dessen entsprechenden guten Zustand. Das Zimmer wird gereinigt übergeben. Dabei sind die Gemeinschaftsräume
+        gereinigt und der Stauraum in
         Küche und Kühlschrank stehen
         bereit. Der Untermieter hat eine Woche Zeit etwaige Beanstandungen zu melden. Alle Punkte sind entsprechend zu
         bestätigen.</p>
@@ -935,7 +941,9 @@
     <h2>Checkliste</h2>
 
     <ul style="padding-left: 5mm">
-       {% if not contract.is_maintenant_returning %} <li class="text-red"><b>Bankdaten für die Rückzahlung der Kaution heraussuchen und Hausmeister geben</b></li>{% endif %}
+        {% if not contract.is_maintenant_returning %}
+            <li class="text-red"><b>Bankdaten für die Rückzahlung der Kaution heraussuchen und Hausmeister geben</b>
+            </li>{% endif %}
         <li>Fenster, Fensterrahmen gereinigt</li>
         <li>Tür, Türrahmen gereinigt</li>
         <li>Fußboden gereinigt</li>

@@ -5,9 +5,33 @@
 
 {% block content %}
 
-    <form action="" method="post" id="createForm" name="main"
-          onsubmit="event.preventDefault(); contractDetails(); document.getElementById('modalButton').click()"
-          novalidate>
+    <form action="" method="post" id="createForm" name="main" novalidate>
+
+        {% if pdf %}
+
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">PDF Vorschau</h5>
+
+                    <p>Bitte überprüfe, ob die die Angaben korrekt sind. Weiter unten kannst du die Angaben ändern und eine neue Vorschau generieren.</p>
+
+                    <iframe width="100%" height="700px" title="PDF Vorschau"
+                            src="data:application/pdf;base64,{{ pdf }}"></iframe>
+
+                    <input type="hidden" value="save" name="save">
+
+                    <button value="save" name="step" class="btn btn-success btn-block" data-toggle="modal" data-target="#createModal"
+                            id="modalButton">
+                        <i class="fas fa-file-signature icon-text"></i>Vertrag erstellen
+                    </button>
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
 
         {% csrf_token %}
 
@@ -26,34 +50,11 @@
 
                 <script src="{% static 'contracts/view_tenant.js' %}"></script>
 
-                <!-- Button trigger modal -->
-                <button class="btn btn-success btn-block" data-toggle="modal" data-target="#createModal"
+                <button value="preview" name="step" class="btn btn-success btn-block" data-toggle="modal" data-target="#createModal"
                         id="modalButton">
-                    {{ title }}
+                    <i class="fas fa-file icon-text"></i>PDF Vorschau
                 </button>
 
-                <!-- Modal -->
-                <div class="modal fade" id="createModal" tabindex="-1" role="dialog"
-                     aria-labelledby="createModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="createModalLabel">Vertrag erstellen</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                Möchtest du wirklich einen Vertrag erstellen?
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-danger float-left" data-dismiss="modal">Abbrechen</button>
-                                <button class="btn btn-success float-right"
-                                        onclick="document.getElementById('createForm').submit()">{{ title }}</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
         </div>

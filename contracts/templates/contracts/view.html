@@ -48,7 +48,8 @@
 
 
                 <a class="btn btn-block btn-success"
-                   href="{{ form.instance.get_update_url }}">Änderungen vornehmen</a>
+                   href="{{ form.instance.get_update_url }}"><i class="fas fa-wrench icon-text"></i>Änderungen vornehmen</a>
+
 
             </div>
 
@@ -65,6 +66,7 @@
 
                 <a class="btn btn-block btn-info"
                    href="{% url 'contracts:ContractViewPDF' form.instance.pk v %}" target="_blank">
+                <i class="fas fa-file icon-text"></i>
                     {% if v == form.instance.version %}Aktuelle Version{% else %}Version
                         {{ v }}{% endif %}</a>
 

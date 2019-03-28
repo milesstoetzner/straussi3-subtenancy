@@ -29,16 +29,16 @@
 
                 {% if user.id == tenant.id %}
                     <a href="{% url 'ProfileUpdate' %}"
-                       class="btn btn-success btn-block">{% trans "Informationen aktualisieren" %}</a>
+                       class="btn btn-success btn-block"><i class="fas fa-wrench icon-text"></i>{% trans "Informationen aktualisieren" %}</a>
 
                     {% if tenant.is_subtenant %}
                         <a href="{% url 'RequestUpdate' %}"
-                           class="btn btn-success btn-block">{% trans "Anfrage aktualisieren" %}</a>
+                           class="btn btn-success btn-block"><i class="fas fa-file-alt icon-text"></i>{% trans "Anfrage aktualisieren" %}</a>
                     {% endif %}
 
                     {% if tenant.id == user.id %}
                         <a href="{% url 'password_change' %}"
-                           class="btn btn-success btn-block">{% trans "Passwort ändern" %}</a>
+                           class="btn btn-success btn-block"><i class="fas fa-key icon-text"></i>{% trans "Passwort ändern" %}</a>
                     {% endif %}
 
                 {% endif %}
@@ -46,7 +46,7 @@
                 {% if user.is_assistant %}
 
                     <a href="{% url 'tenants:TenantUpdate' tenant.id %}"
-                       class="btn btn-success btn-block">{% trans "Informationen aktualisieren" %}</a>
+                       class="btn btn-success btn-block"><i class="fas fa-wrench icon-text"></i>{% trans "Informationen aktualisieren" %}</a>
 
                 {% endif %}
 
@@ -72,7 +72,7 @@
 
                         <td class="align-middle"><a href="{% url 'contracts:ContractView' contract.pk %}"
                                                     class="btn btn-info btn-block"><i
-                                class="fas fa-file-contract icon-text"></i>{{ contract }}</a></td>
+                                class="fas fa-file icon-text"></i>{{ contract }}</a></td>
 
                     {% empty %}
                         <div class="alert bg-info text-white text-center" role="alert">
@@ -86,7 +86,7 @@
 
                         <td class="align-middle"><a href="{% url 'contracts:ContractView' contract.pk %}"
                                                     class="btn btn-info btn-block"><i
-                                class="fas fa-file-contract icon-text"></i>{{ contract }}</a></td>
+                                class="fas fa-file icon-text"></i>{{ contract }}</a></td>
 
                     {% empty %}
 

@@ -46,7 +46,7 @@
                     <p>
                         <a class="btn btn-primary btn-block" style="text-align: left" data-toggle="collapse"
                            href="#id_faq_maintenant_{{ forloop.counter }}" role="button" aria-expanded="false">
-                            {{ entry.question|safe }}
+                            <i class="fas fa-question icon-text"></i>{{ entry.question|safe }}
                         </a>
                     </p>
                     <div class="collapse" id="id_faq_maintenant_{{ forloop.counter }}">
@@ -73,7 +73,7 @@
                     <p>
                         <a class="btn btn-primary btn-block" style="text-align: left" data-toggle="collapse"
                            href="#id_faq_subtenant_{{ forloop.counter }}" role="button" aria-expanded="false">
-                            {{ entry.question|safe }}
+                            <i class="fas fa-question icon-text"></i>{{ entry.question|safe }}
                         </a>
                     </p>
                     <div class="collapse" id="id_faq_subtenant_{{ forloop.counter }}">

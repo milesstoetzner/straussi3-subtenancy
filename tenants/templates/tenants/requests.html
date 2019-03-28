@@ -9,18 +9,6 @@
     <div class="card">
         <div class="card-body">
 
-            {% if user.is_subtenant %}
-
-                <div class="alert bg-danger text-white text-center">
-                    {% trans "In dieser Liste werden keine Zimmer angeboten, sondern Zimmer gesucht! Daher ist diese Liste nur für Hauptmieter bei der Suche nach einem Untermieter nützlich!" %}
-                </div>
-
-                <div class="alert bg-danger text-white text-center">
-                    {% trans "Untermieter können hier keine angebotenen Zimmer finden. Als Untermieter kannst du nicht aktiv nach einem Zimmer suchen. Du musst warten, bis dich ein Hauptmieter über diese Liste kontaktiert!" %}
-                </div>
-
-            {% endif %}
-
             <h5 class="card-title">{{ title }}</h5>
 
             <p class="card-text text-block">{% trans "Wenn du dich als Hauptmieter für eine unten aufgelistete Anfrage eines Untermieters interessierst, dann kannst du die jeweilige Person kontaktieren und ihr deine Kontaktdaten zukommen lassen." %}<br>

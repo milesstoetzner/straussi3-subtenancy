@@ -75,7 +75,7 @@
 
                 {% else %}
                     <a class="btn btn-primary " href="{% url 'login' %}" id="{% url 'login' %}"><i
-                            class="fas fa-angle-double-right icon-text"></i>{% trans "Einloggen" %}</a>
+                            class="fas fa-heart icon-text"></i>{% trans "Einloggen" %}</a>
                 {% endif %}
 
                 <a class="btn btn-primary" href="{% url 'Index' %}" id="{% url 'Index' %}"><i
@@ -124,7 +124,7 @@
                     <form action="{% url 'logout' %}" method="POST" id="logout_form">
                         {% csrf_token %}
                         <button class="btn btn-primary btn-block"><i
-                                class="fas fa-angle-double-right icon-text"></i>{% trans "Ausloggen" %}
+                                class="fas fa-heart-broken icon-text"></i>{% trans "Ausloggen" %}
                         </button>
                     </form>
 
@@ -217,6 +217,14 @@
                 <div class="alert adjust-alert bg-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}
             text-white text-center">
                     {{ message }}
+                    {% if message.tags == 'error' %}
+                        <i class="fas fa-frown"></i>
+                    {% elif message.tags == 'success' %}
+                        <i class="fas fa-smile"></i>
+                    {% elif message.tags == 'info' %}
+                        <i class="fas fa-smile-wink"></i>
+                    {% endif %}
+
                 </div>
 
             </div>

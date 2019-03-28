@@ -99,6 +99,9 @@ class Contract(models.Model):
         while len(rents) < 6:
             rents.append("")
 
+        print(months)
+        print(rents)
+
         return {'months': months, 'rents': rents}
 
     def preview_contract_pdf(self):

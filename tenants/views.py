@@ -86,6 +86,9 @@ def view_profile(request):
     context['title'] = _('Profil von') + ' ' + str(request.user)
 
     if request.user.is_tenant():
+        if request.user.is_subtenant():
+            messages.info(request, _('Als Untermieter kannst du nicht aktiv nach einem Zimmer suchen. Du musst warten, bis dich ein Hauptmieter über die Anfragenliste kontaktiert!'))
+
         context['tenant_form'] = MainTenantUpdateForm(
             instance=request.user.maintenant) if request.user.is_maintenant() else SubTenantUpdateForm(
             instance=request.user.subtenant)
@@ -377,6 +380,10 @@ def query_requests(request):
     }
 
     if request.method == 'GET':
+        if not request.user.is_anonymous and request.user.is_subtenant():
+            messages.error(request, _("In dieser Liste werden keine Zimmer angeboten, sondern Zimmer gesucht! Daher ist diese Liste nur für Hauptmieter bei der Suche nach einem Untermieter nützlich!"))
+            messages.error(request, _("Untermieter können hier keine angebotenen Zimmer finden. Als Untermieter kannst du nicht aktiv nach einem Zimmer suchen. Du musst warten, bis dich ein Hauptmieter über diese Liste kontaktiert!"))
+
         form = RequestQueryForm(initial=default)
         context['get'] = True
     else:

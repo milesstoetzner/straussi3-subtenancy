@@ -9,14 +9,6 @@
     <div class="card">
         <div class="card-body">
 
-            {% if user.is_subtenant %}
-
-                <div class="alert bg-info text-white text-center">
-                    {% trans "Als Untermieter kannst du nicht aktiv nach einem Zimmer suchen. Du musst warten, bis dich ein Hauptmieter über die Anfragenliste kontaktiert!" %}
-                </div>
-
-            {% endif %}
-
             <h5 class="card-title">{{ title }}</h5>
 
             <fieldset disabled>

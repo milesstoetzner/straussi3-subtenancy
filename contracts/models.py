@@ -67,7 +67,7 @@ class Contract(models.Model):
         Each list has the length of 6.
         """
         full_rent = self.rent
-        daily_rent = full_rent / 30
+        daily_rent = round(full_rent / 30)
 
         start_date = self.begin
         end_date = self.end

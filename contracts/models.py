@@ -1,11 +1,13 @@
 import os
+import calendar
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 from tenants.models import MainTenant, SubTenant, ResidentialHome
-from .utils import add_one_month, is_end_of_month, html_to_pdf, save_html_as_pdf
+from .utils import html_to_pdf, save_html_as_pdf
 from simple_history.models import HistoricalRecords
 from django.db.transaction import atomic
+from dateutil import relativedelta
 
 
 class Contract(models.Model):
@@ -18,17 +20,23 @@ class Contract(models.Model):
     begin = models.DateField('Beginn der Untermiete')
     end = models.DateField('Ende der Untermiete')
     rent = models.DecimalField('Monatsmiete in Euro', max_digits=5, decimal_places=2)
-    condition = models.BooleanField('Ist das Zimmer und die Wohnung gereinigt und in einem ordnungsgemäßen Zustand?', default=False)
+    condition = models.BooleanField('Ist das Zimmer und die Wohnung gereinigt und in einem ordnungsgemäßen Zustand?',
+                                    default=False)
     condition_comment = models.CharField('Sonstige Anmerkungen zum Zimmer oder zur Wohnung', max_length=75, blank=True)
     caution = models.DecimalField('Höhe der Kaution in Euro', max_digits=5, decimal_places=2, default=0)
     caution_comment = models.CharField('Anmerkungen zur Kaution', max_length=150, blank=True)
     is_maintenant_returning = models.BooleanField('Plant der Hauptmieter ins Zimmer zurückzukehren?', default=True)
-    is_maintenant_identified = models.BooleanField('Wurde der Lichtbildausweis des Hauptmieters kontrolliert?', default=False)
-    is_subtenant_identified = models.BooleanField('Wurde der Lichtbildausweis des Untermieters kontrolliert?', default=False)
-    is_subtenant_matriculated = models.BooleanField('Wurde die Immatrikulationsbescheinigung des Untermieters kontrolliert?', default=False)
-    is_subtenant_allowed_in_DE = models.BooleanField('Darf der Untermieter sich für den Zeitraum in Deutschland aufhalten?', default=False)
+    is_maintenant_identified = models.BooleanField('Wurde der Lichtbildausweis des Hauptmieters kontrolliert?',
+                                                   default=False)
+    is_subtenant_identified = models.BooleanField('Wurde der Lichtbildausweis des Untermieters kontrolliert?',
+                                                  default=False)
+    is_subtenant_matriculated = models.BooleanField(
+        'Wurde die Immatrikulationsbescheinigung des Untermieters kontrolliert?', default=False)
+    is_subtenant_allowed_in_DE = models.BooleanField(
+        'Darf der Untermieter sich für den Zeitraum in Deutschland aufhalten?', default=False)
     donation = models.DecimalField('Freiwillige Spende in Euro', max_digits=5, decimal_places=2, default=0)
-    has_special_permission = models.BooleanField('Hat der Hauptmieter eine Sondergenehmigung, um den Zeitraum von 3 Monaten zu überschreiten?', default=False)
+    has_special_permission = models.BooleanField(
+        'Hat der Hauptmieter eine Sondergenehmigung, um den Zeitraum von 3 Monaten zu überschreiten?', default=False)
     is_active = models.BooleanField('Ist dieser Vertrag gültig?', default=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -58,38 +66,44 @@ class Contract(models.Model):
         Returns one list containing the rents and one containing the corresponding months.
         Each list has the length of 6.
         """
+        full_rent = self.rent
+        daily_rent = full_rent / 30
 
-        months = []
+        start_date = self.begin
+        end_date = self.end
+
         rents = []
-        current = self.begin.replace(day=1)
-        end = self.end.replace(day=1)
-        daily_rent = self.rent / 30
+        months = []
 
-        # first month
-        months.append(current)
-        current = add_one_month(current)
+        should_continue = True
+        current_date = start_date
+        while should_continue:
+            # default assume full month
+            current_rent = full_rent
 
-        # rent first month
-        delta = current - self.begin
-        rents.append(round(delta.days * daily_rent, 2))
+            # handle first month
+            if current_date == start_date:
+                last_day = calendar.monthrange(current_date.year, current_date.month)[1]
+                remaining_days = last_day - start_date.day + 1
 
-        while current < end:
-            # add month between first and last month
-            months.append(current)
+                if not remaining_days == last_day:
+                    # partial first month
+                    current_rent = remaining_days * daily_rent
 
-            # add rents between first and last rent
-            rents.append(self.rent)
+            # handle last month
+            if current_date.month == end_date.month and current_date.year == end_date.year:
+                last_day = calendar.monthrange(end_date.year, end_date.month)[1]
 
-            current = add_one_month(current)
+                if not end_date.day == last_day:
+                    # partial last month
+                    current_rent = end_date.day * daily_rent
 
-        # add last month
-        months.append(end)
+                should_continue = False
 
-        # add last rent
-        if is_end_of_month(self.end):
-            rents.append(self.rent)
-        else:
-            rents.append(round(self.end.day * daily_rent, 2))
+            months.append(current_date)
+            rents.append(current_rent)
+
+            current_date += relativedelta.relativedelta(months=1)
 
         # fill array until 6 entries (for displaying contract details)
         while len(months) < 6:
@@ -98,9 +112,6 @@ class Contract(models.Model):
         # fill array until 6 entries (for displaying contract details)
         while len(rents) < 6:
             rents.append("")
-
-        print(months)
-        print(rents)
 
         return {'months': months, 'rents': rents}
 

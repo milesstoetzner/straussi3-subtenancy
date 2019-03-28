@@ -5,6 +5,8 @@ app_name = 'contracts'
 
 urlpatterns = [
 
+    path('test/<int:pk>/', views.test_preview_contract_pdf, name='ContractPreviewPDF'),
+
     # assistant
     path('search/', views.search, name='Search'),
 

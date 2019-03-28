@@ -3,6 +3,7 @@ from io import BytesIO
 from django.conf import settings
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+from django_tex.core import compile_template_to_pdf
 
 
 def link_callback(uri, rel):
@@ -22,3 +23,9 @@ def save_html_as_pdf(source, context, destination):
     file = open(destination, "w+b")
     file.write(pdf)
     file.close()
+
+
+def test_html_to_pdf(source, context):
+    template_name = 'contracts/contracts/str3.tex'
+    PDF = compile_template_to_pdf(template_name, context)
+    return PDF

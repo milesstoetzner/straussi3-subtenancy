@@ -1,10 +1,11 @@
 import os
 import calendar
+from datetime import datetime
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 from tenants.models import MainTenant, SubTenant, ResidentialHome
-from .utils import html_to_pdf, save_html_as_pdf
+from .utils import test_html_to_pdf, html_to_pdf, save_html_as_pdf
 from simple_history.models import HistoricalRecords
 from django.db.transaction import atomic
 from dateutil import relativedelta
@@ -22,9 +23,9 @@ class Contract(models.Model):
     rent = models.DecimalField('Monatsmiete in Euro', max_digits=5, decimal_places=2)
     condition = models.BooleanField('Ist das Zimmer und die Wohnung gereinigt und in einem ordnungsgemäßen Zustand?',
                                     default=False)
-    condition_comment = models.CharField('Sonstige Anmerkungen zum Zimmer oder zur Wohnung', max_length=75, blank=True)
+    condition_comment = models.CharField('Sonstige Anmerkungen zum Zimmer oder zur Wohnung', max_length=1000, blank=True)
     caution = models.DecimalField('Höhe der Kaution in Euro', max_digits=5, decimal_places=2, default=0)
-    caution_comment = models.CharField('Anmerkungen zur Kaution', max_length=150, blank=True)
+    caution_comment = models.CharField('Anmerkungen zur Kaution', max_length=1000, blank=True)
     is_maintenant_returning = models.BooleanField('Plant der Hauptmieter ins Zimmer zurückzukehren?', default=True)
     is_maintenant_identified = models.BooleanField('Wurde der Lichtbildausweis des Hauptmieters kontrolliert?',
                                                    default=False)
@@ -114,6 +115,15 @@ class Contract(models.Model):
             rents.append("")
 
         return {'months': months, 'rents': rents}
+
+    def test_preview_contract_pdf(self):
+        """
+        Renders the contract as a PDF file and returns the PDF without saving.
+        """
+
+        source = os.path.join('contracts', 'contracts', 'test_str3.html')
+        pdf = test_html_to_pdf(source, {'contract': self, 'today': datetime.now(), 'preview': True})
+        return pdf
 
     def preview_contract_pdf(self):
         """

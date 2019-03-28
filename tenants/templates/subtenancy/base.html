@@ -102,10 +102,10 @@
 
                 <div class="dropdown">
                     <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-toggle="dropdown" style="border-radius: 0">
+                            data-toggle="dropdown">
                         <i class="fas fa-globe-europe icon-text"></i>{{ lang.name_local }} ({{ LANGUAGE_CODE }})
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <div class="dropdown-menu rounded-container" aria-labelledby="dropdownMenuButton">
                         <form action="{% url 'set_language' %}" method="post">
                             {% csrf_token %}
                             {% for language in languages %}
@@ -149,7 +149,7 @@
 
                         <input class="form-control" type="search" placeholder="Suchen" aria-label="Search"
                                id="searchInput"
-                               style="border-radius: 0" data-toggle="tooltip" data-placement="bootom"
+                               data-toggle="tooltip" data-placement="bootom"
                                title="Es kann nach folgenden Attributen gesucht werden: Geburtstag (dd.mm.yyyy), Vorname, Nachname, ID, Mieternummer, Matrikelnummer, Vertragsbegin (dd.mm.yyyy), Vertragsende (dd.mm.yyyy) ">
                         <div id="searchResult">
 
@@ -217,14 +217,6 @@
                 <div class="alert adjust-alert bg-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}
             text-white text-center">
                     {{ message }}
-                    {% if message.tags == 'error' %}
-                        <i class="fas fa-frown"></i>
-                    {% elif message.tags == 'success' %}
-                        <i class="fas fa-smile"></i>
-                    {% elif message.tags == 'info' %}
-                        <i class="fas fa-smile-wink"></i>
-                    {% endif %}
-
                 </div>
 
             </div>

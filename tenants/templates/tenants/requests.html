@@ -22,7 +22,7 @@
                 </a>
             </p>
             <div class="collapse" id="query">
-                <div class="alert bg-grey">
+                <div class="alert bg-grey rounded-container">
 
                     <form action="{% url 'Requests' %}"
                           method="post" novalidate>
@@ -68,8 +68,8 @@
                                 sort_key="{{ tenant.begin_request|date:"Ymd" }}">{{ tenant.begin_request|date:"d.m.Y" }}</td>
                             <td class="align-middle"
                                 sort_key="{{ tenant.end_request|date:"Ymd" }}">{{ tenant.end_request|date:"d.m.Y" }}</td>
-                            <td class="align-middle"><a href="{% url 'tenants:SubTenantContact' tenant.pk %}"
-                                                        class="btn btn-primary"><i
+                            <td class="align-middle">
+                                <a href="{% url 'tenants:SubTenantContact' tenant.pk %}" class="btn btn-primary"><i
                                     class="fas fa-comment-alt"></i></a></td>
                         </tr>
 

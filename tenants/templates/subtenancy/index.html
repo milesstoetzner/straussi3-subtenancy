@@ -30,17 +30,6 @@
             <div class="card-body">
                 <h5 class="card-title" id="faq_maintenant">{% trans "Informationen für Hauptmieter" %}</h5>
 
-                <div class="alert bg-danger text-white text-center">
-                    Die Summe aller Untermieten eines Hauptmieters darf 3 Monate nicht überschreiten! Es kann ein
-                    Sonderantrag auf Verlängerung bei <a
-                        href="https://www.studierendenwerk-stuttgart.de/wohnen/wohnanlagen/straussaecker-iii/#panel-4969-1"
-                        target="_blank" style="color:white;">unserer Sachbearbeiterin beim SWS</a> gestellt werden.
-                    Jeder
-                    Antrag wird
-                    individuell entschieden. Dabei muss ein nachweisbarer ausschlaggebender Grund für die Verlängerung
-                    angegeben werden.
-                </div>
-
                 {% for entry in faq_maintenant %}
 
                     <p>
@@ -50,7 +39,7 @@
                         </a>
                     </p>
                     <div class="collapse" id="id_faq_maintenant_{{ forloop.counter }}">
-                        <div class="alert bg-grey">
+                        <div class="alert bg-grey rounded-container">
 
                             {{ entry.answer|safe }}
 
@@ -77,7 +66,7 @@
                         </a>
                     </p>
                     <div class="collapse" id="id_faq_subtenant_{{ forloop.counter }}">
-                        <div class="alert bg-grey">
+                        <div class="alert bg-grey rounded-container">
 
                             {{ entry.answer|safe }}
 

@@ -11,7 +11,7 @@
 
             <p>{% blocktrans with subtenant.pk as pk %}Möchtest du folgende Nachricht an die Person mit der ID {{ pk }} senden?{% endblocktrans %}</p>
 
-            <div class="alert bg-grey" role="alert">
+            <div class="alert bg-grey rounded-container" role="alert">
 
                 {{ msg | safe }}
 
@@ -21,9 +21,10 @@
 
                 {% csrf_token %}
 
-                <button class="btn btn-success btn-block">{% trans "Kontaktieren" %}</button>
+                <button class="btn btn-success btn-block"><i class="fas fa-comment-alt icon-text"></i>{% trans "Kontaktieren" %}</button>
 
-                <a href="{% url 'Requests' %}" class="btn btn-danger btn-block">{% trans "Abbrechen" %}</a>
+                <a href="{% url 'Requests' %}" class="btn btn-danger btn-block">
+                    <i class="fas fa-ban icon-text"></i>{% trans "Abbrechen" %}</a>
 
             </form>
 

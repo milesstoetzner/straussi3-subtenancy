@@ -11,19 +11,22 @@ footer {
     padding: 0;
 }
 
-.navbar-nav > .btn, .navbar-nav > form > .btn {
-    border-radius: 0;
+.navbar-nav > .btn, .navbar-nav > form > .btn, .navbar-nav > button {
+    border-radius: 5rem;
 }
 
 .pointer {
     cursor: pointer;
 }
 
-/*
-.form-control, .custom-select, .btn, .card, .modal-content, .input-group-text {
-     border-radius: 0;
+.rounded-container {
+    border-radius: 1rem;
 }
-*/
+
+.form-control, .custom-select, .btn, .input-group-text {
+     border-radius: 5rem;
+}
+
 
 .btn {
     white-space: normal;
@@ -60,6 +63,7 @@ footer {
 
 .adjust-alert {
     margin: 1.25rem 1.25rem 0 1.25rem;
+    border-radius: 1rem;
     /* padding: 1.25rem; */
 }
 
@@ -73,7 +77,7 @@ footer {
     color: #495057;
     background-clip: padding-box;
     border: 1px solid #ced4da;
-    border-radius: .25rem;
+    border-radius: 5rem; /*25rem;*/
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 

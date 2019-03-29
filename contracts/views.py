@@ -18,18 +18,7 @@ from .utils import html_to_pdf
 from subtenancy.views import handler404, handler400
 
 
-@login_required
-@permission_required('contracts.view_contract')
-@require_GET
-def test_preview_contract_pdf(request, pk):
-    """
-    Previews the contract as PDF identified by a given primary key.
-    """
 
-    contract = get_object_or_404(Contract, pk=pk)
-    pdf = contract.test_preview_contract_pdf()
-
-    return HttpResponse(pdf, content_type='application/pdf')
 
 
 @atomic
@@ -197,8 +186,8 @@ def print_active_contracts(request, file):
     queryset = Contract.objects.filter(is_active=True, end__gte=datetime.datetime.now()) \
         .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number', 'begin', 'end')
 
-    path = os.path.join('contracts', 'contracts', file)
-    pdf = html_to_pdf(path, {'contracts': queryset})
+    path = file
+    pdf = html_to_pdf(path, {'contracts': queryset, 'today': datetime.datetime.now()})
     filename = 'ferienmiete_str3_' + str(datetime.datetime.now().strftime("%Y-%m-%d")) + '.pdf'
 
     if pdf:

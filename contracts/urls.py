@@ -5,8 +5,6 @@ app_name = 'contracts'
 
 urlpatterns = [
 
-    path('test/<int:pk>/', views.test_preview_contract_pdf, name='ContractPreviewPDF'),
-
     # assistant
     path('search/', views.search, name='Search'),
 
@@ -20,7 +18,7 @@ urlpatterns = [
     path('help', views.view_help, name='ContractHelp'),
 
     # sws
-    path('sws', views.print_active_contracts, {'file': 'sws.html'}, name='ContractsPrintActive'),
-    path('caretaker', views.print_active_contracts, {'file': 'caretaker.html'}, name='ContractsPrintCaretaker'),
+    path('sws', views.print_active_contracts, {'file': 'sws.tex'}, name='ContractsPrintActive'),
+    path('caretaker', views.print_active_contracts, {'file': 'caretaker.tex'}, name='ContractsPrintCaretaker'),
 
 ]

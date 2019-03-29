@@ -5,7 +5,7 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 from tenants.models import MainTenant, SubTenant, ResidentialHome
-from .utils import test_html_to_pdf, html_to_pdf, save_html_as_pdf
+from .utils import html_to_pdf, save_html_as_pdf
 from simple_history.models import HistoricalRecords
 from django.db.transaction import atomic
 from dateutil import relativedelta
@@ -116,22 +116,13 @@ class Contract(models.Model):
 
         return {'months': months, 'rents': rents}
 
-    def test_preview_contract_pdf(self):
-        """
-        Renders the contract as a PDF file and returns the PDF without saving.
-        """
-
-        source = os.path.join('contracts', 'contracts', 'test_str3.html')
-        pdf = test_html_to_pdf(source, {'contract': self, 'today': datetime.now(), 'preview': True})
-        return pdf
-
     def preview_contract_pdf(self):
         """
         Renders the contract as a PDF file and returns the PDF without saving.
         """
 
-        source = os.path.join('contracts', 'contracts', 'str3.html')
-        pdf = html_to_pdf(source, {'contract': self, 'preview': True})
+        source = 'str3.tex'
+        pdf = html_to_pdf(source, {'contract': self, 'today': datetime.now(), 'preview': True})
         return pdf
 
     @atomic
@@ -144,11 +135,11 @@ class Contract(models.Model):
 
         self.version += 1
 
-        source = os.path.join('contracts', 'contracts', 'str3.html')
+        source = 'str3.tex'
         destination = os.path.join('contracts', 'contracts',
                                    'contract_' + str(self.pk) + '_version_' + str(self.version) + '.pdf')
 
-        save_html_as_pdf(source, {'contract': self}, destination)
+        save_html_as_pdf(source, {'contract': self, 'today': datetime.now()}, destination)
 
         self.is_changed = False
         self.save()

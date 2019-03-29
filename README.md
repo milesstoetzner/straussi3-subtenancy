@@ -14,25 +14,4 @@ A [cronjob](/config/cronjob) backs up the database every night. Therefore the da
 Therefore install [gdrive](https://github.com/gdrive-org/gdrive) using this [tutorial](https://github.com/gdrive-org/gdrive/issues/426).
 To dump the database you need to set up the password in [.pgpass](/config/.pgpass).
 
-The following groups need to exist with the corresponding permissions:
-
-- `Maintenant`:
-    - `tenants.change_own`
-    - `tenants.contact_subtenant`
-- `Subtenant`
-    - `tenants.change_own`
-- `Assistant`
-    - `tenants.view_user`
-    - `tenants.change_user`
-    - `tenants.view_maintenant`
-    - `tenants.change_maintenant`
-    - `tenants.view_subtenant`
-    - `tenants.change_subtenant`
-    - `tenants.view_blacklist`
-    - `tenants.view_fameofhall`
-    - `contract.add_contract`
-    - `contract.view_contract`
-    - `contract.view_short_contract`
-    - `contract.change_contract`
-- `External`
-    - `tenants.view_short_contract`
+To setup the permission groups see [permissions](/config/permissions).

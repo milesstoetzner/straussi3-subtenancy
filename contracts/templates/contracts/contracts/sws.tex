@@ -1,0 +1,74 @@
+\documentclass[9pt,pdftex,a4paper]{article}
+
+\usepackage[
+  height=9in,      % height of the text block
+  width=6.5in,       % width of the text block
+  top=110pt,        % distance of the text block from the top of the page
+  headheight=60pt, % height for the header block
+  headsep=12pt,    % distance from the header block to the text block
+  heightrounded,   % ensure an integer number of lines
+  %showframe
+]{geometry}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{} % clear all fields
+
+\usepackage[utf8]{inputenc}
+\usepackage{tabularx}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{textcomp}
+
+\renewcommand{\headrulewidth}{0pt}
+
+\setlength{\parindent}{0pt}
+
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\newcommand{\signLine}{......................................}
+
+% use helvetica font
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\fontfamily{phv}\selectfont
+
+\def\arraystretch{1.25}
+
+% left header
+% \lhead{Vertragsnummer \\ \ \\ \ \\ \ \\}
+
+% right header
+\rhead{Wohnheimsreferat Straußäcker 3\\
+Allmandring 3D, 70569 Stuttgart\\
+wore.str3@gmail.com\\
+https://str3.wh-stuttgart.net\\
+Sprechstunde Di. 19.00 - 20.00}
+
+% footer
+\rfoot{Seite \thepage}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Untermietvertrag
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Aktuelle Ferienmiete - {{ today|date("d.m.Y") }} }
+
+Eine maschinell erstellte Liste der aktuell laufenden Untermietverträge des Wohnheims Straußäcker 3.\bigskip
+
+{% if contracts %}
+
+\begin{tabular}{lllll}
+\textbf{Hauptmieter} & \textbf{Untermieter} & \textbf{Zimmer} & \textbf{Beginn} & \textbf{Ende}\\
+ {% for contract in contracts %}  {{ contract.maintenant.user.get_full_name() }} &  {{ contract.subtenant.user.get_full_name() }} & {{ contract.maintenant.get_room() }} &  {{ contract.begin|date("d.m.Y") }} & {{ contract.end|date("d.m.Y") }}\\ {% endfor %}
+\end{tabular}
+
+{% else %}
+Aktuell gibt es keine aktiven Untermietverträge.
+{% endif %}
+
+\end{document}

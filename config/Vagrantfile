@@ -119,6 +119,7 @@ Vagrant.configure("2") do |config|
 
     # install postgresql
     # set up user for django
+    # set up superuser
 
     
     ####################################################################################################################

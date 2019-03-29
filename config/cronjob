@@ -1,0 +1,3 @@
+# Cronjob
+# Backup subtenancy data every day at 02:20
+20 2 * * * /home/str3/backup.sh

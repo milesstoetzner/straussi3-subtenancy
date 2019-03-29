@@ -88,8 +88,8 @@ Vagrant.configure("2") do |config|
     sudo systemctl stop nginx
     sudo mkdir -p /etc/letsencrypt/live/str3.ext.selfnet.de/
 
-    sudo ln -s /var/www/ferienmiete/config/certificate.pem /etc/letsencrypt/live/str3.ext.selfnet.de/fullchain.pem
-    sudo ln -s /var/www/ferienmiete/config/key.pem /etc/letsencrypt/live/str3.ext.selfnet.de/privkey.pem
+    sudo ln -s /var/www/ferienmiete/config/certificate.pem /etc/letsencrypt/live/str3.ext.selfnet.de/
+    sudo ln -s /var/www/ferienmiete/config/key.pem /etc/letsencrypt/live/str3.ext.selfnet.de/
 
     sudo ln -s /var/www/ferienmiete/config/options-ssl-nginx.conf /etc/letsencrypt/
     sudo ln -s /var/www/ferienmiete/config/ssl-dhparams.pem /etc/letsencrypt/

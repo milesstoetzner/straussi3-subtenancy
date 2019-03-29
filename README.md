@@ -111,6 +111,13 @@ WantedBy=multi-user.target
 ```
 
 ### ferienmiete.ini - uWSGI Python/Django App ini file
+
+Create directory for socket and make www-data the owner:
+```
+sudo mkdir -p /var/run/uwsgi
+sudo chown www-data:www-data /var/run/uwsgi
+```
+
 ```
 # /etc/uwsgi/sites/ferienmiete.ini
 [Unit]

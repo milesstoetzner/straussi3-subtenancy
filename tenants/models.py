@@ -223,16 +223,3 @@ class Feedback(models.Model):
     class Meta:
         verbose_name = 'Feedback'
         verbose_name_plural = 'Feedbacks'
-
-
-class HallOfFame(models.Model):
-    """
-    Some legendary requests.
-    """
-
-    message = models.CharField('Nachricht', max_length=10000)
-
-    history = HistoricalRecords()
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)

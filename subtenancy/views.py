@@ -8,7 +8,6 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from ratelimit.mixins import RatelimitMixin
 from django.shortcuts import redirect, render
-from .faq import faq_subtenant, faq_maintenant
 from django.utils.translation import gettext_lazy as _
 from tenants.forms import FeedbackForm
 
@@ -103,8 +102,7 @@ def index(request):
     Displays the landing page with FAQ for maintenants and subtenants.
     """
     return render(request, 'subtenancy/index.html',
-                  {'title': _('Ferienmiete') + ' Straußäcker 3', 'faq_maintenant': faq_maintenant,
-                   'faq_subtenant': faq_subtenant})
+                  {'title': _('Ferienmiete') + ' Straußäcker 3'})
 
 
 def legal_notice(request):

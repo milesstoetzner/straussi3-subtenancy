@@ -3,6 +3,7 @@
 subtenancy/SECRETS.py
 contracts/contracts/*
 config/.vagrant
+.vagrant
 bin/
 pyvenv.cfg
 lib64

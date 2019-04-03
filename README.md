@@ -5,7 +5,7 @@ A live demo can be seen [here](https://str3.ext.selfnet.de/).
 
 ## Deployment
 
-See [Vagrantfile](/config/Vagrantfile) for deployment. Note that the Vagrantfile is more conceptual and not a fully working example.
+See [Vagrantfile](Vagrantfile) for deployment. Note that the Vagrantfile is more conceptual and not a fully working example.
 
 To create a superuser use a SQL command. `python manage.py createsuperuser` will not work since the user model is not the original one.
 The database scheme can be found [here](/config/database.pdf).

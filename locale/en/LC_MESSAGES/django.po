@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-31 18:38+0200\n"
+"POT-Creation-Date: 2019-04-05 17:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -428,7 +428,8 @@ msgid ""
 "abschließen und helfen bei weiteren Fragen."
 msgstr ""
 "First your subtenant and you register on this website. Then both of you come "
-"personally with the necessary documents to our office to conclude the subtenancy contract."
+"personally with the necessary documents to our office to sign the subtenancy "
+"contract."
 
 #: .\tenants\templates\subtenancy\index.html:33
 msgid "Wie finde ich einen Untermieter?"
@@ -448,7 +449,7 @@ msgstr ""
 "\n"
 "Register <a href=\"%(url_register)s\" target=\"_blank\">as maintenant</a> "
 "and contact subtenants using the <a href=\"%(url_requests)s\" target=\"_blank"
-"\">requests</a>"
+"\">requests</a>."
 
 #: .\tenants\templates\subtenancy\index.html:45
 msgid "Was muss ich beachten?"
@@ -460,15 +461,15 @@ msgstr "You have to sublet your room using our service."
 
 #: .\tenants\templates\subtenancy\index.html:49
 msgid "Die Summe aller Untermieten darf 3 Monaten nicht überschreiten."
-msgstr "The sum of all subtenancies is maximum 3 months."
+msgstr "The total amount of all subtenancies is maximum 3 months."
 
 #: .\tenants\templates\subtenancy\index.html:51
 msgid ""
 "Den Untermietvertrag kann nur unter Anwesenheit des Haupt- und Untermieters "
 "persönlich in der Sprechstunde abgeschlossen werden."
 msgstr ""
-"The subtenancy contract can only be signed iff main- and subtenant are "
-"present."
+"The subtenancy contract can only be signed if and only if main- and "
+"subtenant are present."
 
 #: .\tenants\templates\subtenancy\index.html:53
 msgid ""
@@ -480,13 +481,12 @@ msgstr "A rental deposit agreement can be contracted with the subtenant."
 msgid ""
 "Ein Vertrag muss spätestens 1 Woche vor Beginn der Untermiete abgeschlossen "
 "werden."
-msgstr ""
-"The contract has to be concluded one week before the subtenancy starts."
+msgstr "The contract has to be signed one week before the subtenancy starts."
 
 #: .\tenants\templates\subtenancy\index.html:57
 #: .\tenants\templates\subtenancy\index.html:93
 msgid "Welche Dokumente muss ich vorlegen?"
-msgstr "Which document to provide?"
+msgstr "Which documents to provide?"
 
 #: .\tenants\templates\subtenancy\index.html:60
 msgid "Mietvertrag"
@@ -515,14 +515,14 @@ msgid ""
 "abgeschlossen werden. Ein triftiger Grund ist beispielsweise beispielsweise "
 "eine Sprachreise oder ein Pratikum in Stuttgart."
 msgstr ""
-"You are allowed to rent a room if the SWS thinks that you are allowed to "
-"(see <a href='https://www.studierendenwerk-stuttgart.de/fileadmin/"
+"You are allowed to rent a room if and only if the SWS thinks that you are "
+"allowed to (see <a href='https://www.studierendenwerk-stuttgart.de/fileadmin/"
 "Mediendatenbank_Studierendenwerk/02_Wohnen_WOW/026_PDF/2017-08-16_WOW_Mietbedingungen_DE."
 "pdf' target='_blank'>Allgemeine Mietbedingungen</a>)."
 
 #: .\tenants\templates\subtenancy\index.html:76
 msgid "Wie finde ich ein Zimmer bzw. einen Hauptmieter?"
-msgstr "How to find a room resp. a maintenant?"
+msgstr "How to find a room?"
 
 #: .\tenants\templates\subtenancy\index.html:81
 #, python-format
@@ -541,9 +541,8 @@ msgstr ""
 "\n"
 "Register <a href=\"%(url_register)s\" target=\"_blank\">as subtenant</a> to "
 "get listed in the <a href=\"%(url_requests)s\" target=\"_blank\">requests</"
-"a>.As a subtenant you can not actively search for a room or contact a "
-"maintenant. You have to wait until a maintenant contacts you via the request "
-"list."
+"a>. As a subtenant you can not search for a room or contact a maintenant. "
+"You have to wait until a maintenant contacts you via the request list."
 
 #: .\tenants\templates\subtenancy\index.html:89
 msgid "Miete, Gebühren, Freiwillige Spende?"
@@ -1704,9 +1703,8 @@ msgid ""
 "Als Untermieter kannst du nicht aktiv nach einem Zimmer suchen. Du musst "
 "warten, bis dich ein Hauptmieter über die Anfragenliste kontaktiert!"
 msgstr ""
-"As a subtenant you can not actively search for a room or contact a "
-"maintenant. You have to wait until a maintenant contacts you via the request "
-"list."
+"As a subtenant you can not search for a room or contact a maintenant. You "
+"have to wait until a maintenant contacts you via the request list."
 
 #: .\tenants\views.py:130 .\tenants\views.py:168
 msgid "Änderungen wurden erfolgreich übernommen!"
@@ -1763,9 +1761,9 @@ msgid ""
 "kannst du nicht aktiv nach einem Zimmer suchen. Du musst warten, bis dich "
 "ein Hauptmieter über diese Liste kontaktiert!"
 msgstr ""
-"Subtenants can not find rooms here. As a subtenant you can not actively "
-"search for a room or contact a maintenant. You have to wait until a "
-"maintenant contacts you via the request list."
+"Subtenants can not find rooms here. As a subtenant you can not search for a "
+"room or contact a maintenant. You have to wait until a maintenant contacts "
+"you via the request list."
 
 #: .\tenants\views.py:392
 msgid "Anfrageliste erfolgreich gefiltert"
@@ -1774,32 +1772,3 @@ msgstr "Successfully filtered requests"
 #: .\tenants\views.py:430
 msgid "Danke für dein Feedback!"
 msgstr "Thanks for your feedback!"
-
-#~ msgid "Wie miete ich ein Zimmer unter?"
-#~ msgstr "How to rent a room?"
-
-#~ msgid ""
-#~ "Dein Hauptmieter und du registriert euch, falls noch nicht geschehen, und "
-#~ "kommt zusammen persönlich in unsere Sprechstunde. In der Sprechstunde "
-#~ "werden wir den Untermietvertrag abschließen und helfen bei weiteren "
-#~ "Fragen."
-#~ msgstr ""
-#~ "Your maintenant and you register and come to personally to our office to "
-#~ "conclude the subtenancy contract."
-
-#~ msgid "Die Monatsmiete muss positiv sein!"
-#~ msgstr "The monthly Rent has to be positive!"
-
-#~ msgid ""
-#~ "Sofern kein Wiedereinzug geplant ist und der Hauptmieter somit "
-#~ "vollständig auszieht, wird die Kaution über den Hausmeister "
-#~ "zurückerstattet."
-#~ msgstr ""
-#~ "If the Maintenant does not return after the Subtenancy the Caretaker will "
-#~ "refund the Deposit."
-
-#~ msgid "Monatsmiete in Euro"
-#~ msgstr "Monthly Rent in Euro"
-
-#~ msgid "Ist ein Wiedereinzug ins Zimmer geplant?"
-#~ msgstr "Is the Maintenant returning?"

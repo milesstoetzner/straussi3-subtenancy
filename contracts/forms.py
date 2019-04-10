@@ -15,6 +15,8 @@ class ContractForm(ModelForm):
         subtenant = cleaned_data.get('subtenant')
         begin = cleaned_data.get('begin')
         end = cleaned_data.get('end')
+        house_number = cleaned_data.get('house_number')
+        room_number = cleaned_data.get('room_number')
         rent = cleaned_data.get('rent')
         condition = cleaned_data.get('condition')
         caution = cleaned_data.get('caution')
@@ -46,37 +48,32 @@ class ContractForm(ModelForm):
             if not subtenant.user.is_active:
                 self.add_error('subtenant', 'Der Account des Untermieters ist gesperrt!')
 
-        # check for intersection with other contracts regarding maintenant
-        if maintenant and begin and end:
-            contracts = maintenant.contract_set.filter(is_active=True)
-            for contract in contracts:
-                if contract.id == self.instance.id:
-                    continue
-                if contract.begin <= begin <= contract.end:
-                    self.add_error('begin',
-                                   'Der Begin des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem Hauptmieter!')
-                if contract.begin <= end <= contract.end:
-                    self.add_error('end',
-                                   'Das Ende des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem Hauptmieter!')
-                if begin <= contract.begin <= end:
-                    self.add_error('begin',
-                                   'Es existriert bereits ein Vertrag mit dem Hauptmieter innerhalb des angegebene Zeitraums!')
+        # check for intersection with other contracts regarding room
+        if house_number and room_number and begin and end:
+            contracts_to_check = Contract.objects.filter(is_active=True, house_number=house_number, room_number=room_number).exclude(id=self.instance.id)
+            check_begin = contracts_to_check.filter(begin__lte=begin, end__gte=begin)
+            check_end = contracts_to_check.filter(begin__lte=end, end__gte=end)
+
+            if check_begin:
+                self.add_error('begin',
+                               'Der Begin des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem angegebenen Zimmer!')
+
+            if check_end:
+                self.add_error('end',
+                               'Das Ende des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem angegebenen Zimmer!')
 
         # check for intersection with other contracts regarding subtenant
         if subtenant and begin and end:
-            contracts = subtenant.contract_set.filter(is_active=True)
-            for contract in contracts:
-                if contract.id == self.instance.id:
-                    continue
-                if contract.begin <= begin <= contract.end:
-                    self.add_error('begin',
-                                   'Der Begin des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem Untermieter!')
-                if contract.begin <= end <= contract.end:
-                    self.add_error('end',
-                                   'Das Ende des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem Untermieter!')
-                if begin <= contract.begin <= end:
-                    self.add_error('begin',
-                                   'Es existriert bereits ein Vertrag mit dem Untermieter innerhalb des angegebene Zeitraums!')
+            contracts_to_check = subtenant.contract_set.filter(is_active=True).exclude(id=self.instance.id)
+            check_begin = contracts_to_check.filter(begin__lte=begin, end__gte=begin)
+            check_end = contracts_to_check.filter(begin__lte=end, end__gte=end)
+
+            if check_begin:
+                self.add_error('begin',
+                               'Der Begin des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem Untermieter!')
+            if check_end:
+                self.add_error('end',
+                               'Das Ende des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem Untermieter!')
 
         # check maintenant amount day
         if maintenant and begin and end:

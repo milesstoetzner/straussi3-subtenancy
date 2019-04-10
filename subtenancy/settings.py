@@ -35,7 +35,8 @@ INSTALLED_APPS = [
     'tenants',
     'contracts',
     'simple_history',
-    #'django_tex',
+    'django_extensions',
+    # 'django_tex',
 ]
 
 MIDDLEWARE = [
@@ -52,7 +53,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'subtenancy.urls'
 
-#LATEX_INTERPRETER = 'pdflatex'
+# LATEX_INTERPRETER = 'pdflatex'
 
 TEMPLATES = [
     {
@@ -68,11 +69,11 @@ TEMPLATES = [
             ],
         },
     },
-    #{
+    # {
     #    'NAME': 'tex',
     #    'BACKEND': 'django_tex.engine.TeXEngine',
     #    'APP_DIRS': True,
-    #},
+    # },
 ]
 
 WSGI_APPLICATION = 'subtenancy.wsgi.application'
@@ -90,7 +91,6 @@ DATABASES = {
         'PORT': '',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

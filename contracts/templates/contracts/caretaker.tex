@@ -64,7 +64,7 @@ Eine maschinell erstellte Liste der aktuell laufenden Untermietverträge des Woh
 
 \begin{tabular}{lllll}
 \textbf{Hauptmieter} & \textbf{Untermieter} & \textbf{Zimmer} & \textbf{Beginn} & \textbf{Ende}\\
- {% for contract in contracts %}  {{ contract.maintenant.user.get_full_name() }} &  {{ contract.subtenant.user.get_full_name() }} & {{ contract.maintenant.get_room() }} &  {{ contract.begin|date("d.m.Y") }} ({{ contract.begin|date("W") }}) & {{ contract.end|date("d.m.Y") }} ({{ contract.end|date("W") }})\\ {% endfor %}
+ {% for contract in contracts %}  {{ contract.maintenant.user.get_full_name() }} &  {{ contract.subtenant.user.get_full_name() }} & {{ contract.get_room() }} &  {{ contract.begin|date("d.m.Y") }} ({{ contract.begin|date("W") }}) & {{ contract.end|date("d.m.Y") }} ({{ contract.end|date("W") }})\\ {% endfor %}
 \end{tabular}
 
 {% else %}

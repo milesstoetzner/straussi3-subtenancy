@@ -162,7 +162,7 @@
             <tr>
                 <td> {{ contract.maintenant.get_full_name }}</td>
                 <td> {{ contract.subtenant.get_full_name }}</td>
-                <td> {{ contract.maintenant.get_room }}</td>
+                <td> {{ contract.get_room }}</td>
                 <td> {{ contract.begin|date:"d.m.Y" }} ({{ contract.begin|date:"W" }})</td>
                 <td> {{ contract.end|date:"d.m.Y" }} ({{ contract.end|date:"W" }})</td>
                 <td> {{ contract.maintenant.is_returning|yesno:"Ja, Nein" }}</td>

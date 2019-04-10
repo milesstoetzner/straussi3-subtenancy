@@ -81,7 +81,6 @@ Ferienmieternummer & {{ contract.maintenant.pk }}\\
 E-Mail & {{ contract.maintenant.email }}\\
 Telefon & {{ contract.maintenant.phone_number }}\\
 Mieternummer & {{ contract.maintenant.tenant_id }}\\
-Mietzeitraum& {{ contract.maintenant.begin_rent_agreement|date("d.m.Y" )}} - {{ contract.maintenant.end_rent_agreement|date("d.m.Y") }}\\
 Rückkehr&  {{ contract.is_maintenant_returning|yesno("Ja, Nein" )}}\\
 Kautionszahlung&  {{ contract.caution|yesno("Getätigt und vom WoRe bezeugt, Nein") }}\\
 Zimmer in ordnungsgemäßen Zustand & {{ contract.condition|yesno("Ja, Nein" )}}\\

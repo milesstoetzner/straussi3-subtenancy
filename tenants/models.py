@@ -128,8 +128,6 @@ class MainTenant(User):
     # NOTE: user still exists because of migrations problems while the change to multi table inherit from user
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     tenant_id = models.PositiveIntegerField(_('Mieternummer'), unique=True)
-    begin_rent_agreement = models.DateField(_('Beginn des Mietvertrages'))
-    end_rent_agreement = models.DateField(_('Ende des Mietvertrages'))
 
     # Information about subtenancy
     residential_home = models.ForeignKey(ResidentialHome, on_delete=models.PROTECT, verbose_name=_('Wohnheim'), default=1)
@@ -179,7 +177,6 @@ class SubTenant(User):
 
     # Information about sub tenant
     nationality = models.CharField(_('Nationalität'), choices=COUNTRIES, max_length=2)
-    student_id = models.PositiveIntegerField(_('Matrikelnummer'), unique=True)
 
     # Information about subtenancy
     begin_request = models.DateField(_('Beginn der angefragten Untermiete'))
@@ -195,7 +192,7 @@ class SubTenant(User):
     country = models.CharField(_('Land'), choices=COUNTRIES, max_length=2)
 
     def __str__(self):
-        return '[' + str(self.pk) + '] ' + self.first_name + ' ' + self.last_name + ' (' + self.birthday.strftime('%d.%m.%Y') + ')' + ' (' + str(self.student_id) + ')'
+        return '[' + str(self.pk) + '] ' + self.first_name + ' ' + self.last_name + ' (' + self.birthday.strftime('%d.%m.%Y') + ')'
 
     class Meta:
         verbose_name = _('Untermieter')

@@ -45,18 +45,6 @@ class ContractForm(ModelForm):
             if not subtenant.user.is_active:
                 self.add_error('subtenant', 'Der Account des Untermieters ist gesperrt!')
 
-        # maintenant.begin_rent_agreement <= begin
-        if maintenant and begin:
-            if maintenant.begin_rent_agreement:
-                if maintenant.begin_rent_agreement > begin:
-                    self.add_error('begin', 'Der Begin der Untermiete ist vor dem Beginn des Hauptmietvertrages!')
-
-        # maintenant.end_rent_agreement >= end
-        if maintenant and end:
-            if maintenant.end_rent_agreement:
-                if maintenant.end_rent_agreement < end:
-                    self.add_error('end', 'Das Ende der Untermiete ist nach dem Ende des Hauptmietvertrages!')
-
         # check for intersection with other contracts regarding maintenant
         if maintenant and begin and end:
             contracts = maintenant.contract_set.filter(is_active=True)

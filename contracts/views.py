@@ -39,8 +39,6 @@ def create_contract(request):
     else:
         form = ContractForm(request.POST)
 
-        print(request.POST)
-
         if form.is_valid():
 
             if 'step' not in request.POST:
@@ -224,8 +222,7 @@ def search(request):
         Q(first_name__icontains=query) | Q(last_name__icontains=query) | Q(user_id=query_int) | Q(
             tenant_id=query_int) | Q(birthday=query_date))
     subtenants = SubTenant.objects.filter(
-        Q(first_name__icontains=query) | Q(last_name__icontains=query) | Q(user_id=int(query_int)) | Q(
-            student_id=query_int) | Q(birthday=query_date))
+        Q(first_name__icontains=query) | Q(last_name__icontains=query) | Q(user_id=int(query_int)) | Q(birthday=query_date))
     contracts = Contract.objects.filter(Q(id=query_int) | Q(begin=query_date) | Q(end=query_date))
 
     context = {

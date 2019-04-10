@@ -1,4 +1,3 @@
-import datetime
 from django.forms import Form, ModelForm, DateInput, Select, Textarea, DateField
 from .models import User, MainTenant, SubTenant, ResidentialHome, Blacklist, Feedback
 from django.contrib.auth.forms import UserCreationForm
@@ -35,8 +34,6 @@ class UserUpdateForm(ModelForm):
 
 
 def clean_tenant(self, cleaned_data):
-    begin_rent_agreement = cleaned_data.get('begin_rent_agreement')
-    end_rent_agreement = cleaned_data.get('end_rent_agreement')
     residential_home = cleaned_data.get('residential_home')
     house_number = cleaned_data.get('house_number')
     room_number = cleaned_data.get('room_number')
@@ -49,11 +46,6 @@ def clean_tenant(self, cleaned_data):
         if blocked:
             self.add_error('first_name', _('Dein Name steht auf der schwarzen Liste!'))
             self.add_error('last_name', _('Dein Name steht auf der schwarzen Liste!'))
-
-    # begin_rent_agreement < end_rent_agreement
-    if begin_rent_agreement and end_rent_agreement:
-        if begin_rent_agreement >= end_rent_agreement:
-            self.add_error('end_rent_agreement', _('Das Ende des Mietvertrages muss nach dem Beginn sein!'))
 
     # house_number of residential_home
     if residential_home and house_number:
@@ -80,11 +72,9 @@ class MainTenantCreateForm(UserCreationForm):
     class Meta:
         model = MainTenant
         fields = ['username', 'first_name', 'last_name', 'password1', 'password2', 'email', 'birthday', 'phone_number',
-                  'tenant_id', 'begin_rent_agreement', 'end_rent_agreement', 'residential_home', 'house_number',
+                  'tenant_id', 'residential_home', 'house_number',
                   'room_number']
         widgets = {
-            'begin_rent_agreement': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-            'end_rent_agreement': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'birthday': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
         }
 
@@ -100,7 +90,7 @@ class MainTenantUpdateForm(ModelForm):
 
     class Meta(MainTenantCreateForm.Meta):
         fields = ['first_name', 'last_name', 'email', 'birthday', 'phone_number',
-                  'tenant_id', 'begin_rent_agreement', 'end_rent_agreement', 'residential_home', 'house_number',
+                  'tenant_id', 'residential_home', 'house_number',
                   'room_number']
 
 
@@ -126,7 +116,7 @@ class SubTenantCreateForm(UserCreationForm):
     class Meta:
         model = SubTenant
         fields = ['username', 'first_name', 'last_name', 'password1', 'password2', 'email', 'birthday', 'phone_number',
-                  'nationality', 'student_id', 'begin_request', 'end_request', 'is_searching',
+                  'nationality', 'begin_request', 'end_request', 'is_searching',
                   'name', 'street', 'house_number', 'postcode', 'city', 'country']
         help_texts = {
             'is_searching': _(
@@ -153,7 +143,7 @@ class SubTenantUpdateForm(ModelForm):
 
     class Meta(SubTenantCreateForm.Meta):
         fields = ['first_name', 'last_name', 'email', 'birthday', 'phone_number',
-                  'nationality', 'student_id', 'begin_request', 'end_request', 'is_searching',
+                  'nationality', 'begin_request', 'end_request', 'is_searching',
                   'name', 'street', 'house_number', 'postcode', 'city', 'country']
 
 

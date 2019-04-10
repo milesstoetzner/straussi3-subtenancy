@@ -1,0 +1,1165 @@
+{% load custom_extras %}
+{% load static %}
+
+<html>
+<head>
+    <style>
+
+        /*
+
+        HAVE FUN DEBUGGING THIS
+
+        since xhtml2pdf is very limited and css does not support inheritance every type of signature got its own page template
+
+         */
+
+        @page {
+            size: A4;
+            @frame header_frame_left { /* Static Frame */
+            -pdf-frame-content: header_content_left;
+            left: 25mm;
+            width: 100pt;
+            top: 25mm;
+            height: 60pt;
+        }
+
+        @frame header_frame_right {
+            /* Static Frame */
+        -pdf-frame-content:header_content_right;
+        right: 25mm;
+        width: 135pt;
+        top: 25mm;
+        height: 100pt;
+        }
+
+        @frame logo {
+        -pdf-frame-content:logo;
+        left: 120mm;
+        top: 24mm;
+
+        }
+
+        @frame content_frame {
+            /* Content Frame */
+        left 25mm;
+        width: 160mm;
+        top: 60mm;
+        height: 210mm;
+            /*-pdf-frame-border: 1;*/
+
+
+        }
+
+        @frame footer_frame {
+            /* Another static Frame */
+        -pdf-frame-content:footer_content;
+        right: 25mm; width: 156mm; bottom: 15mm; height: 20pt;
+        }
+        }
+
+
+        @page empty {
+            size: A4;
+            @frame header_frame_left { /* Static Frame */
+            -pdf-frame-content: header_content_left;
+            left: 25mm;
+            width: 100pt;
+            top: 25mm;
+            height: 60pt;
+        }
+
+        @frame header_frame_right {
+            /* Static Frame */
+        -pdf-frame-content:header_content_right;
+        right: 25mm;
+        width: 135pt;
+        top: 25mm;
+        height: 100pt;
+        }
+
+        @frame logo {
+        -pdf-frame-content:logo;
+        left: 120mm;
+        top: 24mm;
+
+        }
+
+        @frame content_frame {
+            /* Content Frame */
+        left 25mm;
+        width: 160mm;
+        top: 60mm;
+        height: 210mm;
+            /*-pdf-frame-border: 1;*/
+
+
+        }
+
+        @frame footer_frame {
+            /* Another static Frame */
+        -pdf-frame-content:footer_content;
+        right: 25mm; width: 156mm; bottom: 15mm; height: 20pt;
+        }
+        }
+
+
+        @page full {
+            size: A4;
+            @frame header_frame_left { /* Static Frame */
+            -pdf-frame-content: header_content_left;
+            left: 25mm;
+            width: 100pt;
+            top: 25mm;
+            height: 60pt;
+        }
+
+        @frame header_frame_right {
+            /* Static Frame */
+        -pdf-frame-content:header_content_right;
+        right: 25mm;
+        width: 135pt;
+        top: 25mm;
+        height: 100pt;
+        }
+
+        @frame logo {
+        -pdf-frame-content:logo;
+        left: 120mm;
+        top: 24mm;
+
+        }
+
+        @frame content_frame {
+            /* Content Frame */
+        left 25mm;
+        width: 160mm;
+        top: 60mm;
+        height: 210mm;
+            /*-pdf-frame-border: 1;*/
+
+
+        }
+
+        @frame signature_frame {
+        -pdf-frame-content:signature_full;
+        left: 25mm;
+        width: 160mm;
+        top: 260mm;
+        height: 12mm;
+            /*-pdf-frame-border: 1;*/
+        }
+
+        @frame footer_frame {
+            /* Another static Frame */
+        -pdf-frame-content:footer_content;
+        right: 25mm; width: 156mm; bottom: 15mm; height: 20pt;
+        }
+        }
+
+        @page wore {
+            size: A4;
+            @frame header_frame_left { /* Static Frame */
+            -pdf-frame-content: header_content_left;
+            left: 25mm;
+            width: 100pt;
+            top: 25mm;
+            height: 60pt;
+        }
+
+        @frame header_frame_right {
+            /* Static Frame */
+        -pdf-frame-content:header_content_right;
+        right: 25mm;
+        width: 135pt;
+        top: 25mm;
+        height: 100pt;
+        }
+
+        @frame logo {
+        -pdf-frame-content:logo;
+        left: 120mm;
+        top: 24mm;
+
+        }
+
+        @frame content_frame {
+            /* Content Frame */
+        left 25mm;
+        width: 160mm;
+        top: 60mm;
+        height: 210mm;
+            /*-pdf-frame-border: 1;*/
+
+
+        }
+
+        @frame signature_frame {
+        -pdf-frame-content:signature_wore;
+        left: 25mm;
+        width: 160mm;
+        top: 260mm;
+        height: 12mm;
+            /*-pdf-frame-border: 1;*/
+        }
+
+        @frame footer_frame {
+            /* Another static Frame */
+        -pdf-frame-content:footer_content;
+        right: 25mm; width: 156mm; bottom: 15mm; height: 20pt;
+        }
+        }
+
+
+        @page melde {
+            size: A4;
+            @frame header_frame_left { /* Static Frame */
+            -pdf-frame-content: header_content_left;
+            left: 25mm;
+            width: 100pt;
+            top: 25mm;
+            height: 60pt;
+        }
+
+        @frame header_frame_right {
+            /* Static Frame */
+        -pdf-frame-content:header_content_right;
+        right: 25mm;
+        width: 135pt;
+        top: 25mm;
+        height: 100pt;
+        }
+
+        @frame logo {
+        -pdf-frame-content:logo;
+        left: 120mm;
+        top: 24mm;
+
+        }
+
+        @frame content_frame {
+            /* Content Frame */
+        left 25mm;
+        width: 160mm;
+        top: 60mm;
+        height: 210mm;
+            /*-pdf-frame-border: 1;*/
+
+
+        }
+
+        @frame signature_frame {
+        -pdf-frame-content:signature_melde;
+        left: 25mm;
+        width: 160mm;
+        top: 260mm;
+        height: 12mm;
+            /*-pdf-frame-border: 1;*/
+        }
+
+        @frame footer_frame {
+            /* Another static Frame */
+        -pdf-frame-content:footer_content;
+        right: 25mm; width: 156mm; bottom: 15mm; height: 20pt;
+        }
+        }
+
+        @page date {
+            size: A4;
+            @frame header_frame_left { /* Static Frame */
+            -pdf-frame-content: header_content_left;
+            left: 25mm;
+            width: 100pt;
+            top: 25mm;
+            height: 60pt;
+        }
+
+        @frame header_frame_right {
+            /* Static Frame */
+        -pdf-frame-content:header_content_right;
+        right: 25mm;
+        width: 135pt;
+        top: 25mm;
+        height: 100pt;
+        }
+
+        @frame logo {
+        -pdf-frame-content:logo;
+        left: 120mm;
+        top: 24mm;
+
+        }
+
+        @frame content_frame {
+            /* Content Frame */
+        left 25mm;
+        width: 160mm;
+        top: 60mm;
+        height: 210mm;
+            /*-pdf-frame-border: 1;*/
+
+
+        }
+
+        @frame signature_frame {
+        -pdf-frame-content:signature_date;
+        left: 25mm;
+        width: 160mm;
+        top: 260mm;
+        height: 12mm;
+            /*-pdf-frame-border: 1;*/
+        }
+
+        @frame footer_frame {
+            /* Another static Frame */
+        -pdf-frame-content:footer_content;
+        right: 25mm; width: 156mm; bottom: 15mm; height: 20pt;
+        }
+        }
+
+        @page maintenant {
+            size: A4;
+            @frame header_frame_left { /* Static Frame */
+            -pdf-frame-content: header_content_left;
+            left: 25mm;
+            width: 100pt;
+            top: 25mm;
+            height: 60pt;
+        }
+
+        @frame header_frame_right {
+            /* Static Frame */
+        -pdf-frame-content:header_content_right;
+        right: 25mm;
+        width: 135pt;
+        top: 25mm;
+        height: 100pt;
+        }
+
+        @frame logo {
+        -pdf-frame-content:logo;
+        left: 120mm;
+        top: 24mm;
+
+        }
+
+        @frame content_frame {
+            /* Content Frame */
+        left 25mm;
+        width: 160mm;
+        top: 60mm;
+        height: 210mm;
+            /*-pdf-frame-border: 1;*/
+
+
+        }
+
+        @frame signature_frame {
+        -pdf-frame-content:signature_maintenant;
+        left: 25mm;
+        width: 160mm;
+        top: 260mm;
+        height: 12mm;
+            /*-pdf-frame-border: 1;*/
+        }
+
+        @frame footer_frame {
+            /* Another static Frame */
+        -pdf-frame-content:footer_content;
+        right: 25mm; width: 156mm; bottom: 15mm; height: 20pt;
+        }
+        }
+
+        body {
+            font-size: 12px;
+        }
+
+        h1 {
+            font-size: 14px;
+        }
+
+        h2 {
+            font-size: 12px;
+            margin-top: 5mm;
+            margin-bottom: 0;
+        }
+
+        .block {
+            text-align: justify;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .signature {
+            padding-top: 3px;
+            border-top: 1px solid black;
+            border-right: 10px solid white;
+            border-left: 10px solid white;
+        }
+
+        .pagebreak {
+            page-break-before: always;
+        }
+
+        .skip {
+            padding-top: 5mm;
+        }
+
+        .text-red {
+            color: red;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .italic {
+            font-style: italic;
+        }
+
+        .data {
+            background-color: #f1f3f4;
+        }
+
+        Atable {
+            border: 1px solid black;
+        }
+
+    </style>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+
+</head>
+
+<body>
+{% with main=contract.maintenant sub=contract.subtenant %}
+
+
+    <!-- Content for Static Frame 'header_frame' -->
+    <div id="header_content_left">
+        <p>Vertragsnummer {{ contract.id }}</p>
+    </div>
+
+    <img src="/static/subtenancy/logo_str3.png" width="20mm" height="20mm" id="logo">
+
+    <div id="header_content_right">
+        <p>
+            Wohnheimsreferat Straußäcker 3<br>
+            Allmandring 3D<br>
+            wore.str3@gmail.com<br>
+            https://str3.wh-stuttgart.net<br>
+            Sprechstunde Di. 19.00 - 20.00
+        </p>
+    </div>
+
+
+    <div id="signature_full">
+        <table class="text-center">
+
+            <tbody>
+
+            <tr>
+                <td> Stuttgart, {% now "d.m.Y" %}<br>Ort, Datum</td>
+                <td></td>
+                <td class="signature"> Unterschrift Hauptmieter</td>
+                <td class="signature"> Unterschrift Untermieter</td>
+                <td class="signature"> Unterschrift &<br>Stempel WoRe</td>
+            </tr>
+
+            </tbody>
+
+        </table>
+    </div>
+
+    <div id="signature_maintenant">
+        <table class="text-center">
+
+            <tbody>
+
+            <tr>
+                <td> Stuttgart, {% now "d.m.Y" %}<br>Ort, Datum</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="signature">Unterschrift Hauptmieter</td>
+            </tr>
+
+            </tbody>
+
+        </table>
+    </div>
+
+    <div id="signature_wore">
+        <table class="text-center">
+
+            <tbody>
+
+            <tr>
+                <td> Stuttgart, {% now "d.m.Y" %}<br>Ort, Datum</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="signature"> Unterschrift &<br>Stempel WoRe</td>
+            </tr>
+
+            </tbody>
+
+        </table>
+    </div>
+
+    <div id="signature_date">
+        <table class="text-center">
+
+            <tbody>
+
+            <tr>
+                <td> Stuttgart, {% now "d.m.Y" %}<br>Ort, Datum</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div id="signature_melde">
+        <table class="text-center">
+
+            <tbody>
+
+            <tr>
+                <td> Stuttgart, {% now "d.m.Y" %}<br>Ort, Datum</td>
+                <td></td>
+                <td></td>
+                <td class="signature" colspan="2">Unterschrift des Wohnungsgebers<br>oder der beauftragten Person</td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Content for Static Frame 'footer_frame' -->
+    <div id="footer_content" style="text-align: right">Seite
+        <pdfpagenumber>
+            von
+            <pdfpagecount>
+    </div>
+
+    <!-----------------------------
+
+            Untermietvertrag
+
+    ------------------------------>
+
+    {% if preview %}
+        <h1 style="color: red; text-align: center">DAS IST NUR EINE VORSCHAU UND KEIN GÜLTIGER VERTRAG</h1>
+    {% endif %}
+
+    <h1>Untermietvertrag</h1>
+
+
+    <h2>Allgemein</h2>
+    <table>
+        <tbody>
+        <tr>
+            <td>Zimmer</td>
+            <td> {{ main.house_number }} {{ main.room_number }} </td>
+        </tr>
+
+        <tr>
+            <td>Begin</td>
+            <td> {{ contract.begin|date:"d.m.Y" }}</td>
+        </tr>
+
+        <tr>
+            <td>Ende</td>
+            <td> {{ contract.end|date:"d.m.Y" }}</td>
+        </tr>
+
+        </tbody>
+    </table>
+
+
+    <h2>Hauptmieter</h2>
+
+    <table>
+
+        <tbody>
+        <tr>
+            <td>Vorname</td>
+            <td> {{ main.first_name }}</td>
+        </tr>
+
+        <tr>
+            <td>Nachname</td>
+            <td> {{ main.last_name }}</td>
+        </tr>
+
+        <tr>
+            <td>Ferienmieternummer</td>
+            <td> {{ main.pk }}</td>
+        </tr>
+
+        <tr>
+            <td>E-Mail</td>
+            <td> {{ main.email }}</td>
+        </tr>
+        <tr>
+            <td>Telefon</td>
+            <td> {{ main.phone_number }}</td>
+        </tr>
+
+        <tr>
+            <td>Mieternummer</td>
+            <td> {{ main.tenant_id }}</td>
+        </tr>
+
+        <tr>
+            <td>Mietzeitraum</td>
+            <td> {{ main.begin_rent_agreement|date:"d.m.Y" }}
+                - {{ main.end_rent_agreement|date:"d.m.Y" }}</td>
+        </tr>
+
+        <tr>
+            <td>Rückkehr</td>
+            <td> {{ contract.is_maintenant_returning|yesno:"Ja, Nein" }}</td>
+        </tr>
+
+        <tr>
+            <td>Kautionszahlung</td>
+            <td> {{ contract.caution|yesno:"Getätigt und vom WoRe bezeugt, Nein" }}</td>
+        </tr>
+
+        <tr>
+            <td>Zimmer in ordnungsgemäßen Zustand</td>
+            <td> {{ contract.condition|yesno:"Ja, Nein" }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Untermieter</h2>
+
+    <table>
+        <tbody>
+        <tr>
+            <td>Vorname</td>
+            <td> {{ sub.first_name }}</td>
+        </tr>
+
+        <tr>
+            <td>Nachname</td>
+            <td> {{ sub.last_name }}</td>
+        </tr>
+
+
+        <tr>
+            <td>Ferienmieternummer</td>
+            <td> {{ sub.pk }}</td>
+        </tr>
+
+        <tr>
+            <td>E-Mail</td>
+            <td> {{ sub.email }}</td>
+        </tr>
+        <tr>
+            <td>Telefon</td>
+            <td> {{ sub.phone_number }}</td>
+        </tr>
+
+        <tr>
+            <td>Geburtstag</td>
+            <td> {{ sub.birthday|date:"d.m.Y" }}</td>
+        </tr>
+
+        <tr>
+            <td>Staatsangehörigkeit</td>
+            <td> {{ sub.nationality }}</td>
+        </tr>
+
+        <tr>
+            <td>Lichtbildausweis o.Ä.</td>
+            <td> {{ contract.is_subtenant_identified|yesno:"Kontrolliert, Nicht kontrolliert" }}</td>
+        </tr>
+
+        <tr>
+            <td>Immatrikulationsbescheinigung o.Ä.</td>
+            <td> {{ contract.is_subtenant_matriculated|yesno:"Kontrolliert, Nicht kontrolliert" }}</td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <h2>Kontaktadresse des Untermieters nach Auszug</h2>
+
+    <table>
+        <tbody>
+        <tr>
+            <td>Name</td>
+            <td> {{ sub.name }}</td>
+        </tr>
+
+        <tr>
+            <td>Straße</td>
+            <td> {{ sub.street }} {{ sub.house_number }}</td>
+        </tr>
+        <tr>
+            <td>PLZ, Ort</td>
+            <td> {{ sub.postcode }}, {{ sub.city }}</td>
+        </tr>
+        <tr>
+            <td>Land</td>
+            <td> {{ sub.country }} </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <pdf:nexttemplate name="full"/>
+
+    <div class="pagebreak"></div>
+
+
+    <h2>Vertragsbedingungen</h2>
+    <p class="block" style="margin-top: 0">Die Miete darf nicht höher sein als die vertragliche Miete des Hauptmieters.
+        Das Zimmer wird für
+        den o.g. Zeitraum vom Hauptmieter zur Untermiete zur Verfügung gestellt. Der Untermieter tritt während dieses
+        Zeitraums dem zwischen dem Studierendenwerk Stuttgart und dem Hauptmieter bestehenden Mietverhältnis bei. Er
+        haftet gegenüber dem Studierendenwerk Stuttgart gemeinsam mit dem Hauptmieter als Gesamtschuldner. Mit der
+        Unterschrift verpflichtet sich der Untermieter, die allgemeinen Mietbedingungen, die Gebührenordnung, die
+        Hausordnung sowie alle bestehenden Zusatzvereinbarungen die zwischen dem Hauptmieter und dem Studierendenwerk
+        Stuttgart bestehen, zu akzeptieren und einzuhalten. Der Untermieter verpflichtet sich seinerseits, das Zimmer
+        nach Ablauf des Untermietverhältnisses in gereinigtem Zustand an den Hauptmieter zu übergeben. Der Hauptmieter
+        bestätigt mit Unterzeichnung, dass er mit dieser und anderen Untervermietungen die aufsummierte
+        Gesamtuntervermietungsdauer von 3 Monaten nicht überschreitet. Die Mietzahlung erfolgt direkt an den
+        Hauptmieter.</p>
+
+
+    <h2>Miete</h2>
+
+    {% with data=contract.get_rents %}
+
+        <table>
+
+            <tbody>
+
+            <tr>
+                <td>Zeitraum</td>
+
+
+                {% for month in data.months %}
+                    <td> {{ month|date:"M Y" }}</td>
+                {% endfor %}
+
+            </tr>
+
+            <tr>
+
+                <td>Miete</td>
+
+                {% for rent in data.rents %}
+                    <td> {% if rent %}{{ rent }} €{% endif %}</td>
+                {% endfor %}
+
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    {% endwith %}
+
+    <pdf:nexttemplate name="wore"/>
+
+    <div class="pagebreak"></div>
+
+    <!-----------------------------
+
+            Bestätigung der Untervermietung
+
+    ------------------------------>
+
+    <h1>Bestätigung der Untervermietung</h1>
+
+    <h2>Allgemein</h2>
+    <table>
+        <tbody>
+
+        <tr>
+            <td>Hauptmieter</td>
+            <td> {{ main.get_full_name }} </td>
+        </tr>
+
+        <tr>
+            <td>Untermieter</td>
+            <td> {{ sub.get_full_name }} </td>
+        </tr>
+
+        <tr>
+            <td>Zimmer</td>
+            <td> {{ main.house_number }} {{ main.room_number }}</td>
+        </tr>
+
+        <tr>
+            <td>Begin</td>
+            <td> {{ contract.begin|date:"d.m.Y" }}</td>
+        </tr>
+
+        <tr>
+            <td>Ende</td>
+            <td> {{ contract.end|date:"d.m.Y" }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <p class="block skip">Hiermit bestätigen wir, dass für das oben angegebene Zimmer eine über das Wohnheimsreferat
+        Straußäcker 3
+        durchgeführte Untervermietung besteht. Das Nutzungsrecht für das vermietete Zimmer liegt ausschließlich beim
+        Untermieter. Eine gültige Immatrikulationsbestätigung und ein Lichtbildausweis o.Ä des Untermieters wurden
+        vorgelegt. Das Wohnungsreferat gibt die Meldung dem Mietvertrag entsprechend an das Studierendenwerk Stuttgart
+        weiter.</p>
+
+    <p>Die Aufwandsentschädigung von {{ contract.donation }} € wurde entrichtet.</p>
+
+
+    <pdf:nexttemplate name="maintenant"/>
+
+    <div class="pagebreak"></div>
+
+
+    <!-----------------------------
+
+          Zustand des Zimmers und der Wohnung
+
+    ------------------------------>
+
+    <h1>Zustand des Zimmers und der Wohnung</h1>
+
+    <h2>Allgemein</h2>
+    <table>
+        <tbody>
+
+        <tr>
+            <td>Hauptmieter</td>
+            <td> {{ main.get_full_name }} </td>
+        </tr>
+
+        <tr>
+            <td>Untermieter</td>
+            <td> {{ sub.get_full_name }} </td>
+        </tr>
+
+        <tr>
+            <td>Zimmer</td>
+            <td> {{ main.house_number }} {{ main.room_number }}</td>
+        </tr>
+
+        <tr>
+            <td>Begin</td>
+            <td> {{ contract.begin|date:"d.m.Y" }}</td>
+        </tr>
+
+        <tr>
+            <td>Ende</td>
+            <td> {{ contract.end|date:"d.m.Y" }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p class="skip block">Der Hauptmieter bestätigt die Vollständigkeit seines Inventars im Hinblick auf das Inventar
+        des Hauptmietvertrags
+        und dessen entsprechenden guten Zustand. Das Zimmer wird gereinigt übergeben. Dabei sind die Gemeinschaftsräume
+        gereinigt und der Stauraum in
+        Küche und Kühlschrank stehen
+        bereit. Der Untermieter hat eine Woche Zeit etwaige Beanstandungen zu melden. Alle Punkte sind entsprechend zu
+        bestätigen.</p>
+
+
+
+    {% if contract.condition_comment %}
+
+        <h2>Anmerkungen</h2>
+        <p class="block" style="margin-top: 0"> {{ contract.condition_comment }} </p>
+
+    {% endif %}
+
+    <pdf:nexttemplate name="empty"/>
+
+    <div class="pagebreak"></div>
+
+    <!-----------------------------
+
+          Checkliste Hauptmieter
+
+    ------------------------------>
+
+    <h1>Checkliste Hauptmieter</h1>
+
+    <h2>Allgemein</h2>
+    <table>
+        <tbody>
+
+        <tr>
+            <td>Hauptmieter</td>
+            <td> {{ main.get_full_name }} </td>
+        </tr>
+
+        <tr>
+            <td>Untermieter</td>
+            <td> {{ sub.get_full_name }} </td>
+        </tr>
+
+        <tr>
+            <td>Zimmer</td>
+            <td> {{ main.house_number }} {{ main.room_number }}</td>
+        </tr>
+
+        <tr>
+            <td>Begin</td>
+            <td> {{ contract.begin|date:"d.m.Y" }}</td>
+        </tr>
+
+        <tr>
+            <td>Ende</td>
+            <td> {{ contract.end|date:"d.m.Y" }}</td>
+        </tr>
+
+        <tr>
+            <td>Kaution zurück</td>
+            <td> {{ contract.is_maintenant_returning|yesno:"Nein, Ja" }}</td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <h2>Checkliste</h2>
+
+    <ul style="padding-left: 5mm">
+        {% if not contract.is_maintenant_returning %}
+            <li class="text-red"><b>Bankdaten für die Rückzahlung der Kaution heraussuchen und Hausmeister geben</b>
+            </li>{% endif %}
+        <li>Fenster, Fensterrahmen gereinigt</li>
+        <li>Tür, Türrahmen gereinigt</li>
+        <li>Fußboden gereinigt</li>
+        <li>Inventar (Schränke etc.) gereinigt</li>
+        <li>Küche gereinigt</li>
+        <li>Essbereich gereinigt</li>
+        <li>Bad gereinigt</li>
+        <li>Toilette gereinigt</li>
+        <li>Flur gereinigt</li>
+        <li>Alle persönlichen Sachen entfernt</li>
+    </ul>
+
+    <p class="skip text-red"><b>Die Miete wird weiterhin vom Hauptmieter an das Studierendenwerk Stuttgart
+        überwiesen.</b></p>
+
+    {% if contract.caution %}
+
+        <pdf:nexttemplate name="full"/>
+
+        <div class="pagebreak"></div>
+
+        <!-----------------------------
+
+                Kautionsvertrag
+
+        ------------------------------>
+
+        <h1>Kautionsvertrag zwischen Hauptmieter und Untermieter</h1>
+        <p class="italic">Rental deposit agreement between maintenant and subtenant</p>
+
+        <h2>Allgemein</h2>
+        <table>
+            <tbody>
+
+            <tr>
+                <td>Hauptmieter</td>
+                <td> {{ main.get_full_name }} </td>
+            </tr>
+
+            <tr>
+                <td>Untermieter</td>
+                <td> {{ sub.get_full_name }} </td>
+            </tr>
+
+            <tr>
+                <td>Zimmer</td>
+                <td> {{ main.house_number }} {{ main.room_number }}</td>
+            </tr>
+
+
+            <tr>
+                <td>Kaution</td>
+                <td> {{ contract.caution }} €</td>
+            </tr>
+
+            </tbody>
+        </table>
+
+
+        <p class="skip block">
+            Hiermit wird eine Kautionszahlung in oben genannter Höhe vom Untermieter an den Hauptmieter bestätigt. Das
+            WoRe bezeugt die Barzahlung/Transaktion. Die Kaution wird am Tag des Auszugs des Untermieters
+            zurückgezahlt, sofern keine Beanstandungen vorliegen. Im Falle eines Einwands wird dieser vom
+            SWS/Hausmeister geklärt. Es gelten die selben Kautionsbedingungen wie sie im Mietvertrag des Hauptmieters
+            mit dem Studierendenwerk Stuttgart aufgeführt sind.
+        </p>
+
+        <p class="skip block italic">
+            Herewith a deposit payment of the above stated amount is confirmed by the subtenant to the maintenant. The
+            Wore testifies to the cash/ transaction. The deposit will be returned on the day of the move-out of the
+            sub-enant, unless objections are present. In case of an issue SWS (janitor) will clarify it. The same bail
+            conditions are applied as written in the rental contract of the main-tenant with the Studierendenwerk
+            Stuttgart.
+        </p>
+
+
+        {% if contract.caution_comment %}
+
+            <h2>Anmerkungen</h2>
+
+            <p class="block" style="margin-top: 0"> {{ contract.caution_comment }}</p>
+
+        {% endif %}
+
+    {% endif %}
+
+    <pdf:nexttemplate name="melde"/>
+
+    <div class="pagebreak"></div>
+
+    <!-----------------------------
+
+       Wohnungsgeberbestätigung
+
+    ------------------------------>
+
+    <h1>Wohnungsgeberbestätigung nach § 19 des Bundesmeldegesetzes</h1>
+    <p>Hiermit wird ein Einzug in folgender Wohnung bestätigt.</p>
+
+    <h2>Wohnung</h2>
+    <table>
+        <tbody>
+
+        <tr>
+            <td>Postleitzahl</td>
+            <td> 70569</td>
+        </tr>
+
+        <tr>
+            <td>Ort</td>
+            <td> Stuttgart</td>
+        </tr>
+
+
+        <tr>
+            <td>Straße</td>
+            <td> Allmandring</td>
+        </tr>
+
+
+        <tr>
+            <td>Hausnummer mit Zusatz</td>
+            <td> {{ main.house_number }} {{ main.room_number }} </td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+    <p>{{ sub.get_full_name }} ist in die vorher genannte Wohnung am {{ contract.begin|date:"d.m.Y" }}
+        eingezogen.</p>
+
+
+    <h2>Name und Anschrift des Wohnungsgebers</h2>
+    <table>
+        <tbody>
+
+        <tr>
+            <td>Name</td>
+            <td> {{ main.get_full_name }} </td>
+        </tr>
+
+        <tr>
+            <td>Postleitzahl</td>
+            <td> 70569</td>
+        </tr>
+
+        <tr>
+            <td>Ort</td>
+            <td> Stuttgart</td>
+        </tr>
+
+
+        <tr>
+            <td>Straße</td>
+            <td> Allmandring</td>
+        </tr>
+
+
+        <tr>
+            <td>Hausnummer</td>
+            <td> {{ main.house_number }} {{ main.room_number }} </td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+    <p>Der Wohnungsgeber ist nicht Eigentümer der Wohnung.</p>
+
+    <h2>Name und Anschrift des Eigentümers der Wohnung</h2>
+    <table>
+        <tbody>
+
+        <tr>
+            <td>Name</td>
+            <td> Studierendenwerk Stuttgart</td>
+        </tr>
+
+        <tr>
+            <td>Postleitzahl</td>
+            <td> 70569</td>
+        </tr>
+
+        <tr>
+            <td>Ort</td>
+            <td> Stuttgart</td>
+        </tr>
+
+
+        <tr>
+            <td>Straße</td>
+            <td> Rosenbergstraße</td>
+        </tr>
+
+
+        <tr>
+            <td>Hausnummer</td>
+            <td> 18</td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+    <p class="bold skip">Ich bestätige mit meiner Unterschrift, dass die oben gemachten Angaben den Tatsachen
+        entsprechen.</p>
+
+    <p class="block">Mir ist bekannt, dass es verboten ist, eine Wohnanschrift für eine Anmeldung einem Dritten
+        anzubieten oder zur
+        Verfügung zu stellen, obwohl ein tatsächlicher Bezug der Wohnung durch diesen weder stattfindet noch
+        beabsichtigt ist. Ein Verstoß stellt ebenso eine Ordnungswidrigkeit dar wie die Ausstellung dieser Bestätigung,
+        ohne dazu als Wohnungsgeber/-in oder dessen/deren Beauftragte(n) berechtigt zu sein (§ 54 i. V. m. § 19
+        BMG).</p>
+
+{% endwith %}
+
+</body>
+</html>

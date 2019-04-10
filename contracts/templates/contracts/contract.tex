@@ -67,7 +67,7 @@ Sprechstunde Di. 19.00 - 20.00}
 \subsubsection*{Allgemein}
 
 \begin{tabularx}{\textwidth}{XX}
-Zimmer & {{ contract.maintenant.house_number }} {{ contract.maintenant.room_number}}\\
+Zimmer & {{ contract.get_room() }}\\
 Begin & {{ contract.begin|date("d.m.Y") }}\\
 Ende & {{ contract.end|date("d.m.Y") }}\\
 \end{tabularx}
@@ -93,7 +93,7 @@ Vorname & {{ contract.subtenant.first_name }}\\
 Nachname &  {{ contract.subtenant.last_name }}\\
 Ferienmieternummer & {{ contract.subtenant.pk }}\\
 E-Mail & {{ contract.subtenant.email }}\\
-Telefon & {{ contract.subtenant.phone_number }}\\
+Telefon & {{ contract.subtenant.get_room() }}\\
 Geburtstag&  {{ contract.subtenant.birthday|date("d.m.Y" ) }}\\
 Staatsangehörigkeit &  {{ contract.subtenant.nationality }}\\
 Lichtbildausweis o.Ä. & {{ contract.is_subtenant_identified|yesno("Kontrolliert, Nicht kontrolliert") }}\\
@@ -150,7 +150,7 @@ Ort, Datum &  Hauptmieter& Untermieter & Wohnheimsreferat\\
 \begin{tabularx}{\textwidth}{XX}
 Hauptmieter & {{ contract.maintenant.get_full_name() }}\\
 Untermieter &  {{ contract.subtenant.get_full_name() }}\\
-Zimmer & {{ contract.maintenant.house_number }} {{ contract.maintenant.room_number }}\\
+Zimmer & {{ contract.get_room() }}\\
 Begin & {{ contract.begin|date("d.m.Y") }}\\
 Ende & {{ contract.end|date("d.m.Y") }}\\
 \end{tabularx}\bigskip
@@ -184,7 +184,7 @@ Ort, Datum &  &  & Wohnheimsreferat\\
 \begin{tabularx}{\textwidth}{XX}
 Hauptmieter & {{ contract.maintenant.get_full_name() }}\\
 Untermieter &  {{ contract.subtenant.get_full_name() }}\\
-Zimmer & {{ contract.maintenant.house_number }} {{ contract.maintenant.room_number }}\\
+Zimmer & {{ contract.get_room() }}\\
 Begin & {{ contract.begin|date("d.m.Y") }}\\
 Ende & {{ contract.end|date("d.m.Y") }}\\
 \end{tabularx}\bigskip
@@ -225,7 +225,7 @@ Ort, Datum &  &  & Hauptmieter\\
 \begin{tabularx}{\textwidth}{XX}
 Hauptmieter & {{ contract.maintenant.get_full_name() }}\\
 Untermieter &  {{ contract.subtenant.get_full_name() }}\\
-Zimmer & {{ contract.maintenant.house_number }} {{ contract.maintenant.room_number }}\\
+Zimmer & {{ contract.get_room() }}\\
 Kaution & {{ contract.caution }}€\\
 \end{tabularx}\bigskip
 
@@ -272,7 +272,7 @@ Ort, Datum &  Hauptmieter& Untermieter & Wohnheimsreferat\\
 \begin{tabularx}{\textwidth}{XX}
 Hauptmieter & {{ contract.maintenant.get_full_name() }}\\
 Untermieter &  {{ contract.subtenant.get_full_name() }}\\
-Zimmer & {{ contract.maintenant.house_number }} {{ contract.maintenant.room_number }}\\
+Zimmer & {{ contract.get_room() }}\\
 Begin & {{ contract.begin|date("d.m.Y") }}\\
 Ende & {{ contract.end|date("d.m.Y") }}\\
 Kaution zurück & {{ contract.is_maintenant_returning|yesno("Nein, Ja") }}\\
@@ -313,7 +313,7 @@ Hiermit wird ein Einzug in folgender Wohnung bestätigt.
 Postleitzahl &  70569\\
 Ort &  Stuttgart\\
 Straße & Allmandring\\
-Hausnummer mit Zusatz & {{ contract.maintenant.house_number }} {{ contract.maintenant.room_number }}\\
+Hausnummer mit Zusatz & {{ contract.get_room() }}\\
 \end{tabularx}\bigskip
 
 {{ contract.subtenant.get_full_name() }} ist in die vorher genannte Wohnung am {{ contract.begin|date("d.m.Y") }} eingezogen.
@@ -324,7 +324,7 @@ Name & {{ contract.subtenant.get_full_name() }}\\
 Postleitzahl &  70569\\
 Ort &  Stuttgart\\
 Straße & Allmandring\\
-Hausnummer mit Zusatz & {{ contract.maintenant.house_number }} {{ contract.maintenant.room_number }}\\
+Hausnummer mit Zusatz & {{ contract.get_room() }}\\
 \end{tabularx}\bigskip
 
 Der Wohnungsgeber ist nicht Eigentümer der Wohnung.

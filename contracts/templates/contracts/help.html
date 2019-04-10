@@ -11,6 +11,90 @@
             <h5 class="card-title">{{ title }}
             </h5>
 
+            <p>Allgemeine Informationen stehen auf der <a href="{% url 'Index' %}" target="_blank">FAQ Seite</a>.</p>
+
+            <h6>Vertrag erstellen</h6>
+
+            <p class="text-block">Um einen Untermietvertrag zu erstellen, befolge die folgenden Schritte. Es müssen
+                sowohl Haupt- als auch Untermieter persönlich anwesend sein.</p>
+
+            <ol>
+                <li>Registriere den <a href="{% url 'MainTenantCreate' %}" target="_blank">Hauptmieter</a> und den <a
+                        href="{% url 'SubTenantCreate' %}" target="_blank">Untermieter</a> - sofern noch nicht geschehen
+                </li>
+                <li>Überprüfe die Dokumente des Haupt- und Untermieters auf Vollständigkeit (siehe <a
+                        href="{% url 'Index' %}" target="_blank">FAQ Seite</a>)
+                </li>
+                <li>Fülle das <a href="{% url 'contracts:ContractCreate' %}" target="_blank">Formular</a> aus
+                    <ul>
+                        <li>Hinweise für Kaution zwischen Haupt- und Untermieter:
+                            <ol>
+                                <li>Die Kaution wird privat zwischen Haupt- und Untermieter geregelt (im Formular 0€
+                                    eingeben).
+                                </li>
+                                <li>Das Wohnheimsreferat überwacht und bestätigt die Übergabe der Kaution (im Formular
+                                    entsprechende Höhe der Kaution eingeben).
+                                </li>
+                            </ol>
+                        </li>
+                        <li>Hinweise für Kaution zwischen Hauptmieter und dem SWS:<br>Sofern der Hautpmieter nicht
+                            zurückkehrt, kann er seine Kaution mithilfe des Hausmeisters
+                            zurückbekommen.
+                        </li>
+                        <li>Hinweise für die Spende:<br>Sofern der Untermieter eine Spende tätigt, wird diese in die
+                            Ferienmietekasse eingezahlt. Dazu gehört ebenfalls ein Eintrag ins Kassenbuch.
+                        </li>
+                    </ul>
+                </li>
+                <li>Überprüfe zusammen mit dem Haupt- und Untermieter die Daten der Vorschau auf Korrektheit</li>
+                <li>Ändere gegebenenfalls die Daten (siehe unten) und erstelle eine neue Vorschau</li>
+                <li>Erstelle den Vertrag</li>
+                <li>Drucke den Vertrag einmalig aus</li>
+                <li>Unterschreibe (inklusive Stempel) bzw. lass den Vertrag an den makierten Stellen unterschreiben</li>
+                <li>Übergebe Haupt- und Untermieter jeweils eine Kopie des unterschriebenen Vertrages</li>
+                <li>Hefte den originalen Vertrag zusammen mit der Kopie der ersten Seite des Hautpmietvertrages und der
+                    Immatrikulationsbescheinigung des Untermieters ab
+                </li>
+                <li>Die Schlüsselübergabe findet privat zwischen Haupt- und Untermieter statt</li>
+            </ol>
+
+            <p class="text-block">Nach Absprache kann auch nur eine der
+                beiden Parteien answesend sein. In diesem Fall muss der Vertrag bei der Erstellung auf <i>nicht
+                    gültig</i> gesetzt werden. Der Vertrag wird per Email an die fehlende Partei gesendet. Diese schickt
+                den von ihr unterschriebenen Vertrag zurück, woraufhin dieser ausgedruckt und abgeheftet
+                werden kann. Im System muss ebenfalls der Vertrag auf <i>gültig</i> gestellt werden.Eine Kopie des
+                vollständig unterschiebenen Vertrages kann dann von den Parteien abgeholt werden.</p>
+
+
+            <h6>Daten ändern</h6>
+
+            <p class="text-block">Um Daten eines bereits bestehenden Haupt- bzw. Untermieters bzw. eines Vertrages zu
+                ändern, muss die entsprechende Ansicht geöffnet werden. Auf dieser befindet sich ein Button, um
+                Änderungen vorzunehmen. Die Ansicht kann über die Suchfunktion gefunden
+                werden.</p>
+
+            <p class="text-block">Haupt- und Untermieter können sich einloggen und ihre eigenen Daten ändern.</p>
+
+            <p class="text-block">Werden Daten eines Vertrages oder des zugehörigen Haupt- bzw Untermieters geändert,
+                kann
+                auf der Ansicht des Vertrages eine Vorschau der neuen Vertragsversion betrachtet bzw. eine neue Version
+                erstellt werden.</p>
+
+            <h6>Suchfunktion</h6>
+
+            <p class="text-block">Oben in der Suchleiste kann nach folgenden Daten gesucht werden, um die Ansicht eines
+                Haupt- bzw Untermieters bzw. Vertrages zu öffnen:
+            <ul>
+                <li>Geburtstag (dd.mm.yyyy)</li>
+                <li>Vorname</li>
+                <li>Nachname</li>
+                <li>ID</li>
+                <li>Mieternummer</li>
+                <li>Vertragsbegin (dd.mm.yyyy)</li>
+                <li>Vertragsende (dd.mm.yyyy)</li>
+            </ul>
+            </p>
+
             <p>Jede vor dem 26.02.2019 ausgestelle ID stammt aus dem alten System und
                 kann nicht im aktuellen System verwendet werden.</p>
 
@@ -22,7 +106,8 @@
             <h5 class="card-title">Hall of Fame
             </h5>
 
-            <cite>"Außerdem habe ich auch eine Freundin von mir, die schön bei Ihren wohnen. Sie finde, dass das Wohnheim
+            <cite>"Außerdem habe ich auch eine Freundin von mir, die schön bei Ihren wohnen. Sie finde, dass das
+                Wohnheim
                 von Ihren sehr Krass ist und sie hat es mir stärke empfohlen."</cite>
             <small class="text-muted"> - Auszug einer Anfrage</small>
 

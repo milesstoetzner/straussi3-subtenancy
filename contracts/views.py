@@ -184,8 +184,8 @@ def print_active_contracts(request, file):
     queryset = Contract.objects.filter(is_active=True, end__gte=datetime.datetime.now()) \
         .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number', 'begin', 'end')
 
-    path = file
-    pdf = html_to_pdf(path, {'contracts': queryset, 'today': datetime.datetime.now()})
+    template_name = 'contracts/' + file
+    pdf = html_to_pdf(template_name, {'contracts': queryset, 'today': datetime.datetime.now()})
     filename = 'ferienmiete_str3_' + str(datetime.datetime.now().strftime("%Y-%m-%d")) + '.pdf'
 
     if pdf:

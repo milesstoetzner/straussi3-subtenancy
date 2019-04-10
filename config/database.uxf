@@ -32,8 +32,6 @@ updated_at</panel_attributes>
     <panel_attributes>MainTenant
 --
 tenant_id
-begin_rent_agreement
-end_rent_agreement
 house_number
 room_number
 rent
@@ -95,7 +93,6 @@ is_superuser</panel_attributes>
     <panel_attributes>SubTenant
 --
 nationality
-student_id
 begin_request
 end_request
 name

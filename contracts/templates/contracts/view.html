@@ -36,6 +36,9 @@
                     <a class="btn btn-block btn-success"
                        href="{% url 'contracts:ContractViewPDF' form.instance.pk form.instance.version %}"
                        target="_blank"><i class="fas fa-file icon-text"></i>PDF betrachten</a>
+                    <a class="btn btn-block btn-success"
+                       href="{{ form.instance.get_update_url }}"><i class="fas fa-wrench icon-text"></i>Änderungen
+                        vornehmen</a>
                 </div>
 
                 <fieldset disabled>
@@ -46,11 +49,6 @@
 
                 <script src="{% static 'contracts/view_tenant.js' %}"></script>
 
-
-                <a class="btn btn-block btn-success"
-                   href="{{ form.instance.get_update_url }}"><i class="fas fa-wrench icon-text"></i>Änderungen vornehmen</a>
-
-
             </div>
 
         </div>
@@ -58,15 +56,14 @@
 
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Ältere Versionen
-            </h5>
+            <h5 class="card-title">Ältere Versionen</h5>
 
 
             {% for v in form.instance.version|int_as_range %}
 
                 <a class="btn btn-block btn-info"
                    href="{% url 'contracts:ContractViewPDF' form.instance.pk v %}" target="_blank">
-                <i class="fas fa-file icon-text"></i>
+                    <i class="fas fa-file icon-text"></i>
                     {% if v == form.instance.version %}Aktuelle Version{% else %}Version
                         {{ v }}{% endif %}</a>
 

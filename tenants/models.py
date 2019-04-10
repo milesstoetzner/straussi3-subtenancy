@@ -6,72 +6,6 @@ from django.utils.translation import gettext_lazy as _
 from tenants.utils import COUNTRIES, TYPES
 
 
-class ResidentialHome(models.Model):
-    """
-    Model for a residential home. Every change to a record is logged.
-    """
-
-    id = models.IntegerField(unique=True, primary_key=True)
-    short = models.CharField('Abkürzung', max_length=4)
-    name = models.CharField('Name', max_length=250)
-    street = models.CharField('Straße', max_length=250)
-    house_numbers = models.CharField('Hausnummern', max_length=1000)
-    room_numbers = models.CharField('Zimmernummern', max_length=1000)
-    postcode = models.CharField('Postleitzahl', max_length=25)
-    city = models.CharField('Ort', max_length=250)
-    country = models.CharField('Land', max_length=250)
-
-    history = HistoricalRecords()
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def get_house_numbers_as_list(self):
-        """
-        Returns the house numbers as list. The house numbers are stored concatenated as string.
-        """
-
-        return self.house_numbers.replace(' ', '').split(",")
-
-    def get_room_numbers_as_list(self):
-        """
-        Returns the room numbers as list. The room numbers are stored concatenated as string.
-        """
-
-        return self.room_numbers.replace(' ', '').split(",")
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = 'Wohnheim'
-        verbose_name_plural = 'Wohnheime'
-
-
-class Blacklist(models.Model):
-    """
-    Main/Subtenant with the listed name can not register.
-    """
-
-    name = models.CharField('Vollständiger Name', max_length=500, unique=True)
-    reason = models.CharField('Beschreibung', max_length=500)
-
-    history = HistoricalRecords()
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def get_absolute_url(self):
-        return reverse('tenants:Blacklist')
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = 'Blockierter Mieter'
-        verbose_name_plural = 'Blockierte Mieter'
-
-
 class User(AbstractUser):
     """
     Model for user. A user can be an assistant, maintenant, subtenant or external.
@@ -128,14 +62,6 @@ class MainTenant(User):
     # NOTE: user still exists because of migrations problems while the change to multi table inherit from user
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     tenant_id = models.PositiveIntegerField(_('Mieternummer'), unique=True)
-
-    # Information about subtenancy
-    residential_home = models.ForeignKey(ResidentialHome, on_delete=models.PROTECT, verbose_name=_('Wohnheim'), default=1)
-    house_number = models.CharField(_('Hausnummer'), max_length=10)
-    room_number = models.CharField(_('Zimmernummer'), max_length=10)
-
-    def get_room(self):
-        return str(self.house_number) + ' ' + str(self.room_number)
 
     def get_amount_of_days(self, exclude=None):
         """
@@ -198,6 +124,30 @@ class SubTenant(User):
         verbose_name = _('Untermieter')
         verbose_name_plural = _('Untermieter')
         ordering = ['-user__id']
+
+
+class Blacklist(models.Model):
+    """
+    Main/Subtenant with the listed name can not register.
+    """
+
+    name = models.CharField('Vollständiger Name', max_length=500, unique=True)
+    reason = models.CharField('Beschreibung', max_length=500)
+
+    history = HistoricalRecords()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def get_absolute_url(self):
+        return reverse('tenants:Blacklist')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Blockierter Mieter'
+        verbose_name_plural = 'Blockierte Mieter'
 
 
 class Feedback(models.Model):

@@ -1,23 +1,9 @@
 from django.forms import Form, ModelForm, DateInput, Select, Textarea, DateField
-from .models import User, MainTenant, SubTenant, ResidentialHome, Blacklist, Feedback
+from .models import User, MainTenant, SubTenant, Blacklist, Feedback
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
 
 BOOLEAN_CHOICES = ((False, _('Nein')), (True, _('Ja')))
-
-
-class ResidentialHomeForm(ModelForm):
-    """
-    Creates or updates a residential home.
-    """
-
-    class Meta:
-        model = ResidentialHome
-        fields = '__all__'
-        help_texts = {
-            'house_numbers': _("Liste der Form: 'a', 'b', 'c'"),
-            'room_numbers': _("Liste der Form:  1, 2, 3")
-        }
 
 
 class UserUpdateForm(ModelForm):
@@ -34,9 +20,6 @@ class UserUpdateForm(ModelForm):
 
 
 def clean_tenant(self, cleaned_data):
-    residential_home = cleaned_data.get('residential_home')
-    house_number = cleaned_data.get('house_number')
-    room_number = cleaned_data.get('room_number')
     first_name = cleaned_data.get('first_name')
     last_name = cleaned_data.get('last_name')
 
@@ -46,18 +29,6 @@ def clean_tenant(self, cleaned_data):
         if blocked:
             self.add_error('first_name', _('Dein Name steht auf der schwarzen Liste!'))
             self.add_error('last_name', _('Dein Name steht auf der schwarzen Liste!'))
-
-    # house_number of residential_home
-    if residential_home and house_number:
-        if house_number not in residential_home.get_house_numbers_as_list():
-            self.add_error('house_number',
-                           _('Diese Hausnummer existiert nicht. Erlaubt sind: ') + residential_home.house_numbers)
-
-    # room_number of residential_home
-    if residential_home and room_number:
-        if room_number not in residential_home.get_room_numbers_as_list():
-            self.add_error('room_number',
-                           _('Diese Zimmernummer existiert nicht. Erlaubt sind: ') + residential_home.room_numbers)
 
 
 class MainTenantCreateForm(UserCreationForm):
@@ -72,8 +43,7 @@ class MainTenantCreateForm(UserCreationForm):
     class Meta:
         model = MainTenant
         fields = ['username', 'first_name', 'last_name', 'password1', 'password2', 'email', 'birthday', 'phone_number',
-                  'tenant_id', 'residential_home', 'house_number',
-                  'room_number']
+                  'tenant_id']
         widgets = {
             'birthday': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
         }
@@ -89,9 +59,7 @@ class MainTenantUpdateForm(ModelForm):
         return clean_tenant(self, cleaned_data)
 
     class Meta(MainTenantCreateForm.Meta):
-        fields = ['first_name', 'last_name', 'email', 'birthday', 'phone_number',
-                  'tenant_id', 'residential_home', 'house_number',
-                  'room_number']
+        fields = ['first_name', 'last_name', 'email', 'birthday', 'phone_number', 'tenant_id']
 
 
 def clean_subtenant(self, cleaned_data):

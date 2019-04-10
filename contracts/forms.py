@@ -18,6 +18,7 @@ class ContractForm(ModelForm):
         rent = cleaned_data.get('rent')
         condition = cleaned_data.get('condition')
         caution = cleaned_data.get('caution')
+        is_maintenant_allowed = cleaned_data.get('is_maintenant_allowed')
         is_maintenant_identified = cleaned_data.get('is_maintenant_identified')
         is_subtenant_identified = cleaned_data.get('is_subtenant_identified')
         is_subtenant_matriculated = cleaned_data.get('is_subtenant_matriculated')
@@ -94,6 +95,11 @@ class ContractForm(ModelForm):
             if caution < 0:
                 self.add_error('caution', 'Die Kaution muss positiv sein!')
 
+        # is_maintenant_allowed
+        if not is_maintenant_allowed:
+            self.add_error('is_maintenant_allowed',
+                           'Der Zeitraum der Untermiete muss innerhalb des Hauptmietvertrages liegen!')
+
         # is_maintenant_identified
         if not is_maintenant_identified:
             self.add_error('is_maintenant_identified', 'Lichtbildausweis des Hauptmieters muss kontrolliert werden!')
@@ -133,6 +139,7 @@ class ContractForm(ModelForm):
             'condition_comment': Textarea(attrs={'rows': 1}),
             'caution_comment': Textarea(attrs={'rows': 1}),
             'is_maintenant_returning': Select(choices=BOOLEAN_CHOICES),
+            'is_maintenant_allowed': Select(choices=BOOLEAN_CHOICES),
             'is_maintenant_identified': Select(choices=BOOLEAN_CHOICES),
             'is_subtenant_identified': Select(choices=BOOLEAN_CHOICES),
             'is_subtenant_matriculated': Select(choices=BOOLEAN_CHOICES),

@@ -27,6 +27,7 @@ class Contract(models.Model):
     caution = models.DecimalField('Höhe der Kaution in Euro', max_digits=5, decimal_places=2, default=0)
     caution_comment = models.CharField('Anmerkungen zur Kaution', max_length=1000, blank=True)
     is_maintenant_returning = models.BooleanField('Plant der Hauptmieter ins Zimmer zurückzukehren?', default=True)
+    is_maintenant_allowed = models.BooleanField('Liegt der Zeitraum der Untermiete innerhalb des Zeitraums des Hauptmietvertrages?', default=False)
     is_maintenant_identified = models.BooleanField('Wurde der Lichtbildausweis des Hauptmieters kontrolliert?',
                                                    default=False)
     is_subtenant_identified = models.BooleanField('Wurde der Lichtbildausweis des Untermieters kontrolliert?',

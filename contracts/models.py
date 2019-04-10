@@ -122,8 +122,9 @@ class Contract(models.Model):
         Renders the contract as a PDF file and returns the PDF without saving.
         """
 
-        source = '/contracts/contract.tex'
-        pdf = html_to_pdf(source, {'contract': self, 'today': datetime.now(), 'preview': True})
+        # source = 'contracts/contract.tex'
+        template_name = 'contracts/contract.html'
+        pdf = html_to_pdf(template_name, {'contract': self, 'today': datetime.now(), 'preview': True})
         return pdf
 
     @atomic
@@ -136,7 +137,8 @@ class Contract(models.Model):
 
         self.version += 1
 
-        template_name = 'contracts/contract.tex'
+        # template_name = 'contracts/contract.tex'
+        template_name = 'contracts/contract.html'
         destination = os.path.join('contracts', 'contracts',
                                    'contract_' + str(self.pk) + '_version_' + str(self.version) + '.pdf')
 

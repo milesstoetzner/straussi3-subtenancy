@@ -14,7 +14,6 @@ from django.db.models import ProtectedError
 from django.contrib import messages
 from django.core.mail import EmailMessage, mail_admins
 from smtplib import SMTPException
-from django.views.generic import ListView
 from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
 from django.template.loader import get_template

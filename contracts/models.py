@@ -4,8 +4,8 @@ from datetime import datetime
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
-from tenants.models import MainTenant, SubTenant, ResidentialHome
-from .utils import html_to_pdf, save_html_as_pdf
+from tenants.models import MainTenant, SubTenant
+from .utils import html_to_pdf, save_html_as_pdf, HOUSE_NUMBERS, ROOM_NUMBERS
 from simple_history.models import HistoricalRecords
 from django.db.transaction import atomic
 from dateutil import relativedelta
@@ -20,6 +20,8 @@ class Contract(models.Model):
     subtenant = models.ForeignKey(SubTenant, on_delete=models.PROTECT, verbose_name='Untermieter')
     begin = models.DateField('Beginn der Untermiete')
     end = models.DateField('Ende der Untermiete')
+    house_number = models.CharField('Hausnummer', max_length=2, choices=[(x, x) for x in HOUSE_NUMBERS])
+    room_number = models.CharField('Zimmernummer', max_length=3, choices=[(x, x) for x in ROOM_NUMBERS])
     rent = models.DecimalField('Monatsmiete in Euro', max_digits=5, decimal_places=2)
     condition = models.BooleanField('Ist das Zimmer und die Wohnung gereinigt und in einem ordnungsgemäßen Zustand?',
                                     default=False)
@@ -53,6 +55,9 @@ class Contract(models.Model):
 
     def get_update_url(self):
         return reverse('contracts:ContractUpdate', kwargs={'pk': self.pk})
+
+    def get_room(self):
+        return str(self.house_number) + ' ' + str(self.room_number)
 
     def is_latest(self):
         """

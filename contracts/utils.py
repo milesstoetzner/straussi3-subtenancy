@@ -1,5 +1,4 @@
 from django_tex.core import compile_template_to_pdf
-from django.template.loader import get_template
 
 
 def save_html_as_pdf(source, context, destination):
@@ -9,6 +8,5 @@ def save_html_as_pdf(source, context, destination):
     file.close()
 
 
-def html_to_pdf(source, context):
-    template_name = 'contracts/contracts/' + source
+def html_to_pdf(template_name, context):
     return compile_template_to_pdf(template_name, context)

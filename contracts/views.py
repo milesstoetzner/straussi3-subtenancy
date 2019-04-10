@@ -244,5 +244,5 @@ def view_help(request):
     """
     context = {}
     context['title'] = 'Hilfe'
-    messages.error(request, 'Sry, aber diese Seite befindet sich noch im Aufbau. Falls ihr Fragen zur Bedienung der Website habt, dann ruft mich an: +49 1777 580061.')
+    messages.info(request, 'Falls ihr Fragen zur Bedienung der Website bzw. zur Untermiete habt, dann zögert nicht und ruft mich an bzw. schreibt mir: +49 1777 580061.')
     return render(request, 'contracts/help.html', context)

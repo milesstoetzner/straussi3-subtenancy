@@ -30,9 +30,9 @@ class Contract(models.Model):
     caution_comment = models.CharField('Anmerkungen zur Kaution', max_length=1000, blank=True)
     is_maintenant_returning = models.BooleanField('Plant der Hauptmieter ins Zimmer zurückzukehren?', default=True)
     is_maintenant_allowed = models.BooleanField('Liegt der Zeitraum der Untermiete innerhalb des Zeitraums des Hauptmietvertrages?', default=False)
-    is_maintenant_identified = models.BooleanField('Wurde der Lichtbildausweis des Hauptmieters kontrolliert?',
+    is_maintenant_identified = models.BooleanField('Wurde der Lichtbildausweis des Hauptmieters kontrolliert und stimmen die Namen auf dessen Dokumenten überein?',
                                                    default=False)
-    is_subtenant_identified = models.BooleanField('Wurde der Lichtbildausweis des Untermieters kontrolliert?',
+    is_subtenant_identified = models.BooleanField('Wurde der Lichtbildausweis des Untermieters kontrolliert und stimmen die Namen auf dessen Dokumenten überein?',
                                                   default=False)
     is_subtenant_matriculated = models.BooleanField(
         'Wurde die Immatrikulationsbescheinigung des Untermieters kontrolliert?', default=False)

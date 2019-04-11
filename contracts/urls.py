@@ -21,4 +21,7 @@ urlpatterns = [
     path('sws', views.print_active_contracts, {'file': 'sws.html'}, name='ContractsPrintActive'),
     path('caretaker', views.print_active_contracts, {'file': 'caretaker.html'}, name='ContractsPrintCaretaker'),
 
+    # roster
+    path('roster', views.view_roster, name='Roster'),
+
 ]

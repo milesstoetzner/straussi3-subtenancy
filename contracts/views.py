@@ -4,7 +4,7 @@ import base64
 
 from django.db.transaction import atomic
 from django.urls import reverse
-from .models import Contract
+from .models import Contract, Roster
 from tenants.models import MainTenant, SubTenant
 from .forms import ContractForm
 from django.views.decorators.http import require_POST, require_GET, require_http_methods
@@ -246,3 +246,28 @@ def view_help(request):
     context['title'] = 'Hilfe'
     messages.info(request, 'Falls ihr Fragen zur Bedienung der Website bzw. zur Untermiete habt, dann zögert nicht und ruft mich an bzw. schreibt mir: +49 1777 580061.')
     return render(request, 'contracts/help.html', context)
+
+
+@login_required
+@permission_required('contracts.view_roster')
+@require_http_methods(['GET'])
+def view_roster(request):
+    """
+    Displays the roster.
+    """
+
+    query = Roster.objects.filter(date__gte=datetime.datetime.now()).order_by('date')
+    query_personal = Roster.objects.filter(date__gte=datetime.datetime.now(), assistant=request.user).order_by('date')
+
+    context = {}
+    context['title'] = 'Dienstplan'
+    context['roster'] = query
+    context['roster_personal'] = query_personal
+
+    if not query:
+        messages.info(request, 'Der Dienstplan enthält keine Einträge!')
+
+    if not query_personal:
+        messages.info(request, 'Du wirst im aktuellen Dienstplan nicht erwähnt!')
+
+    return render(request, 'contracts/roster.html', context)

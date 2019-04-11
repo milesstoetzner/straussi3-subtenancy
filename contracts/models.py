@@ -3,8 +3,7 @@ import calendar
 from datetime import datetime
 from django.db import models
 from django.urls import reverse
-from django.contrib.auth.models import User
-from tenants.models import MainTenant, SubTenant
+from tenants.models import User, MainTenant, SubTenant
 from .utils import html_to_pdf, save_html_as_pdf, HOUSE_NUMBERS, ROOM_NUMBERS
 from simple_history.models import HistoricalRecords
 from django.db.transaction import atomic
@@ -164,3 +163,20 @@ class Contract(models.Model):
         permissions = (
             ("view_short_contract", "Can view short version of a contract"),
         )
+
+
+class Roster(models.Model):
+    """
+    Roster
+    """
+
+    date = models.DateField(unique=True)
+    assistant = models.OneToOneField(User, on_delete=models.PROTECT, limit_choices_to={'groups__name': 'Assistant', 'is_active': True})
+
+    def __str__(self):
+        return self.date.strftime("%d.%m.%Y") + ' ' + self.assistant.get_full_name()
+
+    class Meta:
+        verbose_name = 'Dienstplan'
+        verbose_name_plural = 'Dienstplan'
+        ordering = ['-date']

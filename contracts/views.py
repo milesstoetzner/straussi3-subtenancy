@@ -177,14 +177,15 @@ def view_contract_pdf(request, pk, v):
 @login_required
 @permission_required('contracts.view_short_contract')
 @require_GET
-def print_active_contracts(request, file):
+def print_active_contracts(request):
     """
     Displays a list of all contracts that are active and still running as PDF for the SWS
     """
     queryset = Contract.objects.filter(is_active=True, end__gte=datetime.datetime.now()) \
         .order_by('maintenant__residential_home', 'maintenant__house_number', 'maintenant__room_number', 'begin', 'end')
 
-    template_name = 'contracts/' + file
+    # template_name = 'contracts/contracts.tex'
+    template_name = 'contracts/contracts.html'
     pdf = html_to_pdf(template_name, {'contracts': queryset, 'today': datetime.datetime.now()})
     filename = 'ferienmiete_str3_' + str(datetime.datetime.now().strftime("%Y-%m-%d")) + '.pdf'
 

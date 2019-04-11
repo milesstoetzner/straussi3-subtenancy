@@ -18,8 +18,8 @@ urlpatterns = [
     path('help', views.view_help, name='ContractHelp'),
 
     # sws
-    path('sws', views.print_active_contracts, {'file': 'sws.html'}, name='ContractsPrintActive'),
-    path('caretaker', views.print_active_contracts, {'file': 'caretaker.html'}, name='ContractsPrintCaretaker'),
+    path('sws', views.print_active_contracts, name='ContractsPrintActive'),
+    path('caretaker', views.print_active_contracts, name='ContractsPrintActive'),
 
     # roster
     path('roster', views.view_roster, name='Roster'),

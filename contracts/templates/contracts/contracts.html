@@ -144,39 +144,40 @@
 
     {% if contracts %}
 
-        <table>
+    <table>
 
-            <tbody>
+        <tbody>
+
+        <tr>
+            <th style="text-align: left">Hauptmieter</th>
+            <th style="text-align: left">Untermieter</th>
+            <th style="text-align: left">Zimmer</th>
+            <th style="text-align: left">Beginn (KW)</th>
+            <th style="text-align: left">Ende (KW)</th>
+            <th style="text-align: left">Wiedereinzug</th>
+        </tr>
+
+        {% for contract in contracts %}
 
             <tr>
-                <th style="text-align: left">Hauptmieter</th>
-                <th style="text-align: left">Untermieter</th>
-                <th style="text-align: left">Zimmer</th>
-                <th style="text-align: left">Beginn</th>
-                <th style="text-align: left">Ende</th>
+                <td> {{ contract.maintenant.get_full_name }}</td>
+                <td> {{ contract.subtenant.get_full_name }}</td>
+                <td> {{ contract.get_room }}</td>
+                <td> {{ contract.begin|date:"d.m.Y" }} ({{ contract.begin|date:"W" }})</td>
+                <td> {{ contract.end|date:"d.m.Y" }} ({{ contract.end|date:"W" }})</td>
+                <td> {{ contract.maintenant.is_returning|yesno:"Ja, Nein" }}</td>
             </tr>
 
-            {% for contract in contracts %}
+        {% endfor %}
 
-                <tr>
-                    <td> {{ contract.maintenant.user.get_full_name }}</td>
-                    <td> {{ contract.subtenant.user.get_full_name }}</td>
-                    <td> {{ contract.get_room }}</td>
-                    <td> {{ contract.begin|date:"d.m.Y" }}</td>
-                    <td> {{ contract.end|date:"d.m.Y" }}</td>
-                </tr>
-
-            {% endfor %}
-
-            </tbody>
-        </table>
+        </tbody>
+    </table>
 
     {% else %}
 
         <p>Aktuell gibt es keine aktiven Untermietverträge.</p>
 
     {% endif %}
-
 
     <!-- Content for Static Frame 'footer_frame' -->
     <div id="footer_content" style="text-align: right">Seite

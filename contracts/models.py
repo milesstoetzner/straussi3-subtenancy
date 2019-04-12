@@ -171,7 +171,7 @@ class Roster(models.Model):
     """
 
     date = models.DateField(unique=True)
-    assistant = models.OneToOneField(User, on_delete=models.PROTECT, limit_choices_to={'groups__name': 'Assistant', 'is_active': True})
+    assistant = models.ForeignKey(User, on_delete=models.PROTECT, limit_choices_to={'groups__name': 'Assistant', 'is_active': True})
 
     def __str__(self):
         return self.date.strftime("%d.%m.%Y") + ' ' + self.assistant.get_full_name()

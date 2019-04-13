@@ -24,7 +24,13 @@ footer {
 }
 
 .form-control, .custom-select, .btn, .input-group-text {
-     border-radius: 5rem;
+    border-radius: 5rem;
+}
+
+.btn-to-alert {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-radIus: 1rem;
 }
 
 
@@ -143,5 +149,51 @@ fieldset[disabled] .btn-orange.active {
 
 .btn-orange .badge {
     color: #FFA500;
+    background-color: #ffffff;
+}
+
+/* BUTTON GRAY */
+
+.btn-grey {
+    color: #495057;
+    background-color: #f1f3f4;
+}
+
+.btn-grey:hover,
+.btn-grey:focus,
+.btn-grey:active,
+.btn-grey.active,
+.open .dropdown-toggle.btn-grey {
+    color: #495057;
+    background-color: #dee0e1;
+}
+
+.btn-grey:active,
+.btn-grey.active,
+.open .dropdown-toggle.btn-grey {
+    background-image: none;
+}
+
+.btn-grey.disabled,
+.btn-grey[disabled],
+fieldset[disabled] .btn-grey,
+.btn-grey.disabled:hover,
+.btn-grey[disabled]:hover,
+fieldset[disabled] .btn-grey:hover,
+.btn-grey.disabled:focus,
+.btn-grey[disabled]:focus,
+fieldset[disabled] .btn-grey:focus,
+.btn-grey.disabled:active,
+.btn-grey[disabled]:active,
+fieldset[disabled] .btn-grey:active,
+.btn-grey.disabled.active,
+.btn-grey[disabled].active,
+fieldset[disabled] .btn-grey.active {
+    background-color: #f1f3f4;
+    border-color: #f1f3f4;
+}
+
+.btn-grey .badge {
+    color: #495057;
     background-color: #ffffff;
 }

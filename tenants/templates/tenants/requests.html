@@ -17,7 +17,7 @@
             <p>
                 <a class="btn btn-primary btn-block" style="text-align: left" data-toggle="collapse"
                    href="#query" role="button" aria-expanded="false">
-                    <i class="fas fa-sliders-h icon-text"></i>{% trans "Anfragenliste filtern" %}
+                    <i class="fas fa-sliders-h icon-text"></i>{% trans "Anfragenliste filtern und ordnen" %}
 
                 </a>
             </p>
@@ -41,43 +41,16 @@
             </div>
 
 
-            {% if object_list %}
+        {% if object_list %}
 
-                <table class="table table-hover" id="requests">
+            {% for tenant in object_list %}
 
-                    <thead>
-                    <tr>
-                        <th onclick="sortTable(0)" class="pointer" order="asc">{% trans "ID" %}
-                            <i class="fas fa-exchange-alt fa-rotate-90"></i></th>
-                        <th onclick="sortTable(1)" class="pointer" order="asc">{% trans "Beginn der Anfrage" %}
-                            <i class="fas fa-exchange-alt fa-rotate-90"></i></th>
-                        <th onclick="sortTable(2)" class="pointer" order="asc">{% trans "Ende der Anfrage" %}
-                            <i class="fas fa-exchange-alt fa-rotate-90"></i></th>
-                        <th></th>
-                    </tr>
+                <a href="{% url 'tenants:SubTenantContact' tenant.pk %}" class="btn btn-grey btn-to-alert btn-block">
+                    {{ tenant.begin_request|date:"d.m.Y" }} -
+                {{ tenant.end_request|date:"d.m.Y" }} ({{ tenant.pk|stringformat:"03d" }})</a>
 
-                    </thead>
+            {% endfor %}
 
-                    <tbody>
-
-                    {% for tenant in object_list %}
-
-                        <tr>
-
-                            <td class="align-middle" sort_key="{{ tenant.pk }}">{{ tenant.pk }}</td>
-                            <td class="align-middle"
-                                sort_key="{{ tenant.begin_request|date:"Ymd" }}">{{ tenant.begin_request|date:"d.m.Y" }}</td>
-                            <td class="align-middle"
-                                sort_key="{{ tenant.end_request|date:"Ymd" }}">{{ tenant.end_request|date:"d.m.Y" }}</td>
-                            <td class="align-middle">
-                                <a href="{% url 'tenants:SubTenantContact' tenant.pk %}" class="btn btn-primary"><i
-                                        class="fas fa-comment-alt"></i></a></td>
-                        </tr>
-
-                    {% endfor %}
-
-                    </tbody>
-                </table>
 
             {% else %}
 
@@ -90,30 +63,5 @@
         </div>
 
     </div>
-
-    <script>
-        "use strict";
-
-        const dirs = ['asc', 'asc', 'asc'];
-
-        function sortTable(col) {
-            let table = document.getElementById('requests');
-            let tableBody = table.getElementsByTagName('tbody')[0];
-            let ordered = Array.from(tableBody.rows).sort((a, b) => a.children[col].getAttribute('sort_key') - b.children[col].getAttribute('sort_key'));
-
-            if (dirs[col] === 'asc') {
-                dirs[col] = 'desc';
-            } else {
-                dirs[col] = 'asc';
-                ordered.reverse();
-            }
-
-            tableBody.innerHTML = "";
-            for (let row of ordered) {
-                tableBody.appendChild(row);
-            }
-
-        }
-    </script>
 
 {% endblock %}

@@ -389,10 +389,10 @@ def query_requests(request):
         form = RequestQueryForm(request.POST)
         if form.is_valid():
             messages.success(request, _('Anfrageliste erfolgreich gefiltert'))
+            order_first = request.POST['order_first']
+            order_second = request.POST['order_second']
             context['object_list'] = subtenants.filter(begin_request__gte=form.cleaned_data.get('begin'),
-                                                       end_request__lte=form.cleaned_data.get('end')).order_by(
-                'begin_request',
-                'end_request')
+                                                       end_request__lte=form.cleaned_data.get('end')).order_by(order_first, order_second)
 
     # if GET or form is not valid return whole list
     if request.method == 'GET' or not form.is_valid():

@@ -253,5 +253,13 @@ COUNTRIES = (
     ('SS', _('Südsudan')),
 )
 
-TYPES = (('HM', _('Hauptmieter')), ('UM', _('Untermieter')), ('SWS', _('Studierendenwerk Stuttgart')),
+TYPES = (('HM', _('Hauptmieter')),
+         ('UM', _('Untermieter')),
+         ('SWS', _('Studierendenwerk Stuttgart')),
          ('SS', _('Sprechstunde')),)
+
+REQUEST_ORDERING = (
+    ('begin_request', _('Begin aufsteigend')),
+    ('-begin_request', _('Begin absteigend')),
+    ('end_request', _('Ende aufsteigend')),
+    ('-end_request', _('Ende absteigend')))

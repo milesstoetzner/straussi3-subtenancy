@@ -1,5 +1,6 @@
-from django.forms import Form, ModelForm, DateInput, Select, Textarea, DateField
+from django.forms import Form, ModelForm, DateInput, Select, Textarea, DateField, ChoiceField
 from .models import User, MainTenant, SubTenant, Blacklist, Feedback
+from .utils import REQUEST_ORDERING
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
 
@@ -131,6 +132,8 @@ class RequestQueryForm(Form):
 
     begin = DateField(label=_('Beginn der Anfrage'), widget=DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'))
     end = DateField(label=_('Ende der Anfrage'), widget=DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'))
+    order_first = ChoiceField(label=_('Zunächst ordnen nach'), choices=REQUEST_ORDERING)
+    order_second = ChoiceField(label=_('Dann ordnen nach'), choices=REQUEST_ORDERING)
 
     def clean(self):
         cleaned_data = super().clean()

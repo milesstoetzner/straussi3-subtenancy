@@ -672,7 +672,7 @@
 
         <tr>
             <td>Staatsangehörigkeit</td>
-            <td> {{ sub.nationality }}</td>
+            <td> {{ sub.get_nationality_display }}</td>
         </tr>
 
         <tr>
@@ -707,7 +707,7 @@
         </tr>
         <tr>
             <td>Land</td>
-            <td> {{ sub.country }} </td>
+            <td> {{ sub.get_country_display }} </td>
         </tr>
 
         </tbody>

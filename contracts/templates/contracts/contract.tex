@@ -95,7 +95,7 @@ Ferienmieternummer & {{ contract.subtenant.pk }}\\
 E-Mail & {{ contract.subtenant.email }}\\
 Telefon & {{ contract.subtenant.get_room() }}\\
 Geburtstag&  {{ contract.subtenant.birthday|date("d.m.Y" ) }}\\
-Staatsangehörigkeit &  {{ contract.subtenant.nationality }}\\
+Staatsangehörigkeit &  {{ contract.subtenant.get_nationality_display() }}\\
 Lichtbildausweis o.Ä. & {{ contract.is_subtenant_identified|yesno("Kontrolliert, Nicht kontrolliert") }}\\
 Immatrikulationsbescheinigung o.Ä.&  {{ contract.is_subtenant_matriculated|yesno("Kontrolliert, Nicht kontrolliert") }}\\
 \end{tabularx}
@@ -106,7 +106,7 @@ Immatrikulationsbescheinigung o.Ä.&  {{ contract.is_subtenant_matriculated|yesn
 Name & {{ contract.subtenant.name }}\\
 Straße & {{ contract.subtenant.street }} {{ contract.subtenant.city }}\\
 PLZ, Ort & {{ contract.subtenant.postcode }}, {{ contract.subtenant.city }}\\
-Land & {{ contract.subtenant.country }}\\
+Land & {{ contract.subtenant.get_country_display() }}\\
 \end{tabularx}
 
 \newpage

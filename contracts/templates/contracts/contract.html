@@ -620,12 +620,6 @@
         </tr>
 
         <tr>
-            <td>Mietzeitraum</td>
-            <td> {{ main.begin_rent_agreement|date:"d.m.Y" }}
-                - {{ main.end_rent_agreement|date:"d.m.Y" }}</td>
-        </tr>
-
-        <tr>
             <td>Rückkehr</td>
             <td> {{ contract.is_maintenant_returning|yesno:"Ja, Nein" }}</td>
         </tr>

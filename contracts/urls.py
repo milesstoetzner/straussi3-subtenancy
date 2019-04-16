@@ -19,7 +19,7 @@ urlpatterns = [
 
     # sws
     path('sws', views.print_active_contracts, name='ContractsPrintActive'),
-    path('caretaker', views.print_active_contracts, name='ContractsPrintActive'),
+    path('caretaker', views.print_active_contracts, name='ContractsPrintActiveCaretaker'),
 
     # roster
     path('roster', views.view_roster, name='Roster'),

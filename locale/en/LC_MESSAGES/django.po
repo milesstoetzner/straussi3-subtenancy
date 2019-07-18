@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-13 21:26+0200\n"
+"POT-Creation-Date: 2019-07-18 13:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -169,7 +169,7 @@ msgstr "Tenant ID"
 #: .\tenants\models.py:87 .\tenants\models.py:88
 #: .\tenants\templates\subtenancy\base.html:88 .\tenants\utils.py:256
 msgid "Hauptmieter"
-msgstr "Maintenant"
+msgstr "Main Tenant"
 
 #: .\tenants\models.py:91
 msgid "Can contact subtenant"
@@ -326,7 +326,7 @@ msgstr "Update Request"
 #: .\tenants\templates\subtenancy\base.html:253
 #: .\tenants\templates\subtenancy\index.html:15
 msgid "Als Hauptmieter registrieren"
-msgstr "Register as Maintenant"
+msgstr "Register as Main Tenant"
 
 #: .\tenants\templates\subtenancy\base.html:256
 #: .\tenants\templates\subtenancy\index.html:18
@@ -378,7 +378,7 @@ msgstr "Subtenant Requests"
 
 #: .\tenants\templates\subtenancy\index.html:27
 msgid "Informationen für Hauptmieter"
-msgstr "Information for Maintenants"
+msgstr "Information for Main Tenants"
 
 #: .\tenants\templates\subtenancy\index.html:29
 msgid "Wie vermiete ich mein Zimmer unter?"
@@ -411,7 +411,7 @@ msgid ""
 "                "
 msgstr ""
 "\n"
-"Register <a href=\"%(url_register)s\" target=\"_blank\">as maintenant</a> "
+"Register <a href=\"%(url_register)s\" target=\"_blank\">as main tenant</a> "
 "and contact subtenants using the <a href=\"%(url_requests)s\" target=\"_blank"
 "\">requests</a>."
 
@@ -421,13 +421,19 @@ msgstr "What to consider?"
 
 #: .\tenants\templates\subtenancy\index.html:48
 msgid "Du musst dein Zimmer über das WoRe untervermieten."
-msgstr "You have to sublet your room using our service."
+msgstr "You have to sublet your room using our housing office."
 
 #: .\tenants\templates\subtenancy\index.html:49
+msgid ""
+"Du darfst dein Zimmer ausschließlich an immatrikulierte Studierende "
+"vermieten."
+msgstr "Please note that you are allowed to rent your room to enrolled students only."
+
+#: .\tenants\templates\subtenancy\index.html:50
 msgid "Die Summe aller Untermieten darf 3 Monaten nicht überschreiten."
 msgstr "The total amount of all subtenancies is maximum 3 months."
 
-#: .\tenants\templates\subtenancy\index.html:51
+#: .\tenants\templates\subtenancy\index.html:52
 msgid ""
 "Den Untermietvertrag kann nur unter Anwesenheit des Haupt- und Untermieters "
 "persönlich in der Sprechstunde abgeschlossen werden."
@@ -435,41 +441,41 @@ msgstr ""
 "The subtenancy contract can only be signed if and only if main- and "
 "subtenant are present."
 
-#: .\tenants\templates\subtenancy\index.html:53
+#: .\tenants\templates\subtenancy\index.html:54
 msgid ""
 "Es kann zusätzlich über uns ein Kautionsvertrag mit dem Untermieter "
 "abgeschlossen werden"
 msgstr "A rental deposit agreement can be contracted with the subtenant."
 
-#: .\tenants\templates\subtenancy\index.html:54
+#: .\tenants\templates\subtenancy\index.html:55
 msgid ""
 "Ein Vertrag muss spätestens 1 Woche vor Beginn der Untermiete abgeschlossen "
 "werden."
 msgstr "The contract has to be signed one week before the subtenancy starts."
 
-#: .\tenants\templates\subtenancy\index.html:57
-#: .\tenants\templates\subtenancy\index.html:93
+#: .\tenants\templates\subtenancy\index.html:58
+#: .\tenants\templates\subtenancy\index.html:94
 msgid "Welche Dokumente muss ich vorlegen?"
 msgstr "Which documents to provide?"
 
-#: .\tenants\templates\subtenancy\index.html:60
+#: .\tenants\templates\subtenancy\index.html:61
 msgid "Mietvertrag"
 msgstr "Rental agreement with the SWS"
 
-#: .\tenants\templates\subtenancy\index.html:61
-#: .\tenants\templates\subtenancy\index.html:96
+#: .\tenants\templates\subtenancy\index.html:62
+#: .\tenants\templates\subtenancy\index.html:97
 msgid "Personalausweis"
 msgstr "Identification card"
 
-#: .\tenants\templates\subtenancy\index.html:70
+#: .\tenants\templates\subtenancy\index.html:71
 msgid "Informationen für Untermieter"
 msgstr "Information for Subtenants"
 
-#: .\tenants\templates\subtenancy\index.html:72
+#: .\tenants\templates\subtenancy\index.html:73
 msgid "Darf ich ein Zimmer untermieten?"
 msgstr "May I rent a room?"
 
-#: .\tenants\templates\subtenancy\index.html:74
+#: .\tenants\templates\subtenancy\index.html:75
 msgid ""
 "Mietberechtigt ist, wer in Augen des SWS mietberechtigt ist (siehe <a "
 "href='https://www.studierendenwerk-stuttgart.de/fileadmin/"
@@ -484,11 +490,11 @@ msgstr ""
 "Mediendatenbank_Studierendenwerk/02_Wohnen_WOW/026_PDF/2017-08-16_WOW_Mietbedingungen_DE."
 "pdf' target='_blank'>Allgemeine Mietbedingungen</a>)."
 
-#: .\tenants\templates\subtenancy\index.html:76
+#: .\tenants\templates\subtenancy\index.html:77
 msgid "Wie finde ich ein Zimmer bzw. einen Hauptmieter?"
 msgstr "How to find a room?"
 
-#: .\tenants\templates\subtenancy\index.html:81
+#: .\tenants\templates\subtenancy\index.html:82
 #, python-format
 msgid ""
 "\n"
@@ -505,29 +511,29 @@ msgstr ""
 "\n"
 "Register <a href=\"%(url_register)s\" target=\"_blank\">as subtenant</a> to "
 "get listed in the <a href=\"%(url_requests)s\" target=\"_blank\">requests</"
-"a>. As a subtenant you can not search for a room or contact a maintenant. "
-"You have to wait until a maintenant contacts you via the request list."
+"a>. As a subtenant you can not search for a room or contact a main tenant. "
+"You have to wait until a main tenant contacts you via the request list."
 
-#: .\tenants\templates\subtenancy\index.html:89
+#: .\tenants\templates\subtenancy\index.html:90
 msgid "Miete, Gebühren, Freiwillige Spende?"
 msgstr "Rent, Fees, Donation?"
 
-#: .\tenants\templates\subtenancy\index.html:91
+#: .\tenants\templates\subtenancy\index.html:92
 msgid ""
 "Die Höhe der Miete entspricht der im Hauptmietvertrag des Hauptmieters "
 "festgelegten Höhe. Wir legen dir nahe, eine Spende von 2.50€ pro Woche an "
 "uns zu entrichten. Mit dieser Spende finanzieren wir uns und können diesen "
 "Dienst anbieten."
 msgstr ""
-"The rent corresponds to the rent assigned in the contract of the maintenant "
+"The rent corresponds to the rent assigned in the contract of the main tenant "
 "with the SWS. We suggest that you donate additionally about 2.50€ per week "
 "to us. We use this donation to provide this service."
 
-#: .\tenants\templates\subtenancy\index.html:97
+#: .\tenants\templates\subtenancy\index.html:98
 msgid "Studentenvisum oder Aufenthaltstitel"
 msgstr "Student visa or residence permit"
 
-#: .\tenants\templates\subtenancy\index.html:98
+#: .\tenants\templates\subtenancy\index.html:99
 msgid "Immatrikulationsnachweis"
 msgstr "Certificate of matriculation"
 
@@ -1664,7 +1670,7 @@ msgstr "Registration had been successful. You can now log into your Account."
 
 #: .\tenants\views.py:68
 msgid "Hauptmieter Registrierung"
-msgstr "Maintenant Registration"
+msgstr "Main Tenant Registration"
 
 #: .\tenants\views.py:68
 msgid "Untermieter Registrierung"
@@ -1679,8 +1685,8 @@ msgid ""
 "Als Untermieter kannst du nicht aktiv nach einem Zimmer suchen. Du musst "
 "warten, bis dich ein Hauptmieter über die Anfragenliste kontaktiert!"
 msgstr ""
-"As a subtenant you can not search for a room or contact a maintenant. You "
-"have to wait until a maintenant contacts you via the request list."
+"As a subtenant you can not search for a room or contact a main tenant. You "
+"have to wait until a main tenant contacts you via the request list."
 
 #: .\tenants\views.py:129 .\tenants\views.py:167
 msgid "Änderungen wurden erfolgreich übernommen!"
@@ -1729,7 +1735,7 @@ msgid ""
 "nützlich!"
 msgstr ""
 "This list does not offer rooms but searching for rooms! Therefore, this list "
-"is only useful for maintenants searching a subtenant!"
+"is only useful for main tenants searching a subtenant!"
 
 #: .\tenants\views.py:384
 msgid ""
@@ -1738,7 +1744,7 @@ msgid ""
 "ein Hauptmieter über diese Liste kontaktiert!"
 msgstr ""
 "Subtenants can not find rooms here. As a subtenant you can not search for a "
-"room or contact a maintenant. You have to wait until a maintenant contacts "
+"room or contact a main tenant. You have to wait until a main tenant contacts "
 "you via the request list."
 
 #: .\tenants\views.py:391

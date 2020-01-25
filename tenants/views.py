@@ -61,7 +61,7 @@ def create_tenant(request, is_maintenant):
             mail.content_subtype = "html"
             mail.send(fail_silently=True)
 
-            mail_admins(subject='ANALYSE create_tenant', message='Es gab eine Registrierung!', fail_silently=True)
+            # mail_admins(subject='ANALYSE create_tenant', message='Es gab eine Registrierung!', fail_silently=True)
 
             return redirect(reverse('login'))
 
@@ -331,7 +331,7 @@ def contact_subtenant(request, pk):
             mail.content_subtype = "html"
             mail.send()
 
-            mail_admins(subject='ANALYSE contact_subtenant', message='Es gab eine Kontaktaufnahme!', fail_silently=True)
+            # mail_admins(subject='ANALYSE contact_subtenant', message='Es gab eine Kontaktaufnahme!', fail_silently=True)
 
         except SMTPException as e:
             messages.error(request, _('Untermieter konnte nicht kontaktiert werden!'))

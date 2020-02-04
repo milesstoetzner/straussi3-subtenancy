@@ -732,6 +732,8 @@
         Gesamtuntervermietungsdauer von 3 Monaten nicht überschreitet. Die Mietzahlung erfolgt direkt an den
         Hauptmieter.</p>
 
+    <p class="skip text-red"><b>Die Miete wird weiterhin vom Hauptmieter an das Studierendenwerk Stuttgart
+        überwiesen.</b></p>
 
     <h2>Miete</h2>
 
@@ -893,65 +895,53 @@
 
     ------------------------------>
 
-    <h1>Checkliste Hauptmieter</h1>
+    <h1>Reinigungsanleitung für die Zimmerübergabe</h1>
 
-    <h2>Allgemein</h2>
-    <table>
-        <tbody>
+    <p class="block">
+        Die Möbel müssen mit einem gut feuchten gelben Schwammtuch, das in einen Eimer mit warmen Wasser und etwas Spülmittel darin getaucht wird, geputzt werden.
+        Das Schwammtuch wird aus dem Wasser genommen und das Wasser mit der Hand ausgepresst.
+        Damit müssen alle Möbel abgerieben werden.
+        Und danach sofort mit einem trockenem Tuch abgetrocknet werden.
+        Aufkleber und sonstige Klebereste müssen entfernt werden.
+        Die beweglichen Möbel müssen mit etwa 50cm Abstand von der Wand stehen bleiben, da auch von hinten gereinigt werden muss.
+        Der Nachmieter stellt dann die beweglichen Möbel nach seinen Vorstellungen zurück.</p>
 
-        <tr>
-            <td>Hauptmieter</td>
-            <td> {{ main.get_full_name }} </td>
-        </tr>
 
-        <tr>
-            <td>Untermieter</td>
-            <td> {{ sub.get_full_name }} </td>
-        </tr>
-
-        <tr>
-            <td>Zimmer</td>
-            <td> {{ contract.get_room }}</td>
-        </tr>
-
-        <tr>
-            <td>Begin</td>
-            <td> {{ contract.begin|date:"d.m.Y" }}</td>
-        </tr>
-
-        <tr>
-            <td>Ende</td>
-            <td> {{ contract.end|date:"d.m.Y" }}</td>
-        </tr>
-
-        <tr>
-            <td>Kaution zurück</td>
-            <td> {{ contract.is_maintenant_returning|yesno:"Nein, Ja" }}</td>
-        </tr>
-
-        </tbody>
-    </table>
-
-    <h2>Checkliste</h2>
+    <h2>Zimmer</h2>
 
     <ul style="padding-left: 5mm">
-        {% if not contract.is_maintenant_returning %}
-            <li class="text-red"><b>Bankdaten für die Rückzahlung der Kaution heraussuchen und Hausmeister geben</b>
-            </li>{% endif %}
-        <li>Fenster, Fensterrahmen gereinigt</li>
-        <li>Tür, Türrahmen gereinigt</li>
-        <li>Fußboden gereinigt</li>
-        <li>Inventar (Schränke etc.) gereinigt</li>
-        <li>Küche gereinigt</li>
-        <li>Essbereich gereinigt</li>
-        <li>Bad gereinigt</li>
-        <li>Toilette gereinigt</li>
-        <li>Flur gereinigt</li>
-        <li>Alle persönlichen Sachen entfernt</li>
+        <li>Kleiderschrank (Oben, Innen und Außen, und Hinten) reinigen. Bei dem Einbau-Kleiderschrank muss auch die obere Stauraumfläche gereinigt werden.</li>
+        <li>Hohes Standregal komplett reinigen.</li>
+        <li>Bettgestell und Bettkasten (auch darunter!) reinigen.</li>
+        <li>Die Matratze auf beiden Seiten absaugen und im Bett seitlich aufstellen, damit beide Seiten kontrolliert werden können.</li>
+        <li>Schreibtisch, sowie den kompletten Unterbau (auch von hinten!) reinigen.</li>
+        <li>Beachten Sie, dass auf, unter und hinter den Möbeln der Staub entfernt und gereinigt werden muss!</li>
+        <li>Fenster: den Flügelrahmen, den Blendrahmen und das Glas jeweils innen und außen reinigen. Zerrissene Fliegenschutzgitter sind zu entfernen. Den Wetterschenkel reinigen (Mettallschiene).</li>
+        <li>Fentserbank, Innen und Außen reinigen.</li>
+        <li>Eigene Zimmertüre beidseitig reinigen, sowie Aufkleber und Klebereste vollständig entfernen.</li>
+        <li>Boden erst fegen und dann nass wischen.</li>
+        <li>Die Lampe an der Decke feucht abwischen.</li>
+        <li>Alles was Ihnen gehört mitnehmen.</li>
+        <li>Die Fluchtwege (Flure und Treppenhäuser) nicht blockieren!</li>
     </ul>
 
-    <p class="skip text-red"><b>Die Miete wird weiterhin vom Hauptmieter an das Studierendenwerk Stuttgart
-        überwiesen.</b></p>
+    <h2>Gemeinschaftsräume und Küche</h2>
+
+    <ul style="padding-left: 5mm">
+        <li>Im Kühlschrank das eigene Fach reinigen.</li>
+        <li>Den eigenen Küchenschrank leerräumen und reinigen.</li>
+        <li>Alle persönlichen Sachen sind auch im Bad, Toilette, Küche, Essbereich und Abstellraum zu entfernen.</li>
+    </ul>
+
+    <h2>Reinigungskontrolle</h2>
+
+    <p class="block">
+    Nehmen Sie ein Taschentuch in die rechte Hand und halten Sie die linke Hand kurz unter den offenen Wasserhahn.
+    Drücken Sie das Taschentuch kurz auf die linke Hand und fahren Sie dann mit dem Taschentuch über die vermeimtlich gereinigte Fläche.
+    Ist das Taschentuch sauber, ist die Reinigung in Ordnung.
+    Wenn das Taschentuch nicht mehr weiß ist, muss noch einmal gereinigt werden!
+    </p>
+
 
     {% if contract.caution %}
 

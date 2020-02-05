@@ -182,7 +182,7 @@ def print_active_contracts(request):
     Displays a list of all contracts that are active and still running as PDF for the SWS
     """
     queryset = Contract.objects.filter(is_active=True, end__gte=datetime.datetime.now()) \
-        .order_by('house_number', 'room_number', 'begin', 'end')
+        .order_by('end')
 
     # template_name = 'contracts/contracts.tex'
     template_name = 'contracts/contracts.html'

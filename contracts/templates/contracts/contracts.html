@@ -144,17 +144,17 @@
 
     {% if contracts %}
 
-    <table>
+    <table style="width:100%">
 
         <tbody>
 
-        <tr>
+        <tr style="padding-bottom: 1rem">
             <th style="text-align: left">Hauptmieter</th>
             <th style="text-align: left">Untermieter</th>
-            <th style="text-align: left">Zimmer</th>
-            <th style="text-align: left">Beginn (KW)</th>
-            <th style="text-align: left">Ende (KW)</th>
-            <th style="text-align: left">Wiedereinzug</th>
+            <th style="text-align: left; width: 30mm">Zimmer</th>
+            <th style="text-align: left; width: 50mm">Beginn (KW)</th>
+            <th style="text-align: left; width: 50mm">Ende (KW)</th>
+            <th style="text-align: left; width: 20mm">Wiedereinzug</th>
         </tr>
 
         {% for contract in contracts %}

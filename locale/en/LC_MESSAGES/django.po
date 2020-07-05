@@ -1790,3 +1790,9 @@ msgstr "Thanks for your feedback!"
 
 #~ msgid "ID"
 #~ msgstr "ID"
+
+msgid "Falls du nach Ende der Untermiete nicht in dein Zimmer zurückkehrst, musst du mit dem Hausmeister einen Termin für die Zimmerabnahme ausmachen. Nachdem der Hausmeister dein Zimmer abgenommen hat, bekommst du von Ihm eine Bestätigung. Diese Bestätigung ist zwingend erforderlich für die Untermiete!"
+msgstr "If you are not coming back after the end of your sublet, you have to make an appointment with the janitor for room approval. He will sign you a paper that is required for the contract."
+
+msgid "Bestätigung der Zimmerabnahme vom Hausmeister (NUR falls du nach der Untermiete nicht zurückkehrst)"
+msgstr "Confirmation of room approval from the janitor (ONLY if you are not coming back after the sublet)"

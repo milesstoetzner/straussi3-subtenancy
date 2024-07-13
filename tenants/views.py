@@ -404,32 +404,3 @@ def query_requests(request):
     context['form'] = form
 
     return render(request, 'tenants/requests.html', context)
-
-
-@csrf_protect
-@require_http_methods(['GET', 'POST'])
-def create_feedback(request):
-    """
-    User sends feedback that is stored in the database and send as Email to the admins.
-    """
-
-    context = {}
-
-    if request.method == 'GET':
-        form = FeedbackForm()
-        context['get'] = True
-    else:
-        form = FeedbackForm(request.POST)
-        if form.is_valid():
-            feedback = form.save()
-            content = get_template('tenants/feedback_email.html').render({'feedback': feedback})
-            mail_admins(subject='Ferienmiete Straußäcker 3 Neues Feedback', message=content, fail_silently=True,
-                        html_message=content)
-
-            messages.success(request, _('Danke für dein Feedback!'))
-            return redirect('Index')
-
-    context['title'] = _('Feedback senden')
-    context['form'] = form
-
-    return render(request, 'tenants/feedback.html', context)

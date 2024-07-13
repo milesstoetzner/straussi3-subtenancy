@@ -115,40 +115,37 @@ def legal_notice(request):
 
 def handler400(request, exception=None):
     messages.error(request, _('Es tut uns Leid, aber deine Anfrage konnte nicht verarbeitet werden!'))
-    return redirect_to_feedback(request, 400)
+    return redirect_to_error(request, 400)
 
 
 def handler403(request, exception=None):
     messages.error(request, _('Es tut uns Leid, aber auf diese Seite hast du keinen Zugriff!'))
-    return redirect_to_feedback(request, 403)
+    return redirect_to_error(request, 403)
 
 
 def handler404(request, exception=None):
     messages.error(request, _('Es tut uns Leid, aber die angefragte URL %(path)s wurde nicht gefunden!') % {
         'path': str(request.path)})
-    return redirect_to_feedback(request, 404)
+    return redirect_to_error(request, 404)
 
 
 def handler500(request, exception=None):
     messages.error(request, _('Es tut uns Leid, aber ein unerwarteter Fehler ist aufgetreten!'))
-    return redirect_to_feedback(request, 500)
+    return redirect_to_error(request, 500)
 
 
 def handlerCSRF(request, reason=""):
     messages.error(request, _('Es tut uns Leid, aber die CSRF Überprüfung ist fehlgeschlagen!'))
-    return redirect_to_feedback(request, 403)
+    return redirect_to_error(request, 403)
 
 
-def redirect_to_feedback(request, status):
+def redirect_to_error(request, status):
     """
-    Render for each error the feedback page.
+    Render for each error the error page.
     """
-
-    form = FeedbackForm()
 
     context = {}
     context['get'] = True
-    context['title'] = _('Feedback senden')
-    context['form'] = form
+    context['title'] = _('Error')
 
-    return render(request, 'tenants/feedback.html', status=status, context=context)
+    return render(request, 'tenants/error.html', status=status, context=context)

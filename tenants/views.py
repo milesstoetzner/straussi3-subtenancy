@@ -373,10 +373,16 @@ def query_requests(request):
     context = {}
     subtenants = SubTenant.objects.filter(user__is_active=True, is_searching=True)
 
-    default = {
-        'begin': subtenants.earliest('begin_request').begin_request,
-        'end': subtenants.latest('end_request').end_request
-    }
+    if subtenants:
+        default = {
+            'begin': subtenants.earliest('begin_request').begin_request,
+            'end': subtenants.latest('end_request').end_request
+        }
+    else:
+        default = {
+            'begin': datetime.datetime.now(),
+            'end': datetime.datetime.now(),
+        }
 
     if request.method == 'GET':
         if not request.user.is_anonymous and request.user.is_subtenant():

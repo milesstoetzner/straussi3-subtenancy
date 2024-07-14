@@ -63,6 +63,9 @@ class MainTenant(User):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     tenant_id = models.PositiveIntegerField(_('Mieternummer'), unique=True)
 
+    # Data processing
+    accepted_data_processing = models.BooleanField(_('Ich stimme der Datenverarbeitung zu'), default=False)
+
     def get_amount_of_days(self, exclude=None):
         """
         Returns the amount of days a maintenant has subleased his room.
@@ -116,6 +119,9 @@ class SubTenant(User):
     postcode = models.CharField(_('Postleitzahl'), max_length=50)
     city = models.CharField(_('Ort'), max_length=250)
     country = models.CharField(_('Land'), choices=COUNTRIES, max_length=2)
+
+    # Data processing
+    accepted_data_processing = models.BooleanField(_('Ich stimme der Datenverarbeitung zu'), default=False)
 
     def __str__(self):
         return '[' + str(self.pk) + '] ' + self.first_name + ' ' + self.last_name + ' (' + self.birthday.strftime('%d.%m.%Y') + ')'

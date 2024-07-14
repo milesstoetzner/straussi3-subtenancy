@@ -23,6 +23,7 @@ class UserUpdateForm(ModelForm):
 def clean_tenant(self, cleaned_data):
     first_name = cleaned_data.get('first_name')
     last_name = cleaned_data.get('last_name')
+    accepted_data_processing = cleaned_data.get('accepted_data_processing')
 
     # check blacklist
     if first_name and last_name:
@@ -31,10 +32,14 @@ def clean_tenant(self, cleaned_data):
             self.add_error('first_name', _('Dein Name steht auf der schwarzen Liste!'))
             self.add_error('last_name', _('Dein Name steht auf der schwarzen Liste!'))
 
+    # accepted_data_processing is true
+    if not accepted_data_processing:
+        self.add_error('accepted_data_processing', _('Du musst der Datenverarbeitung zustimmen.'))
+
 
 class MainTenantCreateForm(UserCreationForm):
     """
-    Creates an maintenant with additional validation.
+    Creates a maintenant with additional validation.
     """
 
     def clean(self):
@@ -44,9 +49,10 @@ class MainTenantCreateForm(UserCreationForm):
     class Meta:
         model = MainTenant
         fields = ['username', 'first_name', 'last_name', 'password1', 'password2', 'email', 'birthday', 'phone_number',
-                  'tenant_id']
+                  'tenant_id', 'accepted_data_processing']
         widgets = {
             'birthday': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'accepted_data_processing': Select(choices=BOOLEAN_CHOICES)
         }
 
 
@@ -66,11 +72,16 @@ class MainTenantUpdateForm(ModelForm):
 def clean_subtenant(self, cleaned_data):
     begin_request = cleaned_data.get('begin_request')
     end_request = cleaned_data.get('end_request')
+    accepted_data_processing = cleaned_data.get('accepted_data_processing')
 
     # begin_request < end_request
     if begin_request and end_request:
         if begin_request >= end_request:
             self.add_error('end_request', _('Das Ende der angefragten Untermiete muss nach dem Beginn sein!'))
+
+    # accepted_data_processing is true
+    if not accepted_data_processing:
+        self.add_error('accepted_data_processing', _('Du musst der Datenverarbeitung zustimmen.'))
 
 
 class SubTenantCreateForm(UserCreationForm):
@@ -86,11 +97,12 @@ class SubTenantCreateForm(UserCreationForm):
         model = SubTenant
         fields = ['username', 'first_name', 'last_name', 'password1', 'password2', 'email', 'birthday', 'phone_number',
                   'nationality', 'begin_request', 'end_request', 'is_searching',
-                  'name', 'street', 'house_number', 'postcode', 'city', 'country']
+                  'name', 'street', 'house_number', 'postcode', 'city', 'country', 'accepted_data_processing']
         help_texts = {
             'is_searching': _(
                 'Wenn dieser Wert auf "Nein" gesetzt ist, taucht deine Anfrage mit dem oben genannten Zeitraum NICHT in der Anfragenliste auf. Sobald ein Vertrag abgeschlossen wird, wird dieser Wert automatisch auf "Nein" gesetzt. Das beudetet: Wenn deine Anfrage mit dem oben angegebenen Zeitraum in die Anfragenliste wieder aufgenommen werden soll, muss dieser Wert "Ja" lauten.'),
-            'name': _('Vollständiger Name für die Korrespondenzadresse')
+            'name': _('Vollständiger Name für die Korrespondenzadresse'),
+            'accepted_data_processing': _('Mehr Informationen unter https://untermiete.straussi3.de/impressum'),
         }
         widgets = {
             'is_eu': Select(choices=BOOLEAN_CHOICES),
@@ -98,6 +110,7 @@ class SubTenantCreateForm(UserCreationForm):
             'end_request': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'is_searching': Select(choices=BOOLEAN_CHOICES),
             'birthday': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'accepted_data_processing': Select(choices=BOOLEAN_CHOICES)
         }
 
 

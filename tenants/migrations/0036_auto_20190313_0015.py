@@ -27,7 +27,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='residentialhome',
             name='id',
-            field=models.IntegerField(default=1, primary_key=True, serialize=False, unique=True),
+            # FIX: used to be a primary key?! its deleted later anyhow
+            field=models.IntegerField(default=1, serialize=False, unique=True),
             preserve_default=False,
         ),
         migrations.AlterField(

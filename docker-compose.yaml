@@ -2,7 +2,7 @@ version: "3"
 
 services:
   untermiete:
-      image: python:3.7
+      image: python:3.5
       command: bash -c /app/docker-entrypoint.sh
       restart: always
       volumes:

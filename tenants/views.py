@@ -367,7 +367,7 @@ def blacklist(request):
 @require_http_methods(['GET', 'POST'])
 def query_requests(request):
     """
-    Maintennat querys requests
+    Maintenant querys requests
     """
 
     context = {}

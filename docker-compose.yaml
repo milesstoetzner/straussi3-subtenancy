@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  untermiete:
+      image: python:3.7
+      command: bash -c /app/docker-entrypoint.sh
+      restart: always
+      volumes:
+        - ./:/app
+      ports:
+        - "8000:8000"
+
+  database:
+      image: postgres
+      environment:
+          POSTGRES_USER: default
+          POSTGRES_PASSWORD: default
+          POSTGRES_DB: subtenancy

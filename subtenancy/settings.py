@@ -87,7 +87,7 @@ DATABASES = {
         'NAME': 'subtenancy',
         'USER': DB_USER,
         'PASSWORD': DB_PASSWORD,
-        'HOST': 'localhost',
+        'HOST': DB_HOST,
         'PORT': '',
     }
 }

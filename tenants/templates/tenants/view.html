@@ -1,0 +1,100 @@
+{% extends "subtenancy/base.html" %}
+
+{% load custom_extras %}
+{% load i18n %}
+
+{% block content %}
+
+
+    <div class="card">
+        <div class="card-body">
+
+            <h5 class="card-title">{{ title }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ tenant.get_type_display }} </h6>
+
+            <fieldset disabled>
+
+                {% bootstrap tenant_form True %}
+
+            </fieldset>
+
+            {% if tenant.is_maintenant or tenant.is_subtenant %}
+
+                {% if user.id == tenant.id %}
+                    <a href="{% url 'ProfileUpdate' %}"
+                       class="btn btn-success btn-block"><i class="fas fa-wrench icon-text"></i>{% trans "Informationen aktualisieren" %}</a>
+
+                    {% if tenant.is_subtenant %}
+                        <a href="{% url 'RequestUpdate' %}"
+                           class="btn btn-success btn-block"><i class="fas fa-file-alt icon-text"></i>{% trans "Anfrage aktualisieren" %}</a>
+                    {% endif %}
+
+                    {% if tenant.id == user.id %}
+                        <a href="{% url 'password_change' %}"
+                           class="btn btn-success btn-block"><i class="fas fa-key icon-text"></i>{% trans "Passwort ändern" %}</a>
+                    {% endif %}
+
+                {% endif %}
+
+                {% if user.is_assistant %}
+
+                    <a href="{% url 'tenants:TenantUpdate' tenant.id %}"
+                       class="btn btn-success btn-block"><i class="fas fa-wrench icon-text"></i>{% trans "Informationen aktualisieren" %}</a>
+
+                {% endif %}
+
+
+            {% endif %}
+
+
+        </div>
+
+    </div>
+
+    {# Show contracts only if the logged in user is an assistant and this pages shows a tenant  #}
+    {% if user.is_assistant and tenant.is_maintenant or user.is_assistant and tenant.is_subtenant %}
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{% trans "Verträge" %}</h5>
+
+
+                {% if tenant.is_maintenant %}
+
+                    {% for contract in tenant.maintenant.contract_set.all %}
+
+                        <td class="align-middle"><a href="{% url 'contracts:ContractView' contract.pk %}"
+                                                    class="btn btn-info btn-block"><i
+                                class="fas fa-file icon-text"></i>{{ contract }}</a></td>
+
+                    {% empty %}
+                        <div class="alert bg-info text-white text-center" role="alert">
+                            {% trans "Keine Verträge vorhanden" %}
+                        </div>
+                    {% endfor %}
+
+                {% else %}
+
+                    {% for contract in tenant.subtenant.contract_set.all %}
+
+                        <td class="align-middle"><a href="{% url 'contracts:ContractView' contract.pk %}"
+                                                    class="btn btn-info btn-block"><i
+                                class="fas fa-file icon-text"></i>{{ contract }}</a></td>
+
+                    {% empty %}
+
+                        <div class="alert bg-info rounded-container text-white text-center" role="alert">
+                            {% trans "Keine Verträge vorhanden" %}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+
+            </div>
+        </div>
+
+    {% endif %}
+
+{% endblock %}

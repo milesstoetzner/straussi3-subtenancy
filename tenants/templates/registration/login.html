@@ -1,0 +1,45 @@
+{% extends "subtenancy/base.html" %}
+
+{% load custom_extras %}
+{% load i18n %}
+
+{% block content %}
+
+    <form method="post" novalidate>
+
+        {% csrf_token %}
+
+        <div class="card" style="max-width: 380px; margin: auto">
+            <div class="card-body">
+                <h5 class="card-title">{% trans "Einloggen" %}</h5>
+
+                {% if form.errors %}
+                    <div class="alert bg-danger text-white text-center" role="alert">{% trans "Falscher Nutzername und/ oder Passwort!" %}
+                    </div>
+                {% endif %}
+
+                {% if next %}
+                    <div class="alert bg-danger text-white text-center" role="alert">
+                        {% if user.is_authenticated %}
+                            {% trans "Du hast leider nicht die benötigten Rechte, um diese Seite zu sehen. Bitte logge dich mit einem Account ein, der diese Rechte besitzt." %}
+                        {% else %}
+                            {% trans "Du musst dich einloggen, um diese Seite zu sehen." %}
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                    {% bootstrap form True %}
+
+                    <button class="btn btn-block btn-success" style="margin-top: 1rem"><i class="fas fa-heart icon-text"></i>{% trans "Einloggen" %}</button>
+                    <input type="hidden" name="next" value="{{ next }}">
+
+
+                <small><a href="{% url 'password_reset' %}">{% trans "Passwort vergessen?" %}</a></small>
+
+            </div>
+
+        </div>
+
+    </form>
+
+{% endblock %}

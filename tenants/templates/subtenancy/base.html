@@ -1,0 +1,410 @@
+{% load custom_extras %}
+{% load staticfiles %}
+{% load i18n %}
+
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% if view.title %}{{ view.title }}{% else %}{{ title }}{% endif %}</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'subtenancy/fontawesome/css/all.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'subtenancy/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'subtenancy/favicon.ico' %}">
+</head>
+<body>
+
+<header style="text-align: center;">
+
+    {% if user.is_authenticated %}
+
+        <div class="bg-grey d-none d-md-block" style="font-size: 12px; color: #495057">
+
+            {% trans "Eingeloggt als" %} {{ user.get_full_name }}.
+
+        </div>
+
+    {% endif %}
+
+    {% if user.is_authenticated and user.is_assistant %}
+
+        <a href="/" style="color:#212529">
+            <h5 class="d-none d-md-block"
+                style="text-align: center; padding-top: 1rem; margin-bottom: 1rem; color:#212529">{% trans "Ferienmiete" %}
+                Straußäcker 3
+            </h5>
+        </a>
+
+    {% else %}
+
+        <div class="d-none d-md-block" style="padding-top: 1rem; margin-bottom: 1.5rem;">
+            <a href="/"><img src="{% static 'subtenancy/logo.svg' %}"
+                             style="width: 60px; margin: 1rem 0 1rem 0"></a>
+
+            <a href="/" style="color:#212529"><h5>{% trans "Ferienmiete" %}<br>Straußäcker 3</h5></a>
+
+        </div>
+
+
+    {% endif %}
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary">
+
+        <a class="navbar-brand d-block d-md-none btn" href="/" style="font-size: 1rem">{% trans "Ferienmiete" %}
+            Straußäcker 3</a>
+
+        <button class="d-block d-md-none btn btn-primary" type="button" data-toggle="collapse"
+                data-target="#navbarTenant, #navbarAssistant, #navbarExternal"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-center" id="navbarTenant">
+            <div class="navbar-nav">
+
+                {% if user.is_authenticated %}
+                    <a class="btn btn-primary disabled d-block d-md-none text-white">{% trans "Eingeloggt als" %} {{ user.get_full_name }}.</a>
+
+                    <a class="btn btn-primary" href="{% url 'Profile' %}" id="{% url 'Profile' %}"><i
+                            class="fas fa-user icon-text"></i>{{ user.first_name }}</a>
+
+                {% else %}
+                    <a class="btn btn-primary " href="{% url 'login' %}" id="{% url 'login' %}"><i
+                            class="fas fa-heart icon-text"></i>{% trans "Einloggen" %}</a>
+                {% endif %}
+
+                <a class="btn btn-primary" href="{% url 'Index' %}" id="{% url 'Index' %}"><i
+                        class="fas fa-question icon-text"></i>FAQ</a>
+
+                {% if not user.is_maintenant and not user.is_subtenant %}
+
+
+                    <a class="btn btn-primary" href="{% url 'MainTenantCreate' %}" id="{% url 'MainTenantCreate' %}"><i
+                            class="fas fa-user-edit icon-text"></i>{% trans "Hauptmieter" %}</a>
+
+                    <a class="btn btn-primary" href="{% url 'SubTenantCreate' %}" id="{% url 'SubTenantCreate' %}"><i
+                            class="fas fa-user-edit icon-text"></i>{% trans "Untermieter" %}</a>
+
+                {% endif %}
+
+                <a class="btn btn-primary" href="{% url 'Requests' %}" id="{% url 'Requests' %}"><i
+                        class="fas fa-file-alt icon-text"></i>{% trans "Anfragen" %}</a>
+
+                {% get_current_language as LANGUAGE_CODE %}
+                {% get_language_info for LANGUAGE_CODE as lang %}
+                {% get_available_languages as LANGUAGES %}
+                {% get_language_info_list for LANGUAGES as languages %}
+
+                <div class="dropdown">
+                    <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown">
+                        <i class="fas fa-globe-europe icon-text"></i>{{ lang.name_local }} ({{ LANGUAGE_CODE }})
+                    </button>
+                    <div class="dropdown-menu rounded-container" aria-labelledby="dropdownMenuButton">
+                        <form action="{% url 'set_language' %}" method="post">
+                            {% csrf_token %}
+                            {% for language in languages %}
+                                <button class="btn dropdown-item" name="language"
+                                        value="{{ language.code }}">{{ language.name_local }} ({{ language.code }})
+                                </button>
+                            {% endfor %}
+                        </form>
+
+
+                    </div>
+                </div>
+
+                {% if user.is_authenticated %}
+
+                    <form action="{% url 'logout' %}" method="POST" id="logout_form">
+                        {% csrf_token %}
+                        <button class="btn btn-primary btn-block"><i
+                                class="fas fa-heart-broken icon-text"></i>{% trans "Ausloggen" %}
+                        </button>
+                    </form>
+
+                {% endif %}
+
+            </div>
+        </div>
+    </nav>
+
+    {% if user.is_authenticated and user.is_assistant %}
+
+        <nav class="navbar navbar-expand-md navbar-dark bg-orange">
+            <div class="collapse navbar-collapse justify-content-center" id="navbarAssistant">
+                <div class="navbar-nav">
+
+
+                    <a class="btn btn-orange" href="{% url 'contracts:ContractCreate' %}"
+                       id="{% url 'contracts:ContractCreate' %}"><i
+                            class="fas fa-file-signature icon-text"></i>Vertrag erstellen</a>
+
+                    <li class="nav-item dropdown">
+
+                        <input class="form-control" type="search" placeholder="Suchen" aria-label="Search"
+                               id="searchInput"
+                               data-toggle="tooltip" data-placement="bootom"
+                               title="Es kann nach folgenden Daten gesucht werden: Geburtstag (dd.mm.yyyy), Vorname, Nachname, ID, Mieternummer, Vertragsbegin (dd.mm.yyyy), Vertragsende (dd.mm.yyyy)">
+                        <div id="searchResult">
+
+                        </div>
+
+                    </li>
+
+                    <a class="btn btn-orange" href="{% url 'contracts:ContractsPrintActive' %}"
+                       id="{% url 'contracts:ContractsPrintActive' %}" target="_blank"><i
+                            class="fas fa-file-export icon-text"></i>Aktive Verträge</a>
+
+                    <a class="btn btn-orange" href="{% url 'tenants:Blacklist' %}"
+                       id="{% url 'tenants:Blacklist' %}"><i
+                            class="fas fa-exclamation-triangle icon-text"></i>Schwarze Liste</a>
+
+                    <a class="btn btn-orange" href="{% url 'contracts:ContractHelp' %}"
+                       id="{% url 'contracts:ContractHelp' %}"><i
+                            class="fas fa-ambulance icon-text"></i>Hilfe</a>
+
+                    <a class="btn btn-orange" href="{% url 'contracts:Roster' %}"
+                       id="{% url 'contracts:Roster' %}"><i
+                            class="fas fa-clock icon-text"></i>Dienstplan</a>
+
+                </div>
+            </div>
+        </nav>
+
+    {% endif %}
+
+    {% if user.is_authenticated and user.is_sws %}
+
+        <nav class="navbar navbar-expand-md navbar-dark bg-orange">
+            <div class="collapse navbar-collapse justify-content-center" id="navbarAssistant">
+                <div class="navbar-nav">
+
+                    <a class="btn btn-orange" href="{% url 'contracts:ContractsPrintActive' %}"
+                       id="{% url 'contracts:ContractsPrintActive' %}" target="_blank"><i
+                            class="fas fa-file-export icon-text"></i>Aktive Verträge</a>
+
+                </div>
+            </div>
+        </nav>
+
+    {% endif %}
+
+</header>
+
+<main class="container-fluid" style="padding-bottom: 3rem; max-width:
+        {% if view.max_width or max_width %}{{ view.max_width }}{{ max_width }}{% else %}600px{% endif %};"
+      id="custom-container">
+
+    {% if messages %}
+        {% for message in messages %}
+
+            <div style="margin-top: 1rem">
+
+                <div class="alert adjust-alert bg-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}
+            text-white text-center">
+                    {{ message }}
+                </div>
+
+            </div>
+
+        {% endfor %}
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+
+</main>
+
+
+<footer class="bg-grey text-center">
+    <div class="container-fluid" style="padding-top: 3rem; max-width:
+            {% if view.max_width or max_width %}{{ view.max_width }}{{ max_width }}{% else %}600px{% endif %}">
+        <div class="card">
+            <div class="card-body bg-grey">
+
+                <div class="row">
+                    <div class="col-12 col-md">
+                        <h6>{% trans "Benutzerkonto" %}</h6>
+                        <ul class="list-unstyled">
+                            <li><a class="text-muted" href="{% url 'Profile' %}">{% trans "Profil" %}</a></li>
+                            <li><a class="text-muted" href="{% url 'login' %}">{% trans "Einloggen" %}</a></li>
+                            <li><a class="text-muted"
+                                   href="{% url 'password_reset' %}">{% trans "Passwort vergessen" %}</a></li>
+                            <li><a class="text-muted"
+                                   href="{% url 'password_change' %}">{% trans "Passwort ändern" %}</a></li>
+                            <li><a class="text-muted"
+                                   href="{% url 'ProfileUpdate' %}">{% trans "Profil aktualisieren" %}</a></li>
+                            <li><a class="text-muted"
+                                   href="{% url 'RequestUpdate' %}">{% trans "Anfrage aktualisieren" %}</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-12 col-md">
+                        <h6>{% trans "Ferienmiete" %}</h6>
+                        <ul class="list-unstyled">
+                            <li><a class="text-muted"
+                                   href="{% url 'Index' %}">FAQ</a></li>
+                            <li><a class="text-muted"
+                                   href="{% url 'MainTenantCreate' %}">{% trans "Als Hauptmieter registrieren" %}</a>
+                            </li>
+                            <li><a class="text-muted"
+                                   href="{% url 'SubTenantCreate' %}">{% trans "Als Untermieter registrieren" %}</a>
+                            </li>
+                            <li><a class="text-muted" href="{% url 'Requests' %}">{% trans "Anfragenliste" %}</a>
+                            </li>
+                            <li><a class="text-muted"
+                                   href="{% url 'RequestUpdate' %}">{% trans "Anfrage aktualisieren" %}</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-12 col-md">
+                        <h6>{% trans "Über uns" %}</h6>
+                        <ul class="list-unstyled">
+                            <li><a class="text-muted" href="https://str3.wh-stuttgart.net/">{% trans "Homepage" %}</a>
+                            </li>
+                            <li><a class="text-muted"
+                                   href="https://www.facebook.com/straussi3">{% trans "Facebook Seite" %}</a>
+                            </li>
+                            <li><a class="text-muted"
+                                   href="https://www.facebook.com/groups/straussi3">{% trans "Facebook Gruppe" %}</a>
+                            </li>
+                            <li><a class="text-muted" href="{% url 'Impressum' %}">{% trans "Impressum" %}</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <button class="btn bg-transparent btn-block" style="color: #eaeaea; height: 2rem" onclick=dab()></button>
+
+</footer>
+
+{% include 'subtenancy/unicorn.html' %}
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+
+<script>
+    "use strict";
+
+    ///////////////////////////////////////////////////////////////////////////
+    // show footer at the bottom of the page if there is not enough content
+    $(function () {
+
+        const main = $("main");
+
+        const windowHeight = $(window).height();
+        const mainHeight = main.height();
+        const headerHeight = $("header").height();
+        const footHeight = $("footer").height();
+
+        if (mainHeight < (windowHeight - footHeight)) {
+            main.css("min-height", windowHeight - headerHeight - footHeight);
+        }
+    });
+
+    ///////////////////////////////////////////////////////////////////////////
+    // displaying active link in the navigation
+    let active = document.getElementById(window.location.pathname);
+    if (active) {
+        active.classList.add('active');
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // for dabbing reasons
+    const prob = Math.random();
+    if (prob < 0.001) {
+        dab();
+    }
+
+    function dab() {
+        document.getElementById('unicorn').click();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // search function
+
+    // ajax calls need cookie for csrf protection
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            let cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    let csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+    const searchResult = document.getElementById('searchResult');
+
+    // search function
+    $('#searchInput').keyup(function () {
+
+
+        $.ajax({
+            url: '{% url 'contracts:Search' %}',
+            type: 'POST',
+            data: {
+                query: document.getElementById('searchInput').value
+            },
+            error: function (req, status, error) {
+                alert('Ein Fehler ist während der Suche aufgetreten: ' + error);
+            },
+            success: function (data, status) {
+                searchResult.innerHTML = data;
+            }
+        });
+
+    });
+
+    // hide search result if mouse clicks outside
+    $(document).mouseup(function (e) {
+        const containerResult = $("#searchResult");
+        const containerInput = $("#searchInput");
+
+        // if the target of the click isn't the container nor a descendant of the container or the search input field
+        if (!containerResult.is(e.target) && containerResult.has(e.target).length === 0 && !containerInput.is(e.target)) {
+            if (searchResult) {
+                searchResult.innerHTML = "";
+            }
+        }
+    });
+
+</script>
+
+</body>
+</html>

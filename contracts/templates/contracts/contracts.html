@@ -1,0 +1,192 @@
+{% load custom_extras %}
+{% load static %}
+
+<html>
+<head>
+    <style>
+
+        /*
+
+        HAVE FUN DEBUGGING THIS
+
+        since xhtml2pdf is very limited and css does not support inheritance every type of signature got its own page template
+
+         */
+
+        @page {
+            size: A4;
+            @frame header_frame_left { /* Static Frame */
+            -pdf-frame-content: header_content_left;
+            left: 25mm;
+            width: 100pt;
+            top: 25mm;
+            height: 60pt;
+        }
+
+        @frame header_frame_right {
+            /* Static Frame */
+        -pdf-frame-content:header_content_right;
+        right: 25mm;
+        width: 135pt;
+        top: 25mm;
+        height: 100pt;
+        }
+
+        @frame logo {
+        -pdf-frame-content:logo;
+        left: 120mm;
+        top: 24mm;
+
+        }
+
+        @frame content_frame {
+            /* Content Frame */
+        left 25mm;
+        width: 160mm;
+        top: 60mm;
+        height: 210mm;
+            /*-pdf-frame-border: 1;*/
+
+
+        }
+
+        @frame footer_frame {
+            /* Another static Frame */
+        -pdf-frame-content:footer_content;
+        right: 25mm; width: 156mm; bottom: 15mm; height: 20pt;
+        }
+        }
+
+
+        body {
+            font-size: 12px;
+        }
+
+        h1 {
+            font-size: 14px;
+        }
+
+        h2 {
+            font-size: 12px;
+            margin-top: 5mm;
+            margin-bottom: 0;
+        }
+
+        .block {
+            text-align: justify;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .signature {
+            padding-top: 3px;
+            border-top: 1px solid black;
+            border-right: 10px solid white;
+            border-left: 10px solid white;
+        }
+
+        .pagebreak {
+            page-break-before: always;
+        }
+
+        .skip {
+            padding-top: 5mm;
+        }
+
+        .text-red {
+            color: red;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .italic {
+            font-style: italic;
+        }
+
+        .data {
+            background-color: #f1f3f4;
+        }
+
+    </style>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+
+</head>
+
+<body>
+{% with main=contract.maintenant sub=contract.subtenant %}
+
+
+    <!-- Content for Static Frame 'header_frame' -->
+
+    <img src="/static/subtenancy/logo_str3.png" width="20mm" height="20mm" id="logo">
+
+    <div id="header_content_right">
+        <p>
+            Wohnheimsreferat Straußäcker 3<br>
+            Allmandring 3D<br>
+            wore.str3@gmail.com<br>
+            https://str3.wh-stuttgart.net<br>
+            Sprechstunde Di. 19.00 - 20.00
+        </p>
+    </div>
+
+
+    <h1>Aktuelle Ferienmiete - {% now "d.m.Y" %}</h1>
+
+    <p>Eine maschinell erstellte Liste der aktuell laufenden Untermietverträge des Wohnheims Straußäcker 3.</p>
+
+    {% if contracts %}
+
+    <table style="width:100%">
+
+        <tbody>
+
+        <tr style="padding-bottom: 1rem">
+            <th style="text-align: left">Hauptmieter</th>
+            <th style="text-align: left">Untermieter</th>
+            <th style="text-align: left; width: 30mm">Zimmer</th>
+            <th style="text-align: left; width: 50mm">Beginn (KW)</th>
+            <th style="text-align: left; width: 50mm">Ende (KW)</th>
+            <th style="text-align: left; width: 20mm">Wiedereinzug</th>
+        </tr>
+
+        {% for contract in contracts %}
+
+            <tr>
+                <td> {{ contract.maintenant.get_full_name }}</td>
+                <td> {{ contract.subtenant.get_full_name }}</td>
+                <td> {{ contract.get_room }}</td>
+                <td> {{ contract.begin|date:"d.m.Y" }} ({{ contract.begin|date:"W" }})</td>
+                <td> {{ contract.end|date:"d.m.Y" }} ({{ contract.end|date:"W" }})</td>
+                <td> {{ contract.is_maintenant_returning|yesno:"Ja, Nein" }}</td>
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+    {% else %}
+
+        <p>Aktuell gibt es keine aktiven Untermietverträge.</p>
+
+    {% endif %}
+
+    <!-- Content for Static Frame 'footer_frame' -->
+    <div id="footer_content" style="text-align: right">Seite
+        <pdfpagenumber>
+            von
+            <pdfpagecount>
+    </div>
+
+{% endwith %}
+
+</body>
+</html>

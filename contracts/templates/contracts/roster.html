@@ -1,0 +1,47 @@
+{% extends "subtenancy/base.html" %}
+
+{% block content %}
+
+    {% if roster_personal %}
+
+        <div class="card">
+        <div class="card-body">
+
+            <h5 class="card-title">Persönlicher {{ title }}</h5>
+
+            {% for entry in roster_personal %}
+
+                <div class="alert rounded-container bg-grey text-center">
+                    {{ entry }}
+                </div>
+
+            {% endfor %}
+
+
+        </div>
+
+    {% endif %}
+
+
+{% if roster %}
+
+
+    <div class="card">
+    <div class="card-body">
+
+        <h5 class="card-title">Gesamter {{ title }}</h5>
+
+        {% for entry in roster %}
+
+            <div class="alert rounded-container bg-grey text-center">
+                {{ entry }}
+            </div>
+
+        {% endfor %}
+
+
+    </div>
+
+{% endif %}
+
+{% endblock %}

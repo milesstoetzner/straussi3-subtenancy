@@ -1,0 +1,67 @@
+{% extends "subtenancy/base.html" %}
+
+{% load custom_extras %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+
+    <div class="card">
+        <div class="card-body">
+
+            <h5 class="card-title">{{ title }}</h5>
+
+            <p class="card-text text-block">{% trans "Wenn du dich als Hauptmieter für eine unten aufgelistete Anfrage eines Untermieters interessierst, dann kannst du die jeweilige Person kontaktieren und ihr deine Kontaktdaten zukommen lassen." %}<br>
+
+
+            <p>
+                <a class="btn btn-primary btn-block" style="text-align: left" data-toggle="collapse"
+                   href="#query" role="button" aria-expanded="false">
+                    <i class="fas fa-sliders-h icon-text"></i>{% trans "Anfragenliste filtern und ordnen" %}
+
+                </a>
+            </p>
+            <div class="collapse" id="query">
+                <div class="alert bg-grey rounded-container">
+
+                    <form action="{% url 'Requests' %}"
+                          method="post" novalidate>
+
+                        {% csrf_token %}
+
+                        {% bootstrap form get %}
+
+                        <button class="btn btn-success btn-block"><i
+                                class="fas fa-sliders-h icon-text"></i>{% trans "Filtern" %}</button>
+
+
+                    </form>
+
+                </div>
+            </div>
+
+
+        {% if object_list %}
+
+            {% for tenant in object_list %}
+
+                <a href="{% url 'tenants:SubTenantContact' tenant.pk %}" class="btn btn-grey btn-to-alert btn-block">
+                    {{ tenant.begin_request|date:"d.m.Y" }} -
+                {{ tenant.end_request|date:"d.m.Y" }} ({{ tenant.pk|stringformat:"03d" }})</a>
+
+            {% endfor %}
+
+
+            {% else %}
+
+                <div class="alert bg-info rounded-container text-center text-white">
+                    {% trans "Aktuell gibt es leider keine Anfragen." %}
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+{% endblock %}

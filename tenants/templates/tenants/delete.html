@@ -1,0 +1,26 @@
+{% extends "subtenancy/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+    <form action="{% url 'ProfileDelete' %}" method="post">
+
+        {% csrf_token %}
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{% blocktrans %}{{ tenant }} löschen{% endblocktrans %}</h5>
+
+                <p>{% blocktrans %}Möchtest du wirklich unwiderruflich {{ tenant }} löschen?{% endblocktrans %}</p>
+
+                <button class="btn btn-danger btn-block">{% trans "Löschen" %}</button>
+                <a href="{% url 'Profile' %}" class="btn btn-success btn-block">{% trans "Abbrechen" %}</a>
+
+            </div>
+
+        </div>
+
+    </form>
+
+{% endblock %}

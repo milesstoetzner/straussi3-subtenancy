@@ -1,0 +1,36 @@
+{% extends "subtenancy/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ title }}</h5>
+
+            <p>{% blocktrans with subtenant.pk as pk %}Möchtest du folgende Nachricht an die Person mit der ID {{ pk }} senden?{% endblocktrans %}</p>
+
+            <div class="alert bg-grey rounded-container" role="alert">
+
+                {{ msg | safe }}
+
+            </div>
+
+            <form action="{% url 'tenants:SubTenantContact' subtenant.pk %}" method="POST">
+
+                {% csrf_token %}
+
+                <button class="btn btn-success btn-block"><i class="fas fa-comment-alt icon-text"></i>{% trans "Kontaktieren" %}</button>
+
+                <a href="{% url 'Requests' %}" class="btn btn-danger btn-block">
+                    <i class="fas fa-ban icon-text"></i>{% trans "Abbrechen" %}</a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+{% endblock %}

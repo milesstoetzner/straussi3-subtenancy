@@ -1,0 +1,29 @@
+{% extends "subtenancy/base.html" %}
+
+{% block content %}
+
+    {% if blacklist %}
+
+        <div class="card">
+        <div class="card-body">
+
+            <h5 class="card-title">{{ title }}</h5>
+
+            <p class="text-block">In dieser Liste stehen die Namen der Personen, die sich eine zukünftige Zusammenarbeit
+                mit uns verwehrt haben.</p>
+
+            {% for blocked in blacklist %}
+
+                <div class="alert rounded-container bg-grey text-center">
+                    {{ blocked.name }}<br>
+                    <small><i>{{ blocked.reason }}</i></small>
+                </div>
+            {% endfor %}
+
+
+        </div>
+        </div>
+
+    {% endif %}
+
+{% endblock %}

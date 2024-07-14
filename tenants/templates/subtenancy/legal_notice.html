@@ -1,0 +1,143 @@
+{% extends "subtenancy/base.html" %}
+
+{% block content %}
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Impressum</h5>
+
+            <p>Wohnheimreferat Straußäcker 3<br>Dienstags 19:00 – 20:00 Uhr<br>Allmandring 3D<br>70569 Stuttgart<br>
+                <a href="mailto:wore.str3@gmail.com">wore.str3@gmail.com</a><br>
+                <a href="https://straussi3.de" target="_blank">https://straussi3.de</a><br>
+                <a href="https://www.facebook.com/straussi3" target="_blank">https://www.facebook.com/straussi3</a><br>
+                <a href="https://www.facebook.com/groups/straussi3" target="_blank">https://www.facebook.com/groups/straussi3</a>
+            </p>
+        </div>
+    </div>
+
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Haftungsausschluss</h5>
+
+            <h6>Haftung für Inhalte</h6>
+
+            <p class="text-block">Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten
+                nach den
+                allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch
+                nicht
+                verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach
+                Umständen
+                zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.<br>
+
+                Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen
+                Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt
+                der
+                Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden
+                Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.</p>
+
+
+            <h6>Haftung für Links</h6>
+
+            <p class="text-block">Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen
+                Einfluss
+                haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die
+                Inhalte
+                der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.
+                Die
+                verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft.
+                Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar.<br>
+
+                Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete
+                Anhaltspunkte
+                einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir
+                derartige
+                Links umgehend entfernen.</p>
+            
+
+            <h6>Urheberrecht</h6>
+
+            <p class="text-block">Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten
+                unterliegen dem
+                deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der
+                Verwertung
+                außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen
+                Autors
+                bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht
+                kommerziellen
+                Gebrauch gestattet.<br>
+
+                Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die
+                Urheberrechte
+                Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie
+                trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden
+                Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend
+                entfernen.</p>
+        </div>
+    </div>
+
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Datenschutzerklärung</h5>
+
+            <p>In dieser Datenschutzerklärung möchten wir dir mitteilen, welche Daten wir von dir speichern und
+                wie wir diese verarbeiten.</p>
+            
+            <h6>Datenerhebung</h6>
+
+            <p>Im Folgenden sind die Daten aufgelistet, die wir erheben:
+            <ul>
+                <li>Personenbezogene Daten in Form von Accountinformationen während der Registrierung</li>
+                <li>Änderungen der Accountinformationen sowie der Zeitpunkt der Änderung</li>
+                <li>Abgeschlossene sowie widerrufene Verträge</li>
+                <li>Loginzeiten eines Nutzers</li>
+                <li>Zugriffsanfragen an den Server</li>
+                <li>IP beim Versuch eines Login</li>
+            </ul>
+            </p>
+            
+
+            <h6>Öffentliche Liste aller Anfragen</h6>
+
+            <p class="text-block">Ein Untermieter gibt bei seiner Registrierung einen Zeitraum an, für den dieser eine
+                Untermiete
+                sucht. Diese Anfrage wird in einer <a href="{% url 'Requests' %}" target="_blank">öffentlichen
+                    Liste aller Anfragen</a> veröffentlicht. Dabei wird die Ferienmieternummer des Untermieters
+                zusammen mit dem Beginn und Ende der angefragten Untermiete veröffentlicht.
+                Ein Untermieter kann über <a href="{% url 'ProfileUpdate' %}" target="_blank">Informationen
+                    ändern</a> sich aus dieser Liste austragen.</p>
+
+
+            <h6>Datenspeicherung</h6>
+
+            <p class="text-block"><a href="https://www.selfnet.de/" target="_blank">Selfnet</a> übernimmt das Hosten des
+                Servers und somit die Datenspeicherung. Zusätzlich wird täglich ein verschlüsseltes Backup der kompletten Daten auf
+                <a href="https://www.google.com/drive/" target="_blank">Google Drive</a> hochgeladen.
+                Die Daten können nicht von Google entschlüsselt werden.</p>
+
+            <h6>Weitergabe der Daten an das SWS</h6>
+
+            <p class="text-block">Wir handeln im Auftrag des <a href="http://studierendenwerk-stuttgart.de/"
+                                                                target="_blank">Studierendenwerk
+                Stuttgart</a>. Daher hat dieses Zugriff auf die erhobenen Daten - insbesondere unsere
+                Sachbearbeiterin beim SWS sowie der Hausmeister unseres Wohnheimes.</p>
+
+
+            <h6>Kontaktaufnahme</h6>
+
+            <p class="text-block">Ein Hauptmieter kann einen möglichen Untermieter seine Kontaktdaten zukommen lassen.
+                Dabei geben wir keine Kontaktdaten des möglichen Untermieters an den Hauptmieter weiter. Eine
+                Kontaktaufnahme wird nur mit der Zustimmung des Hauptmieters durchgeführt.</p>
+
+
+            <h6>Cookies</h6>
+
+            <p class="text-block">Wir verwenden Cookies für Sitzungen und als CSRF Schutz. Zusäztlich werden Cookies von
+                Cloudflare und jQuery gesetzt.</p>
+            
+        </div>
+
+    </div>
+
+{% endblock %}

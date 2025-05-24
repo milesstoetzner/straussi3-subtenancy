@@ -1,7 +1,10 @@
-# Ferienmiete
+# Straussi3 Subtenancy
 
 Django app for administrating the subtenancy of the residential home [Straußäcker 3](https://www.studierendenwerk-stuttgart.de/wohnen/wohnanlagen/straussaecker-iii).
-The live system can be seen [here](https://str3.ext.selfnet.de).
+The live system is available at 
+
+- https://untermiete.straussi3.de
+- https://str3.ext.selfnet.de
 
 ## Deployment
 

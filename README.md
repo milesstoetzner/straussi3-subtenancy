@@ -1,10 +1,16 @@
 # Straussi3 Subtenancy
 
-Django app for administrating the subtenancy of the residential home [Straußäcker 3](https://www.studierendenwerk-stuttgart.de/wohnen/wohnanlagen/straussaecker-iii).
-The live system is available at 
+Django app for administrating the subtenancy for the Straussi3.
+
+## Production System
 
 - https://untermiete.straussi3.de
 - https://str3.ext.selfnet.de
+
+
+## Repository 
+
+- https://github.com/milesstoetzner/straussi3-subtenancy
 
 
 ## Development 
@@ -12,6 +18,23 @@ The live system is available at
 1. Copy `.SECRETS.py` to `subtenancy/SECRETS.py`. Never commit this file! It is ignored by git by default.
 2. Start the docker compose file, e.g., `docker compose up -d`
 3. Visit http://localhost:8000
+
+## Database 
+
+The database is not seeded.
+You may import a production database backup.
+Therefore, download the backup, extract it, and adjust the following: 
+
+1. migrate `djangouser` to `"default"`
+2. migrate `postgres` to `"default"`
+3. migrate `COPY` to `\copy`
+4. remove any `$$PATH$$`
+
+Then import the backup as follows 
+
+```
+psql -h localhost -U default -d subtenancy -f restore.sql
+```
 
 
 ## Deployment

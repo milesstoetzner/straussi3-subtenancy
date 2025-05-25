@@ -18,6 +18,7 @@ Django app for administrating the subtenancy for the Straussi3.
 1. Copy `.SECRETS.py` to `subtenancy/SECRETS.py`. Never commit this file! It is ignored by git by default.
 2. Start the docker compose file, e.g., `docker compose up -d`
 3. Visit http://localhost:8000
+4. Stop the local system, e.g., `docker compose down`. To also purge the database, run `docker compose down -v`.
 
 ## Database 
 

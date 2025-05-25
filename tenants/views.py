@@ -3,7 +3,7 @@ import datetime
 from django.db.transaction import atomic
 from tenants.models import User, SubTenant, Blacklist
 from tenants.forms import UserUpdateForm, MainTenantCreateForm, MainTenantUpdateForm, SubTenantCreateForm, \
-    SubTenantUpdateForm, FeedbackForm, RequestUpdateForm, RequestQueryForm
+    SubTenantUpdateForm, RequestUpdateForm, RequestQueryForm
 from django.urls import reverse
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import redirect, render, get_object_or_404

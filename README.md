@@ -5,6 +5,7 @@ Django app for administrating the subtenancy for the Straussi3.
 - Link: https://untermiete.straussi3.de
 - Link (alternative): https://str3.ext.selfnet.de
 - Repo: https://github.com/milesstoetzner/straussi3-subtenancy
+- Website: https://straussi3.de
 
 ## Development
 

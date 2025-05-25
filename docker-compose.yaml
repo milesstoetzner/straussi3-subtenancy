@@ -2,22 +2,29 @@ version: "3"
 
 services:
   subtenancy:
-      image: python:3.5
-      command: bash -c /app/docker-entrypoint.sh
-      restart: always
-      volumes:
-        - ./:/app
-      ports:
-        - "8000:8000"
+    image: python:3.5
+    command: bash -c /app/docker-entrypoint.sh
+    restart: always
+    volumes:
+      - ./:/app
+    ports:
+      - "8000:8000"
 
   database:
-      image: postgres
-      environment:
-          POSTGRES_USER: default
-          POSTGRES_PASSWORD: default
-          POSTGRES_DB: subtenancy
+    image: postgres:10.7
+    environment:
+      POSTGRES_USER: default
+      POSTGRES_PASSWORD: default
+      POSTGRES_DB: subtenancy
+    volumes:
+      - database:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
 
   adminer:
-      image: adminer
-      ports:
-        - "8080:8080"
+    image: adminer:5
+    ports:
+      - "8080:8080"
+
+volumes:
+  database:

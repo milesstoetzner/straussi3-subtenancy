@@ -1,5 +1,5 @@
 from django.forms import Form, ModelForm, DateInput, Select, Textarea, DateField, ChoiceField
-from .models import User, MainTenant, SubTenant, Blacklist, Feedback
+from .models import User, MainTenant, SubTenant, Blacklist
 from .utils import REQUEST_ORDERING
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
@@ -157,16 +157,3 @@ class RequestQueryForm(Form):
         if begin and end:
             if begin >= end:
                 self.add_error('end', _('Das Ende der angefragten Untermiete muss nach dem Beginn sein!'))
-
-
-class FeedbackForm(ModelForm):
-    """
-    User creates feedback.
-    """
-
-    class Meta:
-        model = Feedback
-        exclude = ["is_done"]
-        widgets = {
-            "description": Textarea(attrs={'rows': 10})
-        }

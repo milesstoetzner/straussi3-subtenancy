@@ -46,8 +46,7 @@ To create a superuser use a SQL command. `python manage.py createsuperuser` will
 The database scheme can be found [here](/config/database.pdf).
 
 A [cronjob](/config/cronjob) backs up the database every night.
-Therefore, the database `subtenancy` is dumped and together with all contract pdf files encrypted and uploaded to [Google Drive](https://www.google.com/drive/). 
-Therefore, install [gdrive](https://github.com/gdrive-org/gdrive) using this [tutorial](https://github.com/gdrive-org/gdrive/issues/426).
+Therefore, the database `subtenancy` is dumped and together with all contract pdf files.
 To dump the database you need to set up the password in [.pgpass](/config/.pgpass).
 
 To set up the permission groups see [permissions](/config/permissions).

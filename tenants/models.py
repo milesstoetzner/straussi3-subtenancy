@@ -154,25 +154,3 @@ class Blacklist(models.Model):
     class Meta:
         verbose_name = 'Blockierter Mieter'
         verbose_name_plural = 'Blockierte Mieter'
-
-
-class Feedback(models.Model):
-    """
-    User can send some feedback.
-    """
-
-    title = models.CharField('Titel', max_length=250)
-    description = models.CharField('Beschreibung', max_length=1000)
-    is_done = models.BooleanField('Bearbeitet?', default=False)
-
-    history = HistoricalRecords()
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return '[' + str(self.pk) + ']   ' + str(self.title)
-
-    class Meta:
-        verbose_name = 'Feedback'
-        verbose_name_plural = 'Feedbacks'

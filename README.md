@@ -6,6 +6,14 @@ The live system is available at
 - https://untermiete.straussi3.de
 - https://str3.ext.selfnet.de
 
+
+## Development 
+
+1. Copy `.SECRETS.py` to `subtenancy/SECRETS.py`. Never commit this file! It is ignored by git by default.
+2. Start the docker compose file, e.g., `docker compose up -d`
+3. Visit http://localhost:8000
+
+
 ## Deployment
 
 See [Vagrantfile](Vagrantfile) for deployment. Note that the Vagrantfile is more conceptual and not a fully working example.

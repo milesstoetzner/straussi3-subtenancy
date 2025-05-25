@@ -16,3 +16,8 @@ services:
           POSTGRES_USER: default
           POSTGRES_PASSWORD: default
           POSTGRES_DB: subtenancy
+
+  adminer:
+      image: adminer
+      ports:
+        - "8080:8080"

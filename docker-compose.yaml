@@ -1,9 +1,8 @@
-version: "3"
-
 services:
   subtenancy:
-    image: python:3.5
-    command: bash -c /app/docker-entrypoint.sh
+    image: python:3.6
+    #command: bash -c /app/docker-entrypoint.sh
+    command: bash -c "while true; do sleep 30; done"
     restart: always
     volumes:
       - ./:/app

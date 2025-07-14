@@ -60,7 +60,7 @@ class MainTenant(User):
 
     # Information about main tenant
     # NOTE: user still exists because of migrations problems while the change to multi table inherit from user
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, parent_link=True)
     tenant_id = models.PositiveIntegerField(_('Mieternummer'), unique=True)
 
     # Data processing
@@ -102,7 +102,7 @@ class SubTenant(User):
     """
 
     # NOTE: user still exists because of migrations problems while the change to multi table inherit from user
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, parent_link=True)
 
     # Information about sub tenant
     nationality = models.CharField(_('Nationalität'), choices=COUNTRIES, max_length=2)

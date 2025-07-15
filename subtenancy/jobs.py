@@ -13,7 +13,6 @@ logger = logging.getLogger('clean_database')
 def clean_database(dry_run=False):
     three_years_ago = now() - timedelta(days=3 * 365)
     six_months_ago = now() - timedelta(days=6 * 30)
-    three_months_ago = now() - timedelta(days=3 * 30)
 
     # Contracts
     stale_contracts = Contract.objects.filter(created_at__lt=three_years_ago)
@@ -23,7 +22,6 @@ def clean_database(dry_run=False):
     stale_main = MainTenant.objects.filter(
         contract__isnull=True,
         last_login__lt=six_months_ago,
-        updated_at__lt=three_months_ago
     )
     delete('maintenants', stale_main)
 
@@ -31,7 +29,6 @@ def clean_database(dry_run=False):
     stale_sub = SubTenant.objects.filter(
         contract__isnull=True,
         last_login__lt=six_months_ago,
-        updated_at__lt=three_months_ago,
         begin_request__lt=six_months_ago,
     )
     delete('subtenants', stale_sub)

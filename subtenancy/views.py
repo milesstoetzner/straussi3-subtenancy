@@ -6,12 +6,13 @@ from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
-from ratelimit.mixins import RatelimitMixin
+from django_ratelimit.decorators import ratelimit
 from django.shortcuts import redirect, render
 from django.utils.translation import gettext_lazy as _
 
-
-class Login(RatelimitMixin, SuccessMessageMixin, LoginView):
+# TODO: ratelimiter
+#@ratelimit
+class Login(SuccessMessageMixin, LoginView):
     """
     Authenticates a user by username and password.
     This view is protected by a simple rate limiter.

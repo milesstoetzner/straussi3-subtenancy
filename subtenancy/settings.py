@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'contracts',
     'simple_history',
     'django_extensions',
-    # 'django_tex',
 ]
 
 MIDDLEWARE = [
@@ -53,8 +52,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'subtenancy.urls'
 
-# LATEX_INTERPRETER = 'pdflatex'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -69,11 +66,6 @@ TEMPLATES = [
             ],
         },
     },
-    # {
-    #    'NAME': 'tex',
-    #    'BACKEND': 'django_tex.engine.TeXEngine',
-    #    'APP_DIRS': True,
-    # },
 ]
 
 WSGI_APPLICATION = 'subtenancy.wsgi.application'

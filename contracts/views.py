@@ -176,7 +176,6 @@ def print_active_contracts(request):
     queryset = Contract.objects.filter(is_active=True, end__gte=datetime.datetime.now()) \
         .order_by('end')
 
-    # template_name = 'contracts/contracts.tex'
     template_name = 'contracts/contracts.html'
     pdf = html_to_pdf(template_name, {'contracts': queryset, 'today': datetime.datetime.now()})
     filename = 'ferienmiete_str3_' + str(datetime.datetime.now().strftime("%Y-%m-%d")) + '.pdf'

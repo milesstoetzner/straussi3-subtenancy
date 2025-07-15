@@ -20,7 +20,7 @@ class UserUpdateForm(ModelForm):
         }
 
 
-def clean_tenant(self, cleaned_data):
+def clean_tenant(self, cleaned_data, requires_abg):
     first_name = cleaned_data.get('first_name')
     last_name = cleaned_data.get('last_name')
     accepted_data_processing = cleaned_data.get('accepted_data_processing')
@@ -33,9 +33,10 @@ def clean_tenant(self, cleaned_data):
             self.add_error('last_name', _('Dein Name steht auf der schwarzen Liste!'))
 
     # accepted_data_processing is true
-    if not accepted_data_processing:
-        self.add_error('accepted_data_processing', _('Du musst der Datenverarbeitung zustimmen.'))
-
+    if requires_abg:
+        accepted_data_processing = cleaned_data.get('accepted_data_processing')
+        if not accepted_data_processing:
+            self.add_error('accepted_data_processing', _('Du musst der Datenverarbeitung zustimmen.'))
 
 class MainTenantCreateForm(UserCreationForm):
     """
@@ -44,7 +45,7 @@ class MainTenantCreateForm(UserCreationForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        return clean_tenant(self, cleaned_data)
+        return clean_tenant(self, cleaned_data, True)
 
     class Meta:
         model = MainTenant
@@ -63,16 +64,15 @@ class MainTenantUpdateForm(ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        return clean_tenant(self, cleaned_data)
+        return clean_tenant(self, cleaned_data, False)
 
     class Meta(MainTenantCreateForm.Meta):
         fields = ['first_name', 'last_name', 'email', 'birthday', 'phone_number', 'tenant_id']
 
 
-def clean_subtenant(self, cleaned_data):
+def clean_subtenant(self, cleaned_data, requires_abg):
     begin_request = cleaned_data.get('begin_request')
     end_request = cleaned_data.get('end_request')
-    accepted_data_processing = cleaned_data.get('accepted_data_processing')
 
     # begin_request < end_request
     if begin_request and end_request:
@@ -80,8 +80,10 @@ def clean_subtenant(self, cleaned_data):
             self.add_error('end_request', _('Das Ende der angefragten Untermiete muss nach dem Beginn sein!'))
 
     # accepted_data_processing is true
-    if not accepted_data_processing:
-        self.add_error('accepted_data_processing', _('Du musst der Datenverarbeitung zustimmen.'))
+    if requires_abg:
+        accepted_data_processing = cleaned_data.get('accepted_data_processing')
+        if not accepted_data_processing:
+            self.add_error('accepted_data_processing', _('Du musst der Datenverarbeitung zustimmen.'))
 
 
 class SubTenantCreateForm(UserCreationForm):
@@ -91,7 +93,7 @@ class SubTenantCreateForm(UserCreationForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        return clean_subtenant(self, cleaned_data)
+        return clean_subtenant(self, cleaned_data, True)
 
     class Meta:
         model = SubTenant
@@ -121,7 +123,7 @@ class SubTenantUpdateForm(ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        return clean_subtenant(self, cleaned_data)
+        return clean_subtenant(self, cleaned_data, False)
 
     class Meta(SubTenantCreateForm.Meta):
         fields = ['first_name', 'last_name', 'email', 'birthday', 'phone_number',

@@ -76,11 +76,11 @@ WSGI_APPLICATION = 'subtenancy.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'subtenancy',
+        'NAME': DB_NAME,
         'USER': DB_USER,
         'PASSWORD': DB_PASSWORD,
         'HOST': DB_HOST,
-        'PORT': '',
+        'PORT': DB_PORT,
     }
 }
 

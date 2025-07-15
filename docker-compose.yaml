@@ -1,16 +1,16 @@
 services:
   subtenancy:
-    image: python:3.6
-    #command: bash -c /app/docker-entrypoint.sh
-    command: bash -c "while true; do sleep 30; done"
-    restart: always
+    image: python:3.13.5
+    command: bash -c /app/docker-entrypoint.sh
+    restart: unless-stopped
     volumes:
       - ./:/app
     ports:
       - "8000:8000"
 
   database:
-    image: postgres:10.7
+    image: postgres:17.5
+    restart: unless-stopped
     environment:
       POSTGRES_USER: default
       POSTGRES_PASSWORD: default
@@ -22,6 +22,7 @@ services:
 
   adminer:
     image: adminer:5
+    restart: unless-stopped
     ports:
       - "8080:8080"
 

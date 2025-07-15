@@ -2,7 +2,6 @@
 
 .idea
 /static/
-subtenancy/SECRETS.py
 contracts/contracts/*
 config/.vagrant
 .vagrant

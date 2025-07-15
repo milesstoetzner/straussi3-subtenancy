@@ -1,0 +1,43 @@
+services:
+  subtenancy:
+    build: .
+    restart: unless-stopped
+    environment:
+      SUBTENANCY_SECRET_KEY: ${SUBTENANCY_SECRET_KEY}
+      SUBTENANCY_ALLOWED_HOSTS: ${SUBTENANCY_ALLOWED_HOSTS}
+      SUBTENANCY_ORIGIN: ${SUBTENANCY_ORIGIN}
+
+      SUBTENANCY_EMAIL_HOST: ${SUBTENANCY_EMAIL_HOST}
+      SUBTENANCY_EMAIL_HOST_USER: ${SUBTENANCY_EMAIL_HOST_USER}
+      SUBTENANCY_EMAIL_HOST_PASSWORD: ${SUBTENANCY_EMAIL_HOST_PASSWORD}
+      SUBTENANCY_EMAIL_DEFAULT_FROM: ${SUBTENANCY_EMAIL_DEFAULT_FROM}
+      SUBTENANCY_EMAIL_SERVER: ${SUBTENANCY_EMAIL_SERVER}
+
+      SUBTENANCY_DB_USER: ${SUBTENANCY_DB_USER}
+      SUBTENANCY_DB_PASSWORD: ${SUBTENANCY_DB_PASSWORD}
+      SUBTENANCY_DB_HOST: database
+    volumes:
+      - /etc/subtenancy/contracts:/app/contracts/contracts
+    ports:
+      - "8000:8000"
+
+  database:
+    image: postgres:17.5
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: default
+      POSTGRES_PASSWORD: default
+      POSTGRES_DB: subtenancy
+    volumes:
+      - database:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  adminer:
+    image: adminer:5
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+
+volumes:
+  database:

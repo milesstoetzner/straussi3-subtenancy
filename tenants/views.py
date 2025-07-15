@@ -1,6 +1,8 @@
 import datetime
 
 from django.db.transaction import atomic
+
+from subtenancy.jobs import clean_database
 from tenants.models import User, SubTenant, Blacklist
 from tenants.forms import UserUpdateForm, MainTenantCreateForm, MainTenantUpdateForm, SubTenantCreateForm, \
     SubTenantUpdateForm, RequestUpdateForm, RequestQueryForm

@@ -3,6 +3,9 @@ services:
     image: python:3.13.5
     command: bash -c /app/docker-entrypoint.sh
     restart: unless-stopped
+    environment:
+      SUBTENANCY_SECRET_KEY: SOME_SECRET
+      SUBTENANCY_DB_HOST: database
     volumes:
       - ./:/app
     ports:

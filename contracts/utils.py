@@ -1,23 +1,9 @@
-"""
-from django_tex.core import compile_template_to_pdf
-
-
-def save_html_as_pdf(source, context, destination):
-    pdf = html_to_pdf(source, context)
-    file = open(destination, "w+b")
-    file.write(pdf)
-    file.close()
-
-
-def html_to_pdf(template_name, context):
-    return compile_template_to_pdf(template_name, context)
-"""
-
 import os
 from io import BytesIO
 from django.conf import settings
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+from subtenancy.settings import BASE_DIR
 
 
 def link_callback(uri, rel):
@@ -37,6 +23,10 @@ def save_html_as_pdf(source, context, destination):
     file = open(destination, "w+b")
     file.write(pdf)
     file.close()
+
+def contract_pdf_path(pk, version):
+    filename = 'contract_' + str(pk) + '_version_' + str(version) + '.pdf'
+    return os.path.join(BASE_DIR, 'contracts', 'contracts', os.path.basename(filename))
 
 
 HOUSE_NUMBERS = ['3C', '3D', '3E', '3F', '3G', '3H', '3I']

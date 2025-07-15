@@ -4,6 +4,8 @@ ADMINS = []
 
 ALLOWED_HOSTS = ['localhost', 'str3.ext.selfnet.de', 'untermiete.straussi3.de', 'www.untermiete.straussi3.de']
 
+PUBLIC_SITE = 'untermiete.straussi3.de'
+
 # Email configuration
 # DEP: other account and credentials in enviroment variable
 EMAIL_HOST = 'EMAIL_HOST'

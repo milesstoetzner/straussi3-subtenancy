@@ -40,7 +40,7 @@ class User(AbstractUser):
         return self.type == 'SS'
 
     def get_absolute_url(self):
-        return reverse('tenants:TenantView', kwargs={'pk': self.pk})
+        return "/admin/tenants/user/" + str(self.pk)
 
     def __str__(self):
         return str(self.first_name) + ' ' + str(self.last_name) + ' (' + str(self.pk) + ')'
@@ -83,6 +83,9 @@ class MainTenant(User):
             amount += delta.days + 1
         return amount
 
+    def get_absolute_url(self):
+        return reverse('tenants:TenantView', kwargs={'pk': self.pk})
+
     def __str__(self):
         return '[' + str(self.pk) + '] ' + self.first_name + ' ' + self.last_name + ' (' + self.birthday.strftime('%d.%m.%Y') + ')' + ' (' + str(self.tenant_id) + ')'
 
@@ -122,6 +125,9 @@ class SubTenant(User):
 
     # Data processing
     accepted_data_processing = models.BooleanField(_('Ich stimme der Datenverarbeitung zu'), default=False)
+
+    def get_absolute_url(self):
+        return reverse('tenants:TenantView', kwargs={'pk': self.pk})
 
     def __str__(self):
         return '[' + str(self.pk) + '] ' + self.first_name + ' ' + self.last_name + ' (' + self.birthday.strftime('%d.%m.%Y') + ')'

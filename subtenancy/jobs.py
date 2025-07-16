@@ -2,7 +2,7 @@ from django.db.transaction import atomic
 from django.utils.timezone import now
 from datetime import timedelta
 from contracts.models import Contract
-from subtenancy.SECRETS import ORIGIN
+from subtenancy.settings import ORIGIN, CLEAN_DATABASE
 from tenants.models import MainTenant, SubTenant, User
 import logging
 
@@ -10,7 +10,7 @@ logger = logging.getLogger('clean_database')
 
 
 @atomic
-def clean_database(dry_run=False):
+def clean_database():
     three_years_ago = now() - timedelta(days=3 * 365)
     six_months_ago = now() - timedelta(days=6 * 30)
 
@@ -50,7 +50,7 @@ def clean_database(dry_run=False):
     delete('SS', stale_ss)
 
     # Abort on dry run
-    if not dry_run:
+    if not CLEAN_DATABASE:
         raise RuntimeError("Throw error to enforce rollback for dry run")
 
 

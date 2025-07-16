@@ -1,13 +1,20 @@
 services:
+  # TODO: add proxy
+  # TODO: add static files server (but pdfs are served by subtenancy?)
+
   subtenancy:
-    image: python:3.13.5
-    command: bash -c /app/docker-entrypoint.sh
+    build: .
     restart: unless-stopped
     environment:
-      SUBTENANCY_SECRET_KEY: SOME_SECRET
+      SUBTENANCY_SECRET_KEY: SECRET
+      SUBTENANCY_ALLOWED_HOSTS: localhost
+      SUBTENANCY_ORIGIN: http://localhost
+
       SUBTENANCY_DB_HOST: database
+
+      SUBTENANCY_DEBUG: 1
     volumes:
-      - ./:/app
+      - /etc/subtenancy/contracts:/app/contracts/contracts
     ports:
       - "8000:8000"
 

@@ -1,7 +1,4 @@
 services:
-  # TODO: add proxy
-  # TODO: add static files server (but pdfs are served by subtenancy?)
-
   subtenancy:
     build: .
     restart: unless-stopped

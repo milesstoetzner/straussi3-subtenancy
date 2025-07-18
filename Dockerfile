@@ -13,10 +13,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# TODO: execute "python manage.py migrate" using a docker-entrypoint?
 RUN python manage.py collectstatic --no-input --clear
 RUN python manage.py compilemessages
 
 EXPOSE 8000
 
+RUN chmod +x docker-entrypoint.sh
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "subtenancy.wsgi:application"]

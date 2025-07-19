@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'contracts',
     'simple_history',
     'django_extensions',
+    'subtenancy',
 ]
 
 MIDDLEWARE = [
@@ -136,5 +137,3 @@ SESSION_COOKIE_SECURE = False
 
 # TODO: enable in prod
 CSRF_COOKIE_SECURE = False
-
-CLEAN_DATABASE = bool(os.environ.get('SUBTENANCY_EMAIL_USE_TLS', default='0'))

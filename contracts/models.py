@@ -1,11 +1,9 @@
-import os
 import calendar
 from datetime import datetime
 from django.db import models
 from django.urls import reverse
 from tenants.models import User, MainTenant, SubTenant
 from .utils import html_to_pdf, save_html_as_pdf, HOUSE_NUMBERS, ROOM_NUMBERS, contract_pdf_path
-from simple_history.models import HistoricalRecords
 from django.db.transaction import atomic
 from dateutil import relativedelta
 
@@ -47,7 +45,6 @@ class Contract(models.Model):
 
     is_changed = models.BooleanField(default=True)
     version = models.IntegerField(default=0)
-    history = HistoricalRecords()
 
     def get_absolute_url(self):
         return reverse('contracts:ContractView', kwargs={'pk': self.pk})

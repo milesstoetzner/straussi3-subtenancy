@@ -1,7 +1,6 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
-from simple_history.models import HistoricalRecords
 from django.utils.translation import gettext_lazy as _
 from tenants.utils import COUNTRIES, TYPES
 
@@ -18,8 +17,6 @@ class User(AbstractUser):
     birthday = models.DateField(_('Geburtstag'))
     phone_number = models.CharField(_('Telefonnummer'), max_length=15)
     type = models.CharField(_('Typ'), max_length=3, choices=TYPES)
-
-    history = HistoricalRecords(inherit=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -87,7 +84,8 @@ class MainTenant(User):
         return reverse('tenants:TenantView', kwargs={'pk': self.pk})
 
     def __str__(self):
-        return '[' + str(self.pk) + '] ' + self.first_name + ' ' + self.last_name + ' (' + self.birthday.strftime('%d.%m.%Y') + ')' + ' (' + str(self.tenant_id) + ')'
+        return '[' + str(self.pk) + '] ' + self.first_name + ' ' + self.last_name + ' (' + self.birthday.strftime(
+            '%d.%m.%Y') + ')' + ' (' + str(self.tenant_id) + ')'
 
     class Meta:
         verbose_name = _('Hauptmieter')
@@ -130,7 +128,8 @@ class SubTenant(User):
         return reverse('tenants:TenantView', kwargs={'pk': self.pk})
 
     def __str__(self):
-        return '[' + str(self.pk) + '] ' + self.first_name + ' ' + self.last_name + ' (' + self.birthday.strftime('%d.%m.%Y') + ')'
+        return '[' + str(self.pk) + '] ' + self.first_name + ' ' + self.last_name + ' (' + self.birthday.strftime(
+            '%d.%m.%Y') + ')'
 
     class Meta:
         verbose_name = _('Untermieter')
@@ -145,8 +144,6 @@ class Blacklist(models.Model):
 
     name = models.CharField('Vollständiger Name', max_length=500, unique=True)
     reason = models.CharField('Beschreibung', max_length=500)
-
-    history = HistoricalRecords()
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

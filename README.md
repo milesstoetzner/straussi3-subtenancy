@@ -86,3 +86,28 @@ All incoming emails are forwarded to wore.str3@gmail.com for futher processing.
 ```
 python manage.py clean_database
 ```
+
+### Environment
+
+| Environment Variable                    | Default Value                    | Description                                                      |
+|-----------------------------------------|----------------------------------|------------------------------------------------------------------|
+| `SUBTENANCY_SECRET_KEY`                 |                                  | Django secret key (must be set for production).                  |
+| `SUBTENANCY_DEBUG`                      | `'0'`                            | Enables debug mode if set to `'1'`.                              |
+| `SUBTENANCY_ALLOWED_HOSTS`              | `'localhost'`                    | Comma-separated list of allowed hosts.                           |
+| `SUBTENANCY_ORIGIN`                     | `'http://localhost'`             | Used for setting request origin (e.g. for CORS).                 |
+| `SUBTENANCY_EMAIL_HOST`                 |                                  | Email server hostname or IP address.                             |
+| `SUBTENANCY_EMAIL_PORT`                 | `587`                            | Email server port.                                               |
+| `SUBTENANCY_EMAIL_HOST_USER`            |                                  | Email login username.                                            |
+| `SUBTENANCY_EMAIL_HOST_PASSWORD`        |                                  | Email login password.                                            |
+| `SUBTENANCY_EMAIL_USE_TLS`              | `'1'`                            | Enable TLS for email connection.                                 |
+| `SUBTENANCY_EMAIL_DEFAULT_FROM`         |                                  | Default sender email address.                                    |
+| `SUBTENANCY_EMAIL_SERVER`               |                                  | Server email address used by Django error emails.                |
+| `SUBTENANCY_DB_NAME`                    | `'subtenancy'`                   | PostgreSQL database name.                                        |
+| `SUBTENANCY_DB_USER`                    | `'default'`                      | Database username.                                               |
+| `SUBTENANCY_DB_PASSWORD`                | `'default'`                      | Database password.                                               |
+| `SUBTENANCY_DB_HOST`                    | `'127.0.0.1'`                    | Database host.                                                   |
+| `SUBTENANCY_DB_PORT`                    | `'5432'`                         | Database port.                                                   |
+| `SUBTENANCY_SECURE_PROXY_SSL_HEADER`    | `'HTTP_X_FORWARDED_PROTO,https'` | Header and value tuple for SSL offloading (parsed into a tuple). |
+| `SUBTENANCY_SESSION_COOKIE_SECURE`      | `'1'`                            | Set `SESSION_COOKIE_SECURE`.                                     |
+| `SUBTENANCY_SESSION_CSRF_COOKIE_SECURE` | `'1'`                            | Set `CSRF_COOKIE_SECURE`.                                        |
+| `SUBTENANCY_CLEAN_DATABASE_WRITE`       | `'0'`                            | Custom feature toggle for clean DB write logic.                  |

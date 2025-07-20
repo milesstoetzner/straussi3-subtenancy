@@ -2,7 +2,7 @@ from django.db.transaction import atomic
 from django.utils.timezone import now
 from datetime import timedelta
 from contracts.models import Contract
-from subtenancy.settings import ORIGIN
+from subtenancy.settings import ORIGIN, CLEAN_DATABASE_WRITE
 from tenants.models import MainTenant, SubTenant, User
 from django.core.management.base import BaseCommand, CommandError
 
@@ -10,11 +10,10 @@ from django.core.management.base import BaseCommand, CommandError
 class Command(BaseCommand):
     help = 'Clean the database'
 
-    def add_arguments(self, parser):
-        parser.add_argument("--write", action='store_false')
-
     @atomic
     def handle(self, *args, **options):
+        self.stdout.write('Cleaning the database now ...')
+
         three_years_ago = now() - timedelta(days=3 * 365)
         six_months_ago = now() - timedelta(days=6 * 30)
 
@@ -49,13 +48,18 @@ class Command(BaseCommand):
         ))
 
         # Abort on dry run
-        if not options['write']:
-            raise RuntimeError("Throw error to enforce rollback for dry run")
+        if not CLEAN_DATABASE_WRITE:
+            raise CommandError("Throw error to enforce rollback for dry run")
+
+        self.stdout.write("")
+        self.stdout.write('Database successfully cleaned')
 
     def delete(self, title, stale):
+        self.stdout.write("")
         if stale.exists():
-            self.stdout.write("")
             self.stdout.write(f"Deleting {stale.count()} stale {title}:")
             for obj in stale:
                 self.stdout.write(f"  - {ORIGIN}{obj.get_absolute_url()}")
             stale.delete()
+        else:
+            self.stdout.write(f"No stale {title}")

@@ -5,7 +5,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.environ.get('SUBTENANCY_SECRET_KEY')
 
-DEBUG = bool(os.environ.get('SUBTENANCY_DEBUG', default='0'))
+DEBUG = bool(int(os.environ.get('SUBTENANCY_DEBUG', default='0')))
 
 ADMINS = []
 
@@ -17,7 +17,7 @@ EMAIL_HOST = os.environ.get('SUBTENANCY_EMAIL_HOST')
 EMAIL_PORT = int(os.environ.get('SUBTENANCY_EMAIL_PORT', default='587'))
 EMAIL_HOST_USER = os.environ.get('SUBTENANCY_EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('SUBTENANCY_EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = bool(os.environ.get('SUBTENANCY_EMAIL_USE_TLS', default='1'))
+EMAIL_USE_TLS = bool(int(os.environ.get('SUBTENANCY_EMAIL_USE_TLS', default='1')))
 DEFAULT_FROM_EMAIL = os.environ.get('SUBTENANCY_EMAIL_DEFAULT_FROM')
 SERVER_EMAIL = os.environ.get('SUBTENANCY_EMAIL_SERVER')
 
@@ -135,3 +135,5 @@ SESSION_COOKIE_SECURE = False
 
 # TODO: enable in prod
 CSRF_COOKIE_SECURE = False
+
+CLEAN_DATABASE_WRITE = bool(int(os.environ.get('SUBTENANCY_CLEAN_DATABASE_WRITE', default='0')))

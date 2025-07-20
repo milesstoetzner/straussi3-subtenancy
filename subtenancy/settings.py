@@ -128,12 +128,15 @@ LOGOUT_REDIRECT_URL = '/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
-# TODO: set SECURE_PROXY_SSL_HEADER in prod
+_secure_proxy = os.environ.get("SUBTENANCY_SECURE_PROXY_SSL_HEADER", "HTTP_X_FORWARDED_PROTO,https")
+parts = _secure_proxy.split(',')
+if len(parts) == 2:
+    SECURE_PROXY_SSL_HEADER = (parts[0].strip(), parts[1].strip())
+else:
+    SECURE_PROXY_SSL_HEADER = None
 
-# TODO: enable in prod
-SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = bool(int(os.environ.get('SUBTENANCY_SESSION_COOKIE_SECURE', default='1')))
 
-# TODO: enable in prod
-CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = bool(int(os.environ.get('SUBTENANCY_SESSION_CSRF_COOKIE_SECURE', default='1')))
 
 CLEAN_DATABASE_WRITE = bool(int(os.environ.get('SUBTENANCY_CLEAN_DATABASE_WRITE', default='0')))

@@ -1,7 +1,6 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
-from simple_history.models import HistoricalRecords
 from django.utils.translation import gettext_lazy as _
 from tenants.utils import COUNTRIES, TYPES
 
@@ -18,8 +17,6 @@ class User(AbstractUser):
     birthday = models.DateField(_('Geburtstag'))
     phone_number = models.CharField(_('Telefonnummer'), max_length=15)
     type = models.CharField(_('Typ'), max_length=3, choices=TYPES)
-
-    history = HistoricalRecords(inherit=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -40,7 +37,7 @@ class User(AbstractUser):
         return self.type == 'SS'
 
     def get_absolute_url(self):
-        return reverse('tenants:TenantView', kwargs={'pk': self.pk})
+        return "/admin/tenants/user/" + str(self.pk)
 
     def __str__(self):
         return str(self.first_name) + ' ' + str(self.last_name) + ' (' + str(self.pk) + ')'
@@ -60,7 +57,7 @@ class MainTenant(User):
 
     # Information about main tenant
     # NOTE: user still exists because of migrations problems while the change to multi table inherit from user
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, parent_link=True)
     tenant_id = models.PositiveIntegerField(_('Mieternummer'), unique=True)
 
     # Data processing
@@ -83,8 +80,12 @@ class MainTenant(User):
             amount += delta.days + 1
         return amount
 
+    def get_absolute_url(self):
+        return reverse('tenants:TenantView', kwargs={'pk': self.pk})
+
     def __str__(self):
-        return '[' + str(self.pk) + '] ' + self.first_name + ' ' + self.last_name + ' (' + self.birthday.strftime('%d.%m.%Y') + ')' + ' (' + str(self.tenant_id) + ')'
+        return '[' + str(self.pk) + '] ' + self.first_name + ' ' + self.last_name + ' (' + self.birthday.strftime(
+            '%d.%m.%Y') + ')' + ' (' + str(self.tenant_id) + ')'
 
     class Meta:
         verbose_name = _('Hauptmieter')
@@ -102,7 +103,7 @@ class SubTenant(User):
     """
 
     # NOTE: user still exists because of migrations problems while the change to multi table inherit from user
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, parent_link=True)
 
     # Information about sub tenant
     nationality = models.CharField(_('Nationalität'), choices=COUNTRIES, max_length=2)
@@ -123,8 +124,12 @@ class SubTenant(User):
     # Data processing
     accepted_data_processing = models.BooleanField(_('Ich stimme der Datenverarbeitung zu'), default=False)
 
+    def get_absolute_url(self):
+        return reverse('tenants:TenantView', kwargs={'pk': self.pk})
+
     def __str__(self):
-        return '[' + str(self.pk) + '] ' + self.first_name + ' ' + self.last_name + ' (' + self.birthday.strftime('%d.%m.%Y') + ')'
+        return '[' + str(self.pk) + '] ' + self.first_name + ' ' + self.last_name + ' (' + self.birthday.strftime(
+            '%d.%m.%Y') + ')'
 
     class Meta:
         verbose_name = _('Untermieter')
@@ -139,8 +144,6 @@ class Blacklist(models.Model):
 
     name = models.CharField('Vollständiger Name', max_length=500, unique=True)
     reason = models.CharField('Beschreibung', max_length=500)
-
-    history = HistoricalRecords()
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

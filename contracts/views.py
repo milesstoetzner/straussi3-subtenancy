@@ -13,12 +13,9 @@ from django.contrib import messages
 from django.shortcuts import redirect, render, get_object_or_404
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required, permission_required
-from django.http import HttpResponse
-from .utils import html_to_pdf
+from django.http import HttpResponse, FileResponse
+from .utils import html_to_pdf, contract_pdf_path
 from subtenancy.views import handler404, handler400
-
-
-
 
 
 @atomic
@@ -161,15 +158,10 @@ def save_contract_pdf(request, pk):
 @permission_required('contracts.view_contract')
 @require_GET
 def view_contract_pdf(request, pk, v):
-    filename = 'contract_' + str(pk) + '_version_' + str(v) + '.pdf'
-    path = '/contracts/contracts/' + filename
+    destination = contract_pdf_path(pk, v)
 
-    if os.path.isfile(os.getcwd() + path):
-        response = HttpResponse()
-        response['Content-Type'] = 'application/pdf'
-        response["Content-Disposition"] = 'inline; filename=' + filename
-        response['X-Accel-Redirect'] = path
-        return response
+    if os.path.isfile(destination):
+        return FileResponse(open(destination, 'rb'), content_type='application/pdf')
 
     return handler404(request)
 
@@ -184,7 +176,6 @@ def print_active_contracts(request):
     queryset = Contract.objects.filter(is_active=True, end__gte=datetime.datetime.now()) \
         .order_by('end')
 
-    # template_name = 'contracts/contracts.tex'
     template_name = 'contracts/contracts.html'
     pdf = html_to_pdf(template_name, {'contracts': queryset, 'today': datetime.datetime.now()})
     filename = 'ferienmiete_str3_' + str(datetime.datetime.now().strftime("%Y-%m-%d")) + '.pdf'
@@ -245,5 +236,4 @@ def view_help(request):
     """
     context = {}
     context['title'] = 'Hilfe'
-    messages.info(request, 'Falls ihr Fragen zur Bedienung der Website bzw. zur Untermiete habt, dann zögert nicht und ruft mich an bzw. schreibt mir: +49 1777 580061.')
     return render(request, 'contracts/help.html', context)

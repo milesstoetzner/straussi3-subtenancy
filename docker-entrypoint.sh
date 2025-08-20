@@ -1,3 +1,8 @@
-pip install -r /app/requirements.txt
-python3 /app/manage.py migrate
-python3 /app/develope.py
+#!/bin/bash
+set -e
+
+if [ ! "$SUBTENANCY_DISABLE_MIGRATIONS" = "1" ]; then
+  python manage.py migrate
+fi
+
+exec "$@"

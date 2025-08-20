@@ -2,26 +2,33 @@
 
 {% load static %}
 {% load custom_extras %}
+{% load i18n %}
 
 {% block content %}
 
-    <!-- TODO: tutorial for creating contracts and stuff -->
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">{{ title }}
-            </h5>
+            <h5 class="card-title">FAQ</h5>
 
             <p>Allgemeine Informationen stehen auf der <a href="{% url 'Index' %}" target="_blank">FAQ Seite</a>.</p>
 
-            <h6>Vertrag erstellen</h6>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Vertrag erstellen</h5>
 
             <p class="text-block">Um einen Untermietvertrag zu erstellen, befolge die folgenden Schritte. Es müssen
                 sowohl Haupt- als auch Untermieter persönlich anwesend sein.</p>
 
             <ol>
-                <li>Nehme vom Hausmeister unterschriebenes Formular "Zimmerabnahme" vom Hautpmieter entgegen, falls er nicht mehr zurückkehrt.</li>
+                <li>Nehme vom Hausmeister unterschriebenes Formular "Zimmerabnahme" vom Hautpmieter entgegen, falls er
+                    nicht mehr zurückkehrt.
+                </li>
                 <li>Registriere den <a href="{% url 'MainTenantCreate' %}" target="_blank">Hauptmieter</a> und den <a
-                        href="{% url 'SubTenantCreate' %}" target="_blank">Untermieter</a> - sofern noch nicht geschehen.
+                        href="{% url 'SubTenantCreate' %}" target="_blank">Untermieter</a> - sofern noch nicht
+                    geschehen.
                 </li>
                 <li>Überprüfe die Dokumente des Haupt- und Untermieters auf Vollständigkeit (siehe <a
                         href="{% url 'Index' %}" target="_blank">FAQ Seite</a>).
@@ -58,7 +65,8 @@
                 <li>Ändere gegebenenfalls die Daten (siehe unten) und erstelle eine neue Vorschau.</li>
                 <li>Erstelle den Vertrag.</li>
                 <li>Drucke den Vertrag einmalig aus.</li>
-                <li>Unterschreibe (inklusive Stempel) bzw. lass den Vertrag an den makierten Stellen unterschreiben.</li>
+                <li>Unterschreibe (inklusive Stempel) bzw. lass den Vertrag an den makierten Stellen unterschreiben.
+                </li>
                 <li>Übergebe Haupt- und Untermieter jeweils eine Kopie des unterschriebenen Vertrages.</li>
                 <li>Hefte den originalen Vertrag zusammen mit folgenden Dokumenten ab:
                     <ul>
@@ -81,7 +89,9 @@
             <h6>Zimmerabnahme</h6>
 
             <p class="text-block">
-                Wir machen immer eine vorläufige und eine entgültige Zimmerabnahme. Die vorläufige Zimmerabnahme findet circa eine Woche vor Vertragsende statt. Am Auszugstag machen wir die endgütlige Zimmerabnahme und nehmen den Schlüssel entgegen, den wir anschließend dem Hausmeister übergeben.
+                Wir machen immer eine vorläufige und eine entgültige Zimmerabnahme. Die vorläufige Zimmerabnahme findet
+                circa eine Woche vor Vertragsende statt. Am Auszugstag machen wir die endgütlige Zimmerabnahme und
+                nehmen den Schlüssel entgegen, den wir anschließend dem Hausmeister übergeben.
             </p>
 
             <h6>Daten ändern</h6>
@@ -116,6 +126,58 @@
             <p>Jede vor dem 26.02.2019 ausgestelle ID stammt aus dem alten System und
                 kann nicht im aktuellen System verwendet werden.</p>
 
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Sprechstunde Account erstellen
+            </h5>
+
+            <p class="text-block">Um einen Account für die Sprechstunde zu erstellen, befolge die folgenden Schritte.
+                Diese müssen von einem Administrator ausgeführt werden.</p>
+
+            <ol>
+
+                <li><a href="http://localhost:8000/admin/tenants/user/add/" target="_blank">Füge einen neuen User</a> mit folgenden Daten hinzu:
+                </li>
+
+                <ol>
+
+                    <li>
+                        Passwort: <code>pbkdf2_sha256$1000000$FtRQQUWufKEkmH8eJL8CeZ$nZFYQ1N/3Z52pJpMzyGtNLd2XsYdLuPULCthHqTJ3RE=</code>
+                    </li>
+
+                    <li>
+                        Administrator-Status: NEIN
+                    </li>
+                    <li>
+                        Gruppen: Assistant
+                    </li>
+                    <li>
+                        Berechtigungen: KEINE
+                    </li>
+                    <li>
+                        Benutzername
+                    </li>
+                    <li>
+                        Mitarbeiter-Status: NEIN
+                    </li>
+                    <li>
+                        Aktiv: JA
+                    </li>
+                    <li>
+                        Mitglied seit, Vorname, Nachname, Email Adresse, Geburtstag, Telefonnummer
+                    </li>
+                    <li>
+                        Typ: Sprechstunde
+                    </li>
+                </ol>
+
+                <li>
+                    Passwort zurücksetzen über <a href="{% url 'password_reset' %}">{% trans "Passwort vergessen?" %}</a>
+                </li>
+            </ol>
         </div>
     </div>
 

@@ -1,11 +1,9 @@
-import os
 import calendar
 from datetime import datetime
 from django.db import models
 from django.urls import reverse
 from tenants.models import User, MainTenant, SubTenant
-from .utils import html_to_pdf, save_html_as_pdf, HOUSE_NUMBERS, ROOM_NUMBERS
-from simple_history.models import HistoricalRecords
+from .utils import html_to_pdf, save_html_as_pdf, HOUSE_NUMBERS, ROOM_NUMBERS, contract_pdf_path
 from django.db.transaction import atomic
 from dateutil import relativedelta
 
@@ -47,7 +45,6 @@ class Contract(models.Model):
 
     is_changed = models.BooleanField(default=True)
     version = models.IntegerField(default=0)
-    history = HistoricalRecords()
 
     def get_absolute_url(self):
         return reverse('contracts:ContractView', kwargs={'pk': self.pk})
@@ -126,7 +123,6 @@ class Contract(models.Model):
         Renders the contract as a PDF file and returns the PDF without saving.
         """
 
-        # source = 'contracts/contract.tex'
         template_name = 'contracts/contract.html'
         pdf = html_to_pdf(template_name, {'contract': self, 'today': datetime.now(), 'preview': True})
         return pdf
@@ -141,10 +137,8 @@ class Contract(models.Model):
 
         self.version += 1
 
-        # template_name = 'contracts/contract.tex'
         template_name = 'contracts/contract.html'
-        destination = os.path.join('contracts', 'contracts',
-                                   'contract_' + str(self.pk) + '_version_' + str(self.version) + '.pdf')
+        destination = contract_pdf_path(self.pk, self.version)
 
         save_html_as_pdf(template_name, {'contract': self, 'today': datetime.now()}, destination)
 

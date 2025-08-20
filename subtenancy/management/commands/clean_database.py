@@ -2,9 +2,12 @@ from django.db.transaction import atomic
 from django.utils.timezone import now
 from datetime import timedelta
 from contracts.models import Contract
+from contracts.utils import contract_pdf_path
 from subtenancy.settings import ORIGIN, CLEAN_DATABASE_WRITE
 from tenants.models import MainTenant, SubTenant, User
 from django.core.management.base import BaseCommand, CommandError
+import glob
+import os
 
 
 class Command(BaseCommand):
@@ -18,7 +21,9 @@ class Command(BaseCommand):
         six_months_ago = now() - timedelta(days=6 * 30)
 
         # Contracts
-        self.delete('contracts', Contract.objects.filter(created_at__lt=three_years_ago))
+        contracts = Contract.objects.filter(created_at__lt=three_years_ago)
+        contract_ids = list(contracts.values_list('pk', flat=True))
+        self.delete('contracts', contracts)
 
         # Maintenants
         self.delete('maintenants', MainTenant.objects.filter(
@@ -54,6 +59,12 @@ class Command(BaseCommand):
         self.stdout.write("")
         self.stdout.write('Database successfully cleaned')
 
+        # Delete contract PDFs
+        # TODO: this cannot be rolled back ...
+        self.delete_pdfs(contract_ids)
+        self.stdout.write("")
+        self.stdout.write('Filesystem successfully cleaned')
+
     def delete(self, title, stale):
         self.stdout.write("")
         if stale.exists():
@@ -63,3 +74,21 @@ class Command(BaseCommand):
             stale.delete()
         else:
             self.stdout.write(f"No stale {title}")
+
+    def delete_pdfs(self, ids):
+        if not ids:
+            self.stdout.write("")
+            self.stdout.write("No stale PDFs")
+            return
+
+        self.stdout.write("")
+        self.stdout.write("Deleting stale PDFs:")
+        for pk in ids:
+            pattern = contract_pdf_path(pk, '*')
+            self.stdout.write(f"  - {pattern}")
+            for fpath in glob.glob(pattern):
+                try:
+                    self.stdout.write(f"  - {fpath}")
+                    os.remove(fpath)
+                except OSError as e:
+                    self.stdout.write(f"    error deleting {fpath}: {e}")

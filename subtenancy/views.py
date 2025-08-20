@@ -3,26 +3,25 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import logout
 from django.contrib import messages
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
-from ratelimit.mixins import RatelimitMixin
+from django_ratelimit.decorators import ratelimit
 from django.shortcuts import redirect, render
 from django.utils.translation import gettext_lazy as _
 
-
-class Login(RatelimitMixin, SuccessMessageMixin, LoginView):
+@method_decorator(
+    ratelimit(key='ip', rate='10/5m', method='POST', block=True),
+    name='dispatch'
+)
+class Login(SuccessMessageMixin, LoginView):
     """
     Authenticates a user by username and password.
     This view is protected by a simple rate limiter.
     """
 
     title = 'Login'
-
-    ratelimit_key = 'ip'
-    ratelimit_rate = '10/5m'
-    ratelimit_block = True
-    ratelimit_method = 'POST'
 
     def get_success_message(self, cleaned_data):
         return _('Willkommen zurück') + ', ' + self.request.user.get_full_name() + '!'

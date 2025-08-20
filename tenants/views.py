@@ -1,6 +1,7 @@
 import datetime
 
 from django.db.transaction import atomic
+
 from tenants.models import User, SubTenant, Blacklist
 from tenants.forms import UserUpdateForm, MainTenantCreateForm, MainTenantUpdateForm, SubTenantCreateForm, \
     SubTenantUpdateForm, RequestUpdateForm, RequestQueryForm
@@ -12,7 +13,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import ProtectedError
 from django.contrib import messages
-from django.core.mail import EmailMessage, mail_admins
+from django.core.mail import EmailMessage
 from smtplib import SMTPException
 from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _

@@ -2,36 +2,17 @@ services:
   backend:
     build: .
     restart: unless-stopped
-    environment:
-      SUBTENANCY_SECRET_KEY: SECRET
-      SUBTENANCY_ALLOWED_HOSTS: localhost
-      SUBTENANCY_ORIGIN: http://localhost
-
-      SUBTENANCY_DB_HOST: database
-
-      SUBTENANCY_DEBUG: 1
+    env_file: /etc/subtenancy/config/backend
     volumes:
       - /etc/subtenancy/contracts:/app/contracts/contracts
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
 
   database:
     image: postgres:17.5
     restart: unless-stopped
-    environment:
-      POSTGRES_USER: default
-      POSTGRES_PASSWORD: default
-      POSTGRES_DB: subtenancy
+    env_file: /etc/subtenancy/config/database
     volumes:
-      - database:/var/lib/postgresql/data
+      - /etc/subtenancy/database:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
-
-  adminer:
-    image: adminer:5
-    restart: unless-stopped
-    ports:
-      - "8080:8080"
-
-volumes:
-  database:
+      - "127.0.0.1:5432:5432"

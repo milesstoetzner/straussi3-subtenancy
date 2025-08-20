@@ -236,5 +236,4 @@ def view_help(request):
     """
     context = {}
     context['title'] = 'Hilfe'
-    messages.info(request, 'Falls ihr Fragen zur Bedienung der Website bzw. zur Untermiete habt, dann zögert nicht und ruft mich an bzw. schreibt mir: +49 1777 580061.')
     return render(request, 'contracts/help.html', context)

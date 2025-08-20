@@ -28,7 +28,6 @@ def contract_pdf_path(pk, version):
     filename = 'contract_' + str(pk) + '_version_' + str(version) + '.pdf'
     return os.path.join(BASE_DIR, 'contracts', 'contracts', os.path.basename(filename))
 
-
 HOUSE_NUMBERS = ['3C', '3D', '3E', '3F', '3G', '3H', '3I']
 
 ROOM_NUMBERS = ['11', '12', '13', '14', '21', '22', '31', '32', '41', '42', '43', '44', '111', '112', '113', '114',

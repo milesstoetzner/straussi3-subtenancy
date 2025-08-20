@@ -1,5 +1,7 @@
 FROM python:3.13.5
 
+LABEL org.opencontainers.image.source=https://github.com/milesstoetzner/straussi3-subtenancy
+
 WORKDIR /app
 
 ENV PYTHONDONTWRITEBYTECODE=1

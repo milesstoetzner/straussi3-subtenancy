@@ -67,7 +67,7 @@ To dump the database you need to set up the password in [.pgpass](/config/.pgpas
 
 The production system sends email notifications using the following account.
 This email is send-only.
-All incoming emails are forwarded to wore.str3@gmail.com for futher processing.
+All incoming emails are forwarded to wore.str3@gmail.com for further processing.
 
 - Email: untermiete@straussi3.de
 - Inbox: https://mail.ext.selfnet.de/SOGo

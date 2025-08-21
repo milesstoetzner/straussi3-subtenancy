@@ -1,12 +1,14 @@
 services:
   backend:
-    build: .
+    image: ghcr.io/milesstoetzner/straussi3-subtenancy:v1
     restart: unless-stopped
     env_file: /etc/subtenancy/config/backend
     volumes:
       - /etc/subtenancy/contracts:/app/contracts/contracts
     ports:
       - "127.0.0.1:8000:8000"
+    depends_on:
+      - database
 
   database:
     image: postgres:17.5

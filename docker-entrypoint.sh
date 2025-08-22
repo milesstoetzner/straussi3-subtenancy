@@ -1,7 +1,9 @@
 #!/bin/bash
 set -e
 
-if [ ! "$SUBTENANCY_DISABLE_MIGRATIONS" = "1" ]; then
+ENABLE=${SUBTENANCY_ENABLE_MIGRATIONS:0}
+
+if [ "$ENABLE" = "1" ]; then
   python manage.py migrate
 fi
 

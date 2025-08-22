@@ -128,12 +128,14 @@ LOGOUT_REDIRECT_URL = '/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
-_secure_proxy = os.environ.get("SUBTENANCY_SECURE_PROXY_SSL_HEADER", "HTTP_X_FORWARDED_PROTO,https")
+_secure_proxy = os.environ.get("SUBTENANCY_SECURE_PROXY_SSL_HEADER", "")
 parts = _secure_proxy.split(',')
 if len(parts) == 2:
     SECURE_PROXY_SSL_HEADER = (parts[0].strip(), parts[1].strip())
 else:
     SECURE_PROXY_SSL_HEADER = None
+
+USE_X_FORWARDED_HOST = bool(int(os.environ.get('SUBTENANCY_USE_X_FORWARDED_HOST', default='0')))
 
 SESSION_COOKIE_SECURE = bool(int(os.environ.get('SUBTENANCY_SESSION_COOKIE_SECURE', default='1')))
 

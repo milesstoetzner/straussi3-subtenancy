@@ -1,6 +1,6 @@
 services:
   backend:
-    image: ghcr.io/milesstoetzner/straussi3-subtenancy:v1
+    image: ghcr.io/milesstoetzner/straussi3-subtenancy:v3
     restart: unless-stopped
     env_file: /etc/subtenancy/config/backend
     volumes:

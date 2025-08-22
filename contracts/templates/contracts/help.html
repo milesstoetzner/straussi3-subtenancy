@@ -23,7 +23,7 @@
                 sowohl Haupt- als auch Untermieter persönlich anwesend sein.</p>
 
             <ol>
-                <li>Nehme vom Hausmeister unterschriebenes Formular "Zimmerabnahme" vom Hautpmieter entgegen, falls er
+                <li>Nehme vom Hausmeister unterschriebenes Formular "Zimmerabnahme" vom Hauptmieter entgegen, falls er
                     nicht mehr zurückkehrt.
                 </li>
                 <li>Registriere den <a href="{% url 'MainTenantCreate' %}" target="_blank">Hauptmieter</a> und den <a
@@ -37,7 +37,7 @@
                     Kopiere folgende Dokumente:
                     <ul>
                         <li>Die ersten zwei Seiten des Hauptmietvertrages</li>
-                        <li>Immatrikulationsbescheinigung bzw. entsprechende Bescheingung des Untermieters</li>
+                        <li>Immatrikulationsbescheinigung bzw. entsprechende Bescheinigung des Untermieters</li>
                     </ul>
                 </li>
                 <li>Fülle das <a href="{% url 'contracts:ContractCreate' %}" target="_blank">Formular</a> aus
@@ -52,7 +52,7 @@
                                 </li>
                             </ol>
                         </li>
-                        <li>Hinweise für Kaution zwischen Hauptmieter und dem SWS:<br>Sofern der Hautpmieter nicht
+                        <li>Hinweise für Kaution zwischen Hauptmieter und dem SWS:<br>Sofern der Hauptmieter nicht
                             zurückkehrt, kann er seine Kaution mithilfe des Hausmeisters
                             zurückbekommen.
                         </li>
@@ -65,13 +65,13 @@
                 <li>Ändere gegebenenfalls die Daten (siehe unten) und erstelle eine neue Vorschau.</li>
                 <li>Erstelle den Vertrag.</li>
                 <li>Drucke den Vertrag einmalig aus.</li>
-                <li>Unterschreibe (inklusive Stempel) bzw. lass den Vertrag an den makierten Stellen unterschreiben.
+                <li>Unterschreibe (inklusive Stempel) bzw. lass den Vertrag an den markierten Stellen unterschreiben.
                 </li>
                 <li>Übergebe Haupt- und Untermieter jeweils eine Kopie des unterschriebenen Vertrages.</li>
                 <li>Hefte den originalen Vertrag zusammen mit folgenden Dokumenten ab:
                     <ul>
-                        <li>der Kopie der ersten zwei Seite des Hautpmietvertrages</li>
-                        <li>Immatrikulationsbescheinigung bzw. entsprechende Bescheingung des Untermieters ab.</li>
+                        <li>der Kopie der ersten zwei Seiten des Hauptmietvertrages</li>
+                        <li>Immatrikulationsbescheinigung bzw. entsprechende Bescheinigung des Untermieters ab.</li>
                         <li>Formular "Zimmerabnahme" (siehe erster Schritt)</li>
                     </ul>
                 </li>
@@ -79,18 +79,18 @@
             </ol>
 
             <p class="text-block">Nach Absprache kann auch nur eine der
-                beiden Parteien answesend sein. In diesem Fall muss der Vertrag bei der Erstellung auf <i>nicht
+                beiden Parteien anwesend sein. In diesem Fall muss der Vertrag bei der Erstellung auf <i>nicht
                     gültig</i> gesetzt werden. Der Vertrag wird per Email an die fehlende Partei gesendet. Diese schickt
                 den von ihr unterschriebenen Vertrag zurück, woraufhin dieser ausgedruckt und abgeheftet
                 werden kann. Im System muss ebenfalls der Vertrag auf <i>gültig</i> gestellt werden.Eine Kopie des
-                vollständig unterschiebenen Vertrages kann dann von den Parteien abgeholt werden.</p>
+                vollständig unterschriebenen Vertrages kann dann von den Parteien abgeholt werden.</p>
 
 
             <h6>Zimmerabnahme</h6>
 
             <p class="text-block">
-                Wir machen immer eine vorläufige und eine entgültige Zimmerabnahme. Die vorläufige Zimmerabnahme findet
-                circa eine Woche vor Vertragsende statt. Am Auszugstag machen wir die endgütlige Zimmerabnahme und
+                Wir machen immer eine vorläufige und eine endgültige Zimmerabnahme. Die vorläufige Zimmerabnahme findet
+                circa eine Woche vor Vertragsende statt. Am Auszugstag machen wir die endgültige Zimmerabnahme und
                 nehmen den Schlüssel entgegen, den wir anschließend dem Hausmeister übergeben.
             </p>
 
@@ -123,7 +123,7 @@
             </ul>
             </p>
 
-            <p>Jede vor dem 26.02.2019 ausgestelle ID stammt aus dem alten System und
+            <p>Jede vor dem 26.02.2019 erstellte ID stammt aus dem alten System und
                 kann nicht im aktuellen System verwendet werden.</p>
 
         </div>
@@ -139,7 +139,7 @@
 
             <ol>
 
-                <li><a href="http://localhost:8000/admin/tenants/user/add/" target="_blank">Füge einen neuen User</a> mit folgenden Daten hinzu:
+                <li><a href="/admin/tenants/user/add/" target="_blank">Füge einen neuen User</a> mit folgenden Daten hinzu:
                 </li>
 
                 <ol>

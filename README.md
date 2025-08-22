@@ -33,14 +33,17 @@ psql -h localhost -U default -d subtenancy -f restore.sql
 To create a superuser use a SQL command.
 `python manage.py createsuperuser` will not work since the user model is not the original one.
 The database scheme can be found [here](/config/database.pdf).
+To create such PDF, run the following:
+
+```
+python manage.py graph_models -a -I User,MainTenant,SubTenant,Blacklist,Contract,Feedback -o config/database.pdf
+```
 
 ## Deployment
 
 ### Server
 
 The production system is deployed on a server hosted on Selfnet.
-See [Vagrantfile](Vagrantfile) for deployment.
-Note that the Vagrantfile is more conceptual and not a fully working example.
 
 ### SSH
 

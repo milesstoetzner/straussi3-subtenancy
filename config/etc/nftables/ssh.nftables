@@ -1,1 +1,0 @@
-add rule inet firewall input tcp dport {ssh, 34242} accept

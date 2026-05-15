@@ -2,116 +2,140 @@
 {% load i18n %}
 
 {% block content %}
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">{{ title }}</h5>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ title }}</h5>
 
-            <p class="text-block">{% trans "Willkommen auf der Startseite der Ferienmiete des Studierendenwohnheim Straußäcker 3 in Stuttgart. Hier hast du die Möglichkeit als Hauptmieter dein Zimmer zu vermieten bzw. als Untermieter dich in die Anfragenliste einzutragen. Alle nötigen Informationen hierfür stehen weiter unten." %}</p>
+        <p class="text-block">
+            {% trans "Willkommen auf der Startseite der Ferienmiete des Studierendenwohnheims Straußäcker 3 in Stuttgart. Hier hast du die Möglichkeit als Hauptmieter dein Zimmer zu vermieten bzw. als Untermieter dich in die Anfragenliste einzutragen. Alle nötigen Informationen hierfür stehen weiter unten." %}
+        </p>
 
-            <a href="{% url 'Requests' %}" class="btn btn-success btn-block"><i
-                    class="fas fa-file-alt icon-text"></i>{% trans "Anfragen von Untermietern" %}</a>
+        <a href="{% url 'Requests' %}" class="btn btn-success btn-block"><i
+                class="fas fa-file-alt icon-text"></i>{% trans "Anfragen von Untermietern" %}</a>
 
-            <a href="{% url 'MainTenantCreate' %}" class="btn btn-success btn-block"><i
-                    class="fas fa-user-edit icon-text"></i>{% trans "Als Hauptmieter registrieren" %}</a>
+        <a href="{% url 'MainTenantCreate' %}" class="btn btn-success btn-block"><i
+                class="fas fa-user-edit icon-text"></i>{% trans "Als Hauptmieter registrieren" %}</a>
 
-            <a href="{% url 'SubTenantCreate' %}" class="btn btn-success btn-block"><i
-                    class="fas fa-user-edit icon-text"></i>{% trans "Als Untermieter registrieren" %}</a>
+        <a href="{% url 'SubTenantCreate' %}" class="btn btn-success btn-block"><i
+                class="fas fa-user-edit icon-text"></i>{% trans "Als Untermieter registrieren" %}</a>
 
-
-        </div>
-
-    </div>
-
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title" id="faq_maintenant">{% trans "Informationen für Hauptmieter" %}</h5>
-
-            <h6>{% trans "Wie vermiete ich mein Zimmer unter?" %}</h6>
-
-            <p class="text-block">{% trans "Dein Untermieter und du registriert euch, falls noch nicht geschehen, und kommt zusammen persönlich mit allen notwendigen Unterlagen in unsere Sprechstunde. In der Sprechstunde werden wir den Untermietvertrag abschließen und helfen bei weiteren Fragen." %}</p>
-
-            <h6>{% trans "Wie finde ich einen Untermieter?" %}</h6>
-
-            <p class="text-block">
-                {% url 'MainTenantCreate' as url_register %}
-                {% url 'Requests' as url_requests %}
-                {% blocktrans %}
-                    Du registrierst dich <a href="{{ url_register }}" target="_blank">als Hauptmieter</a> und
-                    kontaktierst in der <a href="{{ url_requests }}" target="_blank">Anfragenliste</a>
-                    passendene Untermieter.
-                {% endblocktrans %}
-            </p>
-
-            <h6>{% trans "Was muss ich beachten?" %}</h6>
-
-            <ol>
-                <li>{% trans "Du musst dein Zimmer über das WoRe untervermieten." %}</li>
-                <li>{% trans "Du darfst dein Zimmer ausschließlich an immatrikulierte Studierende vermieten." %}</li>
-                <li>{% trans "Die Summe aller Untermieten darf 3 Monaten nicht überschreiten." %}
-                </li>
-                <li>{% trans "Den Untermietvertrag kann nur unter Anwesenheit des Haupt- und Untermieters persönlich in der Sprechstunde abgeschlossen werden." %}
-                </li>
-                <li>{% trans "Es kann zusätzlich über uns ein Kautionsvertrag mit dem Untermieter abgeschlossen werden" %}</li>
-                <li>{% trans "Ein Vertrag muss spätestens 1 Woche vor Beginn der Untermiete abgeschlossen werden." %}</li>
-                <li>{% trans "Falls du nach Ende der Untermiete nicht in dein Zimmer zurückkehrst, musst du mit dem Hausmeister einen Termin für die Zimmerabnahme ausmachen. Nachdem der Hausmeister dein Zimmer abgenommen hat, bekommst du von Ihm eine Bestätigung. Diese Bestätigung ist zwingend erforderlich für die Untermiete!" %}</li>
-            </ol>
-
-            <h6>{% trans "Wie läuft die Zimmerübergabe ab?" %}</h6>
-
-            <p class="text-block">{% trans "Für die Zimmerübergabe musst du am ersten Tag des Vertrags deinen Schlüssel selbst deinem Untermieter geben. Bei einem Wiedereinzug nach Ende der Untermiete musst du deinen Schlüssel beim Hausmeister abholen." %}</p>
-
-            <h6>{% trans "Welche Dokumente muss ich vorlegen?" %}</h6>
-
-            <ol>
-                <li>{% trans "Mietvertrag" %}</li>
-                <li>{% trans "Personalausweis" %}</li>
-                <li>{% trans "Bestätigung der Zimmerabnahme vom Hausmeister (NUR falls du nach der Untermiete nicht zurückkehrst)" %}</li>
-            </ol>
-
-        </div>
 
     </div>
 
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title" id="faq_subtenant">{% trans "Informationen für Untermieter" %}</h5>
+</div>
 
-            <h6>{% trans "Darf ich ein Zimmer untermieten?" %}</h6>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title" id="faq_maintenant">{% trans "Informationen für Hauptmieter" %}</h5>
 
-            <p class="text-block">{% trans "Mietberechtigt ist, wer in Augen des SWS mietberechtigt ist (siehe <a href='https://www.studierendenwerk-stuttgart.de/fileadmin/Mediendatenbank_Studierendenwerk/02_Wohnen_WOW/026_PDF/2017-08-16_WOW_Mietbedingungen_DE.pdf' target='_blank'>Allgemeine Mietbedingungen</a>). In Sonderfällen kann unter Angabe eines triftigen Grundes nach Absprache eine Untermiete abgeschlossen werden. Ein triftiger Grund ist beispielsweise beispielsweise eine Sprachreise oder ein Pratikum in Stuttgart." %}</p>
+        <h6>{% trans "Wie vermiete ich mein Zimmer unter?" %}</h6>
 
-            <h6>{% trans "Wie finde ich ein Zimmer bzw. einen Hauptmieter?" %}</h6>
+        <p class="text-block">
+            {% trans "Dein Untermieter und du registriert euch, falls noch nicht geschehen, und schickt uns eine Mail an <a href='mailto:wore.str3@gmail.com'>wore.str3@gmail.com</a> mit allen notwendigen Unterlagen und ein paar Terminvorschlägen, an denen ihr beiden Zeit habt für eine kurze Videokonferenz (Dauer ca. 20 Minuten). In der Videokonferenz erstellen wir den Vertrag, organisieren die Schlüsselübergabe und helfen bei Fragen." %}
+        </p>
 
-            <p class="text-block">
-                {% url 'SubTenantCreate' as url_register %}
-                {% url 'Requests' as url_requests %}
-                {% blocktrans %}
-                    Du registrierst dich <a href="{{ url_register }}" target="_blank">als Untermieter</a>, damit du in
-                    die <a href="{{ url_requests }}" target="_blank">Anfragenliste</a>
-                    aufgenommen wirst. Als Untermieter kannst du nicht aktiv nach einem Zimmer suchen. Du musst warten,
-                    bis dich ein Hauptmieter über die Anfragenliste kontaktiert!
-                {% endblocktrans %}
-            </p>
+        <h6>{% trans "Wie finde ich einen Untermieter?" %}</h6>
 
-            <h6>{% trans "Miete, Gebühren, Freiwillige Spende?" %}</h6>
+        <p class="text-block">
+            {% url 'MainTenantCreate' as url_register %}
+            {% url 'Requests' as url_requests %}
+            {% blocktrans %}
+            Du registrierst dich <a href="{{ url_register }}" target="_blank">als Hauptmieter</a> und
+            kontaktierst in der <a href="{{ url_requests }}" target="_blank">Anfragenliste</a>
+            passende Untermieter.
+            {% endblocktrans %}
+        </p>
 
-            <p class="text-block">{% trans "Die Höhe der Miete entspricht der im Hauptmietvertrag des Hauptmieters festgelegten Höhe. Wir legen dir nahe, eine Spende von 2.50€ pro Woche an uns zu entrichten. Mit dieser Spende finanzieren wir uns und können diesen Dienst anbieten." %}</p>
+        <h6>{% trans "Was muss ich beachten?" %}</h6>
 
-            <h6>{% trans "Wie läuft die Zimmerübergabe ab?" %}</h6>
+        <ol>
+            <li>{% trans "Du musst dein Zimmer über das Wohnheimsreferat untervermieten." %}</li>
+            <li>{% trans "Du darfst dein Zimmer ausschließlich an immatrikulierte Studierende vermieten." %}</li>
+            <li>{% trans "Die Summe aller Untermieten darf ohne Sondererlaubnis des Studierendenwerks 3 Monaten nicht überschreiten." %}
+            </li>
+            <li>{% trans "Der Untermietvertrag kann nur unter Anwesenheit des Haupt- und Untermieters in einer Videokonferenz abgeschlossen werden." %}
+            </li>
+            <li>{% trans "Es kann zusätzlich über uns ein Kautionsvertrag mit dem Untermieter abgeschlossen werden." %}
+            </li>
+            <li>{% trans "Ein Vertrag muss spätestens 1 Woche vor Beginn der Untermiete abgeschlossen werden." %}</li>
+            <li>{% trans "Falls du nach Ende der Untermiete nicht in dein Zimmer zurückkehrst, macht das Wohnheimsreferat die Zimmerabnahme vor Beginn des Untermietvertrags. Der Termin dafür wird bei der Vertragserstellung ausgemacht." %}
+            </li>
+        </ol>
 
-            <p class="text-block">{% trans "Für den Einzug bekommst du den Zimmerschlüssel von deinem Hauptmieter, beim Auszug gibst du uns den Schlüssel. Du musst spätestens eine Woche vor dem Auszugstag einen Termin mit uns für die vorläufige Zimmerabnahme machen. Wir werden kontrollieren, ob das Zimmer und die Wohnung gereinigt und in einem ordnungsgemäßen Zustand ist. Bitte beachte dafür unser Reinigungsplan (siehe Untermietvertrag). Die entgültige Zimmerabnahme findet am Auszugstermin statt. Bei dieser übergibst du uns den Schlüssel. Ein Auszugstermin ist immer der letzte Arbeitstag im Monat. Für Alternativen wende dich bitte an uns." %}</p>
+        <h6>{% trans "Wie läuft die Zimmerübergabe ab?" %}</h6>
 
-            <h6>{% trans "Welche Dokumente muss ich vorlegen?" %}</h6>
+        <p class="text-block">
+            {% trans "Wenn du aus deinem Zimmer ausziehst und bevor der Untermieter in dein Zimmer einzieht, wird dein Zimmer von einem Mitglied des Wohnheimsreferats auf Sauberkeit und Schäden überprüft. Du musst spätestens eine Woche vor dem Beginn des Untermietvertrags einen Termin mit uns für die Zimmerabnahme ausmachen." %}
+        </p>
 
-            <ol>
-                <li>{% trans "Personalausweis" %}</li>
-                <li>{% trans "Studentenvisum oder Aufenthaltstitel" %}</li>
-                <li>{% trans "Immatrikulationsnachweis" %}</li>
-            </ol>
+        <p class="text-block">
+            {% trans "Für die Zimmerübergabe kannst du dem Untermieter den Schlüssel entweder selbst übergeben oder von einem Mitglied des Wohnheimsreferats übergeben lassen. Bei einem Wiedereinzug bekommst du den Schlüssel von einem Mitglied des Wohnheimsreferats. Die Details der Schlüsselübergabe werden in der Videokonferenz zur Vertragserstellung besprochen." %}
+        </p>
 
-        </div>
+        <h6>{% trans "Welche Dokumente muss ich vorlegen?" %}</h6>
+
+        <ol>
+            <li>{% trans "Mietvertrag" %}</li>
+            <li>{% trans "Personalausweis" %}</li>
+            <li>{% trans "Sondererlaubnis vom Studierendenwerk Stuttgart, falls du dein Zimmer länger als 3 Monate untervermieten möchtest" %}
+            </li>
+        </ol>
 
     </div>
+
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title" id="faq_subtenant">{% trans "Informationen für Untermieter" %}</h5>
+
+        <h6>{% trans "Darf ich ein Zimmer untermieten?" %}</h6>
+
+        <p class="text-block">
+            {% trans "Mietberechtigt ist, wer in Augen des SWS mietberechtigt ist (siehe <a href='https://www.studierendenwerk-stuttgart.de/fileadmin/Mediendatenbank_Studierendenwerk/02_Wohnen_WOW/026_PDF/2025-12_WOW_Mietbedingungen_DE.pdf' target='_blank'>Allgemeine Mietbedingungen</a>). In Sonderfällen kann unter Angabe eines triftigen Grundes nach Absprache eine Untermiete abgeschlossen werden. Ein triftiger Grund ist beispielsweise eine Sprachreise oder ein Pratikum in Stuttgart." %}
+        </p>
+
+        <h6>{% trans "Wie finde ich ein Zimmer bzw. einen Hauptmieter?" %}</h6>
+
+        <p class="text-block">
+            {% url 'SubTenantCreate' as url_register %}
+            {% url 'Requests' as url_requests %}
+            {% blocktrans %}
+            Du registrierst dich <a href="{{ url_register }}" target="_blank">als Untermieter</a>, damit du in
+            die <a href="{{ url_requests }}" target="_blank">Anfragenliste</a>
+            aufgenommen wirst. Als Untermieter kannst du nicht aktiv nach einem Zimmer suchen. Du musst warten,
+            bis dich ein Hauptmieter über die Anfragenliste kontaktiert!
+            {% endblocktrans %}
+        </p>
+
+        <h6>{% trans "Miete, Gebühren, Freiwillige Spende?" %}</h6>
+
+        <p class="text-block">
+            {% trans "Die Höhe der Miete entspricht der im Hauptmietvertrag des Hauptmieters festgelegten Höhe. Wir legen dir nahe, eine Spende von 2.50€ pro Woche an uns zu entrichten. Mit dieser Spende finanzieren wir uns und können diesen Dienst anbieten." %}
+        </p>
+
+        <h6>{% trans "Wie läuft die Zimmerübergabe ab?" %}</h6>
+
+        <p class="text-block">
+            {% trans "Die Schlüsselübergaben für den Einzug erfolgen entweder mit deinem Hauptmieter oder mit einem Mitglied des Wohnheimsreferats, bei deinem Auszug übergibst du den Schlüssel an ein Mitglied des Wohnheimsreferats. Die Details der Schlüsselübergabe werden in der Videokonferenz zur Vertragserstellung besprochen." %}
+        </p>
+
+        <p class="text-block">
+            {% trans "Du musst spätestens eine Woche vor Vertragsende mit uns einen Termin für deinen Auszug und die Zimmerabnahme machen. Wir werden kontrollieren, ob das Zimmer gereinigt und in einem ordnungsgemäßen Zustand ist und du übergibst uns den Schlüssel. Ein Auszugstermin ist immer der letzte Arbeitstag im Monat. Für Alternativen wende dich bitte an uns." %}
+        </p>
+
+        <h6>{% trans "Welche Dokumente muss ich vorlegen?" %}</h6>
+
+        <ol>
+            <li>{% trans "Personalausweis und ggf. Aufenthaltstitel" %}</li>
+            <li>{% trans "Immatrikulationsnachweis" %}</li>
+            <li>{% trans "Bestätigung über Praktikum/Bachelorarbeit/Masterarbeit etc. in Stuttgart, falls du nicht in Stuttgart immatrikuliert bist" %}
+            </li>
+        </ol>
+
+    </div>
+
+</div>
 
 
 {% endblock %}

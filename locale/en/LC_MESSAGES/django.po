@@ -2,43 +2,49 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-18 13:44+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2026-05-15 21:35+0200\n"
+"PO-Revision-Date: 2026-05-15 21:39+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.9\n"
 
-#: .\subtenancy\settings.py:119
+#: contracts/templates/contracts/help.html:178
+#: tenants/templates/registration/login.html:37
+msgid "Passwort vergessen?"
+msgstr "Forgot Password?"
+
+#: subtenancy/settings.py:101
 msgid "Deutsch"
 msgstr "German"
 
-#: .\subtenancy\settings.py:120
+#: subtenancy/settings.py:102
 msgid "Englisch"
 msgstr "English"
 
-#: .\subtenancy\views.py:29
+#: subtenancy/views.py:27
 msgid "Willkommen zurück"
 msgstr "Welcome back"
 
-#: .\subtenancy\views.py:41
+#: subtenancy/views.py:39
 msgid "Du hast dich erfolgreich ausgeloggt!"
 msgstr "You successfully logged out!"
 
-#: .\subtenancy\views.py:52
+#: subtenancy/views.py:50
 msgid "Passwort wurde erfolgreich geändert!"
 msgstr "Your Password has been successfully changed!"
 
-#: .\subtenancy\views.py:71
+#: subtenancy/views.py:69
 msgid ""
 "Wir haben eine E-Mail zum Zurücksetzen des Passwortes an die angegebene E-"
 "Mail-Adresse gesendet, sofern ein entsprechendes Konto existiert. Sie sollte "
@@ -48,64 +54,70 @@ msgstr ""
 "We have sent you an E-Mail with Instructions for Resetting your Password. "
 "Please check your Spam Folder."
 
-#: .\subtenancy\views.py:88
+#: subtenancy/views.py:86
 msgid "Dein Passwort wurde erfolgreich zurückgesetzt!"
 msgstr "Your Password has been successfully resetted!"
 
-#: .\subtenancy\views.py:105 .\tenants\templates\subtenancy\base.html:38
-#: .\tenants\templates\subtenancy\base.html:49
-#: .\tenants\templates\subtenancy\base.html:58
-#: .\tenants\templates\subtenancy\base.html:248
+#: subtenancy/views.py:103 tenants/templates/subtenancy/base.html:38
+#: tenants/templates/subtenancy/base.html:49
+#: tenants/templates/subtenancy/base.html:58
+#: tenants/templates/subtenancy/base.html:244
 msgid "Ferienmiete"
 msgstr "Subtenancy"
 
-#: .\subtenancy\views.py:113 .\tenants\templates\subtenancy\base.html:276
+#: subtenancy/views.py:111 tenants/templates/subtenancy/base.html:265
 msgid "Impressum"
 msgstr "Legal Notice"
 
-#: .\subtenancy\views.py:117
+#: subtenancy/views.py:115
 msgid "Es tut uns Leid, aber deine Anfrage konnte nicht verarbeitet werden!"
-msgstr ""
+msgstr "We are sorry, but your request could not be handled!"
 
-#: .\subtenancy\views.py:122
+#: subtenancy/views.py:120
 msgid "Es tut uns Leid, aber auf diese Seite hast du keinen Zugriff!"
-msgstr ""
+msgstr "We are sorry, but you do not have access to this page!"
 
-#: .\subtenancy\views.py:127
+#: subtenancy/views.py:125
 #, python-format
 msgid "Es tut uns Leid, aber die angefragte URL %(path)s wurde nicht gefunden!"
-msgstr ""
+msgstr "We are sorry, but the requested URL %(path)s could not be found!"
 
-#: .\subtenancy\views.py:133
-msgid "Es tut uns Leid, aber ein unerwarteter Fehler ist aufgetreten!"
+#: subtenancy/views.py:134
+msgid ""
+"Es tut uns Leid, aber ein unerwarteter Fehler ist aufgetreten! Versuche es "
+"später erneut."
 msgstr ""
+"We're sorry, but an unexpected error has occurred! Please try again later."
 
-#: .\subtenancy\views.py:138
+#: subtenancy/views.py:139
 msgid "Es tut uns Leid, aber die CSRF Überprüfung ist fehlgeschlagen!"
-msgstr ""
+msgstr "We're sorry, but the CSRF check has failed!"
 
-#: .\subtenancy\views.py:151 .\tenants\templates\subtenancy\base.html:275
-#: .\tenants\templates\tenants\feedback.html:20 .\tenants\views.py:432
-msgid "Feedback senden"
-msgstr "Send Feedback"
+#: subtenancy/views.py:150
+msgid "Error"
+msgstr "Error"
 
-#: .\tenants\forms.py:7
+#: tenants/forms.py:7
 msgid "Nein"
 msgstr "No"
 
-#: .\tenants\forms.py:7
+#: tenants/forms.py:7
 msgid "Ja"
 msgstr "Yes"
 
-#: .\tenants\forms.py:31 .\tenants\forms.py:32
+#: tenants/forms.py:32 tenants/forms.py:33
 msgid "Dein Name steht auf der schwarzen Liste!"
 msgstr "Your name is on the blacklist!"
 
-#: .\tenants\forms.py:73 .\tenants\forms.py:146
+#: tenants/forms.py:39 tenants/forms.py:86
+msgid "Du musst der Datenverarbeitung zustimmen."
+msgstr "You must consent to the processing of your data."
+
+#: tenants/forms.py:80 tenants/forms.py:161
 msgid "Das Ende der angefragten Untermiete muss nach dem Beginn sein!"
 msgstr "The end of the requested subtenancy has to be after the begin!"
 
-#: .\tenants\forms.py:92
+#: tenants/forms.py:105
 msgid ""
 "Wenn dieser Wert auf \"Nein\" gesetzt ist, taucht deine Anfrage mit dem oben "
 "genannten Zeitraum NICHT in der Anfragenliste auf. Sobald ein Vertrag "
@@ -118,154 +130,158 @@ msgstr ""
 "order to request e.g. a new subtenancy you have to update your requested "
 "time period and set this value to \"Yes\" again."
 
-#: .\tenants\forms.py:93
+#: tenants/forms.py:106
 msgid "Vollständiger Name für die Korrespondenzadresse"
-msgstr "Full name of your correspondence address "
+msgstr "Full name of your correspondence address"
 
-#: .\tenants\forms.py:133
+#: tenants/forms.py:107
+msgid "Mehr Informationen unter https://untermiete.straussi3.de/impressum"
+msgstr "For more information, visit https://untermiete.straussi3.de/impressum"
+
+#: tenants/forms.py:148
 msgid "Beginn der Anfrage"
 msgstr "Begin of Subtenancy"
 
-#: .\tenants\forms.py:134
+#: tenants/forms.py:149
 msgid "Ende der Anfrage"
 msgstr "End of Subtenancy"
 
-#: .\tenants\forms.py:135
+#: tenants/forms.py:150
 msgid "Zunächst ordnen nach"
 msgstr "First order by"
 
-#: .\tenants\forms.py:136
+#: tenants/forms.py:151
 msgid "Dann ordnen nach"
 msgstr "Then order by"
 
-#: .\tenants\models.py:15
+#: tenants/models.py:14
 msgid "Vorname"
 msgstr "First Name"
 
-#: .\tenants\models.py:16
+#: tenants/models.py:15
 msgid "Nachname"
 msgstr "Last Name"
 
-#: .\tenants\models.py:17
+#: tenants/models.py:16
 msgid "Email Adresse"
 msgstr "E-Mail Address"
 
-#: .\tenants\models.py:18
+#: tenants/models.py:17
 msgid "Geburtstag"
 msgstr "Birthday"
 
-#: .\tenants\models.py:19
+#: tenants/models.py:18
 msgid "Telefonnummer"
 msgstr "Telephone Number"
 
-#: .\tenants\models.py:20
+#: tenants/models.py:19
 msgid "Typ"
 msgstr "Type"
 
-#: .\tenants\models.py:64
+#: tenants/models.py:61
 msgid "Mieternummer"
 msgstr "Tenant ID"
 
-#: .\tenants\models.py:87 .\tenants\models.py:88
-#: .\tenants\templates\subtenancy\base.html:88 .\tenants\utils.py:256
+#: tenants/models.py:64 tenants/models.py:125
+msgid "Ich stimme der Datenverarbeitung zu"
+msgstr "I consent to the processing of my data"
+
+#: tenants/models.py:91 tenants/models.py:92
+#: tenants/templates/subtenancy/base.html:88 tenants/utils.py:256
 msgid "Hauptmieter"
 msgstr "Main Tenant"
 
-#: .\tenants\models.py:91
+#: tenants/models.py:95
 msgid "Can contact subtenant"
 msgstr "Darf Untermieter kontaktieren"
 
-#: .\tenants\models.py:105
+#: tenants/models.py:109
 msgid "Nationalität"
 msgstr "Nationality"
 
-#: .\tenants\models.py:108
+#: tenants/models.py:112
 msgid "Beginn der angefragten Untermiete"
 msgstr "Begin of the requested Subtenancy"
 
-#: .\tenants\models.py:109
+#: tenants/models.py:113
 msgid "Ende der angefragten Untermiete"
 msgstr "End of the requested Subtenancy"
 
-#: .\tenants\models.py:110
+#: tenants/models.py:114
 msgid "Ich suche für den oben genannten Zeitraum ein Zimmer"
 msgstr "I am currently searching a Room for the above-named Period"
 
-#: .\tenants\models.py:113
+#: tenants/models.py:117
 msgid "Name"
 msgstr "Name"
 
-#: .\tenants\models.py:114
+#: tenants/models.py:118
 msgid "Straße"
 msgstr "Street"
 
-#: .\tenants\models.py:115
+#: tenants/models.py:119
 msgid "Hausnummer"
 msgstr "House Number"
 
-#: .\tenants\models.py:116
+#: tenants/models.py:120
 msgid "Postleitzahl"
 msgstr "Post Code"
 
-#: .\tenants\models.py:117
+#: tenants/models.py:121
 msgid "Ort"
 msgstr "City"
 
-#: .\tenants\models.py:118
+#: tenants/models.py:122
 msgid "Land"
 msgstr "Country"
 
-#: .\tenants\models.py:124 .\tenants\models.py:125
-#: .\tenants\templates\subtenancy\base.html:91 .\tenants\utils.py:257
+#: tenants/models.py:135 tenants/models.py:136
+#: tenants/templates/subtenancy/base.html:91 tenants/utils.py:257
 msgid "Untermieter"
 msgstr "Subtenant"
 
-#: .\tenants\templates\registration\login.html:14
-#: .\tenants\templates\registration\login.html:33
-#: .\tenants\templates\subtenancy\base.html:78
-#: .\tenants\templates\subtenancy\base.html:236
+#: tenants/templates/registration/login.html:14
+#: tenants/templates/registration/login.html:33
+#: tenants/templates/subtenancy/base.html:78
+#: tenants/templates/subtenancy/base.html:232
 msgid "Einloggen"
 msgstr "Login"
 
-#: .\tenants\templates\registration\login.html:17
+#: tenants/templates/registration/login.html:17
 msgid "Falscher Nutzername und/ oder Passwort!"
 msgstr "Wrong Username and/ or Password!"
 
-#: .\tenants\templates\registration\login.html:24
+#: tenants/templates/registration/login.html:24
 msgid ""
 "Du hast leider nicht die benötigten Rechte, um diese Seite zu sehen. Bitte "
 "logge dich mit einem Account ein, der diese Rechte besitzt."
 msgstr ""
-"You sadly do not have the Rights to access this Page. Please log into an "
-"Account with the corresponding Rights"
+"You sadly do not have the rights to access this page. Please log into an "
+"account with the corresponding rights."
 
-#: .\tenants\templates\registration\login.html:26
+#: tenants/templates/registration/login.html:26
 msgid "Du musst dich einloggen, um diese Seite zu sehen."
 msgstr "You have to be logged in to access this Site."
 
-#: .\tenants\templates\registration\login.html:37
-msgid "Passwort vergessen?"
-msgstr "Forgot Password?"
-
-#: .\tenants\templates\registration\password_change.html:12
-#: .\tenants\templates\registration\password_change.html:15
-#: .\tenants\templates\subtenancy\base.html:240
-#: .\tenants\templates\tenants\view.html:34
+#: tenants/templates/registration/password_change.html:12
+#: tenants/templates/registration/password_change.html:15
+#: tenants/templates/subtenancy/base.html:236
+#: tenants/templates/tenants/view.html:34
 msgid "Passwort ändern"
 msgstr "Change Password"
 
-#: .\tenants\templates\registration\password_confirm.html:12
-#: .\tenants\templates\registration\password_confirm.html:26
-#: .\tenants\templates\registration\password_reset.html:12
-#: .\tenants\templates\registration\password_reset.html:17
+#: tenants/templates/registration/password_confirm.html:12
+#: tenants/templates/registration/password_confirm.html:26
+#: tenants/templates/registration/password_reset.html:12
+#: tenants/templates/registration/password_reset.html:17
 msgid "Passwort zurücksetzen"
 msgstr "Reset Password"
 
-#: .\tenants\templates\registration\password_confirm.html:18
+#: tenants/templates/registration/password_confirm.html:18
 msgid "Neues Passwort setzen"
 msgstr "Set new Password"
 
-#: .\tenants\templates\registration\password_confirm.html:23
+#: tenants/templates/registration/password_confirm.html:23
 msgid ""
 "Deine Anfrage ist ungültig! Eventuell wurde der Link bereits verwendet. Du "
 "kannst dein Passwort erneut zurücksetzen lassen."
@@ -273,7 +289,7 @@ msgstr ""
 "Your Request is invalid! Maybe the Link already has been used. You can "
 "request resetting your Password a second Time."
 
-#: .\tenants\templates\registration\password_reset.html:13
+#: tenants/templates/registration/password_reset.html:13
 msgid ""
 "Passwort vergessen? Einfach die E-Mail-Adresse unten eingeben und den "
 "Anweisungen zum Zurücksetzen des Passworts in der E-Mail folgen."
@@ -281,326 +297,410 @@ msgstr ""
 "Did you forgot your Password? Provide your E-Mail-Addresse and we will send "
 "you an E-Mail with Instructions."
 
-#: .\tenants\templates\registration\password_reset.html:14
+#: tenants/templates/registration/password_reset.html:14
 msgid ""
 "ACHTUNG: Es ist unbedingt notwendig, dass die unten angegebene E-Mail-"
 "Adresse genau so wie während der Registrierung geschrieben wird. Das "
 "schließt beispielsweise Groß- und Kleinschreibung mit ein."
 msgstr ""
+"PLEASE NOTE: It is essential that the email address provided below is "
+"entered exactly as it was during registration. This includes, for example, "
+"the use of upper and lower case letters."
 
-#: .\tenants\templates\subtenancy\base.html:28
-#: .\tenants\templates\subtenancy\base.html:71
+#: tenants/templates/subtenancy/base.html:28
+#: tenants/templates/subtenancy/base.html:71
 msgid "Eingeloggt als"
 msgstr "Logged in as"
 
-#: .\tenants\templates\subtenancy\base.html:96
+#: tenants/templates/subtenancy/base.html:96
 msgid "Anfragen"
 msgstr "Requests"
 
-#: .\tenants\templates\subtenancy\base.html:127
+#: tenants/templates/subtenancy/base.html:127
 msgid "Ausloggen"
 msgstr "Logout"
 
-#: .\tenants\templates\subtenancy\base.html:233
+#: tenants/templates/subtenancy/base.html:229
 msgid "Benutzerkonto"
 msgstr "Account"
 
-#: .\tenants\templates\subtenancy\base.html:235
+#: tenants/templates/subtenancy/base.html:231
 msgid "Profil"
 msgstr "Profile"
 
-#: .\tenants\templates\subtenancy\base.html:238
+#: tenants/templates/subtenancy/base.html:234
 msgid "Passwort vergessen"
 msgstr "Password Forgotten"
 
-#: .\tenants\templates\subtenancy\base.html:242 .\tenants\views.py:134
+#: tenants/templates/subtenancy/base.html:238 tenants/views.py:135
 msgid "Profil aktualisieren"
 msgstr "Update Profile"
 
-#: .\tenants\templates\subtenancy\base.html:244
-#: .\tenants\templates\subtenancy\base.html:261
-#: .\tenants\templates\tenants\view.html:29 .\tenants\views.py:173
+#: tenants/templates/subtenancy/base.html:240
+#: tenants/templates/subtenancy/base.html:257
+#: tenants/templates/tenants/view.html:29 tenants/views.py:174
 msgid "Anfrage aktualisieren"
 msgstr "Update Request"
 
-#: .\tenants\templates\subtenancy\base.html:253
-#: .\tenants\templates\subtenancy\index.html:15
+#: tenants/templates/subtenancy/base.html:249
+#: tenants/templates/subtenancy/index.html:17
 msgid "Als Hauptmieter registrieren"
 msgstr "Register as Main Tenant"
 
-#: .\tenants\templates\subtenancy\base.html:256
-#: .\tenants\templates\subtenancy\index.html:18
+#: tenants/templates/subtenancy/base.html:252
+#: tenants/templates/subtenancy/index.html:20
 msgid "Als Untermieter registrieren"
 msgstr "Register as Subtenant"
 
-#: .\tenants\templates\subtenancy\base.html:258 .\tenants\views.py:403
+#: tenants/templates/subtenancy/base.html:254 tenants/views.py:410
 msgid "Anfragenliste"
 msgstr "Requests"
 
-#: .\tenants\templates\subtenancy\base.html:265
+#: tenants/templates/subtenancy/base.html:261
 msgid "Über uns"
 msgstr "About Us"
 
-#: .\tenants\templates\subtenancy\base.html:267
+#: tenants/templates/subtenancy/base.html:263
 msgid "Homepage"
 msgstr "Homepage"
 
-#: .\tenants\templates\subtenancy\base.html:270
-msgid "Facebook Seite"
-msgstr "Facebook Site"
-
-#: .\tenants\templates\subtenancy\base.html:273
-msgid "Facebook Gruppe"
-msgstr "Facebook Group"
-
-#: .\tenants\templates\subtenancy\base.html:278
-msgid "GitHub"
-msgstr "GitHub"
-
-#: .\tenants\templates\subtenancy\bootstrap_form.html:13
+#: tenants/templates/subtenancy/bootstrap_form.html:13
 msgid "Alles in Ordnung!"
 msgstr "Everything is allright!"
 
-#: .\tenants\templates\subtenancy\index.html:9
+#: tenants/templates/subtenancy/index.html:10
 msgid ""
-"Willkommen auf der Startseite der Ferienmiete des Studierendenwohnheim "
+"Willkommen auf der Startseite der Ferienmiete des Studierendenwohnheims "
 "Straußäcker 3 in Stuttgart. Hier hast du die Möglichkeit als Hauptmieter "
 "dein Zimmer zu vermieten bzw. als Untermieter dich in die Anfragenliste "
 "einzutragen. Alle nötigen Informationen hierfür stehen weiter unten."
 msgstr ""
 "Welcome to the subtenancy of the residential home Straußäcker 3 in "
-"Stuttgart. Here you can sublet or rent a room. All necessary information are "
-"below."
+"Stuttgart. Here you can sublet or request to rent a room. All necessary "
+"information are below."
 
-#: .\tenants\templates\subtenancy\index.html:12
+#: tenants/templates/subtenancy/index.html:14
 msgid "Anfragen von Untermietern"
 msgstr "Subtenant Requests"
 
-#: .\tenants\templates\subtenancy\index.html:27
+#: tenants/templates/subtenancy/index.html:29
 msgid "Informationen für Hauptmieter"
 msgstr "Information for Main Tenants"
 
-#: .\tenants\templates\subtenancy\index.html:29
+#: tenants/templates/subtenancy/index.html:31
 msgid "Wie vermiete ich mein Zimmer unter?"
 msgstr "How to sublet a room?"
 
-#: .\tenants\templates\subtenancy\index.html:31
+#: tenants/templates/subtenancy/index.html:34
 msgid ""
 "Dein Untermieter und du registriert euch, falls noch nicht geschehen, und "
-"kommt zusammen persönlich mit allen notwendigen Unterlagen in unsere "
-"Sprechstunde. In der Sprechstunde werden wir den Untermietvertrag "
-"abschließen und helfen bei weiteren Fragen."
+"schickt uns eine Mail an <a "
+"href='mailto:wore.str3@gmail.com'>wore.str3@gmail.com</a> mit allen "
+"notwendigen Unterlagen und ein paar Terminvorschlägen, an denen ihr beiden "
+"Zeit habt für eine kurze Videokonferenz (Dauer ca. 20 Minuten). In der "
+"Videokonferenz erstellen wir den Vertrag, organisieren die Schlüsselübergabe "
+"und helfen bei Fragen."
 msgstr ""
-"First your subtenant and you register on this website. Then both of you come "
-"personally with the necessary documents to our office to sign the subtenancy "
-"contract."
+"Your subtenant and you register on this website and send us an email to <a "
+"href='mailto:wore.str3@gmail.com'>wore.str3@gmail.com</a> with all the "
+"necessary documents and a few suggested dates when you both have time for a "
+"short video conference (lasting approx. 20 minutes). During the video "
+"conference, we will draw up the contract, organize the handover of the keys "
+"and help with any questions."
 
-#: .\tenants\templates\subtenancy\index.html:33
+#: tenants/templates/subtenancy/index.html:37
 msgid "Wie finde ich einen Untermieter?"
 msgstr "How to find a subtenant?"
 
-#: .\tenants\templates\subtenancy\index.html:38
+#: tenants/templates/subtenancy/index.html:42
 #, python-format
 msgid ""
 "\n"
-"                    Du registrierst dich <a href=\"%(url_register)s\" target="
-"\"_blank\">als Hauptmieter</a> und\n"
-"                    kontaktierst in der <a href=\"%(url_requests)s\" target="
-"\"_blank\">Anfragenliste</a>\n"
-"                    passendene Untermieter.\n"
-"                "
+"            Du registrierst dich <a href=\"%(url_register)s\" "
+"target=\"_blank\">als Hauptmieter</a> und\n"
+"            kontaktierst in der <a href=\"%(url_requests)s\" "
+"target=\"_blank\">Anfragenliste</a>\n"
+"            passende Untermieter.\n"
+"            "
 msgstr ""
 "\n"
-"Register <a href=\"%(url_register)s\" target=\"_blank\">as main tenant</a> "
-"and contact subtenants using the <a href=\"%(url_requests)s\" target=\"_blank"
-"\">requests</a>."
+"You register <a href=\"%(url_register)s\" target=\"_blank\">as a main "
+"tenant</a> and contact suitable subtenants using the <a "
+"href=\"%(url_requests)s\" target=\"_blank\">inquiry list</a>."
 
-#: .\tenants\templates\subtenancy\index.html:45
+#: tenants/templates/subtenancy/index.html:49
 msgid "Was muss ich beachten?"
-msgstr "What to consider?"
+msgstr "What do I need to consider?"
 
-#: .\tenants\templates\subtenancy\index.html:48
-msgid "Du musst dein Zimmer über das WoRe untervermieten."
-msgstr "You have to sublet your room using our housing office."
+#: tenants/templates/subtenancy/index.html:52
+msgid "Du musst dein Zimmer über das Wohnheimsreferat untervermieten."
+msgstr "You must sublet your room via the Wohnheimsreferat."
 
-#: .\tenants\templates\subtenancy\index.html:49
+#: tenants/templates/subtenancy/index.html:53
 msgid ""
 "Du darfst dein Zimmer ausschließlich an immatrikulierte Studierende "
 "vermieten."
-msgstr "Please note that you are allowed to rent your room to enrolled students only."
+msgstr "You may only sublet your room to enrolled students."
 
-#: .\tenants\templates\subtenancy\index.html:50
-msgid "Die Summe aller Untermieten darf 3 Monaten nicht überschreiten."
-msgstr "The total amount of all subtenancies is maximum 3 months."
-
-#: .\tenants\templates\subtenancy\index.html:52
+#: tenants/templates/subtenancy/index.html:54
 msgid ""
-"Den Untermietvertrag kann nur unter Anwesenheit des Haupt- und Untermieters "
-"persönlich in der Sprechstunde abgeschlossen werden."
+"Die Summe aller Untermieten darf ohne Sondererlaubnis des Studierendenwerks "
+"3 Monaten nicht überschreiten."
 msgstr ""
-"The subtenancy contract can only be signed if and only if main- and "
-"subtenant are present."
+"The total duration of all sublets may not exceed 3 months without special "
+"permission from the Studierendenwerk Stuttgart."
 
-#: .\tenants\templates\subtenancy\index.html:54
+#: tenants/templates/subtenancy/index.html:56
+msgid ""
+"Der Untermietvertrag kann nur unter Anwesenheit des Haupt- und Untermieters "
+"in einer Videokonferenz abgeschlossen werden."
+msgstr ""
+"The subletting agreement can only be drawn up with both the main tenant and "
+"subtenant present in a video conference."
+
+#: tenants/templates/subtenancy/index.html:58
 msgid ""
 "Es kann zusätzlich über uns ein Kautionsvertrag mit dem Untermieter "
-"abgeschlossen werden"
-msgstr "A rental deposit agreement can be contracted with the subtenant."
+"abgeschlossen werden."
+msgstr "A deposit agreement with the subtenant can also be arranged by us."
 
-#: .\tenants\templates\subtenancy\index.html:55
+#: tenants/templates/subtenancy/index.html:60
 msgid ""
 "Ein Vertrag muss spätestens 1 Woche vor Beginn der Untermiete abgeschlossen "
 "werden."
-msgstr "The contract has to be signed one week before the subtenancy starts."
+msgstr ""
+"A contract must be drawn up and signed at least 1 week before the start of "
+"the sublet."
 
-#: .\tenants\templates\subtenancy\index.html:58
-#: .\tenants\templates\subtenancy\index.html:94
+#: tenants/templates/subtenancy/index.html:61
+msgid ""
+"Falls du nach Ende der Untermiete nicht in dein Zimmer zurückkehrst, macht "
+"das Wohnheimsreferat die Zimmerabnahme vor Beginn des Untermietvertrags. Der "
+"Termin dafür wird bei der Vertragserstellung ausgemacht."
+msgstr ""
+"If you do not return to your room at the end of the sublet, the "
+"Wohnheimsreferat will inspect the room before the start of the subletting "
+"contract. The date for this will be agreed upon during the video conference."
+
+#: tenants/templates/subtenancy/index.html:65
+#: tenants/templates/subtenancy/index.html:117
+msgid "Wie läuft die Zimmerübergabe ab?"
+msgstr "How does the room handover work?"
+
+#: tenants/templates/subtenancy/index.html:68
+msgid ""
+"Wenn du aus deinem Zimmer ausziehst und bevor der Untermieter in dein Zimmer "
+"einzieht, wird dein Zimmer von einem Mitglied des Wohnheimsreferats auf "
+"Sauberkeit und Schäden überprüft. Du musst spätestens eine Woche vor dem "
+"Beginn des Untermietvertrags einen Termin mit uns für die Zimmerabnahme "
+"ausmachen."
+msgstr ""
+"When you move out of your room and before the subtenant moves into your "
+"room, your room will be checked for cleanliness and damage by a member of "
+"the Wohnheimsreferat. You must make an appointment with us for the room "
+"inspection at least one week before the start of the subletting contract."
+
+#: tenants/templates/subtenancy/index.html:72
+msgid ""
+"Für die Zimmerübergabe kannst du dem Untermieter den Schlüssel entweder "
+"selbst übergeben oder von einem Mitglied des Wohnheimsreferats übergeben "
+"lassen. Bei einem Wiedereinzug bekommst du den Schlüssel von einem Mitglied "
+"des Wohnheimsreferats. Die Details der Schlüsselübergabe werden in der "
+"Videokonferenz zur Vertragserstellung besprochen."
+msgstr ""
+"To hand over the room, you can either hand over the key to the subtenant "
+"yourself or have it handed over by a member of the Wohnheimsreferat. If you "
+"move back in, you will receive the key from a member of the "
+"Wohnheimsreferat. The details of the key handover will be discussed in the "
+"video conference."
+
+#: tenants/templates/subtenancy/index.html:75
+#: tenants/templates/subtenancy/index.html:127
 msgid "Welche Dokumente muss ich vorlegen?"
-msgstr "Which documents to provide?"
+msgstr "What documents do I need to provide?"
 
-#: .\tenants\templates\subtenancy\index.html:61
+#: tenants/templates/subtenancy/index.html:78
 msgid "Mietvertrag"
 msgstr "Rental agreement with the SWS"
 
-#: .\tenants\templates\subtenancy\index.html:62
-#: .\tenants\templates\subtenancy\index.html:97
+#: tenants/templates/subtenancy/index.html:79
 msgid "Personalausweis"
-msgstr "Identification card"
+msgstr "Photo ID"
 
-#: .\tenants\templates\subtenancy\index.html:71
+#: tenants/templates/subtenancy/index.html:80
+msgid ""
+"Sondererlaubnis vom Studierendenwerk Stuttgart, falls du dein Zimmer länger "
+"als 3 Monate untervermieten möchtest"
+msgstr ""
+"Special permission from the Studierendenwerk Stuttgart if you want to sublet "
+"your room for longer than 3 months"
+
+#: tenants/templates/subtenancy/index.html:90
 msgid "Informationen für Untermieter"
 msgstr "Information for Subtenants"
 
-#: .\tenants\templates\subtenancy\index.html:73
+#: tenants/templates/subtenancy/index.html:92
 msgid "Darf ich ein Zimmer untermieten?"
-msgstr "May I rent a room?"
+msgstr "Am I eligible to sublet a room?"
 
-#: .\tenants\templates\subtenancy\index.html:75
+#: tenants/templates/subtenancy/index.html:95
 msgid ""
 "Mietberechtigt ist, wer in Augen des SWS mietberechtigt ist (siehe <a "
 "href='https://www.studierendenwerk-stuttgart.de/fileadmin/"
-"Mediendatenbank_Studierendenwerk/02_Wohnen_WOW/026_PDF/2017-08-16_WOW_Mietbedingungen_DE."
-"pdf' target='_blank'>Allgemeine Mietbedingungen</a>). In Sonderfällen kann "
-"unter Angabe eines triftigen Grundes nach Absprache eine Untermiete "
-"abgeschlossen werden. Ein triftiger Grund ist beispielsweise beispielsweise "
-"eine Sprachreise oder ein Pratikum in Stuttgart."
+"Mediendatenbank_Studierendenwerk/02_Wohnen_WOW/026_PDF/"
+"2025-12_WOW_Mietbedingungen_DE.pdf' target='_blank'>Allgemeine "
+"Mietbedingungen</a>). In Sonderfällen kann unter Angabe eines triftigen "
+"Grundes nach Absprache eine Untermiete abgeschlossen werden. Ein triftiger "
+"Grund ist beispielsweise eine Sprachreise oder ein Pratikum in Stuttgart."
 msgstr ""
-"You are allowed to rent a room if and only if the SWS thinks that you are "
-"allowed to (see <a href='https://www.studierendenwerk-stuttgart.de/fileadmin/"
-"Mediendatenbank_Studierendenwerk/02_Wohnen_WOW/026_PDF/2017-08-16_WOW_Mietbedingungen_DE."
-"pdf' target='_blank'>Allgemeine Mietbedingungen</a>)."
+"Anyone who is authorised to rent in the eyes of the SWS is entitled to "
+"sublet (see <a href='https://www.studierendenwerk-stuttgart.de/fileadmin/"
+"Mediendatenbank_Studierendenwerk/02_Wohnen_WOW/026_PDF/"
+"2025-12_WOW_Mietbedingungen_EN.pdf'>General terms and conditions of lease</"
+"a>). In special cases, a sublet can be agreed by prior arrangement, stating "
+"a valid reason. A valid reason is, for example, a language study trip or an "
+"internship in Stuttgart."
 
-#: .\tenants\templates\subtenancy\index.html:77
+#: tenants/templates/subtenancy/index.html:98
 msgid "Wie finde ich ein Zimmer bzw. einen Hauptmieter?"
 msgstr "How to find a room?"
 
-#: .\tenants\templates\subtenancy\index.html:82
+#: tenants/templates/subtenancy/index.html:103
 #, python-format
 msgid ""
 "\n"
-"                    Du registrierst dich <a href=\"%(url_register)s\" target="
-"\"_blank\">als Untermieter</a>, damit du in\n"
-"                    die <a href=\"%(url_requests)s\" target=\"_blank"
-"\">Anfragenliste</a>\n"
-"                    aufgenommen wirst. Als Untermieter kannst du nicht aktiv "
-"nach einem Zimmer suchen. Du musst warten,\n"
-"                    bis dich ein Hauptmieter über die Anfragenliste "
-"kontaktiert!\n"
-"                "
+"            Du registrierst dich <a href=\"%(url_register)s\" "
+"target=\"_blank\">als Untermieter</a>, damit du in\n"
+"            die <a href=\"%(url_requests)s\" "
+"target=\"_blank\">Anfragenliste</a>\n"
+"            aufgenommen wirst. Als Untermieter kannst du nicht aktiv nach "
+"einem Zimmer suchen. Du musst warten,\n"
+"            bis dich ein Hauptmieter über die Anfragenliste kontaktiert!\n"
+"            "
 msgstr ""
 "\n"
-"Register <a href=\"%(url_register)s\" target=\"_blank\">as subtenant</a> to "
-"get listed in the <a href=\"%(url_requests)s\" target=\"_blank\">requests</"
-"a>. As a subtenant you can not search for a room or contact a main tenant. "
-"You have to wait until a main tenant contacts you via the request list."
+"Register as a <a href=\"%(url_register)s\" target=\"_blank\">subtenant</a> "
+"to get listed in the <a href=\"%(url_requests)s\" "
+"target=\"_blank\">requests</a>. As a subtenant you cannot actively search "
+"for a room or contact a main tenant. You must wait until a main tenant "
+"contacts you via the request list."
 
-#: .\tenants\templates\subtenancy\index.html:90
+#: tenants/templates/subtenancy/index.html:111
 msgid "Miete, Gebühren, Freiwillige Spende?"
-msgstr "Rent, Fees, Donation?"
+msgstr "Rent, fees, voluntary donation?"
 
-#: .\tenants\templates\subtenancy\index.html:92
+#: tenants/templates/subtenancy/index.html:114
 msgid ""
 "Die Höhe der Miete entspricht der im Hauptmietvertrag des Hauptmieters "
 "festgelegten Höhe. Wir legen dir nahe, eine Spende von 2.50€ pro Woche an "
 "uns zu entrichten. Mit dieser Spende finanzieren wir uns und können diesen "
 "Dienst anbieten."
 msgstr ""
-"The rent corresponds to the rent assigned in the contract of the main tenant "
-"with the SWS. We suggest that you donate additionally about 2.50€ per week "
-"to us. We use this donation to provide this service."
+"The rent corresponds to the amount specified in the main tenant's main "
+"tenancy agreement. We encourage you to make a donation of €2.50 per week to "
+"us. With this donation we can finance ourselves and offer this service."
 
-#: .\tenants\templates\subtenancy\index.html:98
-msgid "Studentenvisum oder Aufenthaltstitel"
-msgstr "Student visa or residence permit"
+#: tenants/templates/subtenancy/index.html:120
+msgid ""
+"Die Schlüsselübergaben für den Einzug erfolgen entweder mit deinem "
+"Hauptmieter oder mit einem Mitglied des Wohnheimsreferats, bei deinem Auszug "
+"übergibst du den Schlüssel an ein Mitglied des Wohnheimsreferats. Die "
+"Details der Schlüsselübergabe werden in der Videokonferenz zur "
+"Vertragserstellung besprochen."
+msgstr ""
+"When you move in, the keys are handed over to you either by your main tenant "
+"or by a member of the Wohnheimsreferat. When you move out, you hand over the "
+"keys to a member of the Wohnheimsreferat. The details of the key handover "
+"will be discussed in the video conference."
 
-#: .\tenants\templates\subtenancy\index.html:99
+#: tenants/templates/subtenancy/index.html:124
+msgid ""
+"Du musst spätestens eine Woche vor Vertragsende mit uns einen Termin für "
+"deinen Auszug und die Zimmerabnahme machen. Wir werden kontrollieren, ob das "
+"Zimmer gereinigt und in einem ordnungsgemäßen Zustand ist und du übergibst "
+"uns den Schlüssel. Ein Auszugstermin ist immer der letzte Arbeitstag im "
+"Monat. Für Alternativen wende dich bitte an uns."
+msgstr ""
+"You must make an appointment with us at least one week before the end of "
+"your contract to move out and check your room. We will check that the room "
+"has been cleaned and is in good condition and you will hand over the keys to "
+"us. A move-out date is always the last working day of the month. For "
+"alternatives, please contact us."
+
+#: tenants/templates/subtenancy/index.html:130
+msgid "Personalausweis und ggf. Aufenthaltstitel"
+msgstr "Photo ID and student visa/residence permit, if applicable"
+
+#: tenants/templates/subtenancy/index.html:131
 msgid "Immatrikulationsnachweis"
-msgstr "Certificate of matriculation"
+msgstr "Proof of enrolment"
 
-#: .\tenants\templates\subtenancy\pagination.html:8
-#: .\tenants\templates\subtenancy\pagination.html:11
+#: tenants/templates/subtenancy/index.html:132
+msgid ""
+"Bestätigung über Praktikum/Bachelorarbeit/Masterarbeit etc. in Stuttgart, "
+"falls du nicht in Stuttgart immatrikuliert bist"
+msgstr ""
+"Confirmation of internship/bachelor thesis/master thesis etc. in Stuttgart, "
+"if you are not enrolled in Stuttgart"
+
+#: tenants/templates/subtenancy/pagination.html:8
+#: tenants/templates/subtenancy/pagination.html:11
 msgid "Zurück"
 msgstr "Back"
 
-#: .\tenants\templates\subtenancy\pagination.html:22
-#: .\tenants\templates\subtenancy\pagination.html:24
+#: tenants/templates/subtenancy/pagination.html:22
+#: tenants/templates/subtenancy/pagination.html:24
 msgid "Weiter"
 msgstr "Next"
 
-#: .\tenants\templates\subtenancy\unicorn.html:15
+#: tenants/templates/subtenancy/unicorn.html:15
 msgid "Du wurdest von Hans, dem dabbenden Einhorn, besucht!"
 msgstr "You have been visited by Hans the dabbing Unicorn!"
 
-#: .\tenants\templates\subtenancy\unicorn.html:16
+#: tenants/templates/subtenancy/unicorn.html:16
 msgid "Er wünscht dir einen wunderschönen Tag!"
-msgstr "He wishes you a beautiful day"
+msgstr "He wishes you a beautiful day!"
 
-#: .\tenants\templates\subtenancy\unicorn.html:21
+#: tenants/templates/subtenancy/unicorn.html:21
 msgid "Dab zurück!"
 msgstr "Dab back!"
 
-#: .\tenants\templates\tenants\contact.html:12
+#: tenants/templates/tenants/contact.html:12
 #, python-format
 msgid "Möchtest du folgende Nachricht an die Person mit der ID %(pk)s senden?"
 msgstr ""
 "Do you want to send the following message to the person with the ID %(pk)s?"
 
-#: .\tenants\templates\tenants\contact.html:24
+#: tenants/templates/tenants/contact.html:24
 msgid "Kontaktieren"
 msgstr "Contact"
 
-#: .\tenants\templates\tenants\contact.html:27
-#: .\tenants\templates\tenants\delete.html:18
-#: .\tenants\templates\tenants\update_profile.html:20
-#: .\tenants\templates\tenants\update_request.html:19
+#: tenants/templates/tenants/contact.html:27
+#: tenants/templates/tenants/delete.html:18
+#: tenants/templates/tenants/update_profile.html:20
+#: tenants/templates/tenants/update_request.html:19
 msgid "Abbrechen"
 msgstr "Cancel"
 
-#: .\tenants\templates\tenants\create.html:19
+#: tenants/templates/tenants/create.html:19
 msgid "Registrieren"
 msgstr "Register"
 
-#: .\tenants\templates\tenants\delete.html:13
+#: tenants/templates/tenants/delete.html:13
 #, python-format
 msgid "%(tenant)s löschen"
 msgstr "Delete %(tenant)s"
 
-#: .\tenants\templates\tenants\delete.html:15
+#: tenants/templates/tenants/delete.html:15
 #, python-format
 msgid "Möchtest du wirklich unwiderruflich %(tenant)s löschen?"
 msgstr "Do you really want to irrevocably delete %(tenant)s?"
 
-#: .\tenants\templates\tenants\delete.html:17
+#: tenants/templates/tenants/delete.html:17
 msgid "Löschen"
 msgstr "Delete"
 
-#: .\tenants\templates\tenants\feedback.html:16
-msgid ""
-"Hier kannst du Probleme oder allgemein Feedback an uns senden. Wir freuen "
-"uns über jede Nachricht."
-msgstr ""
-
-#: .\tenants\templates\tenants\requests.html:14
+#: tenants/templates/tenants/requests.html:14
 msgid ""
 "Wenn du dich als Hauptmieter für eine unten aufgelistete Anfrage eines "
 "Untermieters interessierst, dann kannst du die jeweilige Person kontaktieren "
@@ -609,1098 +709,1098 @@ msgstr ""
 "If you are interested in a specific request, you can contact the potential "
 "subtenant."
 
-#: .\tenants\templates\tenants\requests.html:20
+#: tenants/templates/tenants/requests.html:20
 msgid "Anfragenliste filtern und ordnen"
 msgstr "Filter and Order Requests"
 
-#: .\tenants\templates\tenants\requests.html:35
+#: tenants/templates/tenants/requests.html:35
 msgid "Filtern"
 msgstr "Filter"
 
-#: .\tenants\templates\tenants\requests.html:58
+#: tenants/templates/tenants/requests.html:58
 msgid "Aktuell gibt es leider keine Anfragen."
 msgstr "Currently there are no requests."
 
-#: .\tenants\templates\tenants\update_profile.html:19
-#: .\tenants\templates\tenants\update_request.html:18
+#: tenants/templates/tenants/update_profile.html:19
+#: tenants/templates/tenants/update_request.html:18
 msgid "Aktualisieren"
 msgstr "Update"
 
-#: .\tenants\templates\tenants\view.html:25
-#: .\tenants\templates\tenants\view.html:42
+#: tenants/templates/tenants/view.html:25
+#: tenants/templates/tenants/view.html:42
 msgid "Informationen aktualisieren"
 msgstr "Update Information"
 
-#: .\tenants\templates\tenants\view.html:59
+#: tenants/templates/tenants/view.html:59
 msgid "Verträge"
 msgstr "Contracts"
 
-#: .\tenants\templates\tenants\view.html:72
-#: .\tenants\templates\tenants\view.html:87
+#: tenants/templates/tenants/view.html:72
+#: tenants/templates/tenants/view.html:87
 msgid "Keine Verträge vorhanden"
 msgstr "No Contracts available"
 
-#: .\tenants\utils.py:4
+#: tenants/utils.py:4
 msgid "Andorra"
-msgstr ""
+msgstr "Andorra"
 
-#: .\tenants\utils.py:5
+#: tenants/utils.py:5
 msgid "Vereinigte Arabische Emirate"
-msgstr ""
+msgstr "United Arab Emirates"
 
-#: .\tenants\utils.py:6
+#: tenants/utils.py:6
 msgid "Afghanistan"
-msgstr ""
+msgstr "Afghanistan"
 
-#: .\tenants\utils.py:7
+#: tenants/utils.py:7
 msgid "Antigua und Barbuda"
-msgstr ""
+msgstr "Antigua and Barbuda"
 
-#: .\tenants\utils.py:8
+#: tenants/utils.py:8
 msgid "Anguilla"
-msgstr ""
+msgstr "Anguilla"
 
-#: .\tenants\utils.py:9
+#: tenants/utils.py:9
 msgid "Albanien"
-msgstr ""
+msgstr "Albania"
 
-#: .\tenants\utils.py:10
+#: tenants/utils.py:10
 msgid "Armenien"
-msgstr ""
+msgstr "Armenia"
 
-#: .\tenants\utils.py:11
+#: tenants/utils.py:11
 msgid "Niederländische Antillen"
-msgstr ""
+msgstr "Netherlands Antilles"
 
-#: .\tenants\utils.py:12
+#: tenants/utils.py:12
 msgid "Angola"
-msgstr ""
+msgstr "Angola"
 
-#: .\tenants\utils.py:13
+#: tenants/utils.py:13
 msgid "Antarktis"
-msgstr ""
+msgstr "Antarctica"
 
-#: .\tenants\utils.py:14
+#: tenants/utils.py:14
 msgid "Argentinien"
-msgstr ""
+msgstr "Argentina"
 
-#: .\tenants\utils.py:15
+#: tenants/utils.py:15
 msgid "Amerikanisch-Samoa"
-msgstr ""
+msgstr "American Samoa"
 
-#: .\tenants\utils.py:16
+#: tenants/utils.py:16
 msgid "Österreich"
-msgstr ""
+msgstr "Austria"
 
-#: .\tenants\utils.py:17
+#: tenants/utils.py:17
 msgid "Australien"
-msgstr ""
+msgstr "Australia"
 
-#: .\tenants\utils.py:18
+#: tenants/utils.py:18
 msgid "Aruba"
-msgstr ""
+msgstr "Aruba"
 
-#: .\tenants\utils.py:19
+#: tenants/utils.py:19
 msgid "Åland"
-msgstr ""
+msgstr "Åland"
 
-#: .\tenants\utils.py:20
+#: tenants/utils.py:20
 msgid "Aserbaidschan"
-msgstr ""
+msgstr "Azerbaijan"
 
-#: .\tenants\utils.py:21
+#: tenants/utils.py:21
 msgid "Bosnien und Herzegowina"
-msgstr ""
+msgstr "Bosnia and Herzegovina"
 
-#: .\tenants\utils.py:22
+#: tenants/utils.py:22
 msgid "Barbados"
-msgstr ""
+msgstr "Barbados"
 
-#: .\tenants\utils.py:23
+#: tenants/utils.py:23
 msgid "Bangladesch"
-msgstr ""
+msgstr "Bangladesh"
 
-#: .\tenants\utils.py:24
+#: tenants/utils.py:24
 msgid "Belgien"
-msgstr ""
+msgstr "Belgium"
 
-#: .\tenants\utils.py:25
+#: tenants/utils.py:25
 msgid "Burkina Faso"
-msgstr ""
+msgstr "Burkina Faso"
 
-#: .\tenants\utils.py:26
+#: tenants/utils.py:26
 msgid "Bulgarien"
-msgstr ""
+msgstr "Bulgaria"
 
-#: .\tenants\utils.py:27
+#: tenants/utils.py:27
 msgid "Bahrain"
-msgstr ""
+msgstr "Bahrain"
 
-#: .\tenants\utils.py:28
+#: tenants/utils.py:28
 msgid "Burundi"
-msgstr ""
+msgstr "Burundi"
 
-#: .\tenants\utils.py:29
+#: tenants/utils.py:29
 msgid "Benin"
-msgstr ""
+msgstr "Benin"
 
-#: .\tenants\utils.py:30
+#: tenants/utils.py:30
 msgid "Bermuda"
-msgstr ""
+msgstr "Bermuda"
 
-#: .\tenants\utils.py:31
+#: tenants/utils.py:31
 msgid "Brunei Darussalam"
-msgstr ""
+msgstr "Brunei Darussalam"
 
-#: .\tenants\utils.py:32
+#: tenants/utils.py:32
 msgid "Bolivien"
-msgstr ""
+msgstr "Bolivia"
 
-#: .\tenants\utils.py:33
+#: tenants/utils.py:33
 msgid "Brasilien"
-msgstr ""
+msgstr "Brazil"
 
-#: .\tenants\utils.py:34
+#: tenants/utils.py:34
 msgid "Bahamas"
-msgstr ""
+msgstr "Bahamas"
 
-#: .\tenants\utils.py:35
+#: tenants/utils.py:35
 msgid "Bhutan"
-msgstr ""
+msgstr "Bhutan"
 
-#: .\tenants\utils.py:36
+#: tenants/utils.py:36
 msgid "Bouvetinsel"
-msgstr ""
+msgstr "Bouvet Island"
 
-#: .\tenants\utils.py:37
+#: tenants/utils.py:37
 msgid "Botswana"
-msgstr ""
+msgstr "Botswana"
 
-#: .\tenants\utils.py:38
+#: tenants/utils.py:38
 msgid "Belarus (Weißrussland)"
-msgstr ""
+msgstr "Belarus"
 
-#: .\tenants\utils.py:39
+#: tenants/utils.py:39
 msgid "Belize"
-msgstr ""
+msgstr "Belize"
 
-#: .\tenants\utils.py:40
+#: tenants/utils.py:40
 msgid "Kanada"
-msgstr ""
+msgstr "Canada"
 
-#: .\tenants\utils.py:41
+#: tenants/utils.py:41
 msgid "Kokosinseln (Keelinginseln)"
-msgstr ""
+msgstr "Cocos (Keeling) Islands"
 
-#: .\tenants\utils.py:42
+#: tenants/utils.py:42
 msgid "Kongo"
-msgstr ""
+msgstr "Congo"
 
-#: .\tenants\utils.py:43
+#: tenants/utils.py:43
 msgid "Zentralafrikanische Republik"
-msgstr ""
+msgstr "Central African Republic"
 
-#: .\tenants\utils.py:44
+#: tenants/utils.py:44
 msgid "Republik Kongo"
-msgstr ""
+msgstr "Republic of the Congo"
 
-#: .\tenants\utils.py:45
+#: tenants/utils.py:45
 msgid "Schweiz"
-msgstr ""
+msgstr "Switzerland"
 
-#: .\tenants\utils.py:46
+#: tenants/utils.py:46
 msgid "Elfenbeinküste"
-msgstr ""
+msgstr "Ivory Coast"
 
-#: .\tenants\utils.py:47
+#: tenants/utils.py:47
 msgid "Cookinseln"
-msgstr ""
+msgstr "Cook Islands"
 
-#: .\tenants\utils.py:48
+#: tenants/utils.py:48
 msgid "Chile"
-msgstr ""
+msgstr "Chile"
 
-#: .\tenants\utils.py:49
+#: tenants/utils.py:49
 msgid "Kamerun"
-msgstr ""
+msgstr "Cameroon"
 
-#: .\tenants\utils.py:50
+#: tenants/utils.py:50
 msgid "China, Volksrepublik"
-msgstr ""
+msgstr "People's Republic of China"
 
-#: .\tenants\utils.py:51
+#: tenants/utils.py:51
 msgid "Kolumbien"
-msgstr ""
+msgstr "Colombia"
 
-#: .\tenants\utils.py:52
+#: tenants/utils.py:52
 msgid "Costa Rica"
-msgstr ""
+msgstr "Costa Rica"
 
-#: .\tenants\utils.py:53
+#: tenants/utils.py:53
 msgid "Kuba"
-msgstr ""
+msgstr "Cuba"
 
-#: .\tenants\utils.py:54
+#: tenants/utils.py:54
 msgid "Kap Verde"
-msgstr ""
+msgstr "Cape Verde"
 
-#: .\tenants\utils.py:55
+#: tenants/utils.py:55
 msgid "Weihnachtsinsel"
-msgstr ""
+msgstr "Christmas Island"
 
-#: .\tenants\utils.py:56
+#: tenants/utils.py:56
 msgid "Zypern"
-msgstr ""
+msgstr "Cyprus"
 
-#: .\tenants\utils.py:57
+#: tenants/utils.py:57
 msgid "Tschechische Republik"
-msgstr ""
+msgstr "Czech Republic"
 
-#: .\tenants\utils.py:58
+#: tenants/utils.py:58
 msgid "Deutschland"
-msgstr ""
+msgstr "Germany"
 
-#: .\tenants\utils.py:59
+#: tenants/utils.py:59
 msgid "Dschibuti"
-msgstr ""
+msgstr "Dschibuti"
 
-#: .\tenants\utils.py:60
+#: tenants/utils.py:60
 msgid "Dänemark"
-msgstr ""
+msgstr "Denmark"
 
-#: .\tenants\utils.py:61
+#: tenants/utils.py:61
 msgid "Dominica"
-msgstr ""
+msgstr "Dominica"
 
-#: .\tenants\utils.py:62
+#: tenants/utils.py:62
 msgid "Dominikanische Republik"
-msgstr ""
+msgstr "Dominican Republic"
 
-#: .\tenants\utils.py:63
+#: tenants/utils.py:63
 msgid "Algerien"
-msgstr ""
+msgstr "Algeria"
 
-#: .\tenants\utils.py:64
+#: tenants/utils.py:64
 msgid "Ecuador"
-msgstr ""
+msgstr "Ecuador"
 
-#: .\tenants\utils.py:65
+#: tenants/utils.py:65
 msgid "Estland (Reval)"
-msgstr ""
+msgstr "Estonia (Reval)"
 
-#: .\tenants\utils.py:66
+#: tenants/utils.py:66
 msgid "Ägypten"
-msgstr ""
+msgstr "Egypt"
 
-#: .\tenants\utils.py:67
+#: tenants/utils.py:67
 msgid "Westsahara"
-msgstr ""
+msgstr "Western Sahara"
 
-#: .\tenants\utils.py:68
+#: tenants/utils.py:68
 msgid "Eritrea"
-msgstr ""
+msgstr "Eritrea"
 
-#: .\tenants\utils.py:69
+#: tenants/utils.py:69
 msgid "Spanien"
-msgstr ""
+msgstr "Spain"
 
-#: .\tenants\utils.py:70
+#: tenants/utils.py:70
 msgid "Äthiopien"
-msgstr ""
+msgstr "Ethiopia"
 
-#: .\tenants\utils.py:71
+#: tenants/utils.py:71
 msgid "Finnland"
-msgstr ""
+msgstr "Finland"
 
-#: .\tenants\utils.py:72
+#: tenants/utils.py:72
 msgid "Fidschi"
-msgstr ""
+msgstr "Fiji"
 
-#: .\tenants\utils.py:73
+#: tenants/utils.py:73
 msgid "Falklandinseln (Malwinen)"
-msgstr ""
+msgstr "Falkland Islands (Malvinas)"
 
-#: .\tenants\utils.py:74
+#: tenants/utils.py:74
 msgid "Mikronesien"
-msgstr ""
+msgstr "Micronesia"
 
-#: .\tenants\utils.py:75
+#: tenants/utils.py:75
 msgid "Färöer"
-msgstr ""
+msgstr "Faroe Islands"
 
-#: .\tenants\utils.py:76
+#: tenants/utils.py:76
 msgid "Frankreich"
-msgstr ""
+msgstr "France"
 
-#: .\tenants\utils.py:77
+#: tenants/utils.py:77
 msgid "Gabun"
-msgstr ""
+msgstr "Gabon"
 
-#: .\tenants\utils.py:78
+#: tenants/utils.py:78
 msgid "Großbritannien und Nordirland"
-msgstr ""
+msgstr "Great Britain and Northern Ireland"
 
-#: .\tenants\utils.py:79
+#: tenants/utils.py:79
 msgid "Grenada"
-msgstr ""
+msgstr "Grenada"
 
-#: .\tenants\utils.py:80
+#: tenants/utils.py:80
 msgid "Georgien"
-msgstr ""
+msgstr "Georgia"
 
-#: .\tenants\utils.py:81
+#: tenants/utils.py:81
 msgid "Französisch-Guayana"
-msgstr ""
+msgstr "French Guiana"
 
-#: .\tenants\utils.py:82
+#: tenants/utils.py:82
 msgid "Guernsey (Kanalinsel)"
-msgstr ""
+msgstr "Guernsey (Channel Island)"
 
-#: .\tenants\utils.py:83
+#: tenants/utils.py:83
 msgid "Ghana"
-msgstr ""
+msgstr "Ghana"
 
-#: .\tenants\utils.py:84
+#: tenants/utils.py:84
 msgid "Gibraltar"
-msgstr ""
+msgstr "Gibraltar"
 
-#: .\tenants\utils.py:85
+#: tenants/utils.py:85
 msgid "Grönland"
-msgstr ""
+msgstr "Greenland"
 
-#: .\tenants\utils.py:86
+#: tenants/utils.py:86
 msgid "Gambia"
-msgstr ""
+msgstr "The Gambia"
 
-#: .\tenants\utils.py:87
+#: tenants/utils.py:87
 msgid "Guinea"
-msgstr ""
+msgstr "Guinea"
 
-#: .\tenants\utils.py:88
+#: tenants/utils.py:88
 msgid "Guadeloupe"
-msgstr ""
+msgstr "Guadeloupe"
 
-#: .\tenants\utils.py:89
+#: tenants/utils.py:89
 msgid "Äquatorialguinea"
-msgstr ""
+msgstr "Equatorial Guinea"
 
-#: .\tenants\utils.py:90
+#: tenants/utils.py:90
 msgid "Griechenland"
-msgstr ""
+msgstr "Greece"
 
-#: .\tenants\utils.py:91
+#: tenants/utils.py:91
 msgid "Südgeorgien und die Südl. Sandwichinseln"
-msgstr ""
+msgstr "South Georgia and the South Sandwich Islands"
 
-#: .\tenants\utils.py:92
+#: tenants/utils.py:92
 msgid "Guatemala"
-msgstr ""
+msgstr "Guatemala"
 
-#: .\tenants\utils.py:93
+#: tenants/utils.py:93
 msgid "Guam"
-msgstr ""
+msgstr "Guam"
 
-#: .\tenants\utils.py:94
+#: tenants/utils.py:94
 msgid "Guinea-Bissau"
-msgstr ""
+msgstr "Guinea-Bissau"
 
-#: .\tenants\utils.py:95
+#: tenants/utils.py:95
 msgid "Guyana"
-msgstr ""
+msgstr "Guyana"
 
-#: .\tenants\utils.py:96
+#: tenants/utils.py:96
 msgid "Hongkong"
-msgstr ""
+msgstr "Hong Kong"
 
-#: .\tenants\utils.py:97
+#: tenants/utils.py:97
 msgid "Heard- und McDonald-Inseln"
-msgstr ""
+msgstr "Heard and McDonald Islands"
 
-#: .\tenants\utils.py:98
+#: tenants/utils.py:98
 msgid "Honduras"
-msgstr ""
+msgstr "Honduras"
 
-#: .\tenants\utils.py:99
+#: tenants/utils.py:99
 msgid "Kroatien"
-msgstr ""
+msgstr "Croatia"
 
-#: .\tenants\utils.py:100
+#: tenants/utils.py:100
 msgid "Haiti"
-msgstr ""
+msgstr "Haiti"
 
-#: .\tenants\utils.py:101
+#: tenants/utils.py:101
 msgid "Ungarn"
-msgstr ""
+msgstr "Hungary"
 
-#: .\tenants\utils.py:102
+#: tenants/utils.py:102
 msgid "Indonesien"
-msgstr ""
+msgstr "Indonesia"
 
-#: .\tenants\utils.py:103
+#: tenants/utils.py:103
 msgid "Irland"
-msgstr ""
+msgstr "Ireland"
 
-#: .\tenants\utils.py:104
+#: tenants/utils.py:104
 msgid "Israel"
-msgstr ""
+msgstr "Israel"
 
-#: .\tenants\utils.py:105
+#: tenants/utils.py:105
 msgid "Insel Man"
-msgstr ""
+msgstr "Isle of Man"
 
-#: .\tenants\utils.py:106
+#: tenants/utils.py:106
 msgid "Indien"
-msgstr ""
+msgstr "India"
 
-#: .\tenants\utils.py:107
+#: tenants/utils.py:107
 msgid "Britisches Territorium im Indischen Ozean"
-msgstr ""
+msgstr "British Indian Ocean Territory"
 
-#: .\tenants\utils.py:108
+#: tenants/utils.py:108
 msgid "Irak"
-msgstr ""
+msgstr "Iraq"
 
-#: .\tenants\utils.py:109
+#: tenants/utils.py:109
 msgid "Iran"
-msgstr ""
+msgstr "Iran"
 
-#: .\tenants\utils.py:110
+#: tenants/utils.py:110
 msgid "Island"
-msgstr ""
+msgstr "Iceland"
 
-#: .\tenants\utils.py:111
+#: tenants/utils.py:111
 msgid "Italien"
-msgstr ""
+msgstr "Italy"
 
-#: .\tenants\utils.py:112
+#: tenants/utils.py:112
 msgid "Jersey (Kanalinsel)"
-msgstr ""
+msgstr "Jersey (Channel Island)"
 
-#: .\tenants\utils.py:113
+#: tenants/utils.py:113
 msgid "Jamaika"
-msgstr ""
+msgstr "Jamaica"
 
-#: .\tenants\utils.py:114
+#: tenants/utils.py:114
 msgid "Jordanien"
-msgstr ""
+msgstr "Jordan"
 
-#: .\tenants\utils.py:115
+#: tenants/utils.py:115
 msgid "Japan"
-msgstr ""
+msgstr "Japan"
 
-#: .\tenants\utils.py:116
+#: tenants/utils.py:116
 msgid "Kenia"
-msgstr ""
+msgstr "Kenya"
 
-#: .\tenants\utils.py:117
+#: tenants/utils.py:117
 msgid "Kirgisistan"
-msgstr ""
+msgstr "Kyrgyzstan"
 
-#: .\tenants\utils.py:118
+#: tenants/utils.py:118
 msgid "Kambodscha"
-msgstr ""
+msgstr "Cambodia"
 
-#: .\tenants\utils.py:119
+#: tenants/utils.py:119
 msgid "Kiribati"
-msgstr ""
+msgstr "Kiribati"
 
-#: .\tenants\utils.py:120
+#: tenants/utils.py:120
 msgid "Komoren"
-msgstr ""
+msgstr "Comoros"
 
-#: .\tenants\utils.py:121
+#: tenants/utils.py:121
 msgid "St. Kitts und Nevis"
-msgstr ""
+msgstr "Saint Kitts and Nevis"
 
-#: .\tenants\utils.py:122
+#: tenants/utils.py:122
 msgid "Nordkorea"
-msgstr ""
+msgstr "North Korea"
 
-#: .\tenants\utils.py:123
+#: tenants/utils.py:123
 msgid "Südkorea"
-msgstr ""
+msgstr "South Korea"
 
-#: .\tenants\utils.py:124
+#: tenants/utils.py:124
 msgid "Kuwait"
-msgstr ""
+msgstr "Kuwait"
 
-#: .\tenants\utils.py:125
+#: tenants/utils.py:125
 msgid "Kaimaninseln"
-msgstr ""
+msgstr "Cayman Islands"
 
-#: .\tenants\utils.py:126
+#: tenants/utils.py:126
 msgid "Kasachstan"
-msgstr ""
+msgstr "Kazakhstan"
 
-#: .\tenants\utils.py:127
+#: tenants/utils.py:127
 msgid "Laos"
-msgstr ""
+msgstr "Laos"
 
-#: .\tenants\utils.py:128
+#: tenants/utils.py:128
 msgid "Libanon"
-msgstr ""
+msgstr "Lebanon"
 
-#: .\tenants\utils.py:129
+#: tenants/utils.py:129
 msgid "St. Lucia"
-msgstr ""
+msgstr "Saint Lucia"
 
-#: .\tenants\utils.py:130
+#: tenants/utils.py:130
 msgid "Liechtenstein"
-msgstr ""
+msgstr "Liechtenstein"
 
-#: .\tenants\utils.py:131
+#: tenants/utils.py:131
 msgid "Sri Lanka"
-msgstr ""
+msgstr "Sri Lanka"
 
-#: .\tenants\utils.py:132
+#: tenants/utils.py:132
 msgid "Liberia"
-msgstr ""
+msgstr "Liberia"
 
-#: .\tenants\utils.py:133
+#: tenants/utils.py:133
 msgid "Lesotho"
-msgstr ""
+msgstr "Lesotho"
 
-#: .\tenants\utils.py:134
+#: tenants/utils.py:134
 msgid "Litauen"
-msgstr ""
+msgstr "Lithuania"
 
-#: .\tenants\utils.py:135
+#: tenants/utils.py:135
 msgid "Luxemburg"
-msgstr ""
+msgstr "Luxembourg"
 
-#: .\tenants\utils.py:136
+#: tenants/utils.py:136
 msgid "Lettland"
-msgstr ""
+msgstr "Latvia"
 
-#: .\tenants\utils.py:137
+#: tenants/utils.py:137
 msgid "Libyen"
-msgstr ""
+msgstr "Libya"
 
-#: .\tenants\utils.py:138
+#: tenants/utils.py:138
 msgid "Marokko"
-msgstr ""
+msgstr "Morocco"
 
-#: .\tenants\utils.py:139
+#: tenants/utils.py:139
 msgid "Monaco"
-msgstr ""
+msgstr "Monaco"
 
-#: .\tenants\utils.py:140
+#: tenants/utils.py:140
 msgid "Moldawien"
-msgstr ""
+msgstr "Moldova"
 
-#: .\tenants\utils.py:141
+#: tenants/utils.py:141
 msgid "Madagaskar"
-msgstr ""
+msgstr "Madagascar"
 
-#: .\tenants\utils.py:142
+#: tenants/utils.py:142
 msgid "Marshallinseln"
-msgstr ""
+msgstr "Marshall Islands"
 
-#: .\tenants\utils.py:143
+#: tenants/utils.py:143
 msgid "Mazedonien"
-msgstr ""
+msgstr "Macedonia"
 
-#: .\tenants\utils.py:144
+#: tenants/utils.py:144
 msgid "Mali"
-msgstr ""
+msgstr "Mali"
 
-#: .\tenants\utils.py:145
+#: tenants/utils.py:145
 msgid "Myanmar (Burma)"
-msgstr ""
+msgstr "Myanmar (Burma)"
 
-#: .\tenants\utils.py:146
+#: tenants/utils.py:146
 msgid "Mongolei"
-msgstr ""
+msgstr "Mongolia"
 
-#: .\tenants\utils.py:147
+#: tenants/utils.py:147
 msgid "Macau"
-msgstr ""
+msgstr "Macau"
 
-#: .\tenants\utils.py:148
+#: tenants/utils.py:148
 msgid "Nördliche Marianen"
-msgstr ""
+msgstr "Northern Mariana Islands"
 
-#: .\tenants\utils.py:149
+#: tenants/utils.py:149
 msgid "Martinique"
-msgstr ""
+msgstr "Martinique"
 
-#: .\tenants\utils.py:150
+#: tenants/utils.py:150
 msgid "Mauretanien"
-msgstr ""
+msgstr "Mauritania"
 
-#: .\tenants\utils.py:151
+#: tenants/utils.py:151
 msgid "Montserrat"
-msgstr ""
+msgstr "Montserrat"
 
-#: .\tenants\utils.py:152
+#: tenants/utils.py:152
 msgid "Malta"
-msgstr ""
+msgstr "Malta"
 
-#: .\tenants\utils.py:153
+#: tenants/utils.py:153
 msgid "Mauritius"
-msgstr ""
+msgstr "Mauritius"
 
-#: .\tenants\utils.py:154
+#: tenants/utils.py:154
 msgid "Malediven"
-msgstr ""
+msgstr "Maldives"
 
-#: .\tenants\utils.py:155
+#: tenants/utils.py:155
 msgid "Malawi"
-msgstr ""
+msgstr "Malawi"
 
-#: .\tenants\utils.py:156
+#: tenants/utils.py:156
 msgid "Mexiko"
-msgstr ""
+msgstr "Mexico"
 
-#: .\tenants\utils.py:157
+#: tenants/utils.py:157
 msgid "Malaysia"
-msgstr ""
+msgstr "Malaysia"
 
-#: .\tenants\utils.py:158
+#: tenants/utils.py:158
 msgid "Mosambik"
-msgstr ""
+msgstr "Mozambique"
 
-#: .\tenants\utils.py:159
+#: tenants/utils.py:159
 msgid "Namibia"
-msgstr ""
+msgstr "Namibia"
 
-#: .\tenants\utils.py:160
+#: tenants/utils.py:160
 msgid "Neukaledonien"
-msgstr ""
+msgstr "New Caledonia"
 
-#: .\tenants\utils.py:161
+#: tenants/utils.py:161
 msgid "Niger"
-msgstr ""
+msgstr "Niger"
 
-#: .\tenants\utils.py:162
+#: tenants/utils.py:162
 msgid "Norfolkinsel"
-msgstr ""
+msgstr "Norfolk Island"
 
-#: .\tenants\utils.py:163
+#: tenants/utils.py:163
 msgid "Nigeria"
-msgstr ""
+msgstr "Nigeria"
 
-#: .\tenants\utils.py:164
+#: tenants/utils.py:164
 msgid "Nicaragua"
-msgstr ""
+msgstr "Nicaragua"
 
-#: .\tenants\utils.py:165
+#: tenants/utils.py:165
 msgid "Niederlande"
-msgstr ""
+msgstr "Netherlands"
 
-#: .\tenants\utils.py:166
+#: tenants/utils.py:166
 msgid "Norwegen"
-msgstr ""
+msgstr "Norway"
 
-#: .\tenants\utils.py:167
+#: tenants/utils.py:167
 msgid "Nepal"
-msgstr ""
+msgstr "Nepal"
 
-#: .\tenants\utils.py:168
+#: tenants/utils.py:168
 msgid "Nauru"
-msgstr ""
+msgstr "Nauru"
 
-#: .\tenants\utils.py:169
+#: tenants/utils.py:169
 msgid "Niue"
-msgstr ""
+msgstr "Niue"
 
-#: .\tenants\utils.py:170
+#: tenants/utils.py:170
 msgid "Neuseeland"
-msgstr ""
+msgstr "New Zealand"
 
-#: .\tenants\utils.py:171
+#: tenants/utils.py:171
 msgid "Oman"
-msgstr ""
+msgstr "Oman"
 
-#: .\tenants\utils.py:172
+#: tenants/utils.py:172
 msgid "Panama"
-msgstr ""
+msgstr "Panama"
 
-#: .\tenants\utils.py:173
+#: tenants/utils.py:173
 msgid "Peru"
-msgstr ""
+msgstr "Peru"
 
-#: .\tenants\utils.py:174
+#: tenants/utils.py:174
 msgid "Französisch-Polynesien"
-msgstr ""
+msgstr "French Polynesia"
 
-#: .\tenants\utils.py:175
+#: tenants/utils.py:175
 msgid "Papua-Neuguinea"
-msgstr ""
+msgstr "Papua New Guinea"
 
-#: .\tenants\utils.py:176
+#: tenants/utils.py:176
 msgid "Philippinen"
-msgstr ""
+msgstr "Philippines"
 
-#: .\tenants\utils.py:177
+#: tenants/utils.py:177
 msgid "Pakistan"
-msgstr ""
+msgstr "Pakistan"
 
-#: .\tenants\utils.py:178
+#: tenants/utils.py:178
 msgid "Polen"
-msgstr ""
+msgstr "Poland"
 
-#: .\tenants\utils.py:179
+#: tenants/utils.py:179
 msgid "St. Pierre und Miquelon"
-msgstr ""
+msgstr "Saint Pierre and Miquelon"
 
-#: .\tenants\utils.py:180
+#: tenants/utils.py:180
 msgid "Pitcairninseln"
-msgstr ""
+msgstr "Pitcairn Islands"
 
-#: .\tenants\utils.py:181
+#: tenants/utils.py:181
 msgid "Puerto Rico"
-msgstr ""
+msgstr "Puerto Rico"
 
-#: .\tenants\utils.py:182
+#: tenants/utils.py:182
 msgid "Palästina"
-msgstr ""
+msgstr "Palestine"
 
-#: .\tenants\utils.py:183
+#: tenants/utils.py:183
 msgid "Portugal"
-msgstr ""
+msgstr "Portugal"
 
-#: .\tenants\utils.py:184
+#: tenants/utils.py:184
 msgid "Palau"
-msgstr ""
+msgstr "Palau"
 
-#: .\tenants\utils.py:185
+#: tenants/utils.py:185
 msgid "Paraguay"
-msgstr ""
+msgstr "Paraguay"
 
-#: .\tenants\utils.py:186
+#: tenants/utils.py:186
 msgid "Katar"
-msgstr ""
+msgstr "Qatar"
 
-#: .\tenants\utils.py:187
+#: tenants/utils.py:187
 msgid "Réunion"
-msgstr ""
+msgstr "Réunion"
 
-#: .\tenants\utils.py:188
+#: tenants/utils.py:188
 msgid "Rumänien"
-msgstr ""
+msgstr "Romania"
 
-#: .\tenants\utils.py:189
+#: tenants/utils.py:189
 msgid "Russische Föderation"
-msgstr ""
+msgstr "Russian Federation"
 
-#: .\tenants\utils.py:190
+#: tenants/utils.py:190
 msgid "Ruanda"
-msgstr ""
+msgstr "Rwanda"
 
-#: .\tenants\utils.py:191
+#: tenants/utils.py:191
 msgid "Saudi-Arabien"
-msgstr ""
+msgstr "Saudi Arabia"
 
-#: .\tenants\utils.py:192
+#: tenants/utils.py:192
 msgid "Salomonen"
-msgstr ""
+msgstr "Solomon Islands"
 
-#: .\tenants\utils.py:193
+#: tenants/utils.py:193
 msgid "Seychellen"
-msgstr ""
+msgstr "Seychelles"
 
-#: .\tenants\utils.py:194
+#: tenants/utils.py:194
 msgid "Sudan"
-msgstr ""
+msgstr "Sudan"
 
-#: .\tenants\utils.py:195
+#: tenants/utils.py:195
 msgid "Schweden"
-msgstr ""
+msgstr "Sweden"
 
-#: .\tenants\utils.py:196
+#: tenants/utils.py:196
 msgid "Singapur"
-msgstr ""
+msgstr "Singapore"
 
-#: .\tenants\utils.py:197
+#: tenants/utils.py:197
 msgid "St. Helena"
-msgstr ""
+msgstr "St Helena"
 
-#: .\tenants\utils.py:198
+#: tenants/utils.py:198
 msgid "Slowenien"
-msgstr ""
+msgstr "Slovenia"
 
-#: .\tenants\utils.py:199
+#: tenants/utils.py:199
 msgid "Svalbard und Jan Mayen"
-msgstr ""
+msgstr "Svalbard and Jan Mayen"
 
-#: .\tenants\utils.py:200
+#: tenants/utils.py:200
 msgid "Slowakei"
-msgstr ""
+msgstr "Slovakia"
 
-#: .\tenants\utils.py:201
+#: tenants/utils.py:201
 msgid "Sierra Leone"
-msgstr ""
+msgstr "Sierra Leone"
 
-#: .\tenants\utils.py:202
+#: tenants/utils.py:202
 msgid "San Marino"
-msgstr ""
+msgstr "San Marino"
 
-#: .\tenants\utils.py:203
+#: tenants/utils.py:203
 msgid "Senegal"
-msgstr ""
+msgstr "Senegal"
 
-#: .\tenants\utils.py:204
+#: tenants/utils.py:204
 msgid "Somalia"
-msgstr ""
+msgstr "Somalia"
 
-#: .\tenants\utils.py:205
+#: tenants/utils.py:205
 msgid "Suriname"
-msgstr ""
+msgstr "Suriname"
 
-#: .\tenants\utils.py:206
+#: tenants/utils.py:206
 msgid "São Tomé und Príncipe"
-msgstr ""
+msgstr "São Tomé and Príncipe"
 
-#: .\tenants\utils.py:207
+#: tenants/utils.py:207
 msgid "El Salvador"
-msgstr ""
+msgstr "El Salvador"
 
-#: .\tenants\utils.py:208
+#: tenants/utils.py:208
 msgid "Syrien"
-msgstr ""
+msgstr "Syria"
 
-#: .\tenants\utils.py:209
+#: tenants/utils.py:209
 msgid "Swasiland"
-msgstr ""
+msgstr "Swaziland"
 
-#: .\tenants\utils.py:210
+#: tenants/utils.py:210
 msgid "Turks- und Caicosinseln"
-msgstr ""
+msgstr "Turks and Caicos Islands"
 
-#: .\tenants\utils.py:211
+#: tenants/utils.py:211
 msgid "Tschad"
-msgstr ""
+msgstr "Chad"
 
-#: .\tenants\utils.py:212
+#: tenants/utils.py:212
 msgid "Französische Süd- und Antarktisgebiete"
-msgstr ""
+msgstr "French Southern and Antarctic Territories"
 
-#: .\tenants\utils.py:213
+#: tenants/utils.py:213
 msgid "Togo"
-msgstr ""
+msgstr "Togo"
 
-#: .\tenants\utils.py:214
+#: tenants/utils.py:214
 msgid "Thailand"
-msgstr ""
+msgstr "Thailand"
 
-#: .\tenants\utils.py:215
+#: tenants/utils.py:215
 msgid "Tadschikistan"
-msgstr ""
+msgstr "Tajikistan"
 
-#: .\tenants\utils.py:216
+#: tenants/utils.py:216
 msgid "Tokelau"
-msgstr ""
+msgstr "Tokelau"
 
-#: .\tenants\utils.py:217
+#: tenants/utils.py:217
 msgid "Timor-Leste"
-msgstr ""
+msgstr "East Timor"
 
-#: .\tenants\utils.py:218
+#: tenants/utils.py:218
 msgid "Turkmenistan"
-msgstr ""
+msgstr "Turkmenistan"
 
-#: .\tenants\utils.py:219
+#: tenants/utils.py:219
 msgid "Tunesien"
-msgstr ""
+msgstr "Tunisia"
 
-#: .\tenants\utils.py:220
+#: tenants/utils.py:220
 msgid "Tonga"
-msgstr ""
+msgstr "Tonga"
 
-#: .\tenants\utils.py:221
+#: tenants/utils.py:221
 msgid "Türkei"
-msgstr ""
+msgstr "Turkey"
 
-#: .\tenants\utils.py:222
+#: tenants/utils.py:222
 msgid "Trinidad und Tobago"
-msgstr ""
+msgstr "Trinidad and Tobago"
 
-#: .\tenants\utils.py:223
+#: tenants/utils.py:223
 msgid "Tuvalu"
-msgstr ""
+msgstr "Tuvalu"
 
-#: .\tenants\utils.py:224
+#: tenants/utils.py:224
 msgid "Taiwan"
-msgstr ""
+msgstr "Taiwan"
 
-#: .\tenants\utils.py:225
+#: tenants/utils.py:225
 msgid "Tansania"
-msgstr ""
+msgstr "Tanzania"
 
-#: .\tenants\utils.py:226
+#: tenants/utils.py:226
 msgid "Ukraine"
-msgstr ""
+msgstr "Ukraine"
 
-#: .\tenants\utils.py:227
+#: tenants/utils.py:227
 msgid "Uganda"
-msgstr ""
+msgstr "Uganda"
 
-#: .\tenants\utils.py:228
+#: tenants/utils.py:228
 msgid "Amerikanisch-Ozeanien"
-msgstr ""
+msgstr "American Oceania"
 
-#: .\tenants\utils.py:229
+#: tenants/utils.py:229
 msgid "Vereinigte Staaten von Amerika"
-msgstr ""
+msgstr "United States of America"
 
-#: .\tenants\utils.py:230
+#: tenants/utils.py:230
 msgid "Uruguay"
-msgstr ""
+msgstr "Uruguay"
 
-#: .\tenants\utils.py:231
+#: tenants/utils.py:231
 msgid "Usbekistan"
-msgstr ""
+msgstr "Uzbekistan"
 
-#: .\tenants\utils.py:232
+#: tenants/utils.py:232
 msgid "Vatikanstadt"
-msgstr ""
+msgstr "Vatican City"
 
-#: .\tenants\utils.py:233
+#: tenants/utils.py:233
 msgid "St. Vincent und die Grenadinen"
-msgstr ""
+msgstr "Saint Vincent and the Grenadines"
 
-#: .\tenants\utils.py:234
+#: tenants/utils.py:234
 msgid "Venezuela"
-msgstr ""
+msgstr "Venezuela"
 
-#: .\tenants\utils.py:235
+#: tenants/utils.py:235
 msgid "Britische Jungferninseln"
-msgstr ""
+msgstr "British Virgin Islands"
 
-#: .\tenants\utils.py:236
+#: tenants/utils.py:236
 msgid "Amerikanische Jungferninseln"
-msgstr ""
+msgstr "US Virgin Islands"
 
-#: .\tenants\utils.py:237
+#: tenants/utils.py:237
 msgid "Vietnam"
-msgstr ""
+msgstr "Vietnam"
 
-#: .\tenants\utils.py:238
+#: tenants/utils.py:238
 msgid "Vanuatu"
-msgstr ""
+msgstr "Vanuatu"
 
-#: .\tenants\utils.py:239
+#: tenants/utils.py:239
 msgid "Wallis und Futuna"
-msgstr ""
+msgstr "Wallis and Futuna"
 
-#: .\tenants\utils.py:240
+#: tenants/utils.py:240
 msgid "Samoa"
-msgstr ""
+msgstr "Samoa"
 
-#: .\tenants\utils.py:241
+#: tenants/utils.py:241
 msgid "Jemen"
-msgstr ""
+msgstr "Yemen"
 
-#: .\tenants\utils.py:242
+#: tenants/utils.py:242
 msgid "Mayotte"
-msgstr ""
+msgstr "Mayotte"
 
-#: .\tenants\utils.py:243
+#: tenants/utils.py:243
 msgid "Südafrika"
-msgstr ""
+msgstr "South Africa"
 
-#: .\tenants\utils.py:244
+#: tenants/utils.py:244
 msgid "Sambia"
-msgstr ""
+msgstr "Zambia"
 
-#: .\tenants\utils.py:245
+#: tenants/utils.py:245
 msgid "Simbabwe"
-msgstr ""
+msgstr "Zimbabwe"
 
-#: .\tenants\utils.py:246
+#: tenants/utils.py:246
 msgid "Serbien"
-msgstr ""
+msgstr "Serbia"
 
-#: .\tenants\utils.py:247
+#: tenants/utils.py:247
 msgid "Montenegro"
-msgstr ""
+msgstr "Montenegro"
 
-#: .\tenants\utils.py:248
+#: tenants/utils.py:248
 msgid "Saint-Barthélemy"
-msgstr ""
+msgstr "Saint Barthélemy"
 
-#: .\tenants\utils.py:249
+#: tenants/utils.py:249
 msgid "Bonaire, Sint Eustatius und Saba"
-msgstr ""
+msgstr "Bonaire, Sint Eustatius and Saba"
 
-#: .\tenants\utils.py:250
+#: tenants/utils.py:250
 msgid "Curaçao"
-msgstr ""
+msgstr "Curaçao"
 
-#: .\tenants\utils.py:251
+#: tenants/utils.py:251
 msgid "Saint-Martin (franz. Teil)"
-msgstr ""
+msgstr "Saint Martin (French part)"
 
-#: .\tenants\utils.py:252
+#: tenants/utils.py:252
 msgid "Sint Maarten (niederl. Teil)"
-msgstr ""
+msgstr "Sint Maarten (Dutch part)"
 
-#: .\tenants\utils.py:253
+#: tenants/utils.py:253
 msgid "Südsudan"
-msgstr ""
+msgstr "South Sudan"
 
-#: .\tenants\utils.py:258
+#: tenants/utils.py:258
 msgid "Studierendenwerk Stuttgart"
-msgstr ""
+msgstr "Studierendenwerk Stuttgart"
 
-#: .\tenants\utils.py:259
+#: tenants/utils.py:259
 msgid "Sprechstunde"
 msgstr "Assistant"
 
-#: .\tenants\utils.py:262
+#: tenants/utils.py:262
 msgid "Begin aufsteigend"
 msgstr "Begin ascending"
 
-#: .\tenants\utils.py:263
+#: tenants/utils.py:263
 msgid "Begin absteigend"
 msgstr "Begin descending"
 
-#: .\tenants\utils.py:264
+#: tenants/utils.py:264
 msgid "Ende aufsteigend"
 msgstr "End ascending"
 
-#: .\tenants\utils.py:265
+#: tenants/utils.py:265
 msgid "Ende absteigend"
 msgstr "End descending"
 
-#: .\tenants\views.py:54
+#: tenants/views.py:55
 msgid "Registrierung war erfolgreich. Du kannst dich nun einloggen."
 msgstr "Registration had been successful. You can now log into your Account."
 
-#: .\tenants\views.py:68
+#: tenants/views.py:69
 msgid "Hauptmieter Registrierung"
 msgstr "Main Tenant Registration"
 
-#: .\tenants\views.py:68
+#: tenants/views.py:69
 msgid "Untermieter Registrierung"
 msgstr "Stubtenant Registration"
 
-#: .\tenants\views.py:85
+#: tenants/views.py:86
 msgid "Profil von"
 msgstr "Profile of"
 
-#: .\tenants\views.py:89
+#: tenants/views.py:90
 msgid ""
 "Als Untermieter kannst du nicht aktiv nach einem Zimmer suchen. Du musst "
 "warten, bis dich ein Hauptmieter über die Anfragenliste kontaktiert!"
 msgstr ""
 "As a subtenant you can not search for a room or contact a main tenant. You "
-"have to wait until a main tenant contacts you via the request list."
+"have to wait until a main tenant contacts you via the request list!"
 
-#: .\tenants\views.py:129 .\tenants\views.py:167
+#: tenants/views.py:130 tenants/views.py:168
 msgid "Änderungen wurden erfolgreich übernommen!"
 msgstr "Changes have been successfully made!"
 
-#: .\tenants\views.py:131 .\tenants\views.py:169
+#: tenants/views.py:132 tenants/views.py:170
 msgid "Es gab keine Änderungen!"
 msgstr "No Changes detected!"
 
-#: .\tenants\views.py:194
+#: tenants/views.py:195
 msgid "Account löschen"
 msgstr "Delete Account"
 
-#: .\tenants\views.py:202
+#: tenants/views.py:203
 msgid ""
 "Der Account kann nicht gelöscht werden, da mindestens ein Vertrag mit diesem "
 "Account abgeschlossen wurde!"
@@ -1708,19 +1808,19 @@ msgstr ""
 "The Account can not be deleted since at least one Contract in respect to "
 "this Account exists!"
 
-#: .\tenants\views.py:205
+#: tenants/views.py:206
 msgid "Der Account wurde erfolgreich gelöscht!"
 msgstr "The Account has been successfully deleted!"
 
-#: .\tenants\views.py:309
+#: tenants/views.py:310
 msgid "Kontaktaufnahme"
 msgstr "First Contact"
 
-#: .\tenants\views.py:337
+#: tenants/views.py:338
 msgid "Untermieter konnte nicht kontaktiert werden!"
 msgstr "Could not contact Subtenant!"
 
-#: .\tenants\views.py:342
+#: tenants/views.py:343
 msgid ""
 "Untermieter wurde erfolgreich kontaktiert! Wir haben dir als Bestätigung der "
 "Kontaktaufnahme eine Email gesendet."
@@ -1728,7 +1828,7 @@ msgstr ""
 "Subtenant has been successfully contacted! We have sent you an confirmation "
 "E-Mail."
 
-#: .\tenants\views.py:383
+#: tenants/views.py:390
 msgid ""
 "In dieser Liste werden keine Zimmer angeboten, sondern Zimmer gesucht! Daher "
 "ist diese Liste nur für Hauptmieter bei der Suche nach einem Untermieter "
@@ -1737,7 +1837,7 @@ msgstr ""
 "This list does not offer rooms but searching for rooms! Therefore, this list "
 "is only useful for main tenants searching a subtenant!"
 
-#: .\tenants\views.py:384
+#: tenants/views.py:391
 msgid ""
 "Untermieter können hier keine angebotenen Zimmer finden. Als Untermieter "
 "kannst du nicht aktiv nach einem Zimmer suchen. Du musst warten, bis dich "
@@ -1745,15 +1845,33 @@ msgid ""
 msgstr ""
 "Subtenants can not find rooms here. As a subtenant you can not search for a "
 "room or contact a main tenant. You have to wait until a main tenant contacts "
-"you via the request list."
+"you via the request list!"
 
-#: .\tenants\views.py:391
+#: tenants/views.py:398
 msgid "Anfrageliste erfolgreich gefiltert"
 msgstr "Successfully filtered requests"
 
-#: .\tenants\views.py:429
-msgid "Danke für dein Feedback!"
-msgstr "Thanks for your feedback!"
+#~ msgid ""
+#~ "Den Untermietvertrag kann nur unter Anwesenheit des Haupt- und "
+#~ "Untermieters persönlich in der Sprechstunde abgeschlossen werden."
+#~ msgstr ""
+#~ "The subtenancy contract can only be signed if and only if main- and "
+#~ "subtenant are present."
+
+#~ msgid "Feedback senden"
+#~ msgstr "Send Feedback"
+
+#~ msgid "Facebook Seite"
+#~ msgstr "Facebook Site"
+
+#~ msgid "Facebook Gruppe"
+#~ msgstr "Facebook Group"
+
+#~ msgid "GitHub"
+#~ msgstr "GitHub"
+
+#~ msgid "Danke für dein Feedback!"
+#~ msgstr "Thanks for your feedback!"
 
 #~ msgid "Liste der Form: 'a', 'b', 'c'"
 #~ msgstr "List of the Form: 'a', 'b', 'c'"
@@ -1791,8 +1909,20 @@ msgstr "Thanks for your feedback!"
 #~ msgid "ID"
 #~ msgstr "ID"
 
-msgid "Falls du nach Ende der Untermiete nicht in dein Zimmer zurückkehrst, musst du mit dem Hausmeister einen Termin für die Zimmerabnahme ausmachen. Nachdem der Hausmeister dein Zimmer abgenommen hat, bekommst du von Ihm eine Bestätigung. Diese Bestätigung ist zwingend erforderlich für die Untermiete!"
-msgstr "If you are not coming back after the end of your sublet, you have to make an appointment with the janitor for room approval. He will sign you a paper that is required for the contract."
+#~ msgid ""
+#~ "Falls du nach Ende der Untermiete nicht in dein Zimmer zurückkehrst, "
+#~ "musst du mit dem Hausmeister einen Termin für die Zimmerabnahme "
+#~ "ausmachen. Nachdem der Hausmeister dein Zimmer abgenommen hat, bekommst "
+#~ "du von Ihm eine Bestätigung. Diese Bestätigung ist zwingend erforderlich "
+#~ "für die Untermiete!"
+#~ msgstr ""
+#~ "If you are not coming back after the end of your sublet, you have to make "
+#~ "an appointment with the janitor for room approval. He will sign you a "
+#~ "paper that is required for the contract."
 
-msgid "Bestätigung der Zimmerabnahme vom Hausmeister (NUR falls du nach der Untermiete nicht zurückkehrst)"
-msgstr "Confirmation of room approval from the janitor (ONLY if you are not coming back after the sublet)"
+#~ msgid ""
+#~ "Bestätigung der Zimmerabnahme vom Hausmeister (NUR falls du nach der "
+#~ "Untermiete nicht zurückkehrst)"
+#~ msgstr ""
+#~ "Confirmation of room approval from the janitor (ONLY if you are not "
+#~ "coming back after the sublet)"

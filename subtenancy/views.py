@@ -60,7 +60,7 @@ class PasswordChange(SuccessMessageMixin, PasswordChangeView):
 
 
 @method_decorator(
-    ratelimit(key='subtenancy.ratelimit.client_ip', rate='5/h', method='POST', block=True),
+    ratelimit(key='ip', rate='5/h', method='POST', block=True),
     name='dispatch'
 )
 class PasswordReset(SuccessMessageMixin, PasswordResetView):

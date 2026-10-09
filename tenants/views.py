@@ -24,7 +24,7 @@ from subtenancy.views import handler400
 
 @atomic
 @csrf_protect
-@ratelimit(key='subtenancy.ratelimit.client_ip', rate='10/h', method='POST', block=True)
+@ratelimit(key='ip', rate='10/h', method='POST', block=True)
 @require_http_methods(['GET', 'POST'])
 def create_tenant(request, is_maintenant):
     """

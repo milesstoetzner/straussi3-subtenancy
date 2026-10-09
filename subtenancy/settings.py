@@ -137,6 +137,13 @@ else:
 
 USE_X_FORWARDED_HOST = bool(int(os.environ.get('SUBTENANCY_USE_X_FORWARDED_HOST', default='0')))
 
+TRUST_X_FORWARDED_FOR = bool(int(os.environ.get('SUBTENANCY_TRUST_X_FORWARDED_FOR', default='0')))
+
+# Rate limits keyed on 'ip' use REMOTE_ADDR by default. Behind a reverse proxy that is always the proxy's address,
+# so take the client IP from X-Forwarded-For instead when the proxy is trusted to set it.
+if TRUST_X_FORWARDED_FOR:
+    RATELIMIT_IP_META_KEY = 'subtenancy.ratelimit.client_ip'
+
 SESSION_COOKIE_SECURE = bool(int(os.environ.get('SUBTENANCY_SESSION_COOKIE_SECURE', default='1')))
 
 CSRF_COOKIE_SECURE = bool(int(os.environ.get('SUBTENANCY_SESSION_CSRF_COOKIE_SECURE', default='1')))

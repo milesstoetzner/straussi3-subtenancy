@@ -108,3 +108,4 @@ python manage.py clean_database
 | `SUBTENANCY_CLEAN_DATABASE_WRITE`       | `'0'`                | Custom feature toggle for clean DB write logic.                  |
 | `SUBTENANCY_ENABLE_MIGRATIONS`          | `'0'`                | Run database migrations.                                         |
 | `SUBTENANCY_USE_X_FORWARDED_HOST`       | `'0'`                |                                                                  |
+| `SUBTENANCY_TRUST_X_FORWARDED_FOR`      | `'0'`                | Use the first `X-Forwarded-For` address as client IP for the login rate limit. Enable only behind a reverse proxy that sets this header. |

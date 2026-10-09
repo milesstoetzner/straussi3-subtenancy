@@ -20,23 +20,42 @@ class UserUpdateForm(ModelForm):
         }
 
 
-def clean_tenant(self, cleaned_data, requires_abg):
+def validate_not_blacklisted(form, cleaned_data):
+    """
+    Adds errors to first_name and last_name if the full name is on the blacklist.
+    """
+
     first_name = cleaned_data.get('first_name')
     last_name = cleaned_data.get('last_name')
-    accepted_data_processing = cleaned_data.get('accepted_data_processing')
 
-    # check blacklist
     if first_name and last_name:
         blocked = Blacklist.objects.filter(name__icontains=first_name + ' ' + last_name)
         if blocked:
-            self.add_error('first_name', _('Dein Name steht auf der schwarzen Liste!'))
-            self.add_error('last_name', _('Dein Name steht auf der schwarzen Liste!'))
+            form.add_error('first_name', _('Dein Name steht auf der schwarzen Liste!'))
+            form.add_error('last_name', _('Dein Name steht auf der schwarzen Liste!'))
 
-    # accepted_data_processing is true
-    if requires_abg:
-        accepted_data_processing = cleaned_data.get('accepted_data_processing')
-        if not accepted_data_processing:
-            self.add_error('accepted_data_processing', _('Du musst der Datenverarbeitung zustimmen.'))
+
+def validate_data_processing_consent(form, cleaned_data):
+    """
+    Adds an error if the consent to data processing was not given.
+    """
+
+    if not cleaned_data.get('accepted_data_processing'):
+        form.add_error('accepted_data_processing', _('Du musst der Datenverarbeitung zustimmen.'))
+
+
+def validate_request_period(form, cleaned_data):
+    """
+    Adds an error if the requested subtenancy does not end after it begins.
+    """
+
+    begin_request = cleaned_data.get('begin_request')
+    end_request = cleaned_data.get('end_request')
+
+    if begin_request and end_request:
+        if begin_request >= end_request:
+            form.add_error('end_request', _('Das Ende der angefragten Untermiete muss nach dem Beginn sein!'))
+
 
 class MainTenantCreateForm(UserCreationForm):
     """
@@ -45,7 +64,9 @@ class MainTenantCreateForm(UserCreationForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        return clean_tenant(self, cleaned_data, True)
+        validate_not_blacklisted(self, cleaned_data)
+        validate_data_processing_consent(self, cleaned_data)
+        return cleaned_data
 
     class Meta:
         model = MainTenant
@@ -64,26 +85,11 @@ class MainTenantUpdateForm(ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        return clean_tenant(self, cleaned_data, False)
+        validate_not_blacklisted(self, cleaned_data)
+        return cleaned_data
 
     class Meta(MainTenantCreateForm.Meta):
         fields = ['first_name', 'last_name', 'email', 'birthday', 'phone_number', 'tenant_id']
-
-
-def clean_subtenant(self, cleaned_data, requires_abg):
-    begin_request = cleaned_data.get('begin_request')
-    end_request = cleaned_data.get('end_request')
-
-    # begin_request < end_request
-    if begin_request and end_request:
-        if begin_request >= end_request:
-            self.add_error('end_request', _('Das Ende der angefragten Untermiete muss nach dem Beginn sein!'))
-
-    # accepted_data_processing is true
-    if requires_abg:
-        accepted_data_processing = cleaned_data.get('accepted_data_processing')
-        if not accepted_data_processing:
-            self.add_error('accepted_data_processing', _('Du musst der Datenverarbeitung zustimmen.'))
 
 
 class SubTenantCreateForm(UserCreationForm):
@@ -93,7 +99,10 @@ class SubTenantCreateForm(UserCreationForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        return clean_subtenant(self, cleaned_data, True)
+        validate_not_blacklisted(self, cleaned_data)
+        validate_data_processing_consent(self, cleaned_data)
+        validate_request_period(self, cleaned_data)
+        return cleaned_data
 
     class Meta:
         model = SubTenant
@@ -123,7 +132,9 @@ class SubTenantUpdateForm(ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        return clean_subtenant(self, cleaned_data, False)
+        validate_not_blacklisted(self, cleaned_data)
+        validate_request_period(self, cleaned_data)
+        return cleaned_data
 
     class Meta(SubTenantCreateForm.Meta):
         fields = ['first_name', 'last_name', 'email', 'birthday', 'phone_number',
@@ -138,7 +149,8 @@ class RequestUpdateForm(ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        return clean_subtenant(self, cleaned_data, False)
+        validate_request_period(self, cleaned_data)
+        return cleaned_data
 
     class Meta(SubTenantUpdateForm.Meta):
         fields = ['begin_request', 'end_request', 'is_searching']

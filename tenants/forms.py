@@ -168,10 +168,10 @@ class RequestQueryForm(Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        begin = cleaned_data.get('begin_request')
-        end = cleaned_data.get('end_request')
+        begin = cleaned_data.get('begin')
+        end = cleaned_data.get('end')
 
-        # begin_request < end_request
+        # begin < end
         if begin and end:
             if begin >= end:
                 self.add_error('end', _('Das Ende der angefragten Untermiete muss nach dem Beginn sein!'))

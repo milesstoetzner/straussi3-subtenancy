@@ -131,10 +131,14 @@ class SubTenantUpdateForm(ModelForm):
                   'name', 'street', 'house_number', 'postcode', 'city', 'country']
 
 
-class RequestUpdateForm(SubTenantCreateForm):
+class RequestUpdateForm(ModelForm):
     """
     Subtenant can update only his request.
     """
+
+    def clean(self):
+        cleaned_data = super().clean()
+        return clean_subtenant(self, cleaned_data, False)
 
     class Meta(SubTenantUpdateForm.Meta):
         fields = ['begin_request', 'end_request', 'is_searching']

@@ -11,7 +11,6 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.views.decorators.http import require_http_methods, require_GET
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required, permission_required
-from django.db.models import ProtectedError
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from smtplib import SMTPException
@@ -177,36 +176,6 @@ def update_request(request):
     context['form'] = form
 
     return render(request, 'tenants/update_request.html', context)
-
-
-@atomic
-@csrf_protect
-@login_required
-@permission_required(['tenants.delete_own'])
-@require_http_methods(['GET', 'POST'])
-def delete_profile(request):
-    """
-    Deletes the authenticated user and his corresponding maintenant/subtenant iff no contracts exist.
-    """
-
-    user = request.user
-
-    if request.method == 'GET':
-        context = {}
-        context['tenant'] = user
-        context['title'] = _('Account löschen')
-        return render(request, 'tenants/delete.html', context)
-    else:
-        try:
-            user.delete()
-        except ProtectedError:
-            messages.error(request,
-                           _(
-                               'Der Account kann nicht gelöscht werden, da mindestens ein Vertrag mit diesem Account abgeschlossen wurde!'))
-            return redirect(reverse('Profile'))
-
-        messages.success(request, _('Der Account wurde erfolgreich gelöscht!'))
-        return redirect('Index')
 
 
 @login_required

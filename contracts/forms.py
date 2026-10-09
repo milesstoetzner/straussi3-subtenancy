@@ -49,31 +49,28 @@ class ContractForm(ModelForm):
                 self.add_error('subtenant', 'Der Account des Untermieters ist gesperrt!')
 
         # check for intersection with other contracts regarding room
+        # Two periods overlap iff each one starts before the other one ends. Checking only whether begin or end
+        # falls inside an existing contract misses a new contract that fully encloses an existing one.
         if house_number and room_number and begin and end:
-            contracts_to_check = Contract.objects.filter(is_active=True, house_number=house_number, room_number=room_number).exclude(id=self.instance.id)
-            check_begin = contracts_to_check.filter(begin__lte=begin, end__gte=begin)
-            check_end = contracts_to_check.filter(begin__lte=end, end__gte=end)
+            overlapping = Contract.objects.filter(is_active=True, house_number=house_number, room_number=room_number) \
+                .exclude(id=self.instance.id).filter(begin__lte=end, end__gte=begin)
 
-            if check_begin:
+            if overlapping.exists():
                 self.add_error('begin',
-                               'Der Begin des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem angegebenen Zimmer!')
-
-            if check_end:
+                               'Der Zeitraum des Vertrages überschneidet sich mit einem bereits existierenden Vertrag mit dem angegebenen Zimmer!')
                 self.add_error('end',
-                               'Das Ende des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem angegebenen Zimmer!')
+                               'Der Zeitraum des Vertrages überschneidet sich mit einem bereits existierenden Vertrag mit dem angegebenen Zimmer!')
 
         # check for intersection with other contracts regarding subtenant
         if subtenant and begin and end:
-            contracts_to_check = subtenant.contract_set.filter(is_active=True).exclude(id=self.instance.id)
-            check_begin = contracts_to_check.filter(begin__lte=begin, end__gte=begin)
-            check_end = contracts_to_check.filter(begin__lte=end, end__gte=end)
+            overlapping = subtenant.contract_set.filter(is_active=True) \
+                .exclude(id=self.instance.id).filter(begin__lte=end, end__gte=begin)
 
-            if check_begin:
+            if overlapping.exists():
                 self.add_error('begin',
-                               'Der Begin des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem Untermieter!')
-            if check_end:
+                               'Der Zeitraum des Vertrages überschneidet sich mit einem bereits existierenden Vertrag mit dem Untermieter!')
                 self.add_error('end',
-                               'Das Ende des Vertrages liegt innerhalb des Zeitraums eines bereits existierenden Vertrages mit dem Untermieter!')
+                               'Der Zeitraum des Vertrages überschneidet sich mit einem bereits existierenden Vertrag mit dem Untermieter!')
 
         # check maintenant amount day
         if maintenant and begin and end:

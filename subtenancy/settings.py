@@ -147,5 +147,3 @@ if TRUST_X_FORWARDED_FOR:
 SESSION_COOKIE_SECURE = bool(int(os.environ.get('SUBTENANCY_SESSION_COOKIE_SECURE', default='1')))
 
 CSRF_COOKIE_SECURE = bool(int(os.environ.get('SUBTENANCY_SESSION_CSRF_COOKIE_SECURE', default='1')))
-
-CLEAN_DATABASE_WRITE = bool(int(os.environ.get('SUBTENANCY_CLEAN_DATABASE_WRITE', default='0')))

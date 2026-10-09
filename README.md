@@ -76,10 +76,15 @@ All incoming emails are forwarded to wore.str3@gmail.com for further processing.
 - Inbox: https://mail.ext.selfnet.de/SOGo
 - Account: https://mail.ext.selfnet.de/
 
-### Clean Database
+### Prune Stale Data
+
+Deletes contracts older than three years, tenants without contracts and other non-staff accounts that have not logged
+in for six months, and the PDF files of the deleted contracts.
+Without `--apply` the command is a dry run that only lists what it would delete.
 
 ```
-python manage.py clean_database
+python manage.py prune_stale_data          # dry run
+python manage.py prune_stale_data --apply  # delete
 ```
 
 ### Environment
@@ -105,7 +110,6 @@ python manage.py clean_database
 | `SUBTENANCY_SECURE_PROXY_SSL_HEADER`    |                      | Header and value tuple for SSL offloading (parsed into a tuple). |
 | `SUBTENANCY_SESSION_COOKIE_SECURE`      | `'1'`                | Require HTTPS for session cookie.                                |
 | `SUBTENANCY_SESSION_CSRF_COOKIE_SECURE` | `'1'`                | Require HTTPS for CSRF cookie.                                   |
-| `SUBTENANCY_CLEAN_DATABASE_WRITE`       | `'0'`                | Custom feature toggle for clean DB write logic.                  |
 | `SUBTENANCY_ENABLE_MIGRATIONS`          | `'0'`                | Run database migrations.                                         |
 | `SUBTENANCY_USE_X_FORWARDED_HOST`       | `'0'`                |                                                                  |
 | `SUBTENANCY_TRUST_X_FORWARDED_FOR`      | `'0'`                | Use the first `X-Forwarded-For` address as client IP for the login rate limit. Enable only behind a reverse proxy that sets this header. |

@@ -137,6 +137,8 @@ else:
 
 USE_X_FORWARDED_HOST = bool(int(os.environ.get('SUBTENANCY_USE_X_FORWARDED_HOST', default='0')))
 
+TRUST_X_FORWARDED_FOR = bool(int(os.environ.get('SUBTENANCY_TRUST_X_FORWARDED_FOR', default='0')))
+
 SESSION_COOKIE_SECURE = bool(int(os.environ.get('SUBTENANCY_SESSION_COOKIE_SECURE', default='1')))
 
 CSRF_COOKIE_SECURE = bool(int(os.environ.get('SUBTENANCY_SESSION_CSRF_COOKIE_SECURE', default='1')))

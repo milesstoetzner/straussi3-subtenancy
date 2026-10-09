@@ -114,12 +114,12 @@ def update_profile(request):
 
     user = request.user
 
+    # only tenants can be updated (accessing user.maintenant/user.subtenant on other users raises)
+    if not user.is_tenant():
+        return handler400(request)
+
     tenant = user.maintenant if user.is_maintenant() else user.subtenant
     form = MainTenantUpdateForm if user.is_maintenant() else SubTenantUpdateForm
-
-    # only tenants can be updated
-    if not tenant.is_tenant():
-        return handler400(request)
 
     if request.method == 'GET':
         tenant_form = form(instance=tenant)
@@ -252,12 +252,13 @@ def update_tenant(request, pk):
     context = {}
 
     user = get_object_or_404(User, pk=pk)
+
+    # only tenants can be updated (accessing user.maintenant/user.subtenant on other users raises)
+    if not user.is_tenant():
+        return handler400(request)
+
     tenant = user.maintenant if user.is_maintenant() else user.subtenant
     form = MainTenantUpdateForm if user.is_maintenant() else SubTenantUpdateForm
-
-    # only tenants can be updated
-    if not tenant.is_tenant():
-        return handler400(request)
 
     if request.method == 'GET':
         tenant_form = form(instance=tenant)

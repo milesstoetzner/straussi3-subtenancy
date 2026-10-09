@@ -149,7 +149,8 @@ class RequestUpdateForm(ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        return clean_subtenant(self, cleaned_data, False)
+        validate_request_period(self, cleaned_data)
+        return cleaned_data
 
     class Meta(SubTenantUpdateForm.Meta):
         fields = ['begin_request', 'end_request', 'is_searching']

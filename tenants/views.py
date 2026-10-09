@@ -18,16 +18,18 @@ from smtplib import SMTPException
 from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
 from django.template.loader import get_template
+from django_ratelimit.decorators import ratelimit
 from subtenancy.views import handler400
 
 
 @atomic
 @csrf_protect
+@ratelimit(key='subtenancy.ratelimit.client_ip', rate='10/h', method='POST', block=True)
 @require_http_methods(['GET', 'POST'])
 def create_tenant(request, is_maintenant):
     """
     Creates a new user and a corresponding maintenant/subtenant.
-    This method is atomic.
+    This method is atomic. Registration is rate limited per client IP.
     """
 
     context = {}

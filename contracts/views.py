@@ -197,7 +197,7 @@ def search(request):
     Searches in all maintenants, subtenants and contracts for a user input.
     """
 
-    query = request.POST['query']
+    query = request.POST.get('query', '')
 
     try:
         query_int = int(query)

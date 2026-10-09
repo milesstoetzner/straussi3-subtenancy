@@ -18,7 +18,7 @@ from django.utils.translation import gettext_lazy as _
 class Login(SuccessMessageMixin, LoginView):
     """
     Authenticates a user by username and password.
-    This view is protected by a simple rate limiter.
+    This view is protected by a simple rate limiter keyed on the client IP (see RATELIMIT_IP_META_KEY in settings).
     """
 
     title = 'Login'

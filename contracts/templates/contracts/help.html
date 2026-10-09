@@ -131,58 +131,6 @@
 
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Sprechstunde Account erstellen
-            </h5>
-
-            <p class="text-block">Um einen Account für die Sprechstunde zu erstellen, befolge die folgenden Schritte.
-                Diese müssen von einem Administrator ausgeführt werden.</p>
-
-            <ol>
-
-                <li><a href="/admin/tenants/user/add/" target="_blank">Füge einen neuen User</a> mit folgenden Daten hinzu:
-                </li>
-
-                <ol>
-
-                    <li>
-                        Passwort: <code>pbkdf2_sha256$1000000$FtRQQUWufKEkmH8eJL8CeZ$nZFYQ1N/3Z52pJpMzyGtNLd2XsYdLuPULCthHqTJ3RE=</code>
-                    </li>
-
-                    <li>
-                        Administrator-Status: NEIN
-                    </li>
-                    <li>
-                        Gruppen: Assistant
-                    </li>
-                    <li>
-                        Berechtigungen: KEINE
-                    </li>
-                    <li>
-                        Benutzername
-                    </li>
-                    <li>
-                        Mitarbeiter-Status: NEIN
-                    </li>
-                    <li>
-                        Aktiv: JA
-                    </li>
-                    <li>
-                        Mitglied seit, Vorname, Nachname, Email Adresse, Geburtstag, Telefonnummer
-                    </li>
-                    <li>
-                        Typ: Sprechstunde
-                    </li>
-                </ol>
-
-                <li>
-                    Passwort zurücksetzen über <a href="{% url 'password_reset' %}">{% trans "Passwort vergessen?" %}</a>
-                </li>
-            </ol>
-        </div>
-    </div>
-
-    <div class="card">
-        <div class="card-body">
             <h5 class="card-title">Hall of Fame
             </h5>
 

@@ -1,5 +1,6 @@
 import calendar
 from datetime import datetime
+from decimal import Decimal, ROUND_HALF_UP
 from django.db import models
 from django.urls import reverse
 from tenants.models import User, MainTenant, SubTenant
@@ -68,9 +69,10 @@ class Contract(models.Model):
         """
         Returns one list containing the rents and one containing the corresponding months.
         Each list has the length of 6.
+        A full month costs the monthly rent. A partial month costs (monthly rent / 30) per day, rounded to cents.
         """
         full_rent = self.rent
-        daily_rent = round(full_rent / 30)
+        daily_rent = full_rent / Decimal(30)
 
         start_date = self.begin
         end_date = self.end
@@ -78,35 +80,28 @@ class Contract(models.Model):
         rents = []
         months = []
 
-        should_continue = True
         current_date = start_date
-        while should_continue:
-            # default assume full month
-            current_rent = full_rent
+        while True:
+            is_first_month = (current_date.year, current_date.month) == (start_date.year, start_date.month)
+            is_last_month = (current_date.year, current_date.month) == (end_date.year, end_date.month)
+            last_day = calendar.monthrange(current_date.year, current_date.month)[1]
 
-            # handle first month
-            if current_date == start_date:
-                last_day = calendar.monthrange(current_date.year, current_date.month)[1]
-                remaining_days = last_day - start_date.day + 1
+            first = start_date.day if is_first_month else 1
+            last = end_date.day if is_last_month else last_day
+            days = last - first + 1
 
-                if not remaining_days == last_day:
-                    # partial first month
-                    current_rent = remaining_days * daily_rent
-
-            # handle last month
-            if current_date.month == end_date.month and current_date.year == end_date.year:
-                last_day = calendar.monthrange(end_date.year, end_date.month)[1]
-
-                if not end_date.day == last_day:
-                    # partial last month
-                    current_rent = end_date.day * daily_rent
-
-                should_continue = False
+            if days == last_day:
+                current_rent = full_rent
+            else:
+                current_rent = (daily_rent * days).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
 
             months.append(current_date)
             rents.append(current_rent)
 
-            current_date += relativedelta.relativedelta(months=1)
+            if is_last_month:
+                break
+
+            current_date = (current_date + relativedelta.relativedelta(months=1)).replace(day=1)
 
         # fill array until 6 entries (for displaying contract details)
         while len(months) < 6:

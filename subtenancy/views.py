@@ -12,13 +12,13 @@ from django.shortcuts import redirect, render
 from django.utils.translation import gettext_lazy as _
 
 @method_decorator(
-    ratelimit(key='subtenancy.ratelimit.client_ip', rate='10/5m', method='POST', block=True),
+    ratelimit(key='ip', rate='10/5m', method='POST', block=True),
     name='dispatch'
 )
 class Login(SuccessMessageMixin, LoginView):
     """
     Authenticates a user by username and password.
-    This view is protected by a simple rate limiter keyed on the client IP (see subtenancy.ratelimit.client_ip).
+    This view is protected by a simple rate limiter keyed on the client IP (see RATELIMIT_IP_META_KEY in settings).
     """
 
     title = 'Login'

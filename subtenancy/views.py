@@ -59,9 +59,14 @@ class PasswordChange(SuccessMessageMixin, PasswordChangeView):
         return context
 
 
+@method_decorator(
+    ratelimit(key='ip', rate='5/h', method='POST', block=True),
+    name='dispatch'
+)
 class PasswordReset(SuccessMessageMixin, PasswordResetView):
     """
     Sends an OTP to a given email in order to reset the user's password identified by the given email.
+    Rate limited per client IP so the form cannot be used to flood a mailbox.
     """
 
     template_name = 'registration/password_reset.html'

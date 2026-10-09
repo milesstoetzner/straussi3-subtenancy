@@ -71,6 +71,9 @@ class MainTenantUpdateForm(ModelForm):
 
 
 def clean_subtenant(self, cleaned_data, requires_abg):
+    # blacklist and accepted_data_processing (shared with maintenants)
+    clean_tenant(self, cleaned_data, requires_abg)
+
     begin_request = cleaned_data.get('begin_request')
     end_request = cleaned_data.get('end_request')
 
@@ -78,12 +81,6 @@ def clean_subtenant(self, cleaned_data, requires_abg):
     if begin_request and end_request:
         if begin_request >= end_request:
             self.add_error('end_request', _('Das Ende der angefragten Untermiete muss nach dem Beginn sein!'))
-
-    # accepted_data_processing is true
-    if requires_abg:
-        accepted_data_processing = cleaned_data.get('accepted_data_processing')
-        if not accepted_data_processing:
-            self.add_error('accepted_data_processing', _('Du musst der Datenverarbeitung zustimmen.'))
 
 
 class SubTenantCreateForm(UserCreationForm):

@@ -10,6 +10,7 @@ Django app for administrating the subtenancy for the Straussi3.
 ## Contents
 
 - [Screenshots](#screenshots)
+- [Architecture](#architecture)
 - [Development](#development)
   - [Setup](#setup)
   - [Tests](#tests)
@@ -39,6 +40,13 @@ Django app for administrating the subtenancy for the Straussi3.
 | ![Start page](docs/screenshots/index.png) | ![Registration](docs/screenshots/register.png) |
 | ![Request list](docs/screenshots/requests.png) | ![Profile](docs/screenshots/profile.png) |
 | ![Contract form](docs/screenshots/contract.png) | ![Contract](docs/screenshots/contract-view.png) |
+
+## Architecture
+
+A single Django app serves backend and frontend: server-rendered HTML templates styled with Tailwind, no JavaScript
+framework. Data lives in PostgreSQL; contract PDFs are rendered with xhtml2pdf and stored on disk.
+In production gunicorn runs the app and whitenoise serves the static files, both in one Docker container next to the
+PostgreSQL container, behind a reverse proxy that terminates TLS.
 
 ## Development
 

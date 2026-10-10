@@ -1,0 +1,22 @@
+{% extends "subtenancy/base.html" %}
+
+{% load custom_extras %}
+{% load i18n %}
+
+{% block content %}
+
+    <form method="POST" novalidate>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{% trans "Bestätigungslink erneut senden" %}</h5>
+                <p>{% trans "Keine E-Mail mit dem Bestätigungslink erhalten? Gib die E-Mail-Adresse deines Accounts ein, dann schicken wir dir einen neuen Link. Prüfe auch den Spam-Ordner." %}</p>
+                {% csrf_token %}
+                {% form_fields form get %}
+                <button class="btn btn-block btn-success" style="margin-top: 1rem"><i class="fas fa-envelope icon-text"></i>{% trans "Link senden" %}</button>
+                <a href="{% url 'login' %}" class="btn btn-light btn-block">{% trans "Abbrechen" %}</a>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

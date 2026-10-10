@@ -1,6 +1,6 @@
 {% load i18n %}
 
-{% if form.non_field_errors %}
+{% if form.non_field_errors and not form.email_unconfirmed %}
     <div class="alert bg-error">{{ form.non_field_errors.0 }}</div>
 {% endif %}
 

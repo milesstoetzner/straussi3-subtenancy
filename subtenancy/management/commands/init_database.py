@@ -4,6 +4,7 @@ from datetime import date
 from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
 from django.db import IntegrityError, transaction
+from django.utils import timezone
 from tenants.models import User
 
 
@@ -49,6 +50,7 @@ class Command(BaseCommand):
                     birthday=date.today(),
                     phone_number='',
                     type='SS',
+                    email_confirmed_at=timezone.now(),
                 )
         except IntegrityError as e:
             raise CommandError(f'Could not create the superuser, username or email already exists ({e})')

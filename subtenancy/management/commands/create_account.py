@@ -5,6 +5,7 @@ from django.contrib.auth.models import Group
 from django.core.management.base import BaseCommand, CommandError
 from django.db import IntegrityError, transaction
 from tenants.models import User
+from tenants.emails import send_confirmation_mail
 
 # role -> (user type, permission group, description); see tenants/groups.py for the groups
 ROLES = {
@@ -58,8 +59,11 @@ class Command(BaseCommand):
         except IntegrityError as e:
             raise CommandError(f'Could not create the user, username or email already exists ({e})')
 
+        send_confirmation_mail(None, user)
+
         self.stdout.write(self.style.SUCCESS(
             f'Created {options["role"]} account {user} ({user.username}, {user.email}, group {group_name})'))
+        self.stdout.write('A confirmation link was sent to the address; the account can log in once it is confirmed.')
         if options['password'] is None:
             self.stdout.write(f'Start password: {password}')
             self.stdout.write('Hand it over securely and ask the user to change it after the first login.')

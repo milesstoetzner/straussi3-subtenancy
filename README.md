@@ -321,9 +321,11 @@ All incoming emails are forwarded to wore.str3@gmail.com for further processing.
 
 ### Accounts
 
-Tenants register themselves. Accounts for the Sprechstunde (`assistant`, the default) and the Studierendenwerk
+Tenants register themselves and confirm their e-mail address via a link; unconfirmed accounts cannot log in and
+are not listed. Accounts for the Sprechstunde (`assistant`, the default) and the Studierendenwerk
 (`external`, may only print the active contracts) are created on the server; the command prints a random start
-password and puts the account into the matching group, see [Permissions](#permissions).
+password and puts the account into the matching group, see [Permissions](#permissions). The account receives a
+confirmation link and can log in once its e-mail address is confirmed.
 
 ```
 docker compose exec backend python manage.py create_account USERNAME EMAIL --first-name VORNAME --last-name NACHNAME

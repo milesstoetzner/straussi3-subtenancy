@@ -18,9 +18,19 @@ class User(AbstractUser):
     birthday = models.DateField(_('Geburtstag'))
     phone_number = models.CharField(_('Telefonnummer'), max_length=15)
     type = models.CharField(_('Typ'), max_length=3, choices=TYPES)
+    # set when the user followed the confirmation link; NULL means the address has not been confirmed (yet).
+    # Changing the address resets it. Not to be confused with is_active, which the Sprechstunde uses to block accounts.
+    email_confirmed_at = models.DateTimeField(_('E-Mail bestätigt am'), null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def is_email_confirmed(self):
+        return self.email_confirmed_at is not None
+
+    def confirm_email(self):
+        self.email_confirmed_at = timezone.now()
+        self.save(update_fields=['email_confirmed_at'])
 
     def is_tenant(self):
         return self.type == 'HM' or self.type == 'UM'

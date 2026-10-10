@@ -4,13 +4,18 @@ from django.db.transaction import atomic
 
 from tenants.models import User, SubTenant, SubtenancyRequest, Blacklist
 from tenants.forms import UserUpdateForm, MainTenantCreateForm, MainTenantUpdateForm, SubTenantCreateForm, \
-    SubTenantUpdateForm, SubtenancyRequestForm, RequestQueryForm
+    SubTenantUpdateForm, SubtenancyRequestForm, RequestQueryForm, ResendConfirmationForm
+from tenants.emails import send_registration_mail, send_confirmation_mail
+from tenants.tokens import email_confirmation_token
+from django.utils.encoding import force_str
+from django.utils.http import urlsafe_base64_decode
 from django.urls import reverse
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.decorators.http import require_http_methods, require_GET, require_POST
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth import logout
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from subtenancy.mail import send_email
@@ -65,15 +70,9 @@ def create_tenant(request, is_maintenant):
                 subtenancy_request.subtenant = tenant
                 subtenancy_request.save()
 
-            messages.success(request, _('Registrierung war erfolgreich. Du kannst dich nun einloggen.'))
+            messages.success(request, _('Registrierung war erfolgreich. Wir haben dir eine E-Mail mit einem Bestätigungslink geschickt. Bitte bestätige deine E-Mail-Adresse, bevor du dich einloggst.'))
 
-            content = get_template('tenants/register_email.html').render(
-                {'user': tenant, 'site_name': get_current_site(request).name})
-            mail = EmailMessage('Untermiete Straußäcker 3 Registrierung/ Subtenancy Straußäcker 3 Registration',
-                                content,
-                                '', [tenant.email])
-            mail.content_subtype = "html"
-            send_email(mail, receiver_id=tenant.pk, fail_silently=True)
+            send_registration_mail(request, tenant)
 
             # mail_admins(subject='ANALYSE create_tenant', message='Es gab eine Registrierung!', fail_silently=True)
 
@@ -85,6 +84,53 @@ def create_tenant(request, is_maintenant):
     context['is_maintenant'] = is_maintenant
 
     return render(request, 'tenants/create.html', context)
+
+
+@require_GET
+def confirm_email(request, uidb64, token):
+    """
+    Confirms the e-mail address behind a link from the registration or confirmation mail.
+    """
+
+    try:
+        user = User.objects.get(pk=force_str(urlsafe_base64_decode(uidb64)))
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is None or not email_confirmation_token.check_token(user, token):
+        return render(request, 'tenants/confirm_email_failed.html', {'title': _('E-Mail-Adresse bestätigen')},
+                      status=400)
+
+    user.confirm_email()
+    messages.success(request, _('Deine E-Mail-Adresse ist bestätigt. Du kannst dich nun einloggen.'))
+    return redirect(reverse('login'))
+
+
+@csrf_protect
+@ratelimit(key='ip', rate='5/h', method='POST', block=True)
+@require_http_methods(['GET', 'POST'])
+def resend_confirmation(request):
+    """
+    Sends a new confirmation link to an unconfirmed account. Answers the same way whether or not the address exists,
+    so the form cannot be used to look up accounts. Rate limited per client IP like the password reset.
+    """
+
+    context = {'title': _('Bestätigungslink erneut senden')}
+
+    if request.method == 'GET':
+        form = ResendConfirmationForm()
+        context['get'] = True
+    else:
+        form = ResendConfirmationForm(request.POST)
+        if form.is_valid():
+            user = User.objects.filter(email__iexact=form.cleaned_data['email']).first()
+            if user is not None and not user.is_email_confirmed():
+                send_confirmation_mail(request, user)
+            messages.success(request, _('Falls zu dieser E-Mail-Adresse ein noch nicht bestätigter Account existiert, haben wir einen neuen Bestätigungslink geschickt. Bitte prüfe auch den Spam-Ordner.'))
+            return redirect(reverse('login'))
+
+    context['form'] = form
+    return render(request, 'tenants/resend_confirmation.html', context)
 
 
 @login_required
@@ -116,6 +162,16 @@ def view_profile(request):
     return render(request, 'tenants/view.html', context)
 
 
+def reset_email_confirmation(request, tenant):
+    """
+    A changed e-mail address is unverified again: clear the confirmation and send a fresh link. The caller decides what
+    else happens (the owner is logged out, the Sprechstunde is not).
+    """
+    tenant.email_confirmed_at = None
+    tenant.save(update_fields=['email_confirmed_at'])
+    send_confirmation_mail(request, tenant)
+
+
 @atomic
 @csrf_protect
 @login_required
@@ -144,7 +200,14 @@ def update_profile(request):
         tenant_form = form(request.POST, instance=tenant)
         if tenant_form.is_valid():
             if tenant_form.has_changed():
+                email_changed = 'email' in tenant_form.changed_data
                 tenant_form.save()
+                if email_changed:
+                    # the owner changed their own address: un-confirm it, log them out and make them confirm it first
+                    reset_email_confirmation(request, tenant)
+                    messages.success(request, _('Deine E-Mail-Adresse wurde geändert. Wir haben dir einen Bestätigungslink an die neue Adresse geschickt. Bitte bestätige sie und logge dich anschließend wieder ein.'))
+                    logout(request)
+                    return redirect(reverse('login'))
                 messages.success(request, _('Änderungen wurden erfolgreich übernommen!'))
             else:
                 messages.info(request, _('Es gab keine Änderungen!'))
@@ -289,7 +352,12 @@ def update_tenant(request, pk):
         tenant_form = form(request.POST, instance=tenant)
         if tenant_form.is_valid():
             if tenant_form.has_changed():
+                email_changed = 'email' in tenant_form.changed_data
                 tenant_form.save()
+                if email_changed:
+                    # the Sprechstunde changed the tenant's address: un-confirm it so the tenant must confirm the new one
+                    reset_email_confirmation(request, tenant)
+                    messages.info(request, 'Die E-Mail-Adresse wurde geändert. Der Account muss sie über den zugeschickten Link bestätigen, bevor er sich wieder einloggen kann.')
                 messages.success(request, 'Änderungen wurden erfolgreich übernommen!')
             else:
                 messages.info(request, 'Es gab keine Änderungen!')
@@ -316,6 +384,10 @@ def contact_subtenant(request, pk):
 
     # only searching subtenants (with a request whose period has not ended) can be contacted
     if not subtenant.is_searching():
+        return handler400(request)
+
+    # a contact mail to an unconfirmed address would go nowhere
+    if not subtenant.is_email_confirmed():
         return handler400(request)
     subtenancy_request = subtenant.get_request()
 
@@ -401,7 +473,9 @@ def query_requests(request):
     """
 
     context = {}
-    requests = SubtenancyRequest.objects.active().filter(subtenant__is_active=True)
+    # listed are requests of active subtenants whose address is confirmed, i.e. who can be contacted
+    requests = SubtenancyRequest.objects.active().filter(subtenant__is_active=True,
+                                                         subtenant__email_confirmed_at__isnull=False)
 
     if requests.exists():
         default = {

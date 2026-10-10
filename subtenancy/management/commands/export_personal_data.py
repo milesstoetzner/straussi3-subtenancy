@@ -134,6 +134,7 @@ class Command(BaseCommand):
                 'type': user.type,
                 'type_display': str(user.get_type_display()),
                 'is_active': user.is_active,
+                'email_confirmed_at': user.email_confirmed_at,
                 'is_staff': user.is_staff,
                 'groups': [g.name for g in user.groups.all()],
                 'date_joined': user.date_joined,

@@ -1,0 +1,20 @@
+{% extends "subtenancy/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{% trans "E-Mail-Adresse bestätigen" %}</h5>
+
+            <div class="alert bg-danger text-white">
+                {% trans "Dieser Bestätigungslink ist ungültig oder abgelaufen. Eventuell wurde er bereits verwendet oder die E-Mail-Adresse wurde inzwischen geändert." %}
+            </div>
+
+            <a href="{% url 'ResendConfirmation' %}" class="btn btn-primary btn-block"><i class="fas fa-envelope icon-text"></i>{% trans "Bestätigungslink erneut senden" %}</a>
+            <a href="{% url 'login' %}" class="btn btn-light btn-block">{% trans "Zum Login" %}</a>
+        </div>
+    </div>
+
+{% endblock %}

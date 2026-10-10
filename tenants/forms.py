@@ -1,10 +1,34 @@
-from django.forms import Form, ModelForm, DateInput, Select, Textarea, DateField, ChoiceField
+from django.core.exceptions import ValidationError
+from django.forms import Form, ModelForm, DateInput, Select, Textarea, DateField, ChoiceField, EmailField
 from .models import User, MainTenant, SubTenant, SubtenancyRequest, Blacklist
 from .utils import REQUEST_ORDERING
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.utils.translation import gettext_lazy as _
 
 BOOLEAN_CHOICES = ((False, _('Nein')), (True, _('Ja')))
+
+
+class LoginForm(AuthenticationForm):
+    """
+    Login that additionally requires a confirmed e-mail address. The template shows a hint with the resend link when
+    email_unconfirmed is set.
+    """
+
+    email_unconfirmed = False
+
+    def confirm_login_allowed(self, user):
+        super().confirm_login_allowed(user)
+        if not user.is_email_confirmed():
+            self.email_unconfirmed = True
+            raise ValidationError(_('Deine E-Mail-Adresse ist noch nicht bestätigt.'), code='email_unconfirmed')
+
+
+class ResendConfirmationForm(Form):
+    """
+    Asks for the address of the account that should get a new confirmation link.
+    """
+
+    email = EmailField(label=_('Email Adresse'), max_length=150)
 
 
 class UserUpdateForm(ModelForm):

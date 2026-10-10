@@ -18,6 +18,8 @@ urlpatterns = [
 
     path('register/maintenant', tenant_views.create_tenant, {'is_maintenant': True}, name='MainTenantCreate'),
     path('register/subtenant', tenant_views.create_tenant, {'is_maintenant': False}, name='SubTenantCreate'),
+    path('register/confirm/<uidb64>/<token>/', tenant_views.confirm_email, name='ConfirmEmail'),
+    path('register/resend/', tenant_views.resend_confirmation, name='ResendConfirmation'),
 
     path('login/', views.Login.as_view(), name='login'),
     path('logout/', views.logout_view, name='logout'),

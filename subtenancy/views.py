@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django_ratelimit.decorators import ratelimit
 from django.shortcuts import redirect, render
 from django.utils.translation import gettext_lazy as _
+from tenants.forms import LoginForm
 
 @method_decorator(
     ratelimit(key='ip', rate='10/5m', method='POST', block=True),
@@ -22,6 +23,7 @@ class Login(SuccessMessageMixin, LoginView):
     """
 
     title = 'Login'
+    authentication_form = LoginForm
 
     def get_success_message(self, cleaned_data):
         return _('Willkommen zurück') + ', ' + self.request.user.get_full_name() + '!'

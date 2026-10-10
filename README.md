@@ -59,11 +59,11 @@ python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 python manage.py init_database --superuser admin --email admin@example.org
-python develope.py
+scripts/devserver.sh
 ```
 
 `init_database` runs the migrations, creates the permission groups and a superuser for the admin (prints the password).
-`develope.py` loads `.env.dev` and starts the development server on port 8000.
+`devserver.sh` exports `.env.dev` and starts the development server on port 8000.
 
 ### Tests
 
@@ -86,8 +86,8 @@ Rebuild only after changing the source or using a Tailwind class in a template t
 (downloads the Tailwind standalone CLI on first use, no Node needed):
 
 ```
-config/build-css.sh          # once
-config/build-css.sh --watch  # while editing
+scripts/build-css.sh          # once
+scripts/build-css.sh --watch  # while editing
 ```
 
 ### Permissions
@@ -105,7 +105,7 @@ Registration puts every new account into `Maintenant` or `Subtenant`; `create_ac
 
 The groups are defined in [tenants/groups.py](/tenants/groups.py) and created by `python manage.py sync_groups`,
 which also resets their permissions to that definition (changes made in the admin do not survive it).
-The command is idempotent; `init_database`, the container entrypoint and [config/deploy.sh](/config/deploy.sh) run it after `migrate`.
+The command is idempotent; `init_database`, the container entrypoint and [scripts/deploy.sh](/scripts/deploy.sh) run it after `migrate`.
 
 ### Database
 
@@ -254,7 +254,7 @@ A new server needs Docker, the repository and the data directories; everything e
    docker compose exec backend python manage.py init_database --superuser USERNAME --email EMAIL
    ```
 
-5. Install the [cronjob](/config/cronjob) and the [reverse proxy](#reverse-proxy).
+5. Install the [cronjob](/scripts/cronjob) and the [reverse proxy](#reverse-proxy).
 
 `init_database` can be run again at any time; it keeps existing data and creates the superuser only if there is none.
 
@@ -265,41 +265,41 @@ Releases are tags `vMAJOR.MINOR.PATCH`; a new major needs manual steps, see [Mig
 
 ```
 git tag -a v2.1.0 -m "v2.1.0" && git push origin v2.1.0   # developer
-config/deploy.sh v2.1.0                                   # server: checkout, build, restart, migrate, sync_groups
+scripts/deploy.sh v2.1.0                                   # server: checkout, build, restart, migrate, sync_groups
 ```
 
 ### Migration
 
 #### 1.x to 2.x
 
-1. Backup: `config/backup.sh` (the database model changes, migration `tenants.0066`).
+1. Backup: `scripts/backup.sh` (the database model changes, migration `tenants.0066`).
 2. Configure: `SUBTENANCY_TRUST_X_FORWARDED_FOR=1` in `/etc/subtenancy/config/backend`, see [Reverse Proxy](#reverse-proxy);
    drop `SUBTENANCY_CLEAN_DATABASE_WRITE`.
-3. Start the new version: fresh clone (the history was rewritten), `config/deploy.sh v2.0.0`.
-4. Install the [cronjob](/config/cronjob).
+3. Start the new version: fresh clone (the history was rewritten), `scripts/deploy.sh v2.0.0`.
+4. Install the [cronjob](/scripts/cronjob).
 
 ## Operations
 
 ### Backups
 
-A [cronjob](/config/cronjob) runs [config/backup.sh](/config/backup.sh) every night.
+A [cronjob](/scripts/cronjob) runs [scripts/backup.sh](/scripts/backup.sh) every night.
 It dumps the database through the database container and packs it together with all contract PDFs into
 `subtenancy_backup_<timestamp>.tar.gz` in `/home/str3/backups`; archives older than 30 days are deleted.
 
 ```
-config/backup.sh [BACKUP_DIR]
+scripts/backup.sh [BACKUP_DIR]
 ```
 
 ### Restore
 
-[config/restore.sh](/config/restore.sh) restores such an archive into an **empty** installation: it refuses if the
+[scripts/restore.sh](/scripts/restore.sh) restores such an archive into an **empty** installation: it refuses if the
 database already contains tables or the contracts directory is not empty.
 To restore over an existing installation, stop it and clear the data first.
 
 ```
 docker compose down
 sudo rm -rf /etc/subtenancy/database/* /etc/subtenancy/contracts/*
-config/restore.sh /home/str3/backups/subtenancy_backup_<timestamp>.tar.gz
+scripts/restore.sh /home/str3/backups/subtenancy_backup_<timestamp>.tar.gz
 ```
 
 The script starts the database, restores the dump and the PDFs, then starts the whole stack.
@@ -351,4 +351,4 @@ python manage.py prune_stale_data          # dry run
 python manage.py prune_stale_data --apply  # delete
 ```
 
-On the server the [cronjob](/config/cronjob) runs [config/prune-stale-data.sh](/config/prune-stale-data.sh) `--apply` every night at 03:20, an hour after the backup.
+On the server the [cronjob](/scripts/cronjob) runs [scripts/prune-stale-data.sh](/scripts/prune-stale-data.sh) `--apply` every night at 03:20, an hour after the backup.

@@ -1,7 +1,7 @@
 #!/bin/bash
-# Restores a backup created by config/backup.sh into an EMPTY installation.
+# Restores a backup created by scripts/backup.sh into an EMPTY installation.
 #
-# Usage: config/restore.sh ARCHIVE
+# Usage: scripts/restore.sh ARCHIVE
 #
 # Environment (optional):
 #   CONTRACTS_DIR  directory for the contract PDFs, default /etc/subtenancy/contracts
@@ -11,7 +11,7 @@
 #
 #   docker compose down
 #   sudo rm -rf /etc/subtenancy/database/* /etc/subtenancy/contracts/*
-#   config/restore.sh ARCHIVE
+#   scripts/restore.sh ARCHIVE
 #
 # The database container is started if necessary, the dump and the PDFs are restored, then the whole stack is
 # started.
@@ -20,7 +20,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-ARCHIVE=${1:?usage: config/restore.sh ARCHIVE}
+ARCHIVE=${1:?usage: scripts/restore.sh ARCHIVE}
 CONTRACTS_DIR=${CONTRACTS_DIR:-/etc/subtenancy/contracts}
 
 [ -f "$ARCHIVE" ] || { echo "no such file: $ARCHIVE" >&2; exit 1; }

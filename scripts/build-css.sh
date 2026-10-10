@@ -2,7 +2,7 @@
 # Builds tenants/static/subtenancy/app.css from tenants/static_src/app.css with the Tailwind standalone CLI
 # (no Node required). The output is committed, so this only needs to run after changing templates or the source.
 #
-# Usage: config/build-css.sh [--watch]
+# Usage: scripts/build-css.sh [--watch]
 
 set -euo pipefail
 

@@ -202,7 +202,7 @@ Set `SUBTENANCY_ENABLE_MIGRATIONS=1` to run `python manage.py migrate` on contai
 | `SUBTENANCY_USE_X_FORWARDED_HOST`       | `'0'`                |                                                                  |
 | `SUBTENANCY_TRUST_X_FORWARDED_FOR`      | `'0'`                | Use the first `X-Forwarded-For` address as client IP for the login rate limit. Enable only behind a reverse proxy that sets this header. |
 
-## Operation
+## Operations
 
 ### Server
 

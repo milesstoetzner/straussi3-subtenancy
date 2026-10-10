@@ -1,7 +1,7 @@
 #!/bin/bash
 # Starts the development server on port 8000 with the variables from .env.dev.
 #
-# Usage: scripts/devserver.sh [ADDR:PORT]   default 0.0.0.0:8000
+# Usage: scripts/develope.sh [ADDR:PORT]   default 0.0.0.0:8000
 #
 # Must be called from a checkout of this repository with the virtualenv activated.
 

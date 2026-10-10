@@ -18,14 +18,13 @@ Django app for administrating the subtenancy for the Straussi3.
   - [Permissions](#permissions)
   - [Database](#database)
   - [Schema](#schema)
+  - [Release](#release)
 - [Deployment](#deployment)
   - [Docker](#docker)
   - [Reverse Proxy](#reverse-proxy)
   - [Health](#health)
   - [Environment](#environment)
   - [Installation](#installation)
-  - [Release](#release)
-  - [Migration](#migration)
 - [Operations](#operations)
   - [Backups](#backups)
   - [Restore](#restore)
@@ -33,6 +32,7 @@ Django app for administrating the subtenancy for the Straussi3.
   - [Accounts](#accounts)
   - [Data Access Requests](#data-access-requests)
   - [Prune Stale Data](#prune-stale-data)
+  - [Migration](#migration)
 - [Changelog](#changelog)
 
 ## Screenshots
@@ -62,11 +62,11 @@ python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 python manage.py init_database --superuser admin --email admin@example.org
-scripts/devserver.sh
+scripts/develope.sh
 ```
 
 `init_database` runs the migrations, creates the permission groups and a superuser for the admin (prints the password).
-`devserver.sh` exports `.env.dev` and starts the development server on port 8000.
+`develope.sh` exports `.env.dev` and starts the development server on port 8000.
 
 ### Tests
 
@@ -141,6 +141,7 @@ erDiagram
         string type "HM | UM | SS | SWS"
         bool is_active
         bool is_staff
+        datetime email_confirmed_at
     }
     MainTenant {
         int user_id PK, FK
@@ -192,6 +193,16 @@ erDiagram
 
 All tables also carry `created_at` and `updated_at`.
 Contract PDFs are stored on disk as `contracts/contracts/contract_<id>_version_<n>.pdf`.
+
+### Release
+
+Releases are tags `vMAJOR.MINOR.PATCH`; a new major needs manual steps, see [Migration](#migration).
+`v1.0.0` is the state before the audit of October 2026, `v2.0.0` its result.
+
+```
+git tag -a v2.1.0 -m "v2.1.0" && git push origin v2.1.0   # developer
+scripts/deploy.sh v2.1.0                                   # server: checkout, build, restart, migrate, sync_groups
+```
 
 ## Deployment
 
@@ -269,26 +280,6 @@ A new server needs Docker, the repository and the data directories; everything e
 
 `init_database` can be run again at any time; it keeps existing data and creates the superuser only if there is none.
 
-### Release
-
-Releases are tags `vMAJOR.MINOR.PATCH`; a new major needs manual steps, see [Migration](#migration).
-`v1.0.0` is the state before the audit of October 2026, `v2.0.0` its result.
-
-```
-git tag -a v2.1.0 -m "v2.1.0" && git push origin v2.1.0   # developer
-scripts/deploy.sh v2.1.0                                   # server: checkout, build, restart, migrate, sync_groups
-```
-
-### Migration
-
-#### 1.x to 2.x
-
-1. Backup: `scripts/backup.sh` (the database model changes, migration `tenants.0066`).
-2. Configure: `SUBTENANCY_TRUST_X_FORWARDED_FOR=1` in `/etc/subtenancy/config/backend`, see [Reverse Proxy](#reverse-proxy);
-   drop `SUBTENANCY_CLEAN_DATABASE_WRITE`.
-3. Start the new version: fresh clone (the history was rewritten), `scripts/deploy.sh v2.0.0`.
-4. Install the [cronjob](/scripts/cronjob).
-
 ## Operations
 
 ### Backups
@@ -365,6 +356,16 @@ python manage.py prune_stale_data --apply  # delete
 ```
 
 On the server the [cronjob](/scripts/cronjob) runs [scripts/prune-stale-data.sh](/scripts/prune-stale-data.sh) `--apply` every night at 03:20, an hour after the backup.
+
+### Migration
+
+#### 1.x to 2.x
+
+1. Backup: `scripts/backup.sh` (the database model changes, migration `tenants.0066`).
+2. Configure: `SUBTENANCY_TRUST_X_FORWARDED_FOR=1` in `/etc/subtenancy/config/backend`, see [Reverse Proxy](#reverse-proxy);
+   drop `SUBTENANCY_CLEAN_DATABASE_WRITE`.
+3. Start the new version: fresh clone (the history was rewritten), `scripts/deploy.sh v2.0.0`.
+4. Install the [cronjob](/scripts/cronjob).
 
 ## Changelog
 

@@ -9,6 +9,8 @@ from django.core.management.base import BaseCommand, CommandError
 from django.db.models import Q
 from django.utils import timezone
 from pypdf import PdfReader, PdfWriter
+from reportlab.lib.units import mm
+from reportlab.pdfgen import canvas
 
 from contracts.models import Contract
 from contracts.utils import contract_pdf_path, html_to_pdf
@@ -79,9 +81,24 @@ class Command(BaseCommand):
         for (title, reader), entry in zip(parts, entries):
             writer.append(reader, import_outline=False)
             writer.add_outline_item(title, entry['page'] - 1)
+        # continuous page numbers bottom left, matching the contents page (the contract documents keep their own
+        # "Seite x von y" bottom right, which counts within the single document)
+        total = len(writer.pages)
+        for number, page in enumerate(writer.pages, start=1):
+            page.merge_page(self.page_number_overlay(number, total, float(page.mediabox.width), float(page.mediabox.height)))
+
         out = io.BytesIO()
         writer.write(out)
         return out.getvalue()
+
+    @staticmethod
+    def page_number_overlay(number, total, width, height):
+        buffer = io.BytesIO()
+        c = canvas.Canvas(buffer, pagesize=(width, height))
+        c.setFont('Helvetica', 9)
+        c.drawString(25 * mm, 15 * mm, f'Auskunft Seite {number} von {total}')
+        c.save()
+        return PdfReader(buffer).pages[0]
 
     @staticmethod
     def find_user(identifier):

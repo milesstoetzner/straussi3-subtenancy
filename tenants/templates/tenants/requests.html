@@ -47,7 +47,6 @@
                 <a href="{% url 'tenants:SubTenantContact' subtenancy_request.subtenant_id %}" class="request-row">
                     <span class="font-medium">{{ subtenancy_request.begin|date:"d.m.Y" }} – {{ subtenancy_request.end|date:"d.m.Y" }}</span>
                     <span class="text-slate-500">#{{ subtenancy_request.subtenant_id|stringformat:"03d" }}</span>
-                    <span class="request-row-action"><i class="fas fa-comment-alt"></i>{% trans "Kontaktieren" %}</span>
                 </a>
 
             {% endfor %}

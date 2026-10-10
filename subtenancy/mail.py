@@ -66,5 +66,11 @@ def send_email(message, *, receiver_id=None, sender_id=None, fail_silently=False
     for key, window in windows:
         cache.set(key, cache.get(key, 0) + 1, window * 2)
 
-    message.send(fail_silently=fail_silently)
+    try:
+        message.send(fail_silently=False)
+    except Exception:
+        if not fail_silently:
+            raise                                 # the caller handles and logs it
+        logger.exception('mail send failed (ignored)')
+        return False
     return True

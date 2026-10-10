@@ -215,6 +215,7 @@ def update_profile(request):
                     messages.success(request, _('Deine E-Mail-Adresse wurde geändert. Wir haben dir einen Bestätigungslink an die neue Adresse geschickt. Bitte bestätige sie und logge dich anschließend wieder ein.'))
                     logout(request)
                     return redirect(reverse('login'))
+                logger.info('profile updated: user %s', user.pk)
                 messages.success(request, _('Änderungen wurden erfolgreich übernommen!'))
             else:
                 messages.info(request, _('Es gab keine Änderungen!'))
@@ -258,9 +259,11 @@ def update_request(request):
         if form.is_valid():
             if not has_request:
                 form.save()
+                logger.info('request created: user %s', tenant.pk)
                 messages.success(request, _('Deine Anfrage wurde erstellt.'))
             elif form.has_changed():
                 form.save()
+                logger.info('request updated: user %s', tenant.pk)
                 messages.success(request, _('Änderungen wurden erfolgreich übernommen!'))
             else:
                 messages.info(request, _('Es gab keine Änderungen!'))
@@ -294,6 +297,7 @@ def delete_request(request):
         return handler400(request)
 
     subtenancy_request.delete()
+    logger.info('request deleted: user %s', tenant.pk)
     messages.success(request, _('Deine Anfrage wurde gelöscht.'))
 
     return redirect(reverse('Profile'))
@@ -365,6 +369,7 @@ def update_tenant(request, pk):
                     # the Sprechstunde changed the tenant's address: un-confirm it so the tenant must confirm the new one
                     reset_email_confirmation(request, tenant)
                     messages.info(request, 'Die E-Mail-Adresse wurde geändert. Der Account muss sie über den zugeschickten Link bestätigen, bevor er sich wieder einloggen kann.')
+                logger.info('tenant updated by staff: user %s (by %s)', tenant.pk, request.user.pk)
                 messages.success(request, 'Änderungen wurden erfolgreich übernommen!')
             else:
                 messages.info(request, 'Es gab keine Änderungen!')

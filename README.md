@@ -259,7 +259,7 @@ docker compose exec backend python manage.py export_personal_data USERNAME_OR_EM
 docker compose exec backend python manage.py export_personal_data USERNAME_OR_EMAIL --pdf /tmp/auskunft.pdf
 ```
 
-The PDF is bilingual and styled like the contract documents; `--output FILE` writes the JSON to a file instead.
+The PDF is styled like the contract documents; `--output FILE` writes the JSON to a file instead.
 
 Server logs and sent e-mails live with the hosting and mail provider and are not part of the export.
 

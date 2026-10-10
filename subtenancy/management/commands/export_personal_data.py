@@ -184,8 +184,8 @@ class Command(BaseCommand):
         report['not_included'] = [
             'Server access logs and the e-mails sent to you are kept outside this application (hosting and mail '
             'provider), see the privacy policy.',
-            'IP addresses of login, registration and password reset attempts are kept in memory for at most one '
-            'hour and are not stored.',
+            'Login, registration and password reset attempts are counted per IP address to limit abuse; only a hash '
+            'of the address is kept in memory for at most one hour, the application stores no IP addresses.',
         ]
         return report
 

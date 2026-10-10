@@ -85,7 +85,7 @@ class Command(BaseCommand):
         # "Seite x von y" bottom right, which counts within the single document)
         total = len(writer.pages)
         for number, page in enumerate(writer.pages, start=1):
-            page.merge_page(self.page_number_overlay(number, total, float(page.mediabox.width), float(page.mediabox.height)))
+            page.merge_page(Command.page_number_overlay(number, total, float(page.mediabox.width), float(page.mediabox.height)))
 
         out = io.BytesIO()
         writer.write(out)

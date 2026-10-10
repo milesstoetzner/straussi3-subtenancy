@@ -1,4 +1,0 @@
-# Cronjob (adjust the path to the repository checkout)
-# 02:20 backup subtenancy data, 03:20 delete stale records and contract PDFs
-20 2 * * * /home/str3/straussi3-subtenancy/config/backup.sh
-20 3 * * * /home/str3/straussi3-subtenancy/config/prune-stale-data.sh --apply

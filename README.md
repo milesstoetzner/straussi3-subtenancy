@@ -255,9 +255,11 @@ The command collects everything the application holds about one user (account, t
 including the PDF file names) as JSON; identify the person by username, e-mail address or id.
 
 ```
-docker compose exec backend python manage.py export_personal_data USERNAME_OR_EMAIL
-docker compose exec backend python manage.py export_personal_data USERNAME_OR_EMAIL --output /tmp/export.json
+docker compose exec backend python manage.py export_personal_data USERNAME_OR_EMAIL                     # JSON to stdout
+docker compose exec backend python manage.py export_personal_data USERNAME_OR_EMAIL --pdf /tmp/auskunft.pdf
 ```
+
+The PDF is bilingual and styled like the contract documents; `--output FILE` writes the JSON to a file instead.
 
 Server logs and sent e-mails live with the hosting and mail provider and are not part of the export.
 

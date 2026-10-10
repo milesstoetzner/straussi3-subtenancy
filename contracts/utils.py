@@ -1,13 +1,35 @@
 import os
 from io import BytesIO
 from django.conf import settings
+from django.contrib.staticfiles import finders
+from django.core.exceptions import SuspiciousFileOperation
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from subtenancy.settings import BASE_DIR
 
 
 def link_callback(uri, rel):
-    return os.path.join(settings.STATIC_ROOT, uri.replace(settings.STATIC_URL, ""))
+    """
+    Resolves the /static/... URLs of the PDF templates to files on disk: the collected static files first
+    (production, after collectstatic), the apps' static directories otherwise (development).
+
+    Only URLs below STATIC_URL are resolved and only to files inside STATIC_ROOT or an app's static directory;
+    anything else yields None, so xhtml2pdf cannot be pointed at arbitrary files.
+    """
+    if not uri.startswith(settings.STATIC_URL):
+        return None
+    path = uri[len(settings.STATIC_URL):]
+
+    static_root = os.path.realpath(settings.STATIC_ROOT)
+    collected = os.path.realpath(os.path.join(static_root, path))
+    if collected.startswith(static_root + os.sep) and os.path.isfile(collected):
+        return collected
+
+    try:
+        return finders.find(path)
+    except SuspiciousFileOperation:
+        # the finders refuse paths that would leave their directories
+        return None
 
 
 def html_to_pdf(source, context):

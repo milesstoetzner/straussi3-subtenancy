@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-10 12:16+0000\n"
+"POT-Creation-Date: 2026-10-10 14:09+0000\n"
 "PO-Revision-Date: 2026-05-15 21:39+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -24,11 +24,11 @@ msgstr ""
 msgid "Passwort vergessen?"
 msgstr "Forgot Password?"
 
-#: subtenancy/settings.py:99
+#: subtenancy/settings.py:98
 msgid "Deutsch"
 msgstr "German"
 
-#: subtenancy/settings.py:100
+#: subtenancy/settings.py:99
 msgid "Englisch"
 msgstr "English"
 
@@ -46,11 +46,10 @@ msgstr "Your Password has been successfully changed!"
 
 #: subtenancy/views.py:74
 msgid ""
-"Wir haben eine E-Mail zum Zurücksetzen des Passwortes an die angegebene "
-"E-Mail-Adresse gesendet, sofern ein entsprechendes Konto existiert. Sie "
-"sollte in Kürze ankommen. Falls die E-Mail nicht angekommen sein sollte, "
-"bitte die E-Mail-Adresse auf Richtigkeit und gegebenenfalls den Spam-Ordner "
-"überprüfen."
+"Wir haben eine E-Mail zum Zurücksetzen des Passwortes an die angegebene E-"
+"Mail-Adresse gesendet, sofern ein entsprechendes Konto existiert. Sie sollte "
+"in Kürze ankommen. Falls die E-Mail nicht angekommen sein sollte, bitte die "
+"E-Mail-Adresse auf Richtigkeit und gegebenenfalls den Spam-Ordner überprüfen."
 msgstr ""
 "We have sent you an E-Mail with Instructions for Resetting your Password. "
 "Please check your Spam Folder."
@@ -59,14 +58,7 @@ msgstr ""
 msgid "Dein Passwort wurde erfolgreich zurückgesetzt!"
 msgstr "Your Password has been successfully resetted!"
 
-#: subtenancy/views.py:108 tenants/templates/subtenancy/base.html:38
-#: tenants/templates/subtenancy/base.html:49
-#: tenants/templates/subtenancy/base.html:58
-#: tenants/templates/subtenancy/base.html:244
-msgid "Ferienmiete"
-msgstr "Subtenancy"
-
-#: subtenancy/views.py:116 tenants/templates/subtenancy/base.html:265
+#: subtenancy/views.py:116 tenants/templates/subtenancy/base.html:148
 msgid "Impressum"
 msgstr "Legal Notice"
 
@@ -80,14 +72,10 @@ msgstr "We are sorry, but you do not have access to this page!"
 
 #: subtenancy/views.py:130
 #, python-format
-msgid ""
-"Es tut uns Leid, aber die angefragte URL %(path)s wurde nicht gefunden!"
+msgid "Es tut uns Leid, aber die angefragte URL %(path)s wurde nicht gefunden!"
 msgstr "We are sorry, but the requested URL %(path)s could not be found!"
 
 #: subtenancy/views.py:136
-#| msgid ""
-#| "Es tut uns Leid, aber ein unerwarteter Fehler ist aufgetreten! Versuche es "
-#| "später erneut."
 msgid "Es tut uns Leid, aber ein unerwarteter Fehler ist aufgetreten!"
 msgstr "We're sorry, but an unexpected error has occurred!"
 
@@ -100,7 +88,6 @@ msgid "Error"
 msgstr "Error"
 
 #: tenants/admin.py:35
-#| msgid "Mietvertrag"
 msgid "Mieter"
 msgstr "Tenant"
 
@@ -192,7 +179,7 @@ msgid "Ich stimme der Datenverarbeitung zu"
 msgstr "I consent to the processing of my data"
 
 #: tenants/models.py:92 tenants/models.py:93
-#: tenants/templates/subtenancy/base.html:88 tenants/utils.py:256
+#: tenants/templates/subtenancy/base.html:50 tenants/utils.py:256
 msgid "Hauptmieter"
 msgstr "Main Tenant"
 
@@ -229,7 +216,7 @@ msgid "Land"
 msgstr "Country"
 
 #: tenants/models.py:144 tenants/models.py:145 tenants/models.py:165
-#: tenants/templates/subtenancy/base.html:91 tenants/utils.py:257
+#: tenants/templates/subtenancy/base.html:51 tenants/utils.py:257
 msgid "Untermieter"
 msgstr "Subtenant"
 
@@ -245,14 +232,14 @@ msgstr "End of the requested Subtenancy"
 msgid "Anfrage"
 msgstr "Request"
 
-#: tenants/models.py:183 tenants/templates/subtenancy/base.html:96
+#: tenants/models.py:183 tenants/templates/subtenancy/base.html:53
 msgid "Anfragen"
 msgstr "Requests"
 
 #: tenants/templates/registration/login.html:14
 #: tenants/templates/registration/login.html:33
-#: tenants/templates/subtenancy/base.html:78
-#: tenants/templates/subtenancy/base.html:232
+#: tenants/templates/subtenancy/base.html:38
+#: tenants/templates/subtenancy/base.html:128
 msgid "Einloggen"
 msgstr "Login"
 
@@ -274,7 +261,7 @@ msgstr "You have to be logged in to access this Site."
 
 #: tenants/templates/registration/password_change.html:12
 #: tenants/templates/registration/password_change.html:15
-#: tenants/templates/subtenancy/base.html:236
+#: tenants/templates/subtenancy/base.html:130
 #: tenants/templates/tenants/view.html:46
 msgid "Passwort ändern"
 msgstr "Change Password"
@@ -316,73 +303,74 @@ msgstr ""
 "entered exactly as it was during registration. This includes, for example, "
 "the use of upper and lower case letters."
 
-#: tenants/templates/subtenancy/base.html:28
-#: tenants/templates/subtenancy/base.html:71
-msgid "Eingeloggt als"
-msgstr "Logged in as"
+#: tenants/templates/subtenancy/base.html:27
+#: tenants/templates/subtenancy/base.html:136
+#: tenants/templates/subtenancy/index.html:7
+msgid "Untermiete"
+msgstr "Subtenancy"
 
-#: tenants/templates/subtenancy/base.html:127
+#: tenants/templates/subtenancy/base.html:71
 msgid "Ausloggen"
 msgstr "Logout"
 
-#: tenants/templates/subtenancy/base.html:229
+#: tenants/templates/subtenancy/base.html:125
 msgid "Benutzerkonto"
 msgstr "Account"
 
-#: tenants/templates/subtenancy/base.html:231
+#: tenants/templates/subtenancy/base.html:127
 msgid "Profil"
 msgstr "Profile"
 
-#: tenants/templates/subtenancy/base.html:234
+#: tenants/templates/subtenancy/base.html:129
 msgid "Passwort vergessen"
 msgstr "Password Forgotten"
 
-#: tenants/templates/subtenancy/base.html:238 tenants/views.py:152
+#: tenants/templates/subtenancy/base.html:131 tenants/views.py:152
 msgid "Profil aktualisieren"
 msgstr "Update Profile"
 
-#: tenants/templates/subtenancy/base.html:240
-#: tenants/templates/subtenancy/base.html:257
+#: tenants/templates/subtenancy/base.html:132
 #: tenants/templates/tenants/view.html:35 tenants/views.py:199
 msgid "Anfrage aktualisieren"
 msgstr "Update Request"
 
-#: tenants/templates/subtenancy/base.html:249
+#: tenants/templates/subtenancy/base.html:139
 #: tenants/templates/subtenancy/index.html:17
 msgid "Als Hauptmieter registrieren"
 msgstr "Register as Main Tenant"
 
-#: tenants/templates/subtenancy/base.html:252
+#: tenants/templates/subtenancy/base.html:140
 #: tenants/templates/subtenancy/index.html:20
 msgid "Als Untermieter registrieren"
 msgstr "Register as Subtenant"
 
-#: tenants/templates/subtenancy/base.html:254 tenants/views.py:434
+#: tenants/templates/subtenancy/base.html:141 tenants/views.py:434
 msgid "Anfragenliste"
 msgstr "Requests"
 
-#: tenants/templates/subtenancy/base.html:261
+#: tenants/templates/subtenancy/base.html:145
 msgid "Über uns"
 msgstr "About Us"
 
-#: tenants/templates/subtenancy/base.html:263
+#: tenants/templates/subtenancy/base.html:147
 msgid "Homepage"
 msgstr "Homepage"
 
-#: tenants/templates/subtenancy/bootstrap_form.html:13
+#: tenants/templates/subtenancy/form_fields.html:14
 msgid "Alles in Ordnung!"
 msgstr "Everything is allright!"
 
 #: tenants/templates/subtenancy/index.html:10
 msgid ""
-"Willkommen auf der Startseite der Ferienmiete des Studierendenwohnheims "
-"Straußäcker 3 in Stuttgart. Hier hast du die Möglichkeit als Hauptmieter "
-"dein Zimmer zu vermieten bzw. als Untermieter dich in die Anfragenliste "
-"einzutragen. Alle nötigen Informationen hierfür stehen weiter unten."
+"Willkommen auf der Startseite der Untermiete (auch bekannt als "
+"„Ferienmiete“) des Studierendenwohnheims Straußäcker 3 in Stuttgart. Hier "
+"hast du die Möglichkeit als Hauptmieter dein Zimmer zu vermieten bzw. als "
+"Untermieter dich in die Anfragenliste einzutragen. Alle nötigen "
+"Informationen hierfür stehen weiter unten."
 msgstr ""
-"Welcome to the subtenancy of the residential home Straußäcker 3 in "
-"Stuttgart. Here you can sublet or request to rent a room. All necessary "
-"information are below."
+"Welcome to the subtenancy (also known as “Ferienmiete”) of the residential "
+"home Straußäcker 3 in Stuttgart. Here you can sublet or request to rent a "
+"room. All necessary information are below."
 
 #: tenants/templates/subtenancy/index.html:14
 msgid "Anfragen von Untermietern"
@@ -403,8 +391,8 @@ msgid ""
 "href='mailto:wore.str3@gmail.com'>wore.str3@gmail.com</a> mit allen "
 "notwendigen Unterlagen und ein paar Terminvorschlägen, an denen ihr beiden "
 "Zeit habt für eine kurze Videokonferenz (Dauer ca. 20 Minuten). In der "
-"Videokonferenz erstellen wir den Vertrag, organisieren die Schlüsselübergabe"
-" und helfen bei Fragen."
+"Videokonferenz erstellen wir den Vertrag, organisieren die Schlüsselübergabe "
+"und helfen bei Fragen."
 msgstr ""
 "Your subtenant and you register on this website and send us an email to <a "
 "href='mailto:wore.str3@gmail.com'>wore.str3@gmail.com</a> with all the "
@@ -421,13 +409,17 @@ msgstr "How to find a subtenant?"
 #, python-format
 msgid ""
 "\n"
-"            Du registrierst dich <a href=\"%(url_register)s\" target=\"_blank\">als Hauptmieter</a> und\n"
-"            kontaktierst in der <a href=\"%(url_requests)s\" target=\"_blank\">Anfragenliste</a>\n"
+"            Du registrierst dich <a href=\"%(url_register)s\" "
+"target=\"_blank\">als Hauptmieter</a> und\n"
+"            kontaktierst in der <a href=\"%(url_requests)s\" "
+"target=\"_blank\">Anfragenliste</a>\n"
 "            passende Untermieter.\n"
 "            "
 msgstr ""
 "\n"
-"You register <a href=\"%(url_register)s\" target=\"_blank\">as a main tenant</a> and contact suitable subtenants using the <a href=\"%(url_requests)s\" target=\"_blank\">inquiry list</a>."
+"You register <a href=\"%(url_register)s\" target=\"_blank\">as a main "
+"tenant</a> and contact suitable subtenants using the <a "
+"href=\"%(url_requests)s\" target=\"_blank\">inquiry list</a>."
 
 #: tenants/templates/subtenancy/index.html:49
 msgid "Was muss ich beachten?"
@@ -476,8 +468,8 @@ msgstr ""
 #: tenants/templates/subtenancy/index.html:61
 msgid ""
 "Falls du nach Ende der Untermiete nicht in dein Zimmer zurückkehrst, macht "
-"das Wohnheimsreferat die Zimmerabnahme vor Beginn des Untermietvertrags. Der"
-" Termin dafür wird bei der Vertragserstellung ausgemacht."
+"das Wohnheimsreferat die Zimmerabnahme vor Beginn des Untermietvertrags. Der "
+"Termin dafür wird bei der Vertragserstellung ausgemacht."
 msgstr ""
 "If you do not return to your room at the end of the sublet, the "
 "Wohnheimsreferat will inspect the room before the start of the subletting "
@@ -490,8 +482,8 @@ msgstr "How does the room handover work?"
 
 #: tenants/templates/subtenancy/index.html:68
 msgid ""
-"Wenn du aus deinem Zimmer ausziehst und bevor der Untermieter in dein Zimmer"
-" einzieht, wird dein Zimmer von einem Mitglied des Wohnheimsreferats auf "
+"Wenn du aus deinem Zimmer ausziehst und bevor der Untermieter in dein Zimmer "
+"einzieht, wird dein Zimmer von einem Mitglied des Wohnheimsreferats auf "
 "Sauberkeit und Schäden überprüft. Du musst spätestens eine Woche vor dem "
 "Beginn des Untermietvertrags einen Termin mit uns für die Zimmerabnahme "
 "ausmachen."
@@ -533,8 +525,8 @@ msgid ""
 "Sondererlaubnis vom Studierendenwerk Stuttgart, falls du dein Zimmer länger "
 "als 3 Monate untervermieten möchtest"
 msgstr ""
-"Special permission from the Studierendenwerk Stuttgart if you want to sublet"
-" your room for longer than 3 months"
+"Special permission from the Studierendenwerk Stuttgart if you want to sublet "
+"your room for longer than 3 months"
 
 #: tenants/templates/subtenancy/index.html:90
 msgid "Informationen für Untermieter"
@@ -547,19 +539,20 @@ msgstr "Am I eligible to sublet a room?"
 #: tenants/templates/subtenancy/index.html:95
 msgid ""
 "Mietberechtigt ist, wer in Augen des SWS mietberechtigt ist (siehe <a "
-"href='https://www.studierendenwerk-"
-"stuttgart.de/fileadmin/Mediendatenbank_Studierendenwerk/02_Wohnen_WOW/026_PDF/2025-12_WOW_Mietbedingungen_DE.pdf'"
-" target='_blank'>Allgemeine Mietbedingungen</a>). In Sonderfällen kann unter"
-" Angabe eines triftigen Grundes nach Absprache eine Untermiete abgeschlossen"
-" werden. Ein triftiger Grund ist beispielsweise eine Sprachreise oder ein "
-"Pratikum in Stuttgart."
+"href='https://www.studierendenwerk-stuttgart.de/fileadmin/"
+"Mediendatenbank_Studierendenwerk/02_Wohnen_WOW/026_PDF/"
+"2025-12_WOW_Mietbedingungen_DE.pdf' target='_blank'>Allgemeine "
+"Mietbedingungen</a>). In Sonderfällen kann unter Angabe eines triftigen "
+"Grundes nach Absprache eine Untermiete abgeschlossen werden. Ein triftiger "
+"Grund ist beispielsweise eine Sprachreise oder ein Pratikum in Stuttgart."
 msgstr ""
 "Anyone who is authorised to rent in the eyes of the SWS is entitled to "
-"sublet (see <a href='https://www.studierendenwerk-"
-"stuttgart.de/fileadmin/Mediendatenbank_Studierendenwerk/02_Wohnen_WOW/026_PDF/2025-12_WOW_Mietbedingungen_EN.pdf'>General"
-" terms and conditions of lease</a>). In special cases, a sublet can be "
-"agreed by prior arrangement, stating a valid reason. A valid reason is, for "
-"example, a language study trip or an internship in Stuttgart."
+"sublet (see <a href='https://www.studierendenwerk-stuttgart.de/fileadmin/"
+"Mediendatenbank_Studierendenwerk/02_Wohnen_WOW/026_PDF/"
+"2025-12_WOW_Mietbedingungen_EN.pdf'>General terms and conditions of lease</"
+"a>). In special cases, a sublet can be agreed by prior arrangement, stating "
+"a valid reason. A valid reason is, for example, a language study trip or an "
+"internship in Stuttgart."
 
 #: tenants/templates/subtenancy/index.html:98
 msgid "Wie finde ich ein Zimmer bzw. einen Hauptmieter?"
@@ -569,14 +562,21 @@ msgstr "How to find a room?"
 #, python-format
 msgid ""
 "\n"
-"            Du registrierst dich <a href=\"%(url_register)s\" target=\"_blank\">als Untermieter</a>, damit du in\n"
-"            die <a href=\"%(url_requests)s\" target=\"_blank\">Anfragenliste</a>\n"
-"            aufgenommen wirst. Als Untermieter kannst du nicht aktiv nach einem Zimmer suchen. Du musst warten,\n"
+"            Du registrierst dich <a href=\"%(url_register)s\" "
+"target=\"_blank\">als Untermieter</a>, damit du in\n"
+"            die <a href=\"%(url_requests)s\" "
+"target=\"_blank\">Anfragenliste</a>\n"
+"            aufgenommen wirst. Als Untermieter kannst du nicht aktiv nach "
+"einem Zimmer suchen. Du musst warten,\n"
 "            bis dich ein Hauptmieter über die Anfragenliste kontaktiert!\n"
 "            "
 msgstr ""
 "\n"
-"Register as a <a href=\"%(url_register)s\" target=\"_blank\">subtenant</a> to get listed in the <a href=\"%(url_requests)s\" target=\"_blank\">requests</a>. As a subtenant you cannot actively search for a room or contact a main tenant. You must wait until a main tenant contacts you via the request list."
+"Register as a <a href=\"%(url_register)s\" target=\"_blank\">subtenant</a> "
+"to get listed in the <a href=\"%(url_requests)s\" "
+"target=\"_blank\">requests</a>. As a subtenant you cannot actively search "
+"for a room or contact a main tenant. You must wait until a main tenant "
+"contacts you via the request list."
 
 #: tenants/templates/subtenancy/index.html:111
 msgid "Miete, Gebühren, Freiwillige Spende?"
@@ -596,28 +596,28 @@ msgstr ""
 #: tenants/templates/subtenancy/index.html:120
 msgid ""
 "Die Schlüsselübergaben für den Einzug erfolgen entweder mit deinem "
-"Hauptmieter oder mit einem Mitglied des Wohnheimsreferats, bei deinem Auszug"
-" übergibst du den Schlüssel an ein Mitglied des Wohnheimsreferats. Die "
+"Hauptmieter oder mit einem Mitglied des Wohnheimsreferats, bei deinem Auszug "
+"übergibst du den Schlüssel an ein Mitglied des Wohnheimsreferats. Die "
 "Details der Schlüsselübergabe werden in der Videokonferenz zur "
 "Vertragserstellung besprochen."
 msgstr ""
-"When you move in, the keys are handed over to you either by your main tenant"
-" or by a member of the Wohnheimsreferat. When you move out, you hand over "
-"the keys to a member of the Wohnheimsreferat. The details of the key "
-"handover will be discussed in the video conference."
+"When you move in, the keys are handed over to you either by your main tenant "
+"or by a member of the Wohnheimsreferat. When you move out, you hand over the "
+"keys to a member of the Wohnheimsreferat. The details of the key handover "
+"will be discussed in the video conference."
 
 #: tenants/templates/subtenancy/index.html:124
 msgid ""
 "Du musst spätestens eine Woche vor Vertragsende mit uns einen Termin für "
-"deinen Auszug und die Zimmerabnahme machen. Wir werden kontrollieren, ob das"
-" Zimmer gereinigt und in einem ordnungsgemäßen Zustand ist und du übergibst "
+"deinen Auszug und die Zimmerabnahme machen. Wir werden kontrollieren, ob das "
+"Zimmer gereinigt und in einem ordnungsgemäßen Zustand ist und du übergibst "
 "uns den Schlüssel. Ein Auszugstermin ist immer der letzte Arbeitstag im "
 "Monat. Für Alternativen wende dich bitte an uns."
 msgstr ""
 "You must make an appointment with us at least one week before the end of "
 "your contract to move out and check your room. We will check that the room "
-"has been cleaned and is in good condition and you will hand over the keys to"
-" us. A move-out date is always the last working day of the month. For "
+"has been cleaned and is in good condition and you will hand over the keys to "
+"us. A move-out date is always the last working day of the month. For "
 "alternatives, please contact us."
 
 #: tenants/templates/subtenancy/index.html:130
@@ -636,28 +636,6 @@ msgstr ""
 "Confirmation of internship/bachelor thesis/master thesis etc. in Stuttgart, "
 "if you are not enrolled in Stuttgart"
 
-#: tenants/templates/subtenancy/pagination.html:8
-#: tenants/templates/subtenancy/pagination.html:11
-msgid "Zurück"
-msgstr "Back"
-
-#: tenants/templates/subtenancy/pagination.html:22
-#: tenants/templates/subtenancy/pagination.html:24
-msgid "Weiter"
-msgstr "Next"
-
-#: tenants/templates/subtenancy/unicorn.html:15
-msgid "Du wurdest von Hans, dem dabbenden Einhorn, besucht!"
-msgstr "You have been visited by Hans the dabbing Unicorn!"
-
-#: tenants/templates/subtenancy/unicorn.html:16
-msgid "Er wünscht dir einen wunderschönen Tag!"
-msgstr "He wishes you a beautiful day!"
-
-#: tenants/templates/subtenancy/unicorn.html:21
-msgid "Dab zurück!"
-msgstr "Dab back!"
-
 #: tenants/templates/tenants/contact.html:12
 #, python-format
 msgid "Möchtest du folgende Nachricht an die Person mit der ID %(pk)s senden?"
@@ -665,6 +643,7 @@ msgstr ""
 "Do you want to send the following message to the person with the ID %(pk)s?"
 
 #: tenants/templates/tenants/contact.html:24
+#: tenants/templates/tenants/requests.html:50
 msgid "Kontaktieren"
 msgstr "Contact"
 
@@ -690,21 +669,21 @@ msgstr "Create"
 #: tenants/templates/tenants/requests.html:14
 msgid ""
 "Wenn du dich als Hauptmieter für eine unten aufgelistete Anfrage eines "
-"Untermieters interessierst, dann kannst du die jeweilige Person kontaktieren"
-" und ihr deine Kontaktdaten zukommen lassen."
+"Untermieters interessierst, dann kannst du die jeweilige Person kontaktieren "
+"und ihr deine Kontaktdaten zukommen lassen."
 msgstr ""
 "If you are interested in a specific request, you can contact the potential "
 "subtenant."
 
-#: tenants/templates/tenants/requests.html:20
+#: tenants/templates/tenants/requests.html:19
 msgid "Anfragenliste filtern und ordnen"
 msgstr "Filter and Order Requests"
 
-#: tenants/templates/tenants/requests.html:35
+#: tenants/templates/tenants/requests.html:33
 msgid "Filtern"
 msgstr "Filter"
 
-#: tenants/templates/tenants/requests.html:58
+#: tenants/templates/tenants/requests.html:59
 msgid "Aktuell gibt es leider keine Anfragen."
 msgstr "Currently there are no requests."
 
@@ -1808,20 +1787,20 @@ msgstr "Could not contact Subtenant!"
 
 #: tenants/views.py:369
 msgid ""
-"Untermieter wurde erfolgreich kontaktiert! Wir haben dir als Bestätigung der"
-" Kontaktaufnahme eine Email gesendet."
+"Untermieter wurde erfolgreich kontaktiert! Wir haben dir als Bestätigung der "
+"Kontaktaufnahme eine Email gesendet."
 msgstr ""
 "Subtenant has been successfully contacted! We have sent you an confirmation "
 "E-Mail."
 
 #: tenants/views.py:416
 msgid ""
-"In dieser Liste werden keine Zimmer angeboten, sondern Zimmer gesucht! Daher"
-" ist diese Liste nur für Hauptmieter bei der Suche nach einem Untermieter "
+"In dieser Liste werden keine Zimmer angeboten, sondern Zimmer gesucht! Daher "
+"ist diese Liste nur für Hauptmieter bei der Suche nach einem Untermieter "
 "nützlich!"
 msgstr ""
-"This list does not offer rooms but searching for rooms! Therefore, this list"
-" is only useful for main tenants searching a subtenant!"
+"This list does not offer rooms but searching for rooms! Therefore, this list "
+"is only useful for main tenants searching a subtenant!"
 
 #: tenants/views.py:417
 msgid ""
@@ -1830,8 +1809,8 @@ msgid ""
 "ein Hauptmieter über diese Liste kontaktiert!"
 msgstr ""
 "Subtenants can not find rooms here. As a subtenant you can not search for a "
-"room or contact a main tenant. You have to wait until a main tenant contacts"
-" you via the request list!"
+"room or contact a main tenant. You have to wait until a main tenant contacts "
+"you via the request list!"
 
 #: tenants/views.py:424
 msgid "Anfrageliste erfolgreich gefiltert"

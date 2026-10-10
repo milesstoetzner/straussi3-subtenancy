@@ -13,11 +13,11 @@
                 <h5 class="card-title">{{ title }}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">{{ tenant.get_type_display }} </h6>
 
-                {% bootstrap tenant_form get %}
+                {% form_fields tenant_form get %}
 
                 <button class="btn btn-success btn-block"><i class="fas fa-wrench icon-text"></i>Aktualisieren</button>
                 <a href="{% url 'tenants:TenantView' tenant.id %}"
-                   class="btn btn-danger btn-block"><i class="fas fa-ban icon-text"></i>Abbrechen</a>
+                   class="btn btn-light btn-block"><i class="fas fa-times icon-text"></i>Abbrechen</a>
 
             </div>
 

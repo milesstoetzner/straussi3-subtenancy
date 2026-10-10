@@ -13,10 +13,10 @@
             <div class="card-body">
                 <h5 class="card-title">{{ title }}</h5>
 
-                {% bootstrap form get %}
+                {% form_fields form get %}
 
                 <button class="btn btn-success btn-block">{% if has_request %}{% trans "Aktualisieren" %}{% else %}{% trans "Erstellen" %}{% endif %}</button>
-                <a href="{% url 'Profile' %}" class="btn btn-danger btn-block">{% trans "Abbrechen" %}</a>
+                <a href="{% url 'Profile' %}" class="btn btn-light btn-block">{% trans "Abbrechen" %}</a>
 
             </div>
 

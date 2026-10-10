@@ -1,0 +1,139 @@
+/*
+ * Source of tenants/static/subtenancy/app.css. Rebuild after changing templates or this file:
+ *
+ *     config/build-css.sh
+ *
+ * Tailwind scans the templates for utility classes. The component layer below keeps the class names the templates
+ * already use (card, btn-*, alert, bg-*), so most templates need no changes when the design changes.
+ */
+
+@import "tailwindcss";
+
+@source "../templates";
+@source "../../contracts/templates";
+
+@theme {
+    --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+    /* type scale, 2px below Tailwind's defaults: sm 12, base 14, lg 16, xl 18, 2xl 22 */
+    --text-sm: 0.75rem;
+    --text-sm--line-height: 1rem;
+    --text-base: 0.875rem;
+    --text-base--line-height: 1.25rem;
+    --text-lg: 1rem;
+    --text-lg--line-height: 1.5rem;
+    --text-xl: 1.125rem;
+    --text-xl--line-height: 1.75rem;
+    --text-2xl: 1.375rem;
+    --text-2xl--line-height: 1.75rem;
+}
+
+@layer base {
+    html { @apply h-full; }
+    body { @apply min-h-full flex flex-col bg-white text-base text-slate-900 antialiased; }
+    a { @apply text-indigo-700 hover:text-indigo-900; }
+    h6 { @apply text-base font-semibold text-slate-900 mt-4 mb-1; }
+    ol { @apply list-decimal pl-5 space-y-1 text-slate-700; }
+    ul { @apply list-disc pl-5 space-y-1 text-slate-700; }
+    code { @apply bg-slate-100 px-1 py-0.5 text-[0.95em] text-slate-800 break-all; }
+    pre { @apply overflow-x-auto bg-slate-900 p-4 text-base text-slate-100; }
+    pre code { @apply bg-transparent p-0 text-inherit; }
+}
+
+@layer components {
+    /* layout: a "card" is a plain section separated by space, no box */
+    .card { @apply mt-10 first:mt-6; }
+    .card-body { @apply flex flex-col gap-4; }
+    .card-title { @apply text-2xl font-semibold tracking-tight text-slate-900; }
+    .card-subtitle { @apply -mt-3 text-base text-slate-500; }
+    .text-block { @apply leading-relaxed text-slate-700; }
+    .text-muted { @apply text-slate-500; }
+    .rounded-container { }
+
+    /* buttons: square, flat */
+    .btn {
+        @apply inline-flex cursor-pointer items-center justify-start gap-2 px-5 py-2.5 text-left text-base font-medium no-underline transition
+               focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 disabled:opacity-50;
+    }
+    .btn-block { @apply flex w-full; }
+    /* stacked buttons (and the request list entries) sit 8px apart: the card body's 16px gap minus 8px */
+    .card-body > .btn-block + .btn-block, .card-body > .btn-block + form, .card-body > form + .btn-block,
+    .card-body > form + form { @apply -mt-2; }
+    .btn-block + .btn-block, .btn-block + form, form + .btn-block { @apply mt-2; }
+    .card-body > .btn-block + .btn-block, .card-body > .btn-block + form, .card-body > form + .btn-block { @apply -mt-2; }
+    /* one colour for actions (black), red only for destructive ones, white with border for secondary */
+    .btn-primary, .btn-success, .btn-info, .btn-orange { @apply bg-slate-900 text-white hover:bg-slate-700 hover:text-white; }
+    .btn-danger { @apply bg-rose-700 text-white hover:bg-rose-800 hover:text-white; }
+    .btn-light, .btn-grey { @apply border border-slate-900 bg-white text-slate-900 hover:bg-slate-100 hover:text-slate-900; }
+    .btn-to-alert { @apply py-4 text-lg; }
+    .icon-text { @apply mr-2; }
+    /* fixed icon width so labels of stacked buttons and nav links line up */
+    .btn .fas, .btn .far, .nav-link .fas, .nav-link .far { @apply inline-block w-5 text-center; }
+
+    /* alerts and flash messages; bg-<tag> comes from Django's message tags */
+    .alert { @apply px-4 py-3 text-base leading-relaxed; }
+    .adjust-alert { @apply mt-6; }
+    .adjust-alert + .adjust-alert { @apply mt-2; }
+    .bg-success { @apply bg-emerald-700 text-white; }
+    .bg-info { @apply bg-sky-700 text-white; }
+    .bg-warning { @apply bg-amber-500 text-white; }
+    .bg-error, .bg-danger { @apply bg-rose-700 text-white; }
+    .bg-grey { @apply bg-slate-100 text-slate-800; }
+    .bg-orange { @apply bg-amber-500 text-white; }
+    .alert a:not(.btn) { @apply text-inherit underline; }
+
+    /* forms, see subtenancy/form_fields.html */
+    .form-field label { @apply mb-1 block text-base font-medium text-slate-700; }
+    .form-field input:not([type="checkbox"]):not([type="radio"]),
+    .form-field select,
+    .form-field textarea {
+        @apply block w-full appearance-none rounded-none border border-slate-300 bg-white px-3 text-slate-900
+               focus:border-indigo-700 focus:outline-none focus:ring-0
+               disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-600;
+    }
+    /* same height (42px) for text, date and select inputs via padding rather than a fixed height: Safari pins
+       the date segments to the top of a fixed-height input; Chrome needs flex centering for them */
+    .form-field input:not([type="checkbox"]):not([type="radio"]),
+    .form-field select,
+    .form-field textarea { @apply py-2 leading-6; }
+    .form-field input[type="date"] { @apply flex items-center; }
+    .form-field input[type="date"]::-webkit-date-and-time-value { @apply text-left; }
+    /* a select with a square icon button next to it (contracts: open the chosen tenant) */
+    .form-field .with-addon { @apply flex items-stretch gap-2; }
+    .form-field .with-addon select { @apply min-w-0 flex-1; }
+    .btn-icon { @apply h-[42px] w-[42px] shrink-0 justify-center p-0; }
+    /* native select arrows differ per browser and are rounded in Chrome: draw our own */
+    .form-field select {
+        @apply cursor-pointer bg-no-repeat pr-10;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23475569' stroke-width='1.5'%3E%3Cpath d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+        background-position: right 0.75rem center;
+        background-size: 1.25rem 1.25rem;
+    }
+    .form-field select:disabled { @apply cursor-default; }
+    .form-field.has-error input, .form-field.has-error select, .form-field.has-error textarea { @apply border-rose-600; }
+    .form-field .error { @apply mt-1 text-sm text-rose-700; }
+    .form-field .ok { @apply mt-1 text-sm text-emerald-700; }
+    .form-field .help { @apply mt-1 text-sm text-slate-500; }
+    .form-field .help ul { @apply mt-1 list-disc space-y-0.5 pl-4 text-sm text-slate-500; }
+    fieldset:disabled { @apply contents; }
+
+    /* colour stripe under the header, one equal segment per brand colour */
+    .brand-stripe { @apply flex h-1 w-full; }
+    .brand-stripe span { @apply flex-1; }
+
+    /* navigation (white header) */
+    .nav-link { @apply inline-flex cursor-pointer items-center gap-2 whitespace-nowrap px-2.5 py-2 text-base font-medium text-slate-700 no-underline hover:bg-slate-100 hover:text-slate-900; }
+    .nav-link.active { @apply bg-slate-900 text-white hover:bg-slate-900 hover:text-white; }
+    .nav-link.disabled { @apply text-slate-400 hover:bg-transparent; }
+
+    /* request list rows: period, id, action; the whole row is the link */
+    .request-row { @apply flex items-center gap-4 border border-slate-300 px-4 py-3 text-slate-900 no-underline hover:bg-slate-50 hover:text-slate-900; }
+    .request-row + .request-row { @apply -mt-4 border-t-0; }
+    .request-row-action { @apply ml-auto inline-flex items-center gap-2 bg-slate-900 px-3 py-1.5 text-sm font-medium text-white; }
+
+    /* live search */
+    .search-panel { @apply absolute left-0 z-20 mt-1 max-h-96 w-96 max-w-[90vw] overflow-auto border border-slate-300 bg-white p-2 text-left; }
+    .search-panel h6 { @apply mt-2 mb-1 px-3 text-sm font-semibold uppercase tracking-wide text-slate-500; }
+    .search-panel a { @apply block px-3 py-2 text-base text-slate-800 no-underline hover:bg-slate-100; }
+    .search-panel .empty { @apply px-3 py-2 text-base text-rose-700; }
+}

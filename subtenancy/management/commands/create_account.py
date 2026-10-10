@@ -6,16 +6,23 @@ from django.core.management.base import BaseCommand, CommandError
 from django.db import IntegrityError, transaction
 from tenants.models import User
 
-ASSISTANT_GROUP = 'Assistant'
+# role -> (user type, permission group, description); see tenants/groups.py for the groups
+ROLES = {
+    'assistant': ('SS', 'Assistant', 'Sprechstunde: manages tenants and contracts'),
+    'external': ('SWS', 'External', 'Studierendenwerk: prints the list of active contracts'),
+}
 
 
 class Command(BaseCommand):
-    help = ('Create a "Sprechstunde" account: a user of type SS in the Assistant group, without staff or admin '
-            'rights. Prints a random start password that should be changed after the first login.')
+    help = ('Create a staff account without admin rights: --role assistant (Sprechstunde, default) or '
+            '--role external (Studierendenwerk). Prints a random start password that should be changed after the '
+            'first login.')
 
     def add_arguments(self, parser):
         parser.add_argument('username')
         parser.add_argument('email')
+        parser.add_argument('--role', choices=ROLES, default='assistant',
+                            help='; '.join(f'{role}: {text}' for role, (_, _, text) in ROLES.items()))
         parser.add_argument('--first-name', required=True)
         parser.add_argument('--last-name', required=True)
         parser.add_argument('--birthday', type=date.fromisoformat, default=None,
@@ -25,10 +32,11 @@ class Command(BaseCommand):
                             help='Use this password instead of generating a random one')
 
     def handle(self, *args, **options):
+        user_type, group_name, _ = ROLES[options['role']]
         try:
-            group = Group.objects.get(name=ASSISTANT_GROUP)
+            group = Group.objects.get(name=group_name)
         except Group.DoesNotExist:
-            raise CommandError(f'Group "{ASSISTANT_GROUP}" does not exist, run `python manage.py sync_groups` first.')
+            raise CommandError(f'Group "{group_name}" does not exist, run `python manage.py sync_groups` first.')
 
         password = options['password'] or secrets.token_urlsafe(12)
 
@@ -42,7 +50,7 @@ class Command(BaseCommand):
                     last_name=options['last_name'],
                     birthday=options['birthday'] or date.today(),
                     phone_number=options['phone_number'],
-                    type='SS',
+                    type=user_type,
                     is_staff=False,
                     is_superuser=False,
                 )
@@ -50,7 +58,8 @@ class Command(BaseCommand):
         except IntegrityError as e:
             raise CommandError(f'Could not create the user, username or email already exists ({e})')
 
-        self.stdout.write(self.style.SUCCESS(f'Created assistant {user} ({user.username}, {user.email})'))
+        self.stdout.write(self.style.SUCCESS(
+            f'Created {options["role"]} account {user} ({user.username}, {user.email}, group {group_name})'))
         if options['password'] is None:
             self.stdout.write(f'Start password: {password}')
             self.stdout.write('Hand it over securely and ask the user to change it after the first login.')

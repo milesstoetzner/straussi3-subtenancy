@@ -8,6 +8,7 @@ import datetime
 
 import pytest
 from django.contrib.auth.models import Group
+from django.utils import timezone
 from tenants.groups import sync_groups
 
 from contracts.models import Contract
@@ -34,7 +35,7 @@ def groups(db):
 def maintenant(groups):
     user = MainTenant.objects.create_user(
         username='anna', password=PASSWORD, email='anna@example.com', first_name='Anna', last_name='Beispiel',
-        birthday=datetime.date(1999, 5, 4), phone_number='0711 123456', type='HM', tenant_id=4711, accepted_data_processing=True)
+        birthday=datetime.date(1999, 5, 4), phone_number='0711 123456', type='HM', tenant_id=4711, accepted_data_processing=True, email_confirmed_at=timezone.now())
     user.groups.add(groups['Maintenant'])
     return user
 
@@ -45,7 +46,7 @@ def subtenant(groups):
         username='ben', password=PASSWORD, email='ben@example.com', first_name='Ben', last_name='Muster',
         birthday=datetime.date(2001, 9, 12), phone_number='0151 2345678', type='UM', nationality='FR', name='Ben Muster',
         street='Rue Exemple', house_number='12', postcode='75001', city='Paris', country='FR',
-        accepted_data_processing=True)
+        accepted_data_processing=True, email_confirmed_at=timezone.now())
     user.groups.add(groups['Subtenant'])
     SubtenancyRequest.objects.create(subtenant=user, begin=TODAY + datetime.timedelta(days=30),
                                      end=TODAY + datetime.timedelta(days=90))
@@ -56,7 +57,8 @@ def subtenant(groups):
 def assistant(groups):
     user = User.objects.create_user(
         username='sprechstunde', password=PASSWORD, email='sprech@example.com', first_name='Sprech',
-        last_name='Stunde', birthday=datetime.date(1995, 1, 1), phone_number='1', type='SS')
+        last_name='Stunde', birthday=datetime.date(1995, 1, 1), phone_number='1', type='SS',
+        email_confirmed_at=timezone.now())
     user.groups.add(groups['Assistant'])
     return user
 

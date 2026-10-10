@@ -29,6 +29,7 @@
         <tr><td class="label">Vorname</td><td>{{ account.first_name }}</td></tr>
         <tr><td class="label">Nachname</td><td>{{ account.last_name }}</td></tr>
         <tr><td class="label">E-Mail</td><td>{{ account.email }}</td></tr>
+        <tr><td class="label">E-Mail bestätigt am</td><td>{% if account.email_confirmed_at %}{{ account.email_confirmed_at|date:"d.m.Y H:i" }}{% else %}-{% endif %}</td></tr>
         <tr><td class="label">Geburtstag</td><td>{{ account.birthday|date:"d.m.Y" }}</td></tr>
         <tr><td class="label">Telefonnummer</td><td>{{ account.phone_number }}</td></tr>
         <tr><td class="label">Typ</td><td>{{ account.type_display }}</td></tr>

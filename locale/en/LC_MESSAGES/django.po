@@ -1808,3 +1808,59 @@ msgstr ""
 #: tenants/views.py:426
 msgid "Anfrageliste erfolgreich gefiltert"
 msgstr "Successfully filtered requests"
+
+#: tenants/forms.py
+msgid "Deine E-Mail-Adresse ist noch nicht bestätigt."
+msgstr "Your e-mail address has not been confirmed yet."
+
+#: tenants/models.py
+msgid "E-Mail bestätigt am"
+msgstr "E-mail confirmed at"
+
+#: tenants/views.py
+msgid "Registrierung war erfolgreich. Wir haben dir eine E-Mail mit einem Bestätigungslink geschickt. Bitte bestätige deine E-Mail-Adresse, bevor du dich einloggst."
+msgstr "Registration was successful. We have sent you an e-mail with a confirmation link. Please confirm your e-mail address before you log in."
+
+#: tenants/views.py
+msgid "E-Mail-Adresse bestätigen"
+msgstr "Confirm e-mail address"
+
+#: tenants/views.py
+msgid "Deine E-Mail-Adresse ist bestätigt. Du kannst dich nun einloggen."
+msgstr "Your e-mail address is confirmed. You can now log in."
+
+#: tenants/views.py
+msgid "Bestätigungslink erneut senden"
+msgstr "Resend confirmation link"
+
+#: tenants/views.py
+msgid "Falls zu dieser E-Mail-Adresse ein noch nicht bestätigter Account existiert, haben wir einen neuen Bestätigungslink geschickt. Bitte prüfe auch den Spam-Ordner."
+msgstr "If an unconfirmed account exists for this e-mail address, we have sent a new confirmation link. Please also check your spam folder."
+
+#: tenants/views.py
+msgid "Wir haben dir einen Bestätigungslink an die neue E-Mail-Adresse geschickt. Bitte bestätige sie, bevor du dich das nächste Mal einloggst."
+msgstr "We have sent a confirmation link to the new e-mail address. Please confirm it before your next login."
+
+#: tenants/templates/registration/login.html
+msgid "Deine E-Mail-Adresse ist noch nicht bestätigt. Bitte klicke auf den Link in der E-Mail, die wir dir geschickt haben."
+msgstr "Your e-mail address has not been confirmed yet. Please click the link in the e-mail we sent you."
+
+#: tenants/templates/tenants/confirm_email_failed.html
+msgid "Dieser Bestätigungslink ist ungültig oder abgelaufen. Eventuell wurde er bereits verwendet oder die E-Mail-Adresse wurde inzwischen geändert."
+msgstr "This confirmation link is invalid or has expired. It may have been used already, or the e-mail address has been changed since."
+
+#: tenants/templates/tenants/confirm_email_failed.html
+msgid "Zum Login"
+msgstr "To the login"
+
+#: tenants/templates/tenants/resend_confirmation.html
+msgid "Keine E-Mail mit dem Bestätigungslink erhalten? Gib die E-Mail-Adresse deines Accounts ein, dann schicken wir dir einen neuen Link. Prüfe auch den Spam-Ordner."
+msgstr "No e-mail with the confirmation link received? Enter the e-mail address of your account and we will send you a new link. Also check your spam folder."
+
+#: tenants/templates/tenants/resend_confirmation.html
+msgid "Link senden"
+msgstr "Send link"
+
+#: tenants/templates/tenants/view.html
+msgid "Deine E-Mail-Adresse ist noch nicht bestätigt. Solange erscheinst du nicht in der Anfragenliste und kannst nicht kontaktiert werden."
+msgstr "Your e-mail address has not been confirmed yet. Until then you do not appear in the request list and cannot be contacted."

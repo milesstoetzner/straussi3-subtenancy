@@ -13,7 +13,12 @@
             <div class="card-body">
                 <h5 class="card-title">{% trans "Einloggen" %}</h5>
 
-                {% if form.errors %}
+                {% if form.email_unconfirmed %}
+                    <div class="alert bg-danger text-white" role="alert">
+                        {% trans "Deine E-Mail-Adresse ist noch nicht bestätigt. Bitte klicke auf den Link in der E-Mail, die wir dir geschickt haben." %}
+                        <a href="{% url 'ResendConfirmation' %}">{% trans "Bestätigungslink erneut senden" %}</a>
+                    </div>
+                {% elif form.errors %}
                     <div class="alert bg-danger text-white" role="alert">{% trans "Falscher Nutzername und/ oder Passwort!" %}
                     </div>
                 {% endif %}

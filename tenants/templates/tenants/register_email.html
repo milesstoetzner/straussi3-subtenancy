@@ -1,6 +1,10 @@
 <p>=== English version below ===</p>
 <p>Hallo {{ user.first_name }},</p>
 <p>du hast dich erfolgreich auf bei der Untermiete des Straußäcker 3 registriert.</p>
+<p><b>Bitte bestätige zuerst deine E-Mail-Adresse über den folgenden Link, sonst kannst du dich nicht einloggen und
+    erscheinst nicht in der Anfragenliste:</b><br>
+    <a href="{{ confirm_url }}">{{ confirm_url }}</a><br>
+    Der Link ist drei Tage gültig.</p>
 <p>Benutzername: {{ user.username }}<br>
     Email: {{ user.email }}<br>
     Ferienmieternummer: {{ user.pk }}</p>
@@ -29,6 +33,10 @@
 <p><br>=== English version ===</p>
 <p>Hello {{ user.first_name }},</p>
 <p>you have successfully registered for the subtenancy of Straußäcker 3.<br>
+<p><b>Please confirm your e-mail address first via the following link, otherwise you cannot log in and do not appear in
+    the request list:</b><br>
+    <a href="{{ confirm_url }}">{{ confirm_url }}</a><br>
+    The link is valid for three days.</p>
 <p>Username: {{ user.username }}<br>
     Email: {{ user.email }}<br>
     Subtenancy ID: {{ user.pk }}</p>

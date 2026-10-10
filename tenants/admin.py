@@ -4,6 +4,7 @@ from django.contrib.auth.forms import AdminUserCreationForm
 from django.forms import modelform_factory
 from django.utils.translation import gettext_lazy as _
 from .models import User, MainTenant, SubTenant, SubtenancyRequest, Blacklist
+from .emails import send_confirmation_mail
 
 
 class TenantUserAdmin(UserAdmin):
@@ -28,6 +29,19 @@ class TenantUserAdmin(UserAdmin):
             if f.editable and f.name not in known and f.name != 'id'
             and not (f.remote_field and f.remote_field.parent_link)
         ]
+
+    def save_model(self, request, obj, form, change):
+        if change and 'email' in form.changed_data:
+            # the admin changed the address; it is unverified again, so reset it and send a new confirmation link
+            obj.email_confirmed_at = None
+            super().save_model(request, obj, form, change)
+            send_confirmation_mail(request, obj)
+            return
+
+        super().save_model(request, obj, form, change)
+        if not change and not obj.is_email_confirmed():
+            # a newly created account must confirm its address, like a self-registration (unless pre-confirmed here)
+            send_confirmation_mail(request, obj)
 
     def get_fieldsets(self, request, obj=None):
         if obj is None:

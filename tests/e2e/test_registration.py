@@ -1,3 +1,5 @@
+import re
+
 import pytest
 from django.core import mail
 
@@ -6,6 +8,14 @@ from tenants.models import MainTenant, SubTenant
 from .conftest import PASSWORD, day, message
 
 pytestmark = pytest.mark.django_db(transaction=True)
+
+
+def confirm_email(page, mail_message):
+    """
+    Follows the confirmation link of a registration mail; lands on the login page.
+    """
+    page.goto(re.search(r'https?://[^\s"<]+/register/confirm/[^\s"<]+', mail_message.body).group(0))
+    page.wait_for_url('**/login/')
 
 
 def fill_person(page, username):
@@ -30,7 +40,12 @@ def test_maintenant_registers_logs_in_and_updates_profile(page, live_server, log
     assert 'Registrierung war erfolgreich' in message(page)
     tenant = MainTenant.objects.get(username='clara')
     assert tenant.type == 'HM' and tenant.groups.filter(name='Maintenant').exists()
+    assert tenant.email_confirmed_at is None
     assert len(mail.outbox) == 1 and mail.outbox[0].to == ['clara@example.com']
+
+    confirm_email(page, mail.outbox[0])
+    assert 'bestätigt' in message(page)
+    assert MainTenant.objects.get(username='clara').email_confirmed_at is not None
 
     login('clara')
     assert 'Willkommen zurück' in message(page)
@@ -61,6 +76,11 @@ def test_subtenant_registers_with_request_and_appears_in_list(page, live_server)
     tenant = SubTenant.objects.get(username='dora')
     assert tenant.is_searching()
 
+    # not listed until the address is confirmed
+    page.goto(live_server.url + '/requests/')
+    assert page.locator(f'a[href="/tenants/contact/{tenant.pk}"]').count() == 0
+
+    confirm_email(page, mail.outbox[0])
     page.goto(live_server.url + '/requests/')
     assert page.locator(f'a[href="/tenants/contact/{tenant.pk}"]').count() == 1
 

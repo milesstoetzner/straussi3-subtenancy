@@ -143,6 +143,13 @@ TRUST_X_FORWARDED_FOR = bool(int(os.environ.get('SUBTENANCY_TRUST_X_FORWARDED_FO
 if TRUST_X_FORWARDED_FOR:
     RATELIMIT_IP_META_KEY = 'subtenancy.ratelimit.client_ip'
 
+# Caps on outgoing mail (registration, first contact), kept in the in-memory cache. Format COUNT/PERIOD with period
+# s, m, h or d. See subtenancy/mail.py.
+EMAIL_RATELIMIT_PER_RECEIVER = os.environ.get('SUBTENANCY_EMAIL_RATELIMIT_PER_RECEIVER', default='5/h')
+EMAIL_RATELIMIT_GLOBAL = os.environ.get('SUBTENANCY_EMAIL_RATELIMIT_GLOBAL', default='100/h')
+# Cap per acting user (e.g. a maintenant sending first-contact mails), independent of how many distinct recipients.
+EMAIL_RATELIMIT_PER_SENDER = os.environ.get('SUBTENANCY_EMAIL_RATELIMIT_PER_SENDER', default='10/h')
+
 SESSION_COOKIE_SECURE = bool(int(os.environ.get('SUBTENANCY_SESSION_COOKIE_SECURE', default='1')))
 
 CSRF_COOKIE_SECURE = bool(int(os.environ.get('SUBTENANCY_SESSION_CSRF_COOKIE_SECURE', default='1')))

@@ -13,6 +13,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.core.mail import EmailMessage
+from subtenancy.mail import send_email
 from smtplib import SMTPException
 from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
@@ -72,7 +73,7 @@ def create_tenant(request, is_maintenant):
                                 content,
                                 '', [tenant.email])
             mail.content_subtype = "html"
-            mail.send(fail_silently=True)
+            send_email(mail, receiver_id=tenant.pk, fail_silently=True)
 
             # mail_admins(subject='ANALYSE create_tenant', message='Es gab eine Registrierung!', fail_silently=True)
 
@@ -348,7 +349,7 @@ def contact_subtenant(request, pk):
                                 '',
                                 [subtenant.email])
             mail.content_subtype = "html"
-            mail.send()
+            send_email(mail, receiver_id=subtenant.pk, sender_id=request.user.pk)
 
             mail = EmailMessage(
                 'Bestätigung Untermiete Straußäcker 3 Kontaktaufnahme/ Subtenancy Straußäcker 3 First Contact Confirmation',
@@ -358,7 +359,7 @@ def contact_subtenant(request, pk):
                 '',
                 [request.user.email])
             mail.content_subtype = "html"
-            mail.send()
+            send_email(mail, receiver_id=request.user.pk, fail_silently=True)
 
             # mail_admins(subject='ANALYSE contact_subtenant', message='Es gab eine Kontaktaufnahme!', fail_silently=True)
 

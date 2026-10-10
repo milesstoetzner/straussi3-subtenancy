@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from tenants.utils import COUNTRIES, TYPES
@@ -108,11 +109,6 @@ class SubTenant(User):
     # Information about sub tenant
     nationality = models.CharField(_('Nationalität'), choices=COUNTRIES, max_length=2)
 
-    # Information about subtenancy
-    begin_request = models.DateField(_('Beginn der angefragten Untermiete'))
-    end_request = models.DateField(_('Ende der angefragten Untermiete'))
-    is_searching = models.BooleanField(_('Ich suche für den oben genannten Zeitraum ein Zimmer'), default=True)
-
     # Correspondence address
     name = models.CharField(_('Name'), max_length=250)
     street = models.CharField(_('Straße'), max_length=250)
@@ -123,6 +119,19 @@ class SubTenant(User):
 
     # Data processing
     accepted_data_processing = models.BooleanField(_('Ich stimme der Datenverarbeitung zu'), default=False)
+
+    def get_request(self):
+        """
+        Returns the subtenant's request or None if there is none.
+        """
+        return getattr(self, 'subtenancy_request', None)
+
+    def is_searching(self):
+        """
+        A subtenant is searching for a room iff there is a request whose period has not ended yet.
+        """
+        subtenancy_request = self.get_request()
+        return subtenancy_request is not None and subtenancy_request.is_active()
 
     def get_absolute_url(self):
         return reverse('tenants:TenantView', kwargs={'pk': self.pk})
@@ -135,6 +144,44 @@ class SubTenant(User):
         verbose_name = _('Untermieter')
         verbose_name_plural = _('Untermieter')
         ordering = ['-user__id']
+
+
+class SubtenancyRequestQuerySet(models.QuerySet):
+    def active(self):
+        """
+        Requests whose period has not ended yet. Only these are listed publicly.
+        """
+        return self.filter(end__gte=timezone.localdate())
+
+
+class SubtenancyRequest(models.Model):
+    """
+    A subtenant's request for a room, i.e. the requested period. A subtenant has at most one request.
+    Its existence means the subtenant is searching: it is deleted when a contract is created or when the subtenant
+    withdraws it, and it drops out of the public list once its period has ended.
+    """
+
+    subtenant = models.OneToOneField(SubTenant, on_delete=models.CASCADE, related_name='subtenancy_request',
+                                     verbose_name=_('Untermieter'))
+    begin = models.DateField(_('Beginn der angefragten Untermiete'))
+    end = models.DateField(_('Ende der angefragten Untermiete'))
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    objects = SubtenancyRequestQuerySet.as_manager()
+
+    def is_active(self):
+        return self.end >= timezone.localdate()
+
+    def __str__(self):
+        return '[' + str(self.subtenant_id) + '] ' + self.begin.strftime('%d.%m.%Y') + ' - ' + self.end.strftime(
+            '%d.%m.%Y')
+
+    class Meta:
+        verbose_name = _('Anfrage')
+        verbose_name_plural = _('Anfragen')
+        ordering = ['begin', 'end']
 
 
 class Blacklist(models.Model):

@@ -259,7 +259,7 @@ TYPES = (('HM', _('Hauptmieter')),
          ('SS', _('Sprechstunde')),)
 
 REQUEST_ORDERING = (
-    ('begin_request', _('Begin aufsteigend')),
-    ('-begin_request', _('Begin absteigend')),
-    ('end_request', _('Ende aufsteigend')),
-    ('-end_request', _('Ende absteigend')))
+    ('begin', _('Begin aufsteigend')),
+    ('-begin', _('Begin absteigend')),
+    ('end', _('Ende aufsteigend')),
+    ('-end', _('Ende absteigend')))

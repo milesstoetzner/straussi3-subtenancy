@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import AdminUserCreationForm
 from django.forms import modelform_factory
 from django.utils.translation import gettext_lazy as _
-from .models import User, MainTenant, SubTenant, Blacklist
+from .models import User, MainTenant, SubTenant, SubtenancyRequest, Blacklist
 
 
 class TenantUserAdmin(UserAdmin):
@@ -35,7 +35,23 @@ class TenantUserAdmin(UserAdmin):
         return (*UserAdmin.fieldsets, (_('Mieter'), {'fields': self._extra_fields()}))
 
 
+class SubtenancyRequestInline(admin.StackedInline):
+    model = SubtenancyRequest
+    extra = 0
+
+
+class SubTenantAdmin(TenantUserAdmin):
+    inlines = (SubtenancyRequestInline,)
+
+
+@admin.register(SubtenancyRequest)
+class SubtenancyRequestAdmin(admin.ModelAdmin):
+    list_display = ('subtenant', 'begin', 'end', 'updated_at')
+    search_fields = ('subtenant__username', 'subtenant__first_name', 'subtenant__last_name', 'subtenant__email')
+    autocomplete_fields = ('subtenant',)
+
+
 admin.site.register(User, TenantUserAdmin)
 admin.site.register(MainTenant, TenantUserAdmin)
-admin.site.register(SubTenant, TenantUserAdmin)
+admin.site.register(SubTenant, SubTenantAdmin)
 admin.site.register(Blacklist)

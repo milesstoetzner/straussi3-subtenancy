@@ -20,14 +20,11 @@ Django app for administrating the subtenancy for the Straussi3.
 - [Deployment](#deployment)
   - [Docker](#docker)
   - [Reverse Proxy](#reverse-proxy)
-  - [Migrations](#migrations)
   - [Environment](#environment)
-- [Operations](#operations)
-  - [Server](#server)
-  - [SSH](#ssh)
   - [Installation](#installation)
   - [Release](#release)
   - [Migration](#migration)
+- [Operations](#operations)
   - [Backups](#backups)
   - [Restore](#restore)
   - [Emails](#emails)
@@ -42,8 +39,6 @@ Django app for administrating the subtenancy for the Straussi3.
 | ![Start page](docs/screenshots/index.png) | ![Registration](docs/screenshots/register.png) |
 | ![Request list](docs/screenshots/requests.png) | ![Profile](docs/screenshots/profile.png) |
 | ![Contract form](docs/screenshots/contract.png) | ![Contract](docs/screenshots/contract-view.png) |
-
-<img src="docs/screenshots/mobile.png" alt="Mobile" width="260">
 
 ## Development
 
@@ -69,10 +64,11 @@ End-to-end tests drive a real browser (Playwright) against Django's live test se
 ```
 pip install -r requirements-dev.txt
 playwright install chromium
-SUBTENANCY_DB_PORT=5433 pytest
+pytest
 ```
 
-They run in GitHub Actions on every pull request, see [e2e.yml](/.github/workflows/e2e.yml).
+pytest-django creates a throwaway `test_subtenancy` database on the configured server.
+The tests run in GitHub Actions on every pull request, see [e2e.yml](/.github/workflows/e2e.yml).
 
 ### CSS
 
@@ -105,24 +101,15 @@ The command is idempotent; `init_database`, the container entrypoint and [config
 
 ### Database
 
-The database is not seeded.
-You may import a production database backup.
-Therefore, download the backup, extract it, and adjust the following:
-
-1. migrate `djangouser` to `"default"`
-2. migrate `postgres` to `"default"`
-3. migrate `COPY` to `\copy`
-4. remove any `$$PATH$$`
-
-Then import the backup as follows
+The database is not seeded. To work with production data, fetch a backup archive (see [Backups](#backups)) and
+restore it into an empty local database; the dump is in pg_dump's tar format.
 
 ```
-psql -h localhost -U default -d subtenancy -f restore.sql
+tar -xzf subtenancy_backup_<timestamp>.tar.gz
+dropdb -h localhost -U default subtenancy && createdb -h localhost -U default subtenancy
+pg_restore -h localhost -U default -d subtenancy --no-owner --no-privileges database.tar
+tar -xf contracts.tar -C contracts/contracts
 ```
-
-To create the first superuser use a SQL command.
-`python manage.py createsuperuser` will not work since the user model is not the original one.
-Further users can be created in the admin.
 
 ### Schema
 
@@ -197,9 +184,11 @@ Contract PDFs are stored on disk as `contracts/contracts/contract_<id>_version_<
 
 ## Deployment
 
+The production system runs on a server hosted by Selfnet, as a Docker image next to a PostgreSQL container.
+
 ### Docker
 
-The app runs as a Docker image built from the [Dockerfile](/Dockerfile) next to a PostgreSQL container, see [docker-compose.yaml](/docker-compose.yaml).
+The image is built from the [Dockerfile](/Dockerfile), the stack is [docker-compose.yaml](/docker-compose.yaml).
 Configuration is read from `/etc/subtenancy/config/backend` and `/etc/subtenancy/config/database`.
 Contract PDFs are stored in `/etc/subtenancy/contracts`, the database in `/etc/subtenancy/database`.
 
@@ -213,10 +202,6 @@ The app listens on `127.0.0.1:8000` only.
 A reverse proxy in front terminates TLS and must set `X-Forwarded-Proto` and `X-Forwarded-For`.
 Set `SUBTENANCY_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,https` and `SUBTENANCY_TRUST_X_FORWARDED_FOR=1` accordingly.
 
-### Migrations
-
-Set `SUBTENANCY_ENABLE_MIGRATIONS=1` to run `python manage.py migrate` and `sync_groups` on container start.
-
 ### Environment
 
 | Environment Variable                    | Default Value        | Description                                                      |
@@ -224,7 +209,7 @@ Set `SUBTENANCY_ENABLE_MIGRATIONS=1` to run `python manage.py migrate` and `sync
 | `SUBTENANCY_SECRET_KEY`                 |                      | Django secret key (must be set for production).                  |
 | `SUBTENANCY_DEBUG`                      | `'0'`                | Enables debug mode if set to `'1'`.                              |
 | `SUBTENANCY_ALLOWED_HOSTS`              | `'localhost'`        | Comma-separated list of allowed hosts.                           |
-| `SUBTENANCY_ORIGIN`                     | `'http://localhost'` | Used for setting request origin (e.g. for CORS).                 |
+| `SUBTENANCY_ORIGIN`                     | `'http://localhost'` | Public URL of the site, used for links printed by commands.      |
 | `SUBTENANCY_EMAIL_HOST`                 |                      | Email server hostname or IP address.                             |
 | `SUBTENANCY_EMAIL_PORT`                 | `587`                | Email server port.                                               |
 | `SUBTENANCY_EMAIL_HOST_USER`            |                      | Email login username.                                            |
@@ -240,26 +225,9 @@ Set `SUBTENANCY_ENABLE_MIGRATIONS=1` to run `python manage.py migrate` and `sync
 | `SUBTENANCY_SECURE_PROXY_SSL_HEADER`    |                      | Header and value tuple for SSL offloading (parsed into a tuple). |
 | `SUBTENANCY_SESSION_COOKIE_SECURE`      | `'1'`                | Require HTTPS for session cookie.                                |
 | `SUBTENANCY_SESSION_CSRF_COOKIE_SECURE` | `'1'`                | Require HTTPS for CSRF cookie.                                   |
-| `SUBTENANCY_ENABLE_MIGRATIONS`          | `'0'`                | Run database migrations.                                         |
-| `SUBTENANCY_USE_X_FORWARDED_HOST`       | `'0'`                |                                                                  |
+| `SUBTENANCY_ENABLE_MIGRATIONS`          | `'0'`                | Run `migrate` and `sync_groups` on container start.              |
+| `SUBTENANCY_USE_X_FORWARDED_HOST`       | `'0'`                | Take the host from `X-Forwarded-Host` (Django `USE_X_FORWARDED_HOST`). |
 | `SUBTENANCY_TRUST_X_FORWARDED_FOR`      | `'0'`                | Use the first `X-Forwarded-For` address as client IP for the login rate limit. Enable only behind a reverse proxy that sets this header. |
-
-## Operations
-
-### Server
-
-The production system is deployed on a server hosted on Selfnet.
-
-### SSH
-
-You may add the following entry to your `.ssh/config`.
-
-```
-Host untermiete
-    hostname untermiete.straussi3.de
-    identityfile ~/.ssh/id_rsa
-    user str3
-```
 
 ### Installation
 
@@ -301,6 +269,8 @@ config/deploy.sh v2.1.0                                   # server: checkout, bu
    drop `SUBTENANCY_CLEAN_DATABASE_WRITE`.
 3. Start the new version: fresh clone (the history was rewritten), `config/deploy.sh v2.0.0`.
 4. Install the [cronjob](/config/cronjob).
+
+## Operations
 
 ### Backups
 

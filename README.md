@@ -33,6 +33,18 @@ python develope.py
 
 `develope.py` loads `.env.dev` and starts the development server on port 8000.
 
+### Tests
+
+End-to-end tests drive a real browser (Playwright) against Django's live test server and need a PostgreSQL.
+
+```
+pip install -r requirements-dev.txt
+playwright install chromium
+SUBTENANCY_DB_PORT=5433 pytest
+```
+
+They run in GitHub Actions on every pull request, see [e2e.yml](/.github/workflows/e2e.yml).
+
 ### CSS
 
 The stylesheet is built with Tailwind from `tenants/static_src/app.css` into `tenants/static/subtenancy/app.css`, which is committed.

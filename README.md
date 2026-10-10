@@ -7,6 +7,34 @@ Django app for administrating the subtenancy for the Straussi3.
 - Repo: https://github.com/milesstoetzner/straussi3-subtenancy
 - Website: https://straussi3.de
 
+## Contents
+
+- [Screenshots](#screenshots)
+- [Development](#development)
+  - [Setup](#setup)
+  - [Tests](#tests)
+  - [CSS](#css)
+  - [Permissions](#permissions)
+  - [Database](#database)
+  - [Schema](#schema)
+- [Deployment](#deployment)
+  - [Docker](#docker)
+  - [Reverse Proxy](#reverse-proxy)
+  - [Migrations](#migrations)
+  - [Environment](#environment)
+- [Operations](#operations)
+  - [Server](#server)
+  - [SSH](#ssh)
+  - [Installation](#installation)
+  - [Release](#release)
+  - [Migration](#migration)
+  - [Backups](#backups)
+  - [Restore](#restore)
+  - [Emails](#emails)
+  - [Sprechstunde Accounts](#sprechstunde-accounts)
+  - [Data Access Requests](#data-access-requests)
+  - [Prune Stale Data](#prune-stale-data)
+
 ## Screenshots
 
 | | |
@@ -27,11 +55,11 @@ Requires Python 3.13 and a local PostgreSQL (see the defaults in the environment
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-python manage.py migrate
-python manage.py sync_groups
+python manage.py init_database --superuser admin --email admin@example.org
 python develope.py
 ```
 
+`init_database` runs the migrations, creates the permission groups and a superuser for the admin (prints the password).
 `develope.py` loads `.env.dev` and starts the development server on port 8000.
 
 ### Tests
@@ -73,7 +101,7 @@ Registration puts every new account into `Maintenant` or `Subtenant`, `create_as
 
 The groups are defined in [tenants/groups.py](/tenants/groups.py) and created by `python manage.py sync_groups`,
 which also resets their permissions to that definition (changes made in the admin do not survive it).
-The command is idempotent; the container entrypoint and [config/deploy.sh](/config/deploy.sh) run it after `migrate`.
+The command is idempotent; `init_database`, the container entrypoint and [config/deploy.sh](/config/deploy.sh) run it after `migrate`.
 
 ### Database
 
@@ -232,6 +260,27 @@ Host untermiete
     identityfile ~/.ssh/id_rsa
     user str3
 ```
+
+### Installation
+
+A new server needs Docker, the repository and the data directories; everything else is created by the app.
+
+1. Clone the repository to `/home/str3/straussi3-subtenancy`.
+2. Create `/etc/subtenancy/config`, `/etc/subtenancy/contracts` and `/etc/subtenancy/database`.
+3. Write `/etc/subtenancy/config/backend` with the variables from [Environment](#environment) and
+   `/etc/subtenancy/config/database` with `POSTGRES_USER`, `POSTGRES_PASSWORD` and `POSTGRES_DB` matching
+   `SUBTENANCY_DB_USER`, `SUBTENANCY_DB_PASSWORD` and `SUBTENANCY_DB_NAME`.
+4. Start the stack and initialise the database: migrations, permission groups and the first superuser for the admin
+   (the command prints its password). To continue from a backup instead, see [Restore](#restore).
+
+   ```
+   docker compose up -d --build
+   docker compose exec backend python manage.py init_database --superuser USERNAME --email EMAIL
+   ```
+
+5. Install the [cronjob](/config/cronjob) and the [reverse proxy](#reverse-proxy).
+
+`init_database` can be run again at any time; it keeps existing data and creates the superuser only if there is none.
 
 ### Release
 

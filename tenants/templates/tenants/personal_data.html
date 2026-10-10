@@ -93,21 +93,5 @@
     {% endif %}
     {% endif %}
 
-    <h2>Verträge</h2>
-    {% if contracts %}
-    <p>Die vollständigen Vertragsdokumente in allen Versionen sind diesem Dokument angehängt, siehe Inhaltsverzeichnis.</p>
-    <table>
-        {% for contract in contracts %}
-            <tr>
-                <td style="width: 25mm">Vertrag {{ contract.id }}</td>
-                <td style="width: 45mm">{{ contract.begin|date:"d.m.Y" }} - {{ contract.end|date:"d.m.Y" }}</td>
-                <td style="width: 20mm">Zimmer {{ contract.house_number }} {{ contract.room_number }}</td>
-                <td>{% if contract.your_role == "maintenant" %}Untermieter{% else %}Hauptmieter{% endif %}: {{ contract.other_party.name }}{% if not contract.is_active %} (ungültig){% endif %}</td>
-            </tr>
-        {% endfor %}
-    </table>
-    {% else %}
-    <p>Keine Verträge gespeichert.</p>
-    {% endif %}
 </body>
 </html>

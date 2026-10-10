@@ -2,12 +2,13 @@
 Shared fixtures for the end-to-end tests.
 
 The tests drive a real browser (Playwright, Chromium) against Django's live test server. Every test gets a fresh
-database (transactional), the permission groups from config/permissions, and helpers to create users and log in.
+database (transactional), the permission groups, and helpers to create users and log in.
 """
 import datetime
 
 import pytest
-from django.contrib.auth.models import Group, Permission
+from django.contrib.auth.models import Group
+from tenants.groups import sync_groups
 
 from contracts.models import Contract
 from tenants.models import MainTenant, SubTenant, SubtenancyRequest, User
@@ -23,20 +24,10 @@ def day(offset):
 @pytest.fixture(autouse=True)
 def groups(db):
     """
-    The permission groups the app expects, see config/permissions.
+    The permission groups the app expects, as the deployment creates them.
     """
-    def perms(*codenames):
-        return [Permission.objects.get(codename=c) for c in codenames]
-
-    maintenant, _ = Group.objects.get_or_create(name='Maintenant')
-    maintenant.permissions.set(perms('change_own', 'contact_subtenant'))
-    subtenant, _ = Group.objects.get_or_create(name='Subtenant')
-    subtenant.permissions.set(perms('change_own'))
-    assistant, _ = Group.objects.get_or_create(name='Assistant')
-    assistant.permissions.set(perms('view_user', 'change_user', 'view_maintenant', 'change_maintenant',
-                                    'view_subtenant', 'change_subtenant', 'view_blacklist', 'add_contract',
-                                    'view_contract', 'view_short_contract', 'change_contract'))
-    return {'Maintenant': maintenant, 'Subtenant': subtenant, 'Assistant': assistant}
+    sync_groups()
+    return {group.name: group for group in Group.objects.all()}
 
 
 @pytest.fixture

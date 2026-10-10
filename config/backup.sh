@@ -1,28 +1,37 @@
 #!/bin/bash
+# Backs up the subtenancy database and all contract PDFs into one archive.
+#
+# Usage: config/backup.sh [BACKUP_DIR]
+#
+# Environment (all optional):
+#   BACKUP_DIR     where archives are written, default /home/str3/backups (the argument takes precedence)
+#   CONTRACTS_DIR  directory with the contract PDFs, default /etc/subtenancy/contracts
+#
+# Runs against the containers of docker-compose.yaml, so it must be called from a checkout of this repository.
+# Archives older than 30 days are deleted. Restore with config/restore.sh.
 
-# A simple script to backup subtenancy data and upload them to Google Drive
+set -euo pipefail
 
-# Variables
-GDRIVE=1xXQ_LfwxPMNvJvJowW1EB-KeTudeWOG5
-BACKUP=/home/str3/backups/
-DBUSER=djangouser
-DBNAME=subtenancy
-DBHOST=localhost
-DATE=$(date +"%Y-%m-%d")
-SECONDS=$(date +"%s")
+cd "$(dirname "$0")/.."
 
-# Create tar containing dump of database and all contract pdf files
-mkdir -p ${BACKUP}/backup
-tar -cf ${BACKUP}/backup/contracts.tar -C /var/www/ferienmiete/contracts contracts/
-pg_dump -h $DBHOST -U $DBUSER -w -F t $DBNAME -f ${BACKUP}/backup/subtenancy.tar
-tar -cf ${BACKUP}subtenancy_backup_${DATE}_${SECONDS}.tar -C /home/str3/backups backup/
+BACKUP_DIR=${1:-${BACKUP_DIR:-/home/str3/backups}}
+CONTRACTS_DIR=${CONTRACTS_DIR:-/etc/subtenancy/contracts}
+STAMP=$(date +"%Y-%m-%d_%H-%M-%S")
+ARCHIVE="$BACKUP_DIR/subtenancy_backup_$STAMP.tar.gz"
 
-# Upload backup to gdrive
-#openssl aes-256-cbc -a -salt -in ${BACKUP}subtenancy_backup_${DATE}_${SECONDS}.tar -out ${BACKUP}subtenancy_backup_${DATE}_${SECONDS}.tar.enc -kfile /home/str3/backup.key
-#/home/str3/gdrive/gdrive upload --parent $GDRIVE ${BACKUP}subtenancy_backup_${DATE}_${SECONDS}.tar.enc
+WORK=$(mktemp -d)
+trap 'rm -rf "$WORK"' EXIT
 
-# Cleanup files
-# find /backups/postgres_backups -name "customerdata*.gz" -mtime +30 -type f -delete
-rm -rf /home/str3/backups/backup
-find /home/str3/backups/ -name "*.tar" -mtime +30 -type f -delete
-find /home/str3/backups/ -name "*.tar.enc" -mtime +30 -type f -delete
+mkdir -p "$BACKUP_DIR"
+
+# Database dump in pg_dump's tar format (restored with pg_restore)
+docker compose exec -T database sh -c 'pg_dump -U "$POSTGRES_USER" -F t "$POSTGRES_DB"' > "$WORK/database.tar"
+
+# Contract PDFs
+tar -cf "$WORK/contracts.tar" -C "$CONTRACTS_DIR" .
+
+tar -czf "$ARCHIVE" -C "$WORK" database.tar contracts.tar
+
+find "$BACKUP_DIR" -name "subtenancy_backup_*.tar.gz" -mtime +30 -type f -delete
+
+echo "Backup written to $ARCHIVE"

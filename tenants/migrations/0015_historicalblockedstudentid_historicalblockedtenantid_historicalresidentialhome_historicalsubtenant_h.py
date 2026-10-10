@@ -5,6 +5,7 @@ import django.contrib.auth.validators
 from django.db import migrations, models
 import django.db.models.deletion
 import django.utils.timezone
+import simple_history.models
 
 
 class Migration(migrations.Migration):
@@ -30,7 +31,7 @@ class Migration(migrations.Migration):
                 'ordering': ('-history_date', '-history_id'),
                 'get_latest_by': 'history_date',
             },
-            bases=(models.Model,),
+            bases=(simple_history.models.HistoricalChanges, models.Model),
         ),
         migrations.CreateModel(
             name='HistoricalBlockedTenantID',
@@ -48,7 +49,7 @@ class Migration(migrations.Migration):
                 'ordering': ('-history_date', '-history_id'),
                 'get_latest_by': 'history_date',
             },
-            bases=(models.Model,),
+            bases=(simple_history.models.HistoricalChanges, models.Model),
         ),
         migrations.CreateModel(
             name='HistoricalResidentialHome',
@@ -75,7 +76,7 @@ class Migration(migrations.Migration):
                 'ordering': ('-history_date', '-history_id'),
                 'get_latest_by': 'history_date',
             },
-            bases=(models.Model,),
+            bases=(simple_history.models.HistoricalChanges, models.Model),
         ),
         migrations.CreateModel(
             name='HistoricalSubTenant',
@@ -106,7 +107,7 @@ class Migration(migrations.Migration):
                 'ordering': ('-history_date', '-history_id'),
                 'get_latest_by': 'history_date',
             },
-            bases=(models.Model,),
+            bases=(simple_history.models.HistoricalChanges, models.Model),
         ),
         migrations.CreateModel(
             name='HistoricalUser',
@@ -141,6 +142,6 @@ class Migration(migrations.Migration):
                 'ordering': ('-history_date', '-history_id'),
                 'get_latest_by': 'history_date',
             },
-            bases=(models.Model,),
+            bases=(simple_history.models.HistoricalChanges, models.Model),
         ),
     ]

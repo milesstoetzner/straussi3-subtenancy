@@ -14,12 +14,12 @@
 
             <fieldset disabled>
 
-                {% bootstrap tenant_form True %}
+                {% form_fields tenant_form True %}
 
                 {% if request_form %}
-                    {% bootstrap request_form True %}
+                    {% form_fields request_form True %}
                 {% elif tenant.is_subtenant %}
-                    <div class="alert bg-info rounded-container text-white text-center">{% trans "Keine Anfrage vorhanden." %}</div>
+                    <div class="alert bg-info rounded-container text-white">{% trans "Keine Anfrage vorhanden." %}</div>
                 {% endif %}
 
             </fieldset>
@@ -75,12 +75,12 @@
 
                     {% for contract in tenant.maintenant.contract_set.all %}
 
-                        <td class="align-middle"><a href="{% url 'contracts:ContractView' contract.pk %}"
+                        <div><a href="{% url 'contracts:ContractView' contract.pk %}"
                                                     class="btn btn-info btn-block"><i
-                                class="fas fa-file icon-text"></i>{{ contract }}</a></td>
+                                class="fas fa-file icon-text"></i>{{ contract }}</a></div>
 
                     {% empty %}
-                        <div class="alert bg-info text-white text-center" role="alert">
+                        <div class="alert bg-info text-white" role="alert">
                             {% trans "Keine Verträge vorhanden" %}
                         </div>
                     {% endfor %}
@@ -89,13 +89,13 @@
 
                     {% for contract in tenant.subtenant.contract_set.all %}
 
-                        <td class="align-middle"><a href="{% url 'contracts:ContractView' contract.pk %}"
+                        <div><a href="{% url 'contracts:ContractView' contract.pk %}"
                                                     class="btn btn-info btn-block"><i
-                                class="fas fa-file icon-text"></i>{{ contract }}</a></td>
+                                class="fas fa-file icon-text"></i>{{ contract }}</a></div>
 
                     {% empty %}
 
-                        <div class="alert bg-info rounded-container text-white text-center" role="alert">
+                        <div class="alert bg-info rounded-container text-white" role="alert">
                             {% trans "Keine Verträge vorhanden" %}
                         </div>
 

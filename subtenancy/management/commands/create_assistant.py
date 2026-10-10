@@ -28,8 +28,7 @@ class Command(BaseCommand):
         try:
             group = Group.objects.get(name=ASSISTANT_GROUP)
         except Group.DoesNotExist:
-            raise CommandError(f'Group "{ASSISTANT_GROUP}" does not exist. Create it with the permissions listed in '
-                               f'config/permissions first.')
+            raise CommandError(f'Group "{ASSISTANT_GROUP}" does not exist, run `python manage.py sync_groups` first.')
 
         password = options['password'] or secrets.token_urlsafe(12)
 

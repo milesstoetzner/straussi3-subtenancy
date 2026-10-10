@@ -1,0 +1,59 @@
+{% load static %}
+<html>
+<head>
+    <style>
+        @page {
+            size: A4;
+            @frame header_frame_right {
+                -pdf-frame-content: header_content_right;
+                right: 25mm; width: 135pt; top: 25mm; height: 100pt;
+            }
+            @frame logo {
+                -pdf-frame-content: logo;
+                left: 120mm; top: 24mm;
+            }
+            @frame content_frame {
+                left: 25mm; width: 160mm; top: 60mm; height: 210mm;
+            }
+        }
+        body { font-size: 12px; }
+        h1 { font-size: 14px; }
+        h2 { font-size: 12px; margin-top: 5mm; margin-bottom: 0; }
+        .block { text-align: justify; }
+        table { width: 100%; }
+        td { vertical-align: top; padding: 1px 0; }
+        td.page { width: 20mm; text-align: right; }
+    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+</head>
+<body>
+    <img src="/static/subtenancy/logo_str3.png" width="20mm" height="20mm" id="logo">
+    <div id="header_content_right">
+        <p>
+            Wohnheimsreferat Straußäcker 3<br>
+            Allmandring 3D<br>
+            wore.str3@gmail.com<br>
+            https://straussi3.de<br>
+            Sprechstunde Di. 19.00 - 20.00
+        </p>
+    </div>
+
+    <h1>Auskunft nach Art. 15 DSGVO für {{ account.first_name }} {{ account.last_name }} (Untermiete-ID {{ account.id }})</h1>
+    <p class="block">Maschinell erstellt am {{ exported_at|date:"d.m.Y H:i" }}. Dieses Dokument enthält die Auskunft über alle in der
+        Anwendung Untermiete Straußäcker 3 gespeicherten Daten sowie alle Versionen der Untermietverträge, an denen du
+        beteiligt bist. Insgesamt {{ total_pages }} Seiten.</p>
+
+    <h2>Inhalt</h2>
+    <table>
+        {% for entry in entries %}
+            <tr><td>{{ entry.title }}</td><td class="page">Seite {{ entry.page }}</td></tr>
+        {% endfor %}
+    </table>
+
+    <h2>Nicht enthalten</h2>
+    <p class="block">Zugriffsprotokolle des Servers und die an dich gesendeten E-Mails liegen beim Hosting- bzw. E-Mail-Anbieter,
+        siehe Datenschutzerklärung. IP-Adressen von Login-, Registrierungs- und Passwort-Zurücksetzen-Versuchen werden
+        höchstens eine Stunde im Arbeitsspeicher gehalten und nicht gespeichert.</p>
+</body>
+</html>

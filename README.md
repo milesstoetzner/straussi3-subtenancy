@@ -59,11 +59,11 @@ python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 python manage.py init_database --superuser admin --email admin@example.org
-python develope.py
+scripts/devserver.sh
 ```
 
 `init_database` runs the migrations, creates the permission groups and a superuser for the admin (prints the password).
-`develope.py` loads `.env.dev` and starts the development server on port 8000.
+`devserver.sh` exports `.env.dev` and starts the development server on port 8000.
 
 ### Tests
 

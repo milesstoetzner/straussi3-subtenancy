@@ -225,9 +225,28 @@ New releases are deployed manually on the server using `untermiete:~/pull.sh`.
 
 ### Backups
 
-A [cronjob](/config/cronjob) backs up the database every night using `untermiete:~/backup.sh`.
-Therefore, the database `subtenancy` is dumped and together with all contract pdf files.
-To dump the database you need to set up the password in [.pgpass](/config/.pgpass).
+A [cronjob](/config/cronjob) runs [config/backup.sh](/config/backup.sh) every night.
+It dumps the database through the database container and packs it together with all contract PDFs into
+`subtenancy_backup_<timestamp>.tar.gz` in `/home/str3/backups`; archives older than 30 days are deleted.
+
+```
+config/backup.sh [BACKUP_DIR]
+```
+
+### Restore
+
+[config/restore.sh](/config/restore.sh) restores such an archive into an **empty** installation: it refuses if the
+database already contains tables or the contracts directory is not empty.
+To restore over an existing installation, stop it and clear the data first.
+
+```
+docker compose down
+sudo rm -rf /etc/subtenancy/database/* /etc/subtenancy/contracts/*
+config/restore.sh /home/str3/backups/subtenancy_backup_<timestamp>.tar.gz
+```
+
+The script starts the database, restores the dump and the PDFs, then starts the whole stack.
+Both scripts read `CONTRACTS_DIR` (default `/etc/subtenancy/contracts`) and `BACKUP_DIR` (default `/home/str3/backups`) from the environment.
 
 ### Emails
 

@@ -19,12 +19,12 @@
 {% include "pdf/header.html" %}
 
     <h1>Auskunft über gespeicherte personenbezogene Daten</h1>
-    <p class="block">Maschinell erstellt am {{ report.exported_at|date:"d.m.Y H:i" }} für die Untermiete-ID {{ account.id }}.
+    <p class="block">Maschinell erstellt am {{ report.exported_at|date:"d.m.Y H:i" }} für die Ferienmieternummer {{ account.id }}.
         Diese Auskunft umfasst alle Daten, die die Anwendung Untermiete Straußäcker 3 über dich speichert.</p>
 
     <h2>Account</h2>
     <table>
-        <tr><td class="label">Untermiete-ID</td><td>{{ account.id }}</td></tr>
+        <tr><td class="label">Ferienmieternummer</td><td>{{ account.id }}</td></tr>
         <tr><td class="label">Benutzername</td><td>{{ account.username }}</td></tr>
         <tr><td class="label">Vorname</td><td>{{ account.first_name }}</td></tr>
         <tr><td class="label">Nachname</td><td>{{ account.last_name }}</td></tr>

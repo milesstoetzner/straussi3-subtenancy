@@ -227,6 +227,15 @@ All incoming emails are forwarded to wore.str3@gmail.com for further processing.
 - Inbox: https://mail.ext.selfnet.de/SOGo
 - Account: https://mail.ext.selfnet.de/
 
+### Sprechstunde Accounts
+
+Accounts for the Sprechstunde (assistants) are created on the server; the command prints a random start password.
+The group `Assistant` must exist, see [permissions](/config/permissions).
+
+```
+docker compose exec backend python manage.py create_assistant USERNAME EMAIL --first-name VORNAME --last-name NACHNAME
+```
+
 ### Prune Stale Data
 
 Deletes contracts older than three years, tenants without contracts and other non-staff accounts that have not logged in for six months, and the PDF files of the deleted contracts.

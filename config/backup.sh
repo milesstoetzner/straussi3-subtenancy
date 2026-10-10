@@ -8,7 +8,7 @@
 #   CONTRACTS_DIR  directory with the contract PDFs, default /etc/subtenancy/contracts
 #
 # Runs against the containers of docker-compose.yaml, so it must be called from a checkout of this repository.
-# Archives older than 30 days are deleted. Restore with config/restore.sh.
+# Only creates the archive; old archives are removed by config/prune-backups.sh. Restore with config/restore.sh.
 
 set -euo pipefail
 
@@ -31,7 +31,5 @@ docker compose exec -T database sh -c 'pg_dump -U "$POSTGRES_USER" -F t "$POSTGR
 tar -cf "$WORK/contracts.tar" -C "$CONTRACTS_DIR" .
 
 tar -czf "$ARCHIVE" -C "$WORK" database.tar contracts.tar
-
-find "$BACKUP_DIR" -name "subtenancy_backup_*.tar.gz" -mtime +30 -type f -delete
 
 echo "Backup written to $ARCHIVE"

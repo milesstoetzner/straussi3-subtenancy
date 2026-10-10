@@ -105,7 +105,7 @@ def index(request):
     Displays the landing page with FAQ for maintenants and subtenants.
     """
     return render(request, 'subtenancy/index.html',
-                  {'title': _('Ferienmiete') + ' Straußäcker 3'})
+                  {'title': 'FAQ'})
 
 
 def legal_notice(request):

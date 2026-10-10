@@ -11,25 +11,23 @@
 
             <h5 class="card-title">{{ title }}</h5>
 
-            <p class="card-text text-block">{% trans "Wenn du dich als Hauptmieter für eine unten aufgelistete Anfrage eines Untermieters interessierst, dann kannst du die jeweilige Person kontaktieren und ihr deine Kontaktdaten zukommen lassen." %}<br>
+            <p class="card-text text-block">{% trans "Wenn du dich als Hauptmieter für eine unten aufgelistete Anfrage eines Untermieters interessierst, dann kannst du die jeweilige Person kontaktieren und ihr deine Kontaktdaten zukommen lassen." %}</p>
 
-
-            <p>
-                <a class="btn btn-primary btn-block" style="text-align: left" data-toggle="collapse"
+            <div>
+                <a class="btn btn-primary btn-block" data-toggle="collapse"
                    href="#query" role="button" aria-expanded="false">
                     <i class="fas fa-sliders-h icon-text"></i>{% trans "Anfragenliste filtern und ordnen" %}
 
                 </a>
-            </p>
-            <div class="collapse" id="query">
+            <div class="hidden" id="query">
                 <div class="alert bg-grey rounded-container">
 
-                    <form action="{% url 'Requests' %}"
+                    <form action="{% url 'Requests' %}" class="flex flex-col gap-4"
                           method="post" novalidate>
 
                         {% csrf_token %}
 
-                        {% bootstrap form get %}
+                        {% form_fields form get %}
 
                         <button class="btn btn-success btn-block"><i
                                 class="fas fa-sliders-h icon-text"></i>{% trans "Filtern" %}</button>
@@ -39,22 +37,25 @@
 
                 </div>
             </div>
+            </div>
 
 
         {% if object_list %}
 
             {% for subtenancy_request in object_list %}
 
-                <a href="{% url 'tenants:SubTenantContact' subtenancy_request.subtenant_id %}" class="btn btn-grey btn-to-alert btn-block">
-                    {{ subtenancy_request.begin|date:"d.m.Y" }} -
-                {{ subtenancy_request.end|date:"d.m.Y" }} ({{ subtenancy_request.subtenant_id|stringformat:"03d" }})</a>
+                <a href="{% url 'tenants:SubTenantContact' subtenancy_request.subtenant_id %}" class="request-row">
+                    <span class="font-medium">{{ subtenancy_request.begin|date:"d.m.Y" }} – {{ subtenancy_request.end|date:"d.m.Y" }}</span>
+                    <span class="text-slate-500">#{{ subtenancy_request.subtenant_id|stringformat:"03d" }}</span>
+                    <span class="request-row-action"><i class="fas fa-comment-alt"></i>{% trans "Kontaktieren" %}</span>
+                </a>
 
             {% endfor %}
 
 
             {% else %}
 
-                <div class="alert bg-info rounded-container text-center text-white">
+                <div class="alert bg-info rounded-container text-white">
                     {% trans "Aktuell gibt es leider keine Anfragen." %}
                 </div>
 

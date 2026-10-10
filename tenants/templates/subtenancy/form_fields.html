@@ -1,0 +1,20 @@
+{% load i18n %}
+
+{% if form.non_field_errors %}
+    <div class="alert bg-error">{{ form.non_field_errors.0 }}</div>
+{% endif %}
+
+{% for field in form %}
+    <div class="form-field{% if field.errors %} has-error{% endif %}">
+        {{ field.label_tag }}
+        {{ field }}
+        {% if field.errors %}
+            <p class="error">{{ field.errors.0 }}</p>
+        {% elif not is_get %}
+            <p class="ok">{% trans "Alles in Ordnung!" %}</p>
+        {% endif %}
+        {% if field.help_text %}
+            <p class="help" id="{{ field.id_for_label }}_help">{{ field.help_text }}</p>
+        {% endif %}
+    </div>
+{% endfor %}

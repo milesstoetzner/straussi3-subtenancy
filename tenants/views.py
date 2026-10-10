@@ -68,7 +68,7 @@ def create_tenant(request, is_maintenant):
 
             content = get_template('tenants/register_email.html').render(
                 {'user': tenant, 'site_name': get_current_site(request).name})
-            mail = EmailMessage('Ferienmiete Straußäcker 3 Registrierung/ Subtenancy Straußäcker 3 Registration',
+            mail = EmailMessage('Untermiete Straußäcker 3 Registrierung/ Subtenancy Straußäcker 3 Registration',
                                 content,
                                 '', [tenant.email])
             mail.content_subtype = "html"
@@ -343,7 +343,7 @@ def contact_subtenant(request, pk):
         # Sends email with maintenant's contact details to the subtenant
 
         try:
-            mail = EmailMessage('Ferienmiete Straußäcker 3 Kontaktaufnahme/ Subtenancy Straußäcker 3 First Contact',
+            mail = EmailMessage('Untermiete Straußäcker 3 Kontaktaufnahme/ Subtenancy Straußäcker 3 First Contact',
                                 disclaimer + content,
                                 '',
                                 [subtenant.email])
@@ -351,7 +351,7 @@ def contact_subtenant(request, pk):
             mail.send()
 
             mail = EmailMessage(
-                'Bestätigung Ferienmiete Straußäcker 3 Kontaktaufnahme/ Subtenancy Straußäcker 3 First Contact Confirmation',
+                'Bestätigung Untermiete Straußäcker 3 Kontaktaufnahme/ Subtenancy Straußäcker 3 First Contact Confirmation',
                 disclaimer +
                 '<b>Confirmation of the following first contact.' +
                 '<br>Bestätigung folgender Kontaktaufnahme.</b><br><br>' + content,

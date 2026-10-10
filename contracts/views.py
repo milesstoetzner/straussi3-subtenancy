@@ -181,7 +181,7 @@ def print_active_contracts(request):
 
     template_name = 'contracts/contracts.html'
     pdf = html_to_pdf(template_name, {'contracts': queryset, 'today': datetime.datetime.now()})
-    filename = 'ferienmiete_str3_' + str(datetime.datetime.now().strftime("%Y-%m-%d")) + '.pdf'
+    filename = 'untermiete_str3_' + str(datetime.datetime.now().strftime("%Y-%m-%d")) + '.pdf'
 
     if pdf:
         response = HttpResponse(pdf, content_type='application/pdf')

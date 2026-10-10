@@ -6,6 +6,9 @@ from django.core.exceptions import SuspiciousFileOperation
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from subtenancy.settings import BASE_DIR
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def link_callback(uri, rel):
@@ -29,6 +32,7 @@ def link_callback(uri, rel):
         return finders.find(path)
     except SuspiciousFileOperation:
         # the finders refuse paths that would leave their directories
+        logger.warning('refused suspicious static path in a PDF template: %r', uri)
         return None
 
 

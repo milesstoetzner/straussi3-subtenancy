@@ -103,5 +103,6 @@ class Command(BaseCommand):
                 try:
                     self.stdout.write(f"  - {fpath}")
                     os.remove(fpath)
-                except OSError as e:
-                    self.stdout.write(f"    error deleting {fpath}: {e}")
+                except OSError:
+                    self.stdout.write(f"    error deleting {fpath}")
+                    logger.exception('prune: could not delete %s', fpath)

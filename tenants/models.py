@@ -16,7 +16,7 @@ class User(AbstractUser):
     last_name = models.CharField(_('Nachname'), max_length=150)
     email = models.EmailField(_('Email Adresse'), max_length=150, unique=True)
     birthday = models.DateField(_('Geburtstag'))
-    phone_number = models.CharField(_('Telefonnummer'), max_length=15)
+    phone_number = models.CharField(_('Telefonnummer'), max_length=32)
     type = models.CharField(_('Typ'), max_length=3, choices=TYPES)
     # set when the user followed the confirmation link; NULL means the address has not been confirmed (yet).
     # Changing the address resets it. Not to be confused with is_active, which the Sprechstunde uses to block accounts.

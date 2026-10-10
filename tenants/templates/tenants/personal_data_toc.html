@@ -18,7 +18,7 @@
 <body>
 {% include "pdf/header.html" %}
 
-    <h1>Auskunft nach Art. 15 DSGVO für {{ account.first_name }} {{ account.last_name }} (Untermiete-ID {{ account.id }})</h1>
+    <h1>Auskunft nach Art. 15 DSGVO für {{ account.first_name }} {{ account.last_name }} (Ferienmieternummer {{ account.id }})</h1>
     <p class="block">Maschinell erstellt am {{ exported_at|date:"d.m.Y H:i" }}. Dieses Dokument enthält die Auskunft über alle in der
         Anwendung Untermiete Straußäcker 3 gespeicherten Daten sowie alle Versionen der Untermietverträge, an denen du
         beteiligt bist. Insgesamt {{ total_pages }} Seiten.</p>

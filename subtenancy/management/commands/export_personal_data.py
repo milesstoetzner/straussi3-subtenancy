@@ -1,4 +1,5 @@
 import glob
+import io
 import json
 import os
 from datetime import date, datetime
@@ -7,6 +8,7 @@ from decimal import Decimal
 from django.core.management.base import BaseCommand, CommandError
 from django.db.models import Q
 from django.utils import timezone
+from pypdf import PdfReader, PdfWriter
 
 from contracts.models import Contract
 from contracts.utils import contract_pdf_path, html_to_pdf
@@ -28,9 +30,8 @@ class Command(BaseCommand):
         report = self.build_report(user)
 
         if options['pdf']:
-            pdf = html_to_pdf('tenants/personal_data.html', dict(report, report=report))
             with open(options['pdf'], 'wb') as f:
-                f.write(pdf)
+                f.write(self.build_pdf(report))
             self.stdout.write(self.style.SUCCESS(f'Exported data of {user} to {options["pdf"]}'))
             if not options['output']:
                 return
@@ -42,6 +43,44 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS(f'Exported data of {user} to {options["output"]}'))
         else:
             self.stdout.write(text)
+
+    @staticmethod
+    def build_pdf(report):
+        """
+        One PDF: a table of contents, the report, then every version of every contract PDF the person is part of.
+        The contents page is rendered last because it needs the page numbers, and re-rendered if it needs more
+        than one page itself.
+        """
+        parts = [('Auskunft über gespeicherte personenbezogene Daten',
+                  PdfReader(io.BytesIO(html_to_pdf('tenants/personal_data.html', dict(report, report=report)))))]
+        for contract in report['contracts']:
+            for filename in contract['pdf_files']:
+                version = filename.rsplit('_', 1)[1].split('.')[0]
+                parts.append((f'Vertrag {contract["id"]}, Version {version} ({filename})',
+                              PdfReader(contract_pdf_path(contract['id'], version))))
+
+        toc_pages = 1
+        for _ in range(3):
+            page, entries = toc_pages + 1, []
+            for title, reader in parts:
+                entries.append({'title': title, 'page': page})
+                page += len(reader.pages)
+            toc = PdfReader(io.BytesIO(html_to_pdf('tenants/personal_data_toc.html', {
+                'account': report['account'], 'exported_at': report['exported_at'],
+                'entries': entries, 'total_pages': page - 1})))
+            if len(toc.pages) == toc_pages:
+                break
+            toc_pages = len(toc.pages)
+
+        writer = PdfWriter()
+        writer.append(toc)
+        writer.add_outline_item('Inhalt', 0)
+        for (title, reader), entry in zip(parts, entries):
+            writer.append(reader)
+            writer.add_outline_item(title, entry['page'] - 1)
+        out = io.BytesIO()
+        writer.write(out)
+        return out.getvalue()
 
     @staticmethod
     def find_user(identifier):

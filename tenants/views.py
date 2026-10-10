@@ -25,6 +25,9 @@ from django.utils.translation import gettext_lazy as _
 from django.template.loader import get_template
 from django_ratelimit.decorators import ratelimit
 from subtenancy.views import handler400
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @atomic
@@ -72,6 +75,7 @@ def create_tenant(request, is_maintenant):
 
             messages.success(request, _('Registrierung war erfolgreich. Wir haben dir eine E-Mail mit einem Bestätigungslink geschickt. Bitte bestätige deine E-Mail-Adresse, bevor du dich einloggst.'))
 
+            logger.info('registration: %s "%s" (id %s)', tenant.type, tenant.username, tenant.pk)
             send_registration_mail(request, tenant)
 
             # mail_admins(subject='ANALYSE create_tenant', message='Es gab eine Registrierung!', fail_silently=True)
@@ -98,10 +102,12 @@ def confirm_email(request, uidb64, token):
         user = None
 
     if user is None or not email_confirmation_token.check_token(user, token):
+        logger.warning('invalid email confirmation link (uid %r)', uidb64)
         return render(request, 'tenants/confirm_email_failed.html', {'title': _('E-Mail-Adresse bestätigen')},
                       status=400)
 
     user.confirm_email()
+    logger.info('email confirmed: user %s', user.pk)
     messages.success(request, _('Deine E-Mail-Adresse ist bestätigt. Du kannst dich nun einloggen.'))
     return redirect(reverse('login'))
 
@@ -170,6 +176,7 @@ def reset_email_confirmation(request, tenant):
     tenant.email_confirmed_at = None
     tenant.save(update_fields=['email_confirmed_at'])
     send_confirmation_mail(request, tenant)
+    logger.info('email changed, confirmation reset: user %s', tenant.pk)
 
 
 @atomic
@@ -208,6 +215,7 @@ def update_profile(request):
                     messages.success(request, _('Deine E-Mail-Adresse wurde geändert. Wir haben dir einen Bestätigungslink an die neue Adresse geschickt. Bitte bestätige sie und logge dich anschließend wieder ein.'))
                     logout(request)
                     return redirect(reverse('login'))
+                logger.info('profile updated: user %s', user.pk)
                 messages.success(request, _('Änderungen wurden erfolgreich übernommen!'))
             else:
                 messages.info(request, _('Es gab keine Änderungen!'))
@@ -251,9 +259,11 @@ def update_request(request):
         if form.is_valid():
             if not has_request:
                 form.save()
+                logger.info('request created: user %s', tenant.pk)
                 messages.success(request, _('Deine Anfrage wurde erstellt.'))
             elif form.has_changed():
                 form.save()
+                logger.info('request updated: user %s', tenant.pk)
                 messages.success(request, _('Änderungen wurden erfolgreich übernommen!'))
             else:
                 messages.info(request, _('Es gab keine Änderungen!'))
@@ -287,6 +297,7 @@ def delete_request(request):
         return handler400(request)
 
     subtenancy_request.delete()
+    logger.info('request deleted: user %s', tenant.pk)
     messages.success(request, _('Deine Anfrage wurde gelöscht.'))
 
     return redirect(reverse('Profile'))
@@ -358,6 +369,7 @@ def update_tenant(request, pk):
                     # the Sprechstunde changed the tenant's address: un-confirm it so the tenant must confirm the new one
                     reset_email_confirmation(request, tenant)
                     messages.info(request, 'Die E-Mail-Adresse wurde geändert. Der Account muss sie über den zugeschickten Link bestätigen, bevor er sich wieder einloggen kann.')
+                logger.info('tenant updated by staff: user %s (by %s)', tenant.pk, request.user.pk)
                 messages.success(request, 'Änderungen wurden erfolgreich übernommen!')
             else:
                 messages.info(request, 'Es gab keine Änderungen!')
@@ -427,10 +439,12 @@ def contact_subtenant(request, pk):
                 '',
                 [request.user.email])
             send_email(mail, receiver_id=request.user.pk, fail_silently=True)
+            logger.info('contact: maintenant %s contacted subtenant %s', request.user.pk, subtenant.pk)
 
             # mail_admins(subject='ANALYSE contact_subtenant', message='Es gab eine Kontaktaufnahme!', fail_silently=True)
 
-        except SMTPException as e:
+        except SMTPException:
+            logger.exception('contact mail failed: maintenant %s -> subtenant %s', request.user.pk, subtenant.pk)
             messages.error(request, _('Untermieter konnte nicht kontaktiert werden!'))
             return redirect('Requests')
 

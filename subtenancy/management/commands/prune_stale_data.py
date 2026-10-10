@@ -7,7 +7,11 @@ from subtenancy.settings import ORIGIN
 from tenants.models import MainTenant, SubTenant, User
 from django.core.management.base import BaseCommand, CommandError
 import glob
+import logging
 import os
+
+
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -75,10 +79,12 @@ class Command(BaseCommand):
     def delete(self, title, stale):
         self.stdout.write("")
         if stale.exists():
-            self.stdout.write(f"Deleting {stale.count()} stale {title}:")
+            count = stale.count()
+            self.stdout.write(f"Deleting {count} stale {title}:")
             for obj in stale:
                 self.stdout.write(f"  - {ORIGIN}{obj.get_absolute_url()}")
             stale.delete()
+            logger.info('prune: deleted %s stale %s', count, title)
         else:
             self.stdout.write(f"No stale {title}")
 
@@ -97,5 +103,6 @@ class Command(BaseCommand):
                 try:
                     self.stdout.write(f"  - {fpath}")
                     os.remove(fpath)
-                except OSError as e:
-                    self.stdout.write(f"    error deleting {fpath}: {e}")
+                except OSError:
+                    self.stdout.write(f"    error deleting {fpath}")
+                    logger.exception('prune: could not delete %s', fpath)

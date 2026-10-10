@@ -7,6 +7,34 @@ Django app for administrating the subtenancy for the Straussi3.
 - Repo: https://github.com/milesstoetzner/straussi3-subtenancy
 - Website: https://straussi3.de
 
+## Contents
+
+- [Screenshots](#screenshots)
+- [Development](#development)
+  - [Setup](#setup)
+  - [Tests](#tests)
+  - [CSS](#css)
+  - [Permissions](#permissions)
+  - [Database](#database)
+  - [Schema](#schema)
+- [Deployment](#deployment)
+  - [Docker](#docker)
+  - [Reverse Proxy](#reverse-proxy)
+  - [Migrations](#migrations)
+  - [Environment](#environment)
+- [Operations](#operations)
+  - [Server](#server)
+  - [SSH](#ssh)
+  - [Installation](#installation)
+  - [Release](#release)
+  - [Migration](#migration)
+  - [Backups](#backups)
+  - [Restore](#restore)
+  - [Emails](#emails)
+  - [Sprechstunde Accounts](#sprechstunde-accounts)
+  - [Data Access Requests](#data-access-requests)
+  - [Prune Stale Data](#prune-stale-data)
+
 ## Screenshots
 
 | | |
@@ -27,10 +55,11 @@ Requires Python 3.13 and a local PostgreSQL (see the defaults in the environment
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-python manage.py migrate
+python manage.py init_database --superuser admin --email admin@example.org
 python develope.py
 ```
 
+`init_database` runs the migrations, creates the permission groups and a superuser for the admin (prints the password).
 `develope.py` loads `.env.dev` and starts the development server on port 8000.
 
 ### Tests
@@ -59,7 +88,20 @@ config/build-css.sh --watch  # while editing
 
 ### Permissions
 
-To set up the permission groups see [permissions](/config/permissions).
+Access is checked per view with Django permissions; accounts get them through four groups.
+Registration puts every new account into `Maintenant` or `Subtenant`, `create_assistant` into `Assistant`;
+`External` is meant for the Studierendenwerk, which only prints the list of active contracts.
+
+| Group        | Permissions                                                                                      |
+|--------------|--------------------------------------------------------------------------------------------------|
+| `Maintenant` | edit own profile, contact subtenants                                                             |
+| `Subtenant`  | edit own profile                                                                                 |
+| `Assistant`  | view and edit users, maintenants and subtenants; view the blacklist; add, view and edit contracts; print the active contracts |
+| `External`   | print the active contracts                                                                       |
+
+The groups are defined in [tenants/groups.py](/tenants/groups.py) and created by `python manage.py sync_groups`,
+which also resets their permissions to that definition (changes made in the admin do not survive it).
+The command is idempotent; `init_database`, the container entrypoint and [config/deploy.sh](/config/deploy.sh) run it after `migrate`.
 
 ### Database
 
@@ -173,7 +215,7 @@ Set `SUBTENANCY_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,https` and `SUBTE
 
 ### Migrations
 
-Set `SUBTENANCY_ENABLE_MIGRATIONS=1` to run `python manage.py migrate` on container start.
+Set `SUBTENANCY_ENABLE_MIGRATIONS=1` to run `python manage.py migrate` and `sync_groups` on container start.
 
 ### Environment
 
@@ -219,6 +261,27 @@ Host untermiete
     user str3
 ```
 
+### Installation
+
+A new server needs Docker, the repository and the data directories; everything else is created by the app.
+
+1. Clone the repository to `/home/str3/straussi3-subtenancy`.
+2. Create `/etc/subtenancy/config`, `/etc/subtenancy/contracts` and `/etc/subtenancy/database`.
+3. Write `/etc/subtenancy/config/backend` with the variables from [Environment](#environment) and
+   `/etc/subtenancy/config/database` with `POSTGRES_USER`, `POSTGRES_PASSWORD` and `POSTGRES_DB` matching
+   `SUBTENANCY_DB_USER`, `SUBTENANCY_DB_PASSWORD` and `SUBTENANCY_DB_NAME`.
+4. Start the stack and initialise the database: migrations, permission groups and the first superuser for the admin
+   (the command prints its password). To continue from a backup instead, see [Restore](#restore).
+
+   ```
+   docker compose up -d --build
+   docker compose exec backend python manage.py init_database --superuser USERNAME --email EMAIL
+   ```
+
+5. Install the [cronjob](/config/cronjob) and the [reverse proxy](#reverse-proxy).
+
+`init_database` can be run again at any time; it keeps existing data and creates the superuser only if there is none.
+
 ### Release
 
 New releases are deployed manually on the server using `untermiete:~/pull.sh`.
@@ -261,7 +324,7 @@ All incoming emails are forwarded to wore.str3@gmail.com for further processing.
 ### Sprechstunde Accounts
 
 Accounts for the Sprechstunde (assistants) are created on the server; the command prints a random start password.
-The group `Assistant` must exist, see [permissions](/config/permissions).
+The group `Assistant` is created by `sync_groups`, see [Permissions](#permissions).
 
 ```
 docker compose exec backend python manage.py create_assistant USERNAME EMAIL --first-name VORNAME --last-name NACHNAME

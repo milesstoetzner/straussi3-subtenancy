@@ -1,5 +1,6 @@
 #!/bin/bash
-# Deploys a release: pulls the repository, rebuilds the image and restarts the containers, runs the migrations.
+# Deploys a release: pulls the repository, rebuilds the image and restarts the containers, runs the migrations
+# and syncs the permission groups.
 #
 # Usage: config/deploy.sh [REF]
 #   REF  branch or tag to deploy, default main
@@ -22,4 +23,5 @@ echo "Deploying $(git describe --always --tags) ($(git log -1 --format='%h %s'))
 
 docker compose up -d --build
 docker compose exec -T backend python manage.py migrate --no-input
+docker compose exec -T backend python manage.py sync_groups
 docker compose ps

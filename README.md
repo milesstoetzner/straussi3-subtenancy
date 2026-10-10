@@ -248,6 +248,19 @@ The group `Assistant` must exist, see [permissions](/config/permissions).
 docker compose exec backend python manage.py create_assistant USERNAME EMAIL --first-name VORNAME --last-name NACHNAME
 ```
 
+### Data Access Requests
+
+Under Art. 15 GDPR a person may ask which personal data we store about them.
+The command collects everything the application holds about one user (account, tenant details, request, contracts
+including the PDF file names) as JSON; identify the person by username, e-mail address or id.
+
+```
+docker compose exec backend python manage.py export_personal_data USERNAME_OR_EMAIL
+docker compose exec backend python manage.py export_personal_data USERNAME_OR_EMAIL --output /tmp/export.json
+```
+
+Server logs and sent e-mails live with the hosting and mail provider and are not part of the export.
+
 ### Prune Stale Data
 
 Deletes contracts older than three years, tenants without contracts and other non-staff accounts that have not logged in for six months, and the PDF files of the deleted contracts.

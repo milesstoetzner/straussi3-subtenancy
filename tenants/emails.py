@@ -29,10 +29,9 @@ def confirmation_url(request, user):
     return settings.ORIGIN.rstrip('/') + path
 
 
-def send_html_mail(subject, template_name, context, to, receiver_id=None):
+def send_text_mail(subject, template_name, context, to, receiver_id=None):
     content = get_template(template_name).render(context)
     mail = EmailMessage(subject, content, '', [to])
-    mail.content_subtype = 'html'
     send_email(mail, receiver_id=receiver_id, fail_silently=True)
 
 
@@ -40,8 +39,8 @@ def send_registration_mail(request, user):
     """
     Welcome mail after the registration, with the confirmation link.
     """
-    send_html_mail('Untermiete Straußäcker 3 Registrierung/ Subtenancy Straußäcker 3 Registration',
-                   'tenants/register_email.html',
+    send_text_mail('Untermiete Straußäcker 3 Registrierung',
+                   'tenants/register_email.txt',
                    {'user': user, 'site_name': _site_name(request),
                     'confirm_url': confirmation_url(request, user)},
                    user.email, receiver_id=user.pk)
@@ -52,8 +51,8 @@ def send_confirmation_mail(request, user):
     Short mail with a fresh confirmation link, after a resend or a change of the address. Until it is confirmed the
     account cannot log in.
     """
-    send_html_mail('Untermiete Straußäcker 3 E-Mail-Adresse bestätigen/ Subtenancy Straußäcker 3 Confirm your e-mail',
-                   'tenants/confirm_email.html',
+    send_text_mail('Untermiete Straußäcker 3 E-Mail-Adresse bestätigen',
+                   'tenants/confirm_email.txt',
                    {'user': user, 'site_name': _site_name(request),
                     'confirm_url': confirmation_url(request, user)},
                    user.email, receiver_id=user.pk)

@@ -395,12 +395,10 @@ def contact_subtenant(request, pk):
     if not subtenant.is_active:
         return handler400(request)
 
-    # email content
-    content = get_template('tenants/contact_email.html').render(
-        {'user': request.user, 'subtenant': subtenant, 'subtenancy_request': subtenancy_request,
-         'site_name': get_current_site(request).name})
-    disclaimer = ('<b>Do not answer directly to this Email!'
-                  '<br>Für eine Kontaktaufnahme bitte nicht auf diese Email direkt antworten, sondern auf die unten angegebene!</b><br><br>')
+    # email content (the "don't reply" disclaimer and the footer come from the shared email/base.html)
+    mail_context = {'user': request.user, 'subtenant': subtenant, 'subtenancy_request': subtenancy_request,
+                    'site_name': get_current_site(request).name}
+    content = get_template('tenants/contact_email.txt').render(mail_context)
 
     if request.method == 'GET':
         # Asks for consent
@@ -416,21 +414,18 @@ def contact_subtenant(request, pk):
         # Sends email with maintenant's contact details to the subtenant
 
         try:
-            mail = EmailMessage('Untermiete Straußäcker 3 Kontaktaufnahme/ Subtenancy Straußäcker 3 First Contact',
-                                disclaimer + content,
+            mail = EmailMessage('Untermiete Straußäcker 3 Kontaktaufnahme',
+                                content,
                                 '',
                                 [subtenant.email])
-            mail.content_subtype = "html"
             send_email(mail, receiver_id=subtenant.pk, sender_id=request.user.pk)
 
+            confirmation = get_template('tenants/contact_email.txt').render({**mail_context, 'confirmation': True})
             mail = EmailMessage(
-                'Bestätigung Untermiete Straußäcker 3 Kontaktaufnahme/ Subtenancy Straußäcker 3 First Contact Confirmation',
-                disclaimer +
-                '<b>Confirmation of the following first contact.' +
-                '<br>Bestätigung folgender Kontaktaufnahme.</b><br><br>' + content,
+                'Bestätigung Untermiete Straußäcker 3 Kontaktaufnahme',
+                confirmation,
                 '',
                 [request.user.email])
-            mail.content_subtype = "html"
             send_email(mail, receiver_id=request.user.pk, fail_silently=True)
 
             # mail_admins(subject='ANALYSE contact_subtenant', message='Es gab eine Kontaktaufnahme!', fail_silently=True)

@@ -21,6 +21,7 @@ Django app for administrating the subtenancy for the Straussi3.
 - [Deployment](#deployment)
   - [Docker](#docker)
   - [Reverse Proxy](#reverse-proxy)
+  - [Health](#health)
   - [Environment](#environment)
   - [Installation](#installation)
   - [Release](#release)
@@ -211,6 +212,11 @@ docker compose up -d --build
 The app listens on `127.0.0.1:8000` only.
 A reverse proxy in front terminates TLS and must set `X-Forwarded-Proto` and `X-Forwarded-For`.
 Set `SUBTENANCY_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,https` and `SUBTENANCY_TRUST_X_FORWARDED_FOR=1` accordingly.
+
+### Health
+
+`GET /healthz` is a public health check for an uptime monitor. It returns `200 ok` if the database answers and `503`
+otherwise, and nothing else, so it leaks no internal information.
 
 ### Environment
 

@@ -9,6 +9,9 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from django_ratelimit.decorators import ratelimit
 from django.shortcuts import redirect, render
+from django.http import HttpResponse
+from django.db import connection
+from django.views.decorators.http import require_GET
 from django.utils.translation import gettext_lazy as _
 from tenants.forms import LoginForm
 
@@ -101,6 +104,20 @@ class PasswordResetCallback(SuccessMessageMixin, PasswordResetConfirmView):
         if self.request.method == 'GET':
             context['get'] = True
         return context
+
+
+@require_GET
+def healthz(request):
+    """
+    Public health check. Reports only whether the service is up, no internal detail: 200 if the database answers,
+    503 otherwise.
+    """
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute('SELECT 1')
+    except Exception:
+        return HttpResponse('unavailable\n', status=503, content_type='text/plain')
+    return HttpResponse('ok\n', content_type='text/plain')
 
 
 def index(request):

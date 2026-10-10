@@ -5,7 +5,7 @@
 
 {% block content %}
 
-    <form action="{% url 'RequestUpdate' %}" method="post" novalidate>
+    <form action="{% url 'ProfileRequestUpdate' %}" method="post" novalidate>
 
         {% csrf_token %}
 
@@ -15,7 +15,7 @@
 
                 {% bootstrap form get %}
 
-                <button class="btn btn-success btn-block">{% trans "Aktualisieren" %}</button>
+                <button class="btn btn-success btn-block">{% if has_request %}{% trans "Aktualisieren" %}{% else %}{% trans "Erstellen" %}{% endif %}</button>
                 <a href="{% url 'Profile' %}" class="btn btn-danger btn-block">{% trans "Abbrechen" %}</a>
 
             </div>

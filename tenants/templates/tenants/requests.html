@@ -43,11 +43,11 @@
 
         {% if object_list %}
 
-            {% for tenant in object_list %}
+            {% for subtenancy_request in object_list %}
 
-                <a href="{% url 'tenants:SubTenantContact' tenant.pk %}" class="btn btn-grey btn-to-alert btn-block">
-                    {{ tenant.begin_request|date:"d.m.Y" }} -
-                {{ tenant.end_request|date:"d.m.Y" }} ({{ tenant.pk|stringformat:"03d" }})</a>
+                <a href="{% url 'tenants:SubTenantContact' subtenancy_request.subtenant_id %}" class="btn btn-grey btn-to-alert btn-block">
+                    {{ subtenancy_request.begin|date:"d.m.Y" }} -
+                {{ subtenancy_request.end|date:"d.m.Y" }} ({{ subtenancy_request.subtenant_id|stringformat:"03d" }})</a>
 
             {% endfor %}
 

@@ -42,7 +42,7 @@ class Command(BaseCommand):
         self.delete('subtenants', SubTenant.objects.filter(
             contract__isnull=True,
             last_login__lt=six_months_ago,
-            begin_request__lt=six_months_ago,
+            subtenancy_request__begin__lt=six_months_ago,
         ))
 
         # SWS

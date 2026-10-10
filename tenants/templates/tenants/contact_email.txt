@@ -1,0 +1,20 @@
+{% extends "email/base.txt" %}{% block body %}{% if confirmation %}Bestätigung der folgenden Kontaktaufnahme / Confirmation of the following first contact.
+
+{% endif %}Hey,
+
+ich interessiere mich für deine Anfrage einer Untermiete im Straußäcker 3 in dem Zeitraum {{ subtenancy_request.begin|date:"d.m.Y" }} bis {{ subtenancy_request.end|date:"d.m.Y" }}.
+
+Du kannst mich über meine E-Mail kontaktieren: {{ user.email }}
+
+Liebe Grüße,
+{{ user }}
+
+---
+Hey,
+
+I am interested in your request for a subtenancy at Straußäcker 3 from {{ subtenancy_request.begin|date:"d.m.Y" }} until {{ subtenancy_request.end|date:"d.m.Y" }}.
+
+You can contact me via e-mail: {{ user.email }}
+
+Greetings,
+{{ user }}{% endblock %}

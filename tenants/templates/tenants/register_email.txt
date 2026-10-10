@@ -1,0 +1,40 @@
+{% extends "email/base.txt" %}{% block body %}Hallo {{ user.first_name }},
+
+du hast dich erfolgreich bei der Untermiete des Straußäcker 3 registriert.
+
+Bitte bestätige zuerst deine E-Mail-Adresse über den folgenden Link, sonst kannst du dich nicht einloggen und erscheinst nicht in der Anfragenliste:
+{{ confirm_url }}
+Der Link ist drei Tage gültig.
+
+Benutzername: {{ user.username }}
+E-Mail: {{ user.email }}
+Ferienmieternummer: {{ user.pk }}
+
+Als Untermieter wirst du über die Anfragenliste von einem Hauptmieter kontaktiert; als Hauptmieter findest du dort mögliche Untermieter:
+{{ site_name }}{% url 'Requests' %}
+
+Gib bei zukünftiger Kommunikation mit uns bitte immer deine Ferienmieternummer {{ user.pk }} an.
+
+Liebe Grüße,
+dein Straußäcker 3 Team!
+
+---
+Hello {{ user.first_name }},
+
+you have successfully registered for the subtenancy of Straußäcker 3.
+
+Please confirm your e-mail address first via the following link, otherwise you cannot log in and do not appear in the request list:
+{{ confirm_url }}
+The link is valid for three days.
+
+Username: {{ user.username }}
+E-mail: {{ user.email }}
+Subtenancy ID: {{ user.pk }}
+
+As a subtenant a maintenant will contact you via the request list; as a maintenant you can find subtenants there:
+{{ site_name }}{% url 'Requests' %}
+
+Please always provide your subtenancy ID {{ user.pk }} in future communication with us.
+
+Greetings,
+your Straußäcker 3 Team!{% endblock %}

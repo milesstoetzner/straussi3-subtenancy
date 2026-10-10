@@ -75,7 +75,8 @@ class PasswordReset(SuccessMessageMixin, PasswordResetView):
     success_message = _(
         'Wir haben eine E-Mail zum Zurücksetzen des Passwortes an die angegebene E-Mail-Adresse gesendet, sofern ein entsprechendes Konto existiert. Sie sollte in Kürze ankommen. Falls die E-Mail nicht angekommen sein sollte, bitte die E-Mail-Adresse auf Richtigkeit und gegebenenfalls den Spam-Ordner überprüfen.')
     success_url = '/'
-    html_email_template_name = 'registration/password_email.html'
+    email_template_name = 'registration/password_email.txt'
+    subject_template_name = 'registration/password_email_subject.txt'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

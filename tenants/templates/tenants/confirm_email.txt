@@ -1,0 +1,20 @@
+{% extends "email/base.txt" %}{% block body %}Hallo {{ user.first_name }},
+
+bitte bestätige deine E-Mail-Adresse {{ user.email }} für die Untermiete des Straußäcker 3 über den folgenden Link:
+{{ confirm_url }}
+
+Bis du deine E-Mail-Adresse bestätigt hast, kannst du dich nicht einloggen und dein Account ist nicht nutzbar. Der Link ist drei Tage gültig. Falls du keinen Account angelegt oder deine Adresse nicht geändert hast, kannst du diese E-Mail ignorieren.
+
+Liebe Grüße,
+dein Straußäcker 3 Team!
+
+---
+Hello {{ user.first_name }},
+
+please confirm your e-mail address {{ user.email }} for the subtenancy of Straußäcker 3 via the following link:
+{{ confirm_url }}
+
+Until you confirm your e-mail address you cannot log in and your account is not functional. The link is valid for three days. If you did not create an account or change your address, you can ignore this e-mail.
+
+Greetings,
+your Straußäcker 3 Team!{% endblock %}

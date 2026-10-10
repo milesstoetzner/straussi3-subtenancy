@@ -444,7 +444,7 @@ def contact_subtenant(request, pk):
             # mail_admins(subject='ANALYSE contact_subtenant', message='Es gab eine Kontaktaufnahme!', fail_silently=True)
 
         except SMTPException:
-            logger.exception('contact mail failed: maintenant %s -> subtenant %s', request.user.pk, subtenant.pk)
+            logger.error('contact mail failed: maintenant %s -> subtenant %s', request.user.pk, subtenant.pk)
             messages.error(request, _('Untermieter konnte nicht kontaktiert werden!'))
             return redirect('Requests')
 

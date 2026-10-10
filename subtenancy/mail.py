@@ -69,8 +69,8 @@ def send_email(message, *, receiver_id=None, sender_id=None, fail_silently=False
     try:
         message.send(fail_silently=False)
     except Exception:
+        logger.exception('mail send failed')      # always log the error, with a stacktrace
         if not fail_silently:
-            raise                                 # the caller handles and logs it
-        logger.exception('mail send failed (ignored)')
+            raise
         return False
     return True

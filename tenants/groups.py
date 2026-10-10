@@ -1,6 +1,6 @@
 """
 The permission groups the app expects. Registration adds every new account to Maintenant or Subtenant,
-create_assistant to Assistant; External is for the Studierendenwerk, which only prints the list of active contracts.
+create_account to Assistant (Sprechstunde) or External (Studierendenwerk, only prints the list of active contracts).
 
 The code is the source of truth: `python manage.py sync_groups` creates the groups and sets exactly these
 permissions, so changes made in the admin are overwritten on the next run.

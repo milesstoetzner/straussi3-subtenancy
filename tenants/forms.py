@@ -1,5 +1,5 @@
 from django.forms import Form, ModelForm, DateInput, Select, Textarea, DateField, ChoiceField
-from .models import User, MainTenant, SubTenant, Blacklist
+from .models import User, MainTenant, SubTenant, SubtenancyRequest, Blacklist
 from .utils import REQUEST_ORDERING
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
@@ -49,12 +49,12 @@ def validate_request_period(form, cleaned_data):
     Adds an error if the requested subtenancy does not end after it begins.
     """
 
-    begin_request = cleaned_data.get('begin_request')
-    end_request = cleaned_data.get('end_request')
+    begin = cleaned_data.get('begin')
+    end = cleaned_data.get('end')
 
-    if begin_request and end_request:
-        if begin_request >= end_request:
-            form.add_error('end_request', _('Das Ende der angefragten Untermiete muss nach dem Beginn sein!'))
+    if begin and end:
+        if begin >= end:
+            form.add_error('end', _('Das Ende der angefragten Untermiete muss nach dem Beginn sein!'))
 
 
 class MainTenantCreateForm(UserCreationForm):
@@ -94,32 +94,25 @@ class MainTenantUpdateForm(ModelForm):
 
 class SubTenantCreateForm(UserCreationForm):
     """
-    Creates a subtenant with additional validation.
+    Creates a subtenant with additional validation. The request itself is created with SubtenancyRequestForm.
     """
 
     def clean(self):
         cleaned_data = super().clean()
         validate_not_blacklisted(self, cleaned_data)
         validate_data_processing_consent(self, cleaned_data)
-        validate_request_period(self, cleaned_data)
         return cleaned_data
 
     class Meta:
         model = SubTenant
         fields = ['username', 'first_name', 'last_name', 'password1', 'password2', 'email', 'birthday', 'phone_number',
-                  'nationality', 'begin_request', 'end_request', 'is_searching',
-                  'name', 'street', 'house_number', 'postcode', 'city', 'country', 'accepted_data_processing']
+                  'nationality', 'name', 'street', 'house_number', 'postcode', 'city', 'country',
+                  'accepted_data_processing']
         help_texts = {
-            'is_searching': _(
-                'Wenn dieser Wert auf "Nein" gesetzt ist, taucht deine Anfrage mit dem oben genannten Zeitraum NICHT in der Anfragenliste auf. Sobald ein Vertrag abgeschlossen wird, wird dieser Wert automatisch auf "Nein" gesetzt. Das beudetet: Wenn deine Anfrage mit dem oben angegebenen Zeitraum in die Anfragenliste wieder aufgenommen werden soll, muss dieser Wert "Ja" lauten.'),
             'name': _('Vollständiger Name für die Korrespondenzadresse'),
             'accepted_data_processing': _('Mehr Informationen unter https://untermiete.straussi3.de/impressum'),
         }
         widgets = {
-            'is_eu': Select(choices=BOOLEAN_CHOICES),
-            'begin_request': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-            'end_request': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-            'is_searching': Select(choices=BOOLEAN_CHOICES),
             'birthday': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'accepted_data_processing': Select(choices=BOOLEAN_CHOICES)
         }
@@ -127,24 +120,22 @@ class SubTenantCreateForm(UserCreationForm):
 
 class SubTenantUpdateForm(ModelForm):
     """
-    Updates a subtenant. The difference to creating a subtenant is the now available field is_searching.
+    Updates a subtenant. The difference to creating a subtenant is that username, password1 and password2 is not available.
     """
 
     def clean(self):
         cleaned_data = super().clean()
         validate_not_blacklisted(self, cleaned_data)
-        validate_request_period(self, cleaned_data)
         return cleaned_data
 
     class Meta(SubTenantCreateForm.Meta):
         fields = ['first_name', 'last_name', 'email', 'birthday', 'phone_number',
-                  'nationality', 'begin_request', 'end_request', 'is_searching',
-                  'name', 'street', 'house_number', 'postcode', 'city', 'country']
+                  'nationality', 'name', 'street', 'house_number', 'postcode', 'city', 'country']
 
 
-class RequestUpdateForm(ModelForm):
+class SubtenancyRequestForm(ModelForm):
     """
-    Subtenant can update only his request.
+    Creates or updates a subtenant's request. Used during registration and when the subtenant updates the request.
     """
 
     def clean(self):
@@ -152,8 +143,16 @@ class RequestUpdateForm(ModelForm):
         validate_request_period(self, cleaned_data)
         return cleaned_data
 
-    class Meta(SubTenantUpdateForm.Meta):
-        fields = ['begin_request', 'end_request', 'is_searching']
+    class Meta:
+        model = SubtenancyRequest
+        fields = ['begin', 'end']
+        help_texts = {
+            'end': _('Solange die Anfrage existiert und ihr Zeitraum noch nicht vorbei ist, erscheint sie in der Anfragenliste. Sobald ein Vertrag abgeschlossen wird, wird sie automatisch gelöscht. Du kannst sie jederzeit in deinem Profil löschen.'),
+        }
+        widgets = {
+            'begin': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'end': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+        }
 
 
 class RequestQueryForm(Form):

@@ -313,6 +313,9 @@ msgid "Eingeloggt als"
 msgstr "Logged in as"
 
 #: tenants/templates/subtenancy/base.html:96
+msgid "Anfrage"
+msgstr "Request"
+
 msgid "Anfragen"
 msgstr "Requests"
 
@@ -678,7 +681,7 @@ msgstr "Contact"
 #: tenants/templates/tenants/contact.html:27
 #: tenants/templates/tenants/delete.html:18
 #: tenants/templates/tenants/update_profile.html:20
-#: tenants/templates/tenants/update_request.html:19
+#: tenants/templates/tenants/request.html:19
 msgid "Abbrechen"
 msgstr "Cancel"
 
@@ -722,7 +725,7 @@ msgid "Aktuell gibt es leider keine Anfragen."
 msgstr "Currently there are no requests."
 
 #: tenants/templates/tenants/update_profile.html:19
-#: tenants/templates/tenants/update_request.html:18
+#: tenants/templates/tenants/request.html:18
 msgid "Aktualisieren"
 msgstr "Update"
 
@@ -1926,3 +1929,24 @@ msgstr "Successfully filtered requests"
 #~ msgstr ""
 #~ "Confirmation of room approval from the janitor (ONLY if you are not "
 #~ "coming back after the sublet)"
+
+msgid "Keine Anfrage vorhanden."
+msgstr "No request yet."
+
+msgid "Anfrage erstellen"
+msgstr "Create request"
+
+msgid "Anfrage löschen"
+msgstr "Delete request"
+
+msgid "Erstellen"
+msgstr "Create"
+
+msgid "Deine Anfrage wurde gelöscht."
+msgstr "Your request has been deleted."
+
+msgid "Solange die Anfrage existiert und ihr Zeitraum noch nicht vorbei ist, erscheint sie in der Anfragenliste. Sobald ein Vertrag abgeschlossen wird, wird sie automatisch gelöscht. Du kannst sie jederzeit in deinem Profil löschen."
+msgstr "As long as the request exists and its period has not ended, it is shown in the request list. It is deleted automatically once a contract is created. You can delete it at any time in your profile."
+
+msgid "Deine Anfrage wurde erstellt."
+msgstr "Your request has been created."

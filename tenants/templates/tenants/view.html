@@ -16,6 +16,12 @@
 
                 {% bootstrap tenant_form True %}
 
+                {% if request_form %}
+                    {% bootstrap request_form True %}
+                {% elif tenant.is_subtenant %}
+                    <div class="alert bg-info rounded-container text-white text-center">{% trans "Keine Anfrage vorhanden." %}</div>
+                {% endif %}
+
             </fieldset>
 
             {% if tenant.is_maintenant or tenant.is_subtenant %}
@@ -25,8 +31,14 @@
                        class="btn btn-success btn-block"><i class="fas fa-wrench icon-text"></i>{% trans "Informationen aktualisieren" %}</a>
 
                     {% if tenant.is_subtenant %}
-                        <a href="{% url 'RequestUpdate' %}"
-                           class="btn btn-success btn-block"><i class="fas fa-file-alt icon-text"></i>{% trans "Anfrage aktualisieren" %}</a>
+                        <a href="{% url 'ProfileRequestUpdate' %}"
+                           class="btn btn-success btn-block"><i class="fas fa-file-alt icon-text"></i>{% if request_form %}{% trans "Anfrage aktualisieren" %}{% else %}{% trans "Anfrage erstellen" %}{% endif %}</a>
+                        {% if request_form %}
+                            <form action="{% url 'ProfileRequestDelete' %}" method="post">
+                                {% csrf_token %}
+                                <button class="btn btn-danger btn-block"><i class="fas fa-trash icon-text"></i>{% trans "Anfrage löschen" %}</button>
+                            </form>
+                        {% endif %}
                     {% endif %}
 
                     {% if tenant.id == user.id %}

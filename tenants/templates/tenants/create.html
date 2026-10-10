@@ -16,6 +16,10 @@
 
                 {% bootstrap tenant_form get %}
 
+                {% if request_form %}
+                    {% bootstrap request_form get %}
+                {% endif %}
+
                 <button class="btn btn-success btn-block"><i class="fas fa-user-edit icon-text"></i>{% trans "Registrieren" %}</button>
 
             </div>

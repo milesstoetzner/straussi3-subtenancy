@@ -284,7 +284,23 @@ A new server needs Docker, the repository and the data directories; everything e
 
 ### Release
 
-New releases are deployed manually on the server using `untermiete:~/pull.sh`.
+Releases are tags `vMAJOR.MINOR.PATCH`; a new major needs manual steps, see [Migration](#migration).
+`v1.0.0` is the state before the audit of October 2026, `v2.0.0` its result.
+
+```
+git tag -a v2.1.0 -m "v2.1.0" && git push origin v2.1.0   # developer
+config/deploy.sh v2.1.0                                   # server: checkout, build, restart, migrate, sync_groups
+```
+
+### Migration
+
+#### 1.x to 2.x
+
+1. Backup: `config/backup.sh` (the database model changes, migration `tenants.0066`).
+2. Configure: `SUBTENANCY_TRUST_X_FORWARDED_FOR=1` in `/etc/subtenancy/config/backend`, see [Reverse Proxy](#reverse-proxy);
+   drop `SUBTENANCY_CLEAN_DATABASE_WRITE`.
+3. Start the new version: fresh clone (the history was rewritten), `config/deploy.sh v2.0.0`.
+4. Install the [cronjob](/config/cronjob).
 
 ### Backups
 

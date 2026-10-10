@@ -291,3 +291,5 @@ Without `--apply` the command is a dry run that only lists what it would delete.
 python manage.py prune_stale_data          # dry run
 python manage.py prune_stale_data --apply  # delete
 ```
+
+On the server the [cronjob](/config/cronjob) runs [config/prune-stale-data.sh](/config/prune-stale-data.sh) `--apply` every night at 03:20, an hour after the backup.

@@ -33,8 +33,11 @@ def link_callback(uri, rel):
 
 
 def html_to_pdf(source, context):
+    """
+    Renders a PDF template (see pdf/page_templates.html for the page layout) to PDF bytes.
+    """
     template = get_template(source)
-    html = template.render(context)
+    html = template.render({'signature_pages': (), **context})
     result = BytesIO()
     pdf = pisa.pisaDocument(BytesIO(html.encode("utf-8")), result, link_callback=link_callback, encoding='UTF-8')
     return result.getvalue()
@@ -49,6 +52,9 @@ def save_html_as_pdf(source, context, destination):
 def contract_pdf_path(pk, version):
     filename = 'contract_' + str(pk) + '_version_' + str(version) + '.pdf'
     return os.path.join(BASE_DIR, 'contracts', 'contracts', os.path.basename(filename))
+
+# page templates of contract.html that end with a signature line, see pdf/page_templates.html
+SIGNATURE_PAGES = ('full', 'wore', 'melde', 'date', 'maintenant')
 
 HOUSE_NUMBERS = ['3C', '3D', '3E', '3F', '3G', '3H', '3I']
 

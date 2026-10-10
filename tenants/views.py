@@ -326,6 +326,8 @@ def contact_subtenant(request, pk):
     content = get_template('tenants/contact_email.html').render(
         {'user': request.user, 'subtenant': subtenant, 'subtenancy_request': subtenancy_request,
          'site_name': get_current_site(request).name})
+    disclaimer = ('<b>Do not answer directly to this Email!'
+                  '<br>Für eine Kontaktaufnahme bitte nicht auf diese Email direkt antworten, sondern auf die unten angegebene!</b><br><br>')
 
     if request.method == 'GET':
         # Asks for consent
@@ -342,8 +344,7 @@ def contact_subtenant(request, pk):
 
         try:
             mail = EmailMessage('Ferienmiete Straußäcker 3 Kontaktaufnahme/ Subtenancy Straußäcker 3 First Contact',
-                                '<b>Do not answer directly to this Email!' +
-                                '<br>Für eine Kontaktaufnahme bitte nicht auf diese Email direkt antworten, sondern auf die unten angegebene!</b><br><br>' + content,
+                                disclaimer + content,
                                 '',
                                 [subtenant.email])
             mail.content_subtype = "html"
@@ -351,6 +352,7 @@ def contact_subtenant(request, pk):
 
             mail = EmailMessage(
                 'Bestätigung Ferienmiete Straußäcker 3 Kontaktaufnahme/ Subtenancy Straußäcker 3 First Contact Confirmation',
+                disclaimer +
                 '<b>Confirmation of the following first contact.' +
                 '<br>Bestätigung folgender Kontaktaufnahme.</b><br><br>' + content,
                 '',

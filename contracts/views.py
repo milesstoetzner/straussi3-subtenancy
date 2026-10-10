@@ -53,8 +53,11 @@ def create_contract(request):
 
             elif step == 'save':
                 contract = form.save()
-                form.instance.subtenant.is_searching = False
-                form.instance.subtenant.save()
+
+                # the subtenant found a room, the request is done
+                subtenancy_request = contract.subtenant.get_request()
+                if subtenancy_request is not None:
+                    subtenancy_request.delete()
 
                 contract.save_contract_pdf()
                 messages.success(request, 'Vertrag wurde erfolgreich erstellt!')

@@ -31,7 +31,7 @@ Django app for administrating the subtenancy for the Straussi3.
   - [Backups](#backups)
   - [Restore](#restore)
   - [Emails](#emails)
-  - [Sprechstunde Accounts](#sprechstunde-accounts)
+  - [Accounts](#accounts)
   - [Data Access Requests](#data-access-requests)
   - [Prune Stale Data](#prune-stale-data)
 
@@ -89,8 +89,8 @@ config/build-css.sh --watch  # while editing
 ### Permissions
 
 Access is checked per view with Django permissions; accounts get them through four groups.
-Registration puts every new account into `Maintenant` or `Subtenant`, `create_assistant` into `Assistant`;
-`External` is meant for the Studierendenwerk, which only prints the list of active contracts.
+Registration puts every new account into `Maintenant` or `Subtenant`; `create_account` puts staff accounts into
+`Assistant` (Sprechstunde) or `External` (Studierendenwerk, only prints the list of active contracts).
 
 | Group        | Permissions                                                                                      |
 |--------------|--------------------------------------------------------------------------------------------------|
@@ -321,13 +321,15 @@ All incoming emails are forwarded to wore.str3@gmail.com for further processing.
 - Inbox: https://mail.ext.selfnet.de/SOGo
 - Account: https://mail.ext.selfnet.de/
 
-### Sprechstunde Accounts
+### Accounts
 
-Accounts for the Sprechstunde (assistants) are created on the server; the command prints a random start password.
-The group `Assistant` is created by `sync_groups`, see [Permissions](#permissions).
+Tenants register themselves. Accounts for the Sprechstunde (`assistant`, the default) and the Studierendenwerk
+(`external`, may only print the active contracts) are created on the server; the command prints a random start
+password and puts the account into the matching group, see [Permissions](#permissions).
 
 ```
-docker compose exec backend python manage.py create_assistant USERNAME EMAIL --first-name VORNAME --last-name NACHNAME
+docker compose exec backend python manage.py create_account USERNAME EMAIL --first-name VORNAME --last-name NACHNAME
+docker compose exec backend python manage.py create_account USERNAME EMAIL --first-name VORNAME --last-name NACHNAME --role external
 ```
 
 ### Data Access Requests

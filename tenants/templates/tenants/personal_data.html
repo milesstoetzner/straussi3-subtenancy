@@ -94,38 +94,20 @@
     {% endif %}
 
     <h2>Verträge</h2>
-    {% for contract in contracts %}
-    <table style="margin-bottom: 3mm">
-        <tr><td class="label">Vertragsnummer</td><td>{{ contract.id }}</td></tr>
-        <tr><td class="label">Deine Rolle</td><td>{% if contract.your_role == "maintenant" %}Hauptmieter{% else %}Untermieter{% endif %}</td></tr>
-        <tr><td class="label">Vertragspartner</td><td>{{ contract.other_party.name }} (ID {{ contract.other_party.id }})</td></tr>
-        <tr><td class="label">Zeitraum</td><td>{{ contract.begin|date:"d.m.Y" }} - {{ contract.end|date:"d.m.Y" }}</td></tr>
-        <tr><td class="label">Zimmer</td><td>{{ contract.house_number }} {{ contract.room_number }}</td></tr>
-        <tr><td class="label">Monatsmiete</td><td>{{ contract.rent }} €</td></tr>
-        <tr><td class="label">Kaution</td><td>{{ contract.caution }} €{% if contract.caution_comment %} ({{ contract.caution_comment }}){% endif %}</td></tr>
-        <tr><td class="label">Spende</td><td>{{ contract.donation }} €</td></tr>
-        <tr><td class="label">Zustand des Zimmers</td><td>{{ contract.condition|yesno:"in Ordnung, beanstandet" }}{% if contract.condition_comment %} ({{ contract.condition_comment }}){% endif %}</td></tr>
-        <tr><td class="label">Prüfungen</td>
-            <td>Lichtbildausweis Hauptmieter: {{ contract.is_maintenant_identified|yesno:"Ja, Nein" }}<br>
-                Lichtbildausweis Untermieter: {{ contract.is_subtenant_identified|yesno:"Ja, Nein" }}<br>
-                Immatrikulation: {{ contract.is_subtenant_matriculated|yesno:"Ja, Nein" }}<br>
-                Aufenthalt in Deutschland: {{ contract.is_subtenant_allowed_in_DE|yesno:"Ja, Nein" }}<br>
-                Innerhalb des Hauptmietvertrags: {{ contract.is_maintenant_allowed|yesno:"Ja, Nein" }}<br>
-                Sondergenehmigung: {{ contract.has_special_permission|yesno:"Ja, Nein" }}<br>
-                Rückkehr des Hauptmieters: {{ contract.is_maintenant_returning|yesno:"Ja, Nein" }}</td></tr>
-        <tr><td class="label">Gültig</td><td>{{ contract.is_active|yesno:"Ja, Nein" }}</td></tr>
-        <tr><td class="label">PDF-Versionen</td><td>{{ contract.pdf_files|join:", "|default:"-" }}</td></tr>
-        <tr><td class="label">Erstellt</td><td>{{ contract.created_at|date:"d.m.Y H:i" }}</td></tr>
-        <tr><td class="label">Letzte Änderung</td><td>{{ contract.updated_at|date:"d.m.Y H:i" }}</td></tr>
+    {% if contracts %}
+    <p>Die vollständigen Vertragsdokumente in allen Versionen sind diesem Dokument angehängt, siehe Inhaltsverzeichnis.</p>
+    <table>
+        {% for contract in contracts %}
+            <tr>
+                <td style="width: 25mm">Vertrag {{ contract.id }}</td>
+                <td style="width: 45mm">{{ contract.begin|date:"d.m.Y" }} - {{ contract.end|date:"d.m.Y" }}</td>
+                <td style="width: 20mm">Zimmer {{ contract.house_number }} {{ contract.room_number }}</td>
+                <td>{% if contract.your_role == "maintenant" %}Untermieter{% else %}Hauptmieter{% endif %}: {{ contract.other_party.name }}{% if not contract.is_active %} (ungültig){% endif %}</td>
+            </tr>
+        {% endfor %}
     </table>
-    {% empty %}
+    {% else %}
     <p>Keine Verträge gespeichert.</p>
-    {% endfor %}
-
-    <h2>Nicht enthalten</h2>
-    <p class="block">Zugriffsprotokolle des Servers und die an dich gesendeten E-Mails liegen beim Hosting- bzw. E-Mail-Anbieter,
-        siehe Datenschutzerklärung. IP-Adressen von Login-, Registrierungs- und Passwort-Zurücksetzen-Versuchen werden
-        höchstens eine Stunde im Arbeitsspeicher gehalten und nicht gespeichert.</p>
-
+    {% endif %}
 </body>
 </html>

@@ -117,34 +117,36 @@ def legal_notice(request):
 
 
 def handler400(request, exception=None):
-    messages.error(request, _('Es tut uns Leid, aber deine Anfrage konnte nicht verarbeitet werden!'))
+    messages.error(request, _('Es tut uns Leid, aber deine Anfrage konnte nicht verarbeitet werden!'), fail_silently=True)
     return redirect_to_error(request, 400)
 
 
 def handler403(request, exception=None):
-    messages.error(request, _('Es tut uns Leid, aber auf diese Seite hast du keinen Zugriff!'))
+    messages.error(request, _('Es tut uns Leid, aber auf diese Seite hast du keinen Zugriff!'), fail_silently=True)
     return redirect_to_error(request, 403)
 
 
 def handler404(request, exception=None):
     messages.error(request, _('Es tut uns Leid, aber die angefragte URL %(path)s wurde nicht gefunden!') % {
-        'path': str(request.path)})
+        'path': str(request.path)}, fail_silently=True)
     return redirect_to_error(request, 404)
 
 
 def handler500(request, exception=None):
-    messages.error(request, _('Es tut uns Leid, aber ein unerwarteter Fehler ist aufgetreten!'))
+    messages.error(request, _('Es tut uns Leid, aber ein unerwarteter Fehler ist aufgetreten!'), fail_silently=True)
     return redirect_to_error(request, 500)
 
 
 def handlerCSRF(request, reason=""):
-    messages.error(request, _('Es tut uns Leid, aber die CSRF Überprüfung ist fehlgeschlagen!'))
+    messages.error(request, _('Es tut uns Leid, aber die CSRF Überprüfung ist fehlgeschlagen!'), fail_silently=True)
     return redirect_to_error(request, 403)
 
 
 def redirect_to_error(request, status):
     """
     Render for each error the error page.
+    The handlers above add their message with fail_silently=True: an error raised before the message middleware ran
+    (e.g. a rejected Host header) must still produce the error page instead of a second exception.
     """
 
     context = {}

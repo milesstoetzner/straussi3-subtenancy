@@ -1,14 +1,14 @@
 #!/bin/bash
 # Backs up the subtenancy database and all contract PDFs into one archive.
 #
-# Usage: config/backup.sh [BACKUP_DIR]
+# Usage: scripts/backup.sh [BACKUP_DIR]
 #
 # Environment (all optional):
 #   BACKUP_DIR     where archives are written, default /home/str3/backups (the argument takes precedence)
 #   CONTRACTS_DIR  directory with the contract PDFs, default /etc/subtenancy/contracts
 #
 # Runs against the containers of docker-compose.yaml, so it must be called from a checkout of this repository.
-# Archives older than 30 days are deleted. Restore with config/restore.sh.
+# Archives older than 30 days are deleted. Restore with scripts/restore.sh.
 
 set -euo pipefail
 

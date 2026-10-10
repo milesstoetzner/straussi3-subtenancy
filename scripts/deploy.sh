@@ -2,7 +2,7 @@
 # Deploys a release: pulls the repository, rebuilds the image and restarts the containers, runs the migrations
 # and syncs the permission groups.
 #
-# Usage: config/deploy.sh [REF]
+# Usage: scripts/deploy.sh [REF]
 #   REF  branch or tag to deploy, default main
 #
 # Must be called from a checkout of this repository on the server.

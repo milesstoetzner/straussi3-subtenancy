@@ -32,6 +32,7 @@ Django app for administrating the subtenancy for the Straussi3.
   - [Accounts](#accounts)
   - [Data Access Requests](#data-access-requests)
   - [Prune Stale Data](#prune-stale-data)
+- [Changelog](#changelog)
 
 ## Screenshots
 
@@ -358,3 +359,22 @@ python manage.py prune_stale_data --apply  # delete
 ```
 
 On the server the [cronjob](/scripts/cronjob) runs [scripts/prune-stale-data.sh](/scripts/prune-stale-data.sh) `--apply` every night at 03:20, an hour after the backup.
+
+## Changelog
+
+Only major releases are tracked. Changes are appended under the current major until the next major is released, see [Release](#release).
+
+### 2.x
+
+- Security audit: git history rewritten to purge old secrets, dependencies updated, login/registration/password-reset rate limiting hardened behind the reverse proxy (`SUBTENANCY_TRUST_X_FORWARDED_FOR`).
+- Subtenancy requests moved into their own model; `clean_database` replaced by `prune_stale_data`.
+- New server-rendered Tailwind interface.
+- Permission groups and the first superuser created from code (`sync_groups`, `init_database`); staff accounts via `create_account`.
+- Operations scripts and cronjobs for backup, restore, deploy and stale-data pruning.
+- Personal-data export for Art. 15 GDPR requests (`export_personal_data`).
+- E-mail confirmation for every account; changing an address requires confirming it again.
+- Outgoing mail rate limited per recipient, per acting user and globally; all mails normalized to one plain-text layout.
+
+### 1.x
+
+- Last state before the October 2026 security audit.

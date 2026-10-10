@@ -72,11 +72,12 @@ class Command(BaseCommand):
                 break
             toc_pages = len(toc.pages)
 
+        # xhtml2pdf writes its own outline from the headings; drop those and add one entry per part instead
         writer = PdfWriter()
-        writer.append(toc)
+        writer.append(toc, import_outline=False)
         writer.add_outline_item('Inhalt', 0)
         for (title, reader), entry in zip(parts, entries):
-            writer.append(reader)
+            writer.append(reader, import_outline=False)
             writer.add_outline_item(title, entry['page'] - 1)
         out = io.BytesIO()
         writer.write(out)

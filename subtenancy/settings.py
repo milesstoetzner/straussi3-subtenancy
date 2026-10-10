@@ -7,7 +7,7 @@ SECRET_KEY = os.environ.get('SUBTENANCY_SECRET_KEY')
 
 DEBUG = bool(int(os.environ.get('SUBTENANCY_DEBUG', default='0')))
 
-ADMINS = []
+ADMINS = [('Admin', _email.strip()) for _email in os.environ.get('SUBTENANCY_ADMINS', default='').split(',') if _email.strip()]
 
 ALLOWED_HOSTS = os.environ.get('SUBTENANCY_ALLOWED_HOSTS', default='localhost').split(',')
 
@@ -153,3 +153,24 @@ EMAIL_RATELIMIT_PER_SENDER = os.environ.get('SUBTENANCY_EMAIL_RATELIMIT_PER_SEND
 SESSION_COOKIE_SECURE = bool(int(os.environ.get('SUBTENANCY_SESSION_COOKIE_SECURE', default='1')))
 
 CSRF_COOKIE_SECURE = bool(int(os.environ.get('SUBTENANCY_SESSION_CSRF_COOKIE_SECURE', default='1')))
+
+# Logging: app events go to the console at SUBTENANCY_LOG_LEVEL; unhandled request errors are also e-mailed to ADMINS.
+LOG_LEVEL = os.environ.get('SUBTENANCY_LOG_LEVEL', default='INFO')
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {'format': '{asctime} {levelname} {name} {message}', 'style': '{'},
+    },
+    'handlers': {
+        'console': {'class': 'logging.StreamHandler', 'formatter': 'standard'},
+        'mail_admins': {'class': 'django.utils.log.AdminEmailHandler', 'level': 'ERROR'},
+    },
+    'root': {'handlers': ['console'], 'level': 'WARNING'},
+    'loggers': {
+        'django.request': {'handlers': ['console', 'mail_admins'], 'level': 'ERROR', 'propagate': False},
+        'tenants': {'handlers': ['console'], 'level': LOG_LEVEL, 'propagate': False},
+        'contracts': {'handlers': ['console'], 'level': LOG_LEVEL, 'propagate': False},
+        'subtenancy': {'handlers': ['console'], 'level': LOG_LEVEL, 'propagate': False},
+    },
+}

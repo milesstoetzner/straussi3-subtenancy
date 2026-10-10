@@ -238,6 +238,8 @@ Set `SUBTENANCY_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,https` and `SUBTE
 | `SUBTENANCY_ENABLE_MIGRATIONS`          | `'0'`                | Run `migrate` and `sync_groups` on container start.              |
 | `SUBTENANCY_USE_X_FORWARDED_HOST`       | `'0'`                | Take the host from `X-Forwarded-Host` (Django `USE_X_FORWARDED_HOST`). |
 | `SUBTENANCY_TRUST_X_FORWARDED_FOR`      | `'0'`                | Use the first `X-Forwarded-For` address as client IP for the login rate limit. Enable only behind a reverse proxy that sets this header. |
+| `SUBTENANCY_ADMINS`                     |                      | Comma-separated e-mail addresses that receive server error reports. |
+| `SUBTENANCY_LOG_LEVEL`                  | `'INFO'`             | Log level for the application loggers. |
 | `SUBTENANCY_EMAIL_RATELIMIT_PER_RECEIVER` | `'5/h'`              | Cap on mails sent to one receiver (`COUNT/PERIOD`, period `s`/`m`/`h`/`d`). |
 | `SUBTENANCY_EMAIL_RATELIMIT_GLOBAL`     | `'100/h'`            | Cap on mails sent in total across all receivers. |
 | `SUBTENANCY_EMAIL_RATELIMIT_PER_SENDER` | `'10/h'`             | Cap on mails one acting user can trigger (first contact). |

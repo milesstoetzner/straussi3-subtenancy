@@ -16,6 +16,9 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse, FileResponse
 from .utils import html_to_pdf, contract_pdf_path
 from subtenancy.views import handler404, handler400
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @atomic
@@ -60,6 +63,7 @@ def create_contract(request):
                     subtenancy_request.delete()
 
                 contract.save_contract_pdf()
+                logger.info('contract created: %s (maintenant %s, subtenant %s)', contract.pk, contract.maintenant_id, contract.subtenant_id)
                 messages.success(request, 'Vertrag wurde erfolgreich erstellt!')
                 return redirect(contract.get_absolute_url())
 
@@ -114,6 +118,7 @@ def update_contract(request, pk):
                 form.instance.is_changed = True
                 form.save()
 
+                logger.info('contract updated: %s', contract.id)
                 messages.success(request, 'Änderungen erfolgreich übernommen!')
 
             else:
@@ -152,6 +157,7 @@ def save_contract_pdf(request, pk):
 
     contract.save_contract_pdf()
 
+    logger.info('contract %s: new PDF version %s', contract.pk, contract.version)
     messages.success(request, 'PDF wurde erfolgreich erstellt!')
 
     return redirect(reverse('contracts:ContractView', args=(contract.id,)))

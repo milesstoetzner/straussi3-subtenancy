@@ -9,23 +9,33 @@ from django.db.models import Q
 from django.utils import timezone
 
 from contracts.models import Contract
-from contracts.utils import contract_pdf_path
+from contracts.utils import contract_pdf_path, html_to_pdf
 from tenants.models import User
 
 
 class Command(BaseCommand):
-    help = ('Export all personal data stored about one person as JSON, for an access request under Art. 15 GDPR. '
+    help = ('Export all personal data stored about one person, for an access request under Art. 15 GDPR: as JSON '
+            '(default, to stdout or --output) or as a PDF in the style of the contract documents (--pdf). '
             'Identify the person by username, e-mail address or id.')
 
     def add_arguments(self, parser):
         parser.add_argument('identifier', help='username, e-mail address or user id')
-        parser.add_argument('--output', '-o', help='write to this file instead of stdout')
+        parser.add_argument('--output', '-o', help='write the JSON to this file instead of stdout')
+        parser.add_argument('--pdf', help='write a PDF report to this file')
 
     def handle(self, *args, **options):
         user = self.find_user(options['identifier'])
         report = self.build_report(user)
-        text = json.dumps(report, indent=2, ensure_ascii=False, default=self.encode)
 
+        if options['pdf']:
+            pdf = html_to_pdf('tenants/personal_data.html', dict(report, report=report))
+            with open(options['pdf'], 'wb') as f:
+                f.write(pdf)
+            self.stdout.write(self.style.SUCCESS(f'Exported data of {user} to {options["pdf"]}'))
+            if not options['output']:
+                return
+
+        text = json.dumps(report, indent=2, ensure_ascii=False, default=self.encode)
         if options['output']:
             with open(options['output'], 'w', encoding='utf-8') as f:
                 f.write(text + '\n')

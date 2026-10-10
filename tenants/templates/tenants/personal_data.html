@@ -1,0 +1,143 @@
+{% load static %}
+<html>
+<head>
+    <style>
+        @page {
+            size: A4;
+            @frame header_frame_right {
+                -pdf-frame-content: header_content_right;
+                right: 25mm; width: 135pt; top: 25mm; height: 100pt;
+            }
+            @frame logo {
+                -pdf-frame-content: logo;
+                left: 120mm; top: 24mm;
+            }
+            @frame content_frame {
+                left: 25mm; width: 160mm; top: 60mm; height: 210mm;
+            }
+            @frame footer_frame {
+                -pdf-frame-content: footer_content;
+                right: 25mm; width: 156mm; bottom: 15mm; height: 20pt;
+            }
+        }
+        body { font-size: 12px; }
+        h1 { font-size: 14px; }
+        h2 { font-size: 12px; margin-top: 5mm; margin-bottom: 0; }
+        .block { text-align: justify; }
+        .italic { font-style: italic; }
+        table { width: 100%; }
+        td { vertical-align: top; padding: 1px 0; }
+        td.label { width: 60mm; }
+        .data { background-color: #f1f3f4; }
+    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+</head>
+<body>
+    <img src="/static/subtenancy/logo_str3.png" width="20mm" height="20mm" id="logo">
+    <div id="header_content_right">
+        <p>
+            Wohnheimsreferat Straußäcker 3<br>
+            Allmandring 3D<br>
+            wore.str3@gmail.com<br>
+            https://straussi3.de<br>
+            Sprechstunde Di. 19.00 - 20.00
+        </p>
+    </div>
+
+    <h1>Auskunft über gespeicherte personenbezogene Daten / Personal data report</h1>
+    <p class="block">Maschinell erstellt am {{ report.exported_at|date:"d.m.Y H:i" }} für die Untermiete-ID {{ account.id }}.
+        Diese Auskunft umfasst alle Daten, die die Anwendung Untermiete Straußäcker 3 über dich speichert.
+        <span class="italic">Generated on {{ report.exported_at|date:"d.m.Y H:i" }} for subtenancy ID {{ account.id }}; it contains all data the
+        application stores about you.</span></p>
+
+    <h2>Account / Account</h2>
+    <table class="data">
+        <tr><td class="label">Untermiete-ID / ID</td><td>{{ account.id }}</td></tr>
+        <tr><td class="label">Benutzername / Username</td><td>{{ account.username }}</td></tr>
+        <tr><td class="label">Vorname / First name</td><td>{{ account.first_name }}</td></tr>
+        <tr><td class="label">Nachname / Last name</td><td>{{ account.last_name }}</td></tr>
+        <tr><td class="label">E-Mail / E-mail</td><td>{{ account.email }}</td></tr>
+        <tr><td class="label">Geburtstag / Date of birth</td><td>{{ account.birthday|date:"d.m.Y" }}</td></tr>
+        <tr><td class="label">Telefonnummer / Phone number</td><td>{{ account.phone_number }}</td></tr>
+        <tr><td class="label">Typ / Type</td><td>{{ account.type_display }}</td></tr>
+        <tr><td class="label">Aktiv / Active</td><td>{{ account.is_active|yesno:"Ja, Nein" }}</td></tr>
+        <tr><td class="label">Gruppen / Groups</td><td>{{ account.groups|join:", " }}</td></tr>
+        <tr><td class="label">Registriert am / Registered</td><td>{{ account.date_joined|date:"d.m.Y H:i" }}</td></tr>
+        <tr><td class="label">Letzter Login / Last login</td><td>{% if account.last_login %}{{ account.last_login|date:"d.m.Y H:i" }}{% else %}-{% endif %}</td></tr>
+        <tr><td class="label">Letzte Änderung / Last change</td><td>{{ account.updated_at|date:"d.m.Y H:i" }}</td></tr>
+    </table>
+
+    {% if maintenant %}
+    <h2>Hauptmieter / Main tenant</h2>
+    <table class="data">
+        <tr><td class="label">Mieternummer / Tenant number</td><td>{{ maintenant.tenant_id }}</td></tr>
+        <tr><td class="label">Datenverarbeitung zugestimmt / Consent to data processing</td><td>{{ maintenant.accepted_data_processing|yesno:"Ja, Nein" }}</td></tr>
+    </table>
+    {% endif %}
+
+    {% if subtenant %}
+    <h2>Untermieter / Subtenant</h2>
+    <table class="data">
+        <tr><td class="label">Staatsangehörigkeit / Nationality</td><td>{{ subtenant.nationality_display }}</td></tr>
+        <tr><td class="label">Korrespondenzadresse / Correspondence address</td>
+            <td>{{ subtenant.correspondence_address.name }}<br>
+                {{ subtenant.correspondence_address.street }} {{ subtenant.correspondence_address.house_number }}<br>
+                {{ subtenant.correspondence_address.postcode }} {{ subtenant.correspondence_address.city }}<br>
+                {{ subtenant.correspondence_address.country_display }}</td></tr>
+        <tr><td class="label">Datenverarbeitung zugestimmt / Consent to data processing</td><td>{{ subtenant.accepted_data_processing|yesno:"Ja, Nein" }}</td></tr>
+    </table>
+
+    <h2>Anfrage / Request</h2>
+    {% if subtenancy_request %}
+    <table class="data">
+        <tr><td class="label">Zeitraum / Period</td><td>{{ subtenancy_request.begin|date:"d.m.Y" }} - {{ subtenancy_request.end|date:"d.m.Y" }}</td></tr>
+        <tr><td class="label">In der Anfragenliste veröffentlicht / Published in the request list</td><td>{{ subtenancy_request.published_in_request_list|yesno:"Ja, Nein" }}</td></tr>
+        <tr><td class="label">Erstellt / Created</td><td>{{ subtenancy_request.created_at|date:"d.m.Y H:i" }}</td></tr>
+        <tr><td class="label">Letzte Änderung / Last change</td><td>{{ subtenancy_request.updated_at|date:"d.m.Y H:i" }}</td></tr>
+    </table>
+    {% else %}
+    <p>Keine Anfrage gespeichert. / No request stored.</p>
+    {% endif %}
+    {% endif %}
+
+    <h2>Verträge / Contracts</h2>
+    {% for contract in contracts %}
+    <table class="data" style="margin-bottom: 3mm">
+        <tr><td class="label">Vertragsnummer / Contract number</td><td>{{ contract.id }}</td></tr>
+        <tr><td class="label">Deine Rolle / Your role</td><td>{% if contract.your_role == "maintenant" %}Hauptmieter / Main tenant{% else %}Untermieter / Subtenant{% endif %}</td></tr>
+        <tr><td class="label">Vertragspartner / Other party</td><td>{{ contract.other_party.name }} (ID {{ contract.other_party.id }})</td></tr>
+        <tr><td class="label">Zeitraum / Period</td><td>{{ contract.begin|date:"d.m.Y" }} - {{ contract.end|date:"d.m.Y" }}</td></tr>
+        <tr><td class="label">Zimmer / Room</td><td>{{ contract.house_number }} {{ contract.room_number }}</td></tr>
+        <tr><td class="label">Monatsmiete / Monthly rent</td><td>{{ contract.rent }} €</td></tr>
+        <tr><td class="label">Kaution / Deposit</td><td>{{ contract.caution }} €{% if contract.caution_comment %} ({{ contract.caution_comment }}){% endif %}</td></tr>
+        <tr><td class="label">Spende / Donation</td><td>{{ contract.donation }} €</td></tr>
+        <tr><td class="label">Zustand des Zimmers / Condition of the room</td><td>{{ contract.condition|yesno:"in Ordnung / ok, beanstandet / objected" }}{% if contract.condition_comment %} ({{ contract.condition_comment }}){% endif %}</td></tr>
+        <tr><td class="label">Prüfungen / Checks</td>
+            <td>Lichtbildausweis Hauptmieter / Main tenant ID: {{ contract.is_maintenant_identified|yesno:"Ja, Nein" }}<br>
+                Lichtbildausweis Untermieter / Subtenant ID: {{ contract.is_subtenant_identified|yesno:"Ja, Nein" }}<br>
+                Immatrikulation / Enrolment: {{ contract.is_subtenant_matriculated|yesno:"Ja, Nein" }}<br>
+                Aufenthalt in Deutschland / Allowed to stay in Germany: {{ contract.is_subtenant_allowed_in_DE|yesno:"Ja, Nein" }}<br>
+                Innerhalb des Hauptmietvertrags / Within the main contract: {{ contract.is_maintenant_allowed|yesno:"Ja, Nein" }}<br>
+                Sondergenehmigung / Special permission: {{ contract.has_special_permission|yesno:"Ja, Nein" }}<br>
+                Rückkehr des Hauptmieters / Main tenant returns: {{ contract.is_maintenant_returning|yesno:"Ja, Nein" }}</td></tr>
+        <tr><td class="label">Gültig / Valid</td><td>{{ contract.is_active|yesno:"Ja, Nein" }}</td></tr>
+        <tr><td class="label">PDF-Versionen / PDF versions</td><td>{{ contract.pdf_files|join:", "|default:"-" }}</td></tr>
+        <tr><td class="label">Erstellt / Created</td><td>{{ contract.created_at|date:"d.m.Y H:i" }}</td></tr>
+        <tr><td class="label">Letzte Änderung / Last change</td><td>{{ contract.updated_at|date:"d.m.Y H:i" }}</td></tr>
+    </table>
+    {% empty %}
+    <p>Keine Verträge gespeichert. / No contracts stored.</p>
+    {% endfor %}
+
+    <h2>Nicht enthalten / Not included</h2>
+    <p class="block">Zugriffsprotokolle des Servers und die an dich gesendeten E-Mails liegen beim Hosting- bzw. E-Mail-Anbieter,
+        siehe Datenschutzerklärung. IP-Adressen von Login-, Registrierungs- und Passwort-Zurücksetzen-Versuchen werden
+        höchstens eine Stunde im Arbeitsspeicher gehalten und nicht gespeichert.
+        <span class="italic">Server access logs and the e-mails sent to you are kept by the hosting and mail provider, see the
+        privacy policy. IP addresses of login, registration and password reset attempts are kept in memory for at most one
+        hour and are not stored.</span></p>
+
+    <div id="footer_content" style="text-align: right">Seite <pdfpagenumber> von <pdfpagecount></div>
+</body>
+</html>

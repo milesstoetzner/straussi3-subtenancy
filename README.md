@@ -28,6 +28,7 @@ python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 python manage.py migrate
+python manage.py sync_groups
 python develope.py
 ```
 
@@ -59,7 +60,20 @@ config/build-css.sh --watch  # while editing
 
 ### Permissions
 
-To set up the permission groups see [permissions](/config/permissions).
+Access is checked per view with Django permissions; accounts get them through four groups.
+Registration puts every new account into `Maintenant` or `Subtenant`, `create_assistant` into `Assistant`;
+`External` is meant for the Studierendenwerk, which only prints the list of active contracts.
+
+| Group        | Permissions                                                                                      |
+|--------------|--------------------------------------------------------------------------------------------------|
+| `Maintenant` | edit own profile, contact subtenants                                                             |
+| `Subtenant`  | edit own profile                                                                                 |
+| `Assistant`  | view and edit users, maintenants and subtenants; view the blacklist; add, view and edit contracts; print the active contracts |
+| `External`   | print the active contracts                                                                       |
+
+The groups are defined in [tenants/groups.py](/tenants/groups.py) and created by `python manage.py sync_groups`,
+which also resets their permissions to that definition (changes made in the admin do not survive it).
+The command is idempotent; the container entrypoint and [config/deploy.sh](/config/deploy.sh) run it after `migrate`.
 
 ### Database
 
@@ -173,7 +187,7 @@ Set `SUBTENANCY_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,https` and `SUBTE
 
 ### Migrations
 
-Set `SUBTENANCY_ENABLE_MIGRATIONS=1` to run `python manage.py migrate` on container start.
+Set `SUBTENANCY_ENABLE_MIGRATIONS=1` to run `python manage.py migrate` and `sync_groups` on container start.
 
 ### Environment
 
@@ -261,7 +275,7 @@ All incoming emails are forwarded to wore.str3@gmail.com for further processing.
 ### Sprechstunde Accounts
 
 Accounts for the Sprechstunde (assistants) are created on the server; the command prints a random start password.
-The group `Assistant` must exist, see [permissions](/config/permissions).
+The group `Assistant` is created by `sync_groups`, see [Permissions](#permissions).
 
 ```
 docker compose exec backend python manage.py create_assistant USERNAME EMAIL --first-name VORNAME --last-name NACHNAME

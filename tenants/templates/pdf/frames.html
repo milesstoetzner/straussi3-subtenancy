@@ -1,4 +1,5 @@
-{# The frames every PDF page shares: contract number top left, address block top right, logo, content, footer. #}
+{# The frames every PDF page shares: contract number top left, address block top right, logo, content. #}
+{# The footer frame follows in page_templates.html, after an optional signature frame (frames draw in order). #}
 {# xhtml2pdf cannot inherit @page definitions, so page_templates.html includes this once per page template. #}
             @frame header_frame_left {
                 -pdf-frame-content: header_content_left;
@@ -14,8 +15,4 @@
             }
             @frame content_frame {
                 left: 25mm; width: 160mm; top: 60mm; height: 210mm;
-            }
-            @frame footer_frame {
-                -pdf-frame-content: footer_content;
-                right: 25mm; width: 156mm; bottom: 15mm; height: 20pt;
             }

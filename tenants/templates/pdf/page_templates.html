@@ -3,10 +3,18 @@
         @page {
             size: A4;
 {% include "pdf/frames.html" %}
+            @frame footer_frame {
+                -pdf-frame-content: footer_content;
+                right: 25mm; width: 156mm; bottom: 15mm; height: 20pt;
+            }
         }
         @page empty {
             size: A4;
 {% include "pdf/frames.html" %}
+            @frame footer_frame {
+                -pdf-frame-content: footer_content;
+                right: 25mm; width: 156mm; bottom: 15mm; height: 20pt;
+            }
         }
 {% for name in signature_pages %}
         @page {{ name }} {
@@ -15,6 +23,10 @@
             @frame signature_frame {
                 -pdf-frame-content: signature_{{ name }};
                 left: 25mm; width: 160mm; top: 260mm; height: 12mm;
+            }
+            @frame footer_frame {
+                -pdf-frame-content: footer_content;
+                right: 25mm; width: 156mm; bottom: 15mm; height: 20pt;
             }
         }
 {% endfor %}

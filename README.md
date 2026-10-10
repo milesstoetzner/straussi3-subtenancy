@@ -47,12 +47,77 @@ psql -h localhost -U default -d subtenancy -f restore.sql
 To create the first superuser use a SQL command.
 `python manage.py createsuperuser` will not work since the user model is not the original one.
 Further users can be created in the admin.
-The database scheme can be found [here](/config/database.pdf).
-To create such PDF, run the following:
 
+### Schema
+
+`User` is the Django user with a `type` (`HM` maintenant, `UM` subtenant, `SS` assistant, `SWS` Studierendenwerk).
+`MainTenant` and `SubTenant` extend it (multi-table inheritance, same primary key).
+A subtenant has at most one `SubtenancyRequest`; a `Contract` links one maintenant and one subtenant.
+
+```mermaid
+erDiagram
+    User {
+        int id PK
+        string username
+        string email UK
+        string first_name
+        string last_name
+        date birthday
+        string phone_number
+        string type "HM | UM | SS | SWS"
+        bool is_active
+        bool is_staff
+    }
+    MainTenant {
+        int user_id PK, FK
+        int tenant_id UK "Mieternummer"
+        bool accepted_data_processing
+    }
+    SubTenant {
+        int user_id PK, FK
+        string nationality
+        string name "correspondence address"
+        string street
+        string house_number
+        string postcode
+        string city
+        string country
+        bool accepted_data_processing
+    }
+    SubtenancyRequest {
+        int id PK
+        int subtenant_id FK, UK
+        date begin
+        date end
+    }
+    Contract {
+        int id PK
+        int maintenant_id FK
+        int subtenant_id FK
+        date begin
+        date end
+        string house_number
+        string room_number
+        decimal rent
+        decimal caution
+        decimal donation
+        bool is_active
+        int version "of the generated PDF"
+    }
+    Blacklist {
+        int id PK
+        string name UK
+        string reason
+    }
+    User ||--o| MainTenant : "is a"
+    User ||--o| SubTenant : "is a"
+    SubTenant ||--o| SubtenancyRequest : "has"
+    MainTenant ||--o{ Contract : "sublets via"
+    SubTenant ||--o{ Contract : "rents via"
 ```
-python manage.py graph_models -a -I User,MainTenant,SubTenant,SubtenancyRequest,Blacklist,Contract -o config/database.pdf
-```
+
+All tables also carry `created_at` and `updated_at`.
+Contract PDFs are stored on disk as `contracts/contracts/contract_<id>_version_<n>.pdf`.
 
 ## Deployment
 

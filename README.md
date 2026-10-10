@@ -7,6 +7,16 @@ Django app for administrating the subtenancy for the Straussi3.
 - Repo: https://github.com/milesstoetzner/straussi3-subtenancy
 - Website: https://straussi3.de
 
+## Screenshots
+
+| | |
+|---|---|
+| ![Start page](docs/screenshots/index.png) | ![Registration](docs/screenshots/register.png) |
+| ![Request list](docs/screenshots/requests.png) | ![Profile](docs/screenshots/profile.png) |
+| ![Contract form](docs/screenshots/contract.png) | ![Contract](docs/screenshots/contract-view.png) |
+
+<img src="docs/screenshots/mobile.png" alt="Mobile" width="260">
+
 ## Development
 
 ### Setup
@@ -22,6 +32,18 @@ python develope.py
 ```
 
 `develope.py` loads `.env.dev` and starts the development server on port 8000.
+
+### CSS
+
+The stylesheet is built with Tailwind from `tenants/static_src/app.css` into `tenants/static/subtenancy/app.css`, which is committed.
+Running, deploying and testing the app never needs the build; Docker just collects the committed file.
+Rebuild only after changing the source or using a Tailwind class in a template that was not used before, then commit the result
+(downloads the Tailwind standalone CLI on first use, no Node needed):
+
+```
+config/build-css.sh          # once
+config/build-css.sh --watch  # while editing
+```
 
 ### Permissions
 

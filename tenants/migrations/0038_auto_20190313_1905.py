@@ -3,6 +3,7 @@
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
+import simple_history.models
 
 
 class Migration(migrations.Migration):
@@ -45,7 +46,7 @@ class Migration(migrations.Migration):
                 'ordering': ('-history_date', '-history_id'),
                 'get_latest_by': 'history_date',
             },
-            bases=(models.Model,),
+            bases=(simple_history.models.HistoricalChanges, models.Model),
         ),
         migrations.RemoveField(
             model_name='historicalsubtenant',

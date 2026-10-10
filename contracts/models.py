@@ -4,7 +4,7 @@ from decimal import Decimal, ROUND_HALF_UP
 from django.db import models
 from django.urls import reverse
 from tenants.models import User, MainTenant, SubTenant
-from .utils import html_to_pdf, save_html_as_pdf, HOUSE_NUMBERS, ROOM_NUMBERS, contract_pdf_path
+from .utils import html_to_pdf, save_html_as_pdf, HOUSE_NUMBERS, ROOM_NUMBERS, SIGNATURE_PAGES, contract_pdf_path
 from django.db.transaction import atomic
 from dateutil import relativedelta
 
@@ -119,7 +119,8 @@ class Contract(models.Model):
         """
 
         template_name = 'contracts/contract.html'
-        pdf = html_to_pdf(template_name, {'contract': self, 'today': datetime.now(), 'preview': True})
+        pdf = html_to_pdf(template_name, {'contract': self, 'today': datetime.now(), 'preview': True,
+                                          'signature_pages': SIGNATURE_PAGES})
         return pdf
 
     @atomic
@@ -135,7 +136,8 @@ class Contract(models.Model):
         template_name = 'contracts/contract.html'
         destination = contract_pdf_path(self.pk, self.version)
 
-        save_html_as_pdf(template_name, {'contract': self, 'today': datetime.now()}, destination)
+        save_html_as_pdf(template_name, {'contract': self, 'today': datetime.now(), 'signature_pages': SIGNATURE_PAGES},
+                         destination)
 
         self.is_changed = False
         self.save()

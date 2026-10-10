@@ -1,0 +1,20 @@
+{# Page templates for xhtml2pdf: the default page and, for each name in signature_pages, a page with a #}
+{# signature frame showing the static content <div id="signature_NAME">. Switch pages with <pdf:nexttemplate>. #}
+        @page {
+            size: A4;
+{% include "pdf/frames.html" %}
+        }
+        @page empty {
+            size: A4;
+{% include "pdf/frames.html" %}
+        }
+{% for name in signature_pages %}
+        @page {{ name }} {
+            size: A4;
+{% include "pdf/frames.html" %}
+            @frame signature_frame {
+                -pdf-frame-content: signature_{{ name }};
+                left: 25mm; width: 160mm; top: 260mm; height: 12mm;
+            }
+        }
+{% endfor %}

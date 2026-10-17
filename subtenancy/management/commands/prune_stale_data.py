@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.db.transaction import atomic
 from django.utils.timezone import now
 from datetime import timedelta
@@ -42,11 +43,14 @@ class Command(BaseCommand):
             last_login__lt=six_months_ago,
         ))
 
-        # Subtenants
+        # Subtenants: no contract, no login for six months, and no request that began within the last six months.
+        # A request is a guard, not a reason: subtenants without one (withdrawn, consumed by a contract or switched
+        # off before 2.0) are stale as well.
         self.delete('subtenants', SubTenant.objects.filter(
             contract__isnull=True,
             last_login__lt=six_months_ago,
-            subtenancy_request__begin__lt=six_months_ago,
+        ).filter(
+            Q(subtenancy_request__isnull=True) | Q(subtenancy_request__begin__lt=six_months_ago)
         ))
 
         # SWS

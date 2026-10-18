@@ -17,7 +17,8 @@ logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):
     help = ('Delete stale records: contracts older than three years, tenants without contracts and other accounts '
-            'that have not logged in for six months, plus the PDFs of deleted contracts. '
+            'that have not logged in for six months (or never, and are older than six months), plus the PDFs of '
+            'deleted contracts. '
             'Runs as a dry run unless --apply is given.')
 
     def add_arguments(self, parser):
@@ -37,34 +38,38 @@ class Command(BaseCommand):
         contract_ids = list(contracts.values_list('pk', flat=True))
         self.delete('contracts', contracts)
 
+        # An account is inactive when its last login is older than six months, or when it never logged in and was
+        # created more than six months ago (registered but never confirmed, or confirmed and never used).
+        inactive = Q(last_login__lt=six_months_ago) | Q(last_login__isnull=True, created_at__lt=six_months_ago)
+
         # Maintenants
         self.delete('maintenants', MainTenant.objects.filter(
+            inactive,
             contract__isnull=True,
-            last_login__lt=six_months_ago,
         ))
 
-        # Subtenants: no contract, no login for six months, and no request that began within the last six months.
+        # Subtenants: no contract, inactive, and no request that began within the last six months.
         # A request is a guard, not a reason: subtenants without one (withdrawn, consumed by a contract or switched
         # off before 2.0) are stale as well.
         self.delete('subtenants', SubTenant.objects.filter(
+            inactive,
             contract__isnull=True,
-            last_login__lt=six_months_ago,
         ).filter(
             Q(subtenancy_request__isnull=True) | Q(subtenancy_request__begin__lt=six_months_ago)
         ))
 
         # SWS
         self.delete('SWS', User.objects.filter(
+            inactive,
             type='SWS',
             is_staff=False,
-            last_login__lt=six_months_ago
         ))
 
         # SS
         self.delete('SS', User.objects.filter(
+            inactive,
             type='SS',
             is_staff=False,
-            last_login__lt=six_months_ago
         ))
 
         # Abort on dry run

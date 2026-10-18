@@ -10,15 +10,19 @@ from django.core.management.base import BaseCommand, CommandError
 import glob
 import logging
 import os
+import re
 
 
 logger = logging.getLogger(__name__)
+
+# file name produced by contracts.utils.contract_pdf_path
+PDF_NAME = re.compile(r'contract_(\d+)_version_(\d+)\.pdf')
 
 
 class Command(BaseCommand):
     help = ('Delete stale records: contracts older than three years, tenants without contracts and other accounts '
             'that have not logged in for six months (or never, and are older than six months), plus the PDFs of '
-            'deleted contracts. '
+            'deleted contracts and PDFs whose contract no longer exists. '
             'Runs as a dry run unless --apply is given.')
 
     def add_arguments(self, parser):
@@ -72,6 +76,16 @@ class Command(BaseCommand):
             is_staff=False,
         ))
 
+        # PDFs on disk whose contract no longer exists (deleted earlier, e.g. in the admin, which never removed PDFs)
+        orphan_pdfs = self.find_orphan_pdfs(exclude=contract_ids)
+        self.stdout.write("")
+        if orphan_pdfs:
+            self.stdout.write(f"{len(orphan_pdfs)} orphaned PDF{'s' if len(orphan_pdfs) != 1 else ''} without a contract:")
+            for fpath in orphan_pdfs:
+                self.stdout.write(f"  - {fpath}")
+        else:
+            self.stdout.write("No orphaned PDFs")
+
         # Abort on dry run
         if not apply:
             raise CommandError("Dry run finished, rolling back. Re-run with --apply to delete.")
@@ -82,6 +96,7 @@ class Command(BaseCommand):
         # Delete contract PDFs
         # TODO: this cannot be rolled back ...
         self.delete_pdfs(contract_ids)
+        self.delete_orphan_pdfs(orphan_pdfs)
         self.stdout.write("")
         self.stdout.write('Filesystem successfully cleaned')
 
@@ -97,6 +112,19 @@ class Command(BaseCommand):
         else:
             self.stdout.write(f"No stale {title}")
 
+    def find_orphan_pdfs(self, exclude):
+        """
+        Contract PDFs on disk whose contract id has no row (any more). Runs after the stale contracts were deleted in
+        this transaction, so their ids are passed in exclude: delete_pdfs handles those.
+        """
+        existing = set(Contract.objects.values_list('pk', flat=True)) | set(exclude)
+        orphans = []
+        for fpath in sorted(glob.glob(contract_pdf_path('*', '*'))):
+            match = PDF_NAME.fullmatch(os.path.basename(fpath))
+            if match and int(match.group(1)) not in existing:
+                orphans.append(fpath)
+        return orphans
+
     def delete_pdfs(self, ids):
         if not ids:
             self.stdout.write("")
@@ -109,9 +137,21 @@ class Command(BaseCommand):
             pattern = contract_pdf_path(pk, '*')
             self.stdout.write(f"  - {pattern}")
             for fpath in glob.glob(pattern):
-                try:
-                    self.stdout.write(f"  - {fpath}")
-                    os.remove(fpath)
-                except OSError:
-                    self.stdout.write(f"    error deleting {fpath}")
-                    logger.exception('prune: could not delete %s', fpath)
+                self.remove(fpath)
+
+    def delete_orphan_pdfs(self, paths):
+        if not paths:
+            return
+        self.stdout.write("")
+        self.stdout.write("Deleting orphaned PDFs:")
+        for fpath in paths:
+            self.remove(fpath)
+        logger.info('prune: deleted %s orphaned PDFs', len(paths))
+
+    def remove(self, fpath):
+        try:
+            self.stdout.write(f"  - {fpath}")
+            os.remove(fpath)
+        except OSError:
+            self.stdout.write(f"    error deleting {fpath}")
+            logger.exception('prune: could not delete %s', fpath)

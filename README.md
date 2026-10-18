@@ -350,7 +350,7 @@ Server logs and sent e-mails live with the hosting and mail provider and are not
 
 ### Prune Stale Data
 
-Deletes contracts older than three years, tenants without contracts and other non-staff accounts that have not logged in for six months (or never logged in and were created more than six months ago, e.g. registrations that were never confirmed), and the PDF files of the deleted contracts.
+Deletes contracts older than three years, tenants without contracts and other non-staff accounts that have not logged in for six months (or never logged in and were created more than six months ago, e.g. registrations that were never confirmed), the PDF files of the deleted contracts, and PDF files whose contract no longer exists (deleted in the admin).
 Without `--apply` the command is a dry run that only lists what it would delete.
 
 ```

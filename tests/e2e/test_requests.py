@@ -21,7 +21,7 @@ def test_subtenant_updates_deletes_and_recreates_request(page, live_server, logi
     page.wait_for_url('**/profile/')
     assert 'gelöscht' in message(page)
     assert SubTenant.objects.get(pk=subtenant.pk).get_request() is None
-    assert page.locator('text=Keine Anfrage vorhanden').count() == 1
+    assert page.locator('text=Keine Anfrage').count() == 1
 
     page.goto(live_server.url + '/requests/')
     assert page.locator(f'a[href="/tenants/contact/{subtenant.pk}"]').count() == 0

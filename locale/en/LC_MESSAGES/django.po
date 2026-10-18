@@ -681,8 +681,8 @@ msgid "Aktuell gibt es leider keine Anfragen."
 msgstr "Currently there are no requests."
 
 #: tenants/templates/tenants/view.html:22
-msgid "Keine Anfrage vorhanden."
-msgstr "No request yet."
+msgid "Keine Anfrage"
+msgstr "No request"
 
 #: tenants/templates/tenants/view.html:31
 #: tenants/templates/tenants/view.html:54

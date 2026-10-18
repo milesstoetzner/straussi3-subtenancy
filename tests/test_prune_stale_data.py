@@ -1,9 +1,12 @@
 import datetime
+import os
 
 import pytest
 from django.core.management import call_command
 from django.utils import timezone
 
+from contracts.models import Contract
+from subtenancy.management.commands import prune_stale_data
 from tenants.models import MainTenant, SubTenant, SubtenancyRequest, User
 
 TODAY = timezone.localdate()
@@ -82,3 +85,38 @@ def test_prune_accounts_that_never_logged_in():
 
     assert usernames() == {'sub_never_old_request', 'sub_never_new', 'main_never_new', 'main_recent_login',
                            'ss_staff_never_old'}
+
+
+def _contract(maintenant, subtenant, created):
+    c = Contract.objects.create(maintenant=maintenant, subtenant=subtenant, begin=TODAY, end=TODAY, house_number='3C',
+                                room_number='11', rent=300, condition=True)
+    Contract.objects.filter(pk=c.pk).update(created_at=created)
+    return c
+
+
+@pytest.mark.django_db
+def test_prune_pdfs(tmp_path, monkeypatch):
+    monkeypatch.setattr(prune_stale_data, 'contract_pdf_path',
+                        lambda pk, version: str(tmp_path / f'contract_{pk}_version_{version}.pdf'))
+    m, s = _maintenant('m', NOW), _subtenant('s', NOW)
+    current = _contract(m, s, NOW)
+    old = _contract(m, s, NOW - datetime.timedelta(days=4 * 365))
+    orphan_id = old.pk + 1000
+    files = {name: tmp_path / name for name in (
+        f'contract_{current.pk}_version_1.pdf',      # contract exists: kept
+        f'contract_{old.pk}_version_1.pdf',          # contract older than three years: deleted with it
+        f'contract_{old.pk}_version_2.pdf',
+        f'contract_{orphan_id}_version_1.pdf',       # no such contract: orphan, deleted
+        'notes.txt',                                 # not a contract PDF: ignored
+    )}
+    for f in files.values():
+        f.write_bytes(b'%PDF')
+
+    with pytest.raises(Exception, match='Dry run'):
+        call_command('prune_stale_data')
+    assert all(f.exists() for f in files.values())      # dry run touches nothing
+
+    call_command('prune_stale_data', '--apply')
+
+    assert sorted(os.listdir(tmp_path)) == [f'contract_{current.pk}_version_1.pdf', 'notes.txt']
+    assert set(Contract.objects.values_list('pk', flat=True)) == {current.pk}

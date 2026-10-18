@@ -19,7 +19,7 @@
                 {% if request_form %}
                     {% form_fields request_form True %}
                 {% elif tenant.is_subtenant %}
-                    <div class="alert bg-info rounded-container text-white">{% trans "Keine Anfrage vorhanden." %}</div>
+                    <div class="alert bg-info rounded-container text-white">{% trans "Keine Anfrage" %}</div>
                 {% endif %}
 
             </fieldset>

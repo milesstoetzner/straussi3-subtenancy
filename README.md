@@ -109,6 +109,7 @@ Registration puts every new account into `Maintenant` or `Subtenant`; `create_ac
 The groups are defined in [tenants/groups.py](/tenants/groups.py) and created by `python manage.py sync_groups`,
 which also resets their permissions to that definition (changes made in the admin do not survive it).
 The command is idempotent; `init_database`, the container entrypoint and [scripts/deploy.sh](/scripts/deploy.sh) run it after `migrate`.
+`sync_groups --dry-run` only prints which groups would be created and which permissions added or removed.
 
 ### Database
 

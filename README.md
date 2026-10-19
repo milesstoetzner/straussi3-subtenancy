@@ -322,7 +322,7 @@ All incoming emails are forwarded to wore.str3@gmail.com for further processing.
 
 ### Accounts
 
-Tenants register themselves and confirm their e-mail address via a link; unconfirmed accounts cannot log in and
+Tenants register themselves and confirm their e-mail address via a link (the link opens a page whose button confirms, so that link scanners in mail systems cannot); unconfirmed accounts cannot log in and
 are not listed. Accounts for the Sprechstunde (`assistant`, the default) and the Studierendenwerk
 (`external`, may only print the active contracts) are created on the server; the command prints a random start
 password and puts the account into the matching group, see [Permissions](#permissions). The account receives a

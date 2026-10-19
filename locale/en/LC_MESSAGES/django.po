@@ -1864,3 +1864,11 @@ msgstr "Send link"
 #: tenants/templates/tenants/view.html
 msgid "Deine E-Mail-Adresse ist noch nicht bestätigt. Solange erscheinst du nicht in der Anfragenliste und kannst nicht kontaktiert werden."
 msgstr "Your e-mail address has not been confirmed yet. Until then you do not appear in the request list and cannot be contacted."
+
+#: tenants/templates/tenants/confirm_email.html
+msgid "Klicke auf den Button, um deine E-Mail-Adresse zu bestätigen. Danach kannst du dich einloggen."
+msgstr "Click the button to confirm your e-mail address. Afterwards you can log in."
+
+#: tenants/templates/tenants/confirm_email_failed.html
+msgid "Diese E-Mail-Adresse ist bereits bestätigt. Du kannst dich einloggen."
+msgstr "This e-mail address is already confirmed. You can log in."

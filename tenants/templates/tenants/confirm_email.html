@@ -1,0 +1,19 @@
+{% extends "subtenancy/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+    <form method="POST">
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{% trans "E-Mail-Adresse bestätigen" %}</h5>
+                <p>{% trans "Klicke auf den Button, um deine E-Mail-Adresse zu bestätigen. Danach kannst du dich einloggen." %}</p>
+                {% csrf_token %}
+                <button class="btn btn-block btn-success" style="margin-top: 1rem"><i class="fas fa-check icon-text"></i>{% trans "E-Mail-Adresse bestätigen" %}</button>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

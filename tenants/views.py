@@ -90,10 +90,15 @@ def create_tenant(request, is_maintenant):
     return render(request, 'tenants/create.html', context)
 
 
-@require_GET
+@csrf_protect
+@require_http_methods(['GET', 'HEAD', 'POST'])
 def confirm_email(request, uidb64, token):
     """
     Confirms the e-mail address behind a link from the registration or confirmation mail.
+
+    GET only shows a page with a button; the POST from that button confirms. Mail systems fetch links in incoming
+    mails to scan them (seen on the production system: a scanner confirmed an address 9 seconds after the mail went
+    out, and the user's own click then found the link already used), so a plain GET must not have any effect.
     """
 
     try:
@@ -101,10 +106,18 @@ def confirm_email(request, uidb64, token):
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 
+    title = _('E-Mail-Adresse bestätigen')
+
+    if user is not None and user.is_email_confirmed():
+        # the link was used already (the token contains the confirmation time, so it is invalid now)
+        return render(request, 'tenants/confirm_email_failed.html', {'title': title, 'already_confirmed': True})
+
     if user is None or not email_confirmation_token.check_token(user, token):
         logger.warning('invalid email confirmation link (uid %r)', uidb64)
-        return render(request, 'tenants/confirm_email_failed.html', {'title': _('E-Mail-Adresse bestätigen')},
-                      status=400)
+        return render(request, 'tenants/confirm_email_failed.html', {'title': title}, status=400)
+
+    if request.method != 'POST':
+        return render(request, 'tenants/confirm_email.html', {'title': title})
 
     user.confirm_email()
     logger.info('email confirmed: user %s', user.pk)

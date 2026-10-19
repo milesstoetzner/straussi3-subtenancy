@@ -54,13 +54,21 @@ def test_unconfirmed_login_is_rejected_and_link_can_be_resent(page, live_server,
     page.wait_for_url('**/login/')
     assert len(mail.outbox) == 2 and mail.outbox[1].to == ['clara@example.com']
 
-    # the new link confirms, afterwards the old one is invalid
+    # opening the new link shows the button but confirms nothing yet (mail scanners fetch links)
     page.goto(confirmation_link(mail.outbox[1]))
+    assert MainTenant.objects.get(username='clara').email_confirmed_at is None
+
+    # the button confirms; afterwards both links report the address as confirmed
+    page.click('button:has-text("E-Mail-Adresse bestätigen")')
     page.wait_for_url('**/login/')
     assert 'bestätigt' in message(page)
     assert MainTenant.objects.get(username='clara').email_confirmed_at is not None
 
     page.goto(first_link)
+    assert 'bereits bestätigt' in page.content()
+
+    # a link of an unknown account is invalid
+    page.goto(live_server.url + '/register/confirm/MDAwMA/abc-def/')
     assert 'ungültig oder abgelaufen' in page.content()
 
     login('clara')
@@ -86,6 +94,7 @@ def test_changed_email_logs_out_and_needs_confirmation(page, live_server, login,
     assert '/login/' in page.url and 'noch nicht bestätigt' in page.content()
 
     page.goto(confirmation_link(mail.outbox[0]))
+    page.click('button:has-text("E-Mail-Adresse bestätigen")')
     page.wait_for_url('**/login/')
     maintenant.refresh_from_db()
     assert maintenant.email_confirmed_at is not None

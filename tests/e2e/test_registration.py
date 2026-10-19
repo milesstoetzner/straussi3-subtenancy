@@ -12,9 +12,10 @@ pytestmark = pytest.mark.django_db(transaction=True)
 
 def confirm_email(page, mail_message):
     """
-    Follows the confirmation link of a registration mail; lands on the login page.
+    Follows the confirmation link of a registration mail and clicks the confirm button; lands on the login page.
     """
     page.goto(re.search(r'https?://[^\s"<]+/register/confirm/[^\s"<]+', mail_message.body).group(0))
+    page.click('button:has-text("E-Mail-Adresse bestätigen")')
     page.wait_for_url('**/login/')
 
 

@@ -1,6 +1,7 @@
 import datetime
 
-from django.db.transaction import atomic
+from django.db import IntegrityError
+from django.db.transaction import atomic, on_commit
 
 from tenants.models import User, SubTenant, SubtenancyRequest, Blacklist
 from tenants.forms import UserUpdateForm, MainTenantCreateForm, MainTenantUpdateForm, SubTenantCreateForm, \
@@ -19,7 +20,6 @@ from django.contrib.auth import logout
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from subtenancy.mail import send_email
-from smtplib import SMTPException
 from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
 from django.template.loader import get_template
@@ -30,14 +30,18 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-@atomic
 @csrf_protect
 @ratelimit(key='ip', rate='10/h', method='POST', block=True)
 @require_http_methods(['GET', 'POST'])
 def create_tenant(request, is_maintenant):
     """
-    Creates a new user and a corresponding maintenant/subtenant.
-    This method is atomic. Registration is rate limited per client IP.
+    Creates a new user and a corresponding maintenant/subtenant (and the subtenant's request) in one transaction.
+    Registration is rate limited per client IP.
+
+    The registration mail goes out after the commit. Seen on the production system with the mail inside the
+    transaction: an SMTP server that did not answer kept the transaction open until gunicorn killed the worker, which
+    also discarded the account, and a double-clicked submit passed the form's uniqueness check while the first copy
+    was still uncommitted, so the database rejected it with a 500 instead of the form with an error.
     """
 
     context = {}
@@ -61,26 +65,36 @@ def create_tenant(request, is_maintenant):
         request_valid = request_form is None or request_form.is_valid()
 
         if tenant_valid and request_valid:
-            tenant = tenant_form.save()
-            group_verbose = 'Maintenant' if is_maintenant else 'Subtenant'
-            group = Group.objects.get(name=group_verbose)
-            tenant.user.groups.add(group)
-            tenant.type = 'HM' if is_maintenant else 'UM'
-            tenant.save()
+            try:
+                with atomic():
+                    tenant = tenant_form.save()
+                    group_verbose = 'Maintenant' if is_maintenant else 'Subtenant'
+                    group = Group.objects.get(name=group_verbose)
+                    tenant.user.groups.add(group)
+                    tenant.type = 'HM' if is_maintenant else 'UM'
+                    tenant.save()
 
-            if request_form is not None:
-                subtenancy_request = request_form.save(commit=False)
-                subtenancy_request.subtenant = tenant
-                subtenancy_request.save()
+                    if request_form is not None:
+                        subtenancy_request = request_form.save(commit=False)
+                        subtenancy_request.subtenant = tenant
+                        subtenancy_request.save()
+            except IntegrityError:
+                # the same form arrived twice at once: the second copy passed is_valid() before the first was
+                # committed, and the unique index on the e-mail address (or the username) caught it; the form is
+                # rendered again with this error
+                logger.warning('registration rejected by the database: "%s" (duplicate submit?)',
+                               tenant_form.cleaned_data.get('username'))
+                tenant_form.add_error(None, _('Diese Registrierung ist gerade schon eingegangen. Bitte logge dich ein oder fordere auf der Login-Seite einen neuen Bestätigungslink an.'))
+            else:
+                # committed: the mail goes out now; a failed mail is logged, the account exists and the user can
+                # request a new link from the login page
+                logger.info('registration: %s "%s" (id %s)', tenant.type, tenant.username, tenant.pk)
+                send_registration_mail(request, tenant)
+                messages.success(request, _('Registrierung war erfolgreich. Wir haben dir eine E-Mail mit einem Bestätigungslink geschickt. Bitte bestätige deine E-Mail-Adresse, bevor du dich einloggst.'))
 
-            messages.success(request, _('Registrierung war erfolgreich. Wir haben dir eine E-Mail mit einem Bestätigungslink geschickt. Bitte bestätige deine E-Mail-Adresse, bevor du dich einloggst.'))
+                # mail_admins(subject='ANALYSE create_tenant', message='Es gab eine Registrierung!', fail_silently=True)
 
-            logger.info('registration: %s "%s" (id %s)', tenant.type, tenant.username, tenant.pk)
-            send_registration_mail(request, tenant)
-
-            # mail_admins(subject='ANALYSE create_tenant', message='Es gab eine Registrierung!', fail_silently=True)
-
-            return redirect(reverse('login'))
+                return redirect(reverse('login'))
 
     context['title'] = _('Hauptmieter Registrierung') if is_maintenant else _('Untermieter Registrierung')
     context['tenant_form'] = tenant_form
@@ -188,7 +202,8 @@ def reset_email_confirmation(request, tenant):
     """
     tenant.email_confirmed_at = None
     tenant.save(update_fields=['email_confirmed_at'])
-    send_confirmation_mail(request, tenant)
+    # the callers run in a transaction: the mail goes out after the commit, so a slow SMTP server does not hold it open
+    on_commit(lambda: send_confirmation_mail(request, tenant))
     logger.info('email changed, confirmation reset: user %s', tenant.pk)
 
 
@@ -438,28 +453,23 @@ def contact_subtenant(request, pk):
     else:
         # Sends email with maintenant's contact details to the subtenant
 
-        try:
-            mail = EmailMessage('Untermiete Straußäcker 3 Kontaktaufnahme',
-                                content,
-                                '',
-                                [subtenant.email])
-            send_email(mail, receiver_id=subtenant.pk, sender_id=request.user.pk)
+        mail = EmailMessage('Untermiete Straußäcker 3 Kontaktaufnahme',
+                            content,
+                            '',
+                            [subtenant.email])
+        # a failed send (SMTP error, rate limit) is logged by send_email and not reported to the user
+        send_email(mail, receiver_id=subtenant.pk, sender_id=request.user.pk, fail_silently=True)
 
-            confirmation = get_template('tenants/contact_email.txt').render({**mail_context, 'confirmation': True})
-            mail = EmailMessage(
-                'Bestätigung Untermiete Straußäcker 3 Kontaktaufnahme',
-                confirmation,
-                '',
-                [request.user.email])
-            send_email(mail, receiver_id=request.user.pk, fail_silently=True)
-            logger.info('contact: maintenant %s contacted subtenant %s', request.user.pk, subtenant.pk)
+        confirmation = get_template('tenants/contact_email.txt').render({**mail_context, 'confirmation': True})
+        mail = EmailMessage(
+            'Bestätigung Untermiete Straußäcker 3 Kontaktaufnahme',
+            confirmation,
+            '',
+            [request.user.email])
+        send_email(mail, receiver_id=request.user.pk, fail_silently=True)
+        logger.info('contact: maintenant %s contacted subtenant %s', request.user.pk, subtenant.pk)
 
-            # mail_admins(subject='ANALYSE contact_subtenant', message='Es gab eine Kontaktaufnahme!', fail_silently=True)
-
-        except SMTPException:
-            logger.exception('contact mail failed: maintenant %s -> subtenant %s', request.user.pk, subtenant.pk)
-            messages.error(request, _('Untermieter konnte nicht kontaktiert werden!'))
-            return redirect('Requests')
+        # mail_admins(subject='ANALYSE contact_subtenant', message='Es gab eine Kontaktaufnahme!', fail_silently=True)
 
         messages.success(request,
                          _(

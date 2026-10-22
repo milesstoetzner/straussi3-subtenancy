@@ -20,6 +20,9 @@ EMAIL_HOST_PASSWORD = os.environ.get('SUBTENANCY_EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = bool(int(os.environ.get('SUBTENANCY_EMAIL_USE_TLS', default='1')))
 DEFAULT_FROM_EMAIL = os.environ.get('SUBTENANCY_EMAIL_DEFAULT_FROM')
 SERVER_EMAIL = os.environ.get('SUBTENANCY_EMAIL_SERVER')
+# Seconds to wait for the SMTP server (connect and every command). Without a timeout a server that accepts no
+# connection blocks the request until gunicorn kills the worker (30 s), which also discards the registration.
+EMAIL_TIMEOUT = int(os.environ.get('SUBTENANCY_EMAIL_TIMEOUT', default='10'))
 
 INSTALLED_APPS = [
     'django.contrib.admin',

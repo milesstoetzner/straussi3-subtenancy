@@ -245,6 +245,7 @@ otherwise, and nothing else, so it leaks no internal information.
 | `SUBTENANCY_EMAIL_USE_TLS`              | `'1'`                | Enable TLS for email connection.                                 |
 | `SUBTENANCY_EMAIL_DEFAULT_FROM`         |                      | Default sender email address.                                    |
 | `SUBTENANCY_EMAIL_SERVER`               |                      | Server email address used by Django error emails.                |
+| `SUBTENANCY_EMAIL_TIMEOUT`              | `10`                 | Seconds to wait for the SMTP server before a mail counts as failed. |
 | `SUBTENANCY_DB_NAME`                    | `'subtenancy'`       | PostgreSQL database name.                                        |
 | `SUBTENANCY_DB_USER`                    | `'default'`          | Database username.                                               |
 | `SUBTENANCY_DB_PASSWORD`                | `'default'`          | Database password.                                               |

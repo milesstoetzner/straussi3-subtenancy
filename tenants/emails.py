@@ -30,6 +30,9 @@ def confirmation_url(request, user):
 
 
 def send_text_mail(subject, template_name, context, to, receiver_id=None):
+    """
+    A failed send (SMTP error, rate limit) is logged by send_email and otherwise ignored.
+    """
     content = get_template(template_name).render(context)
     mail = EmailMessage(subject, content, '', [to])
     send_email(mail, receiver_id=receiver_id, fail_silently=True)

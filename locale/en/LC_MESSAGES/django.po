@@ -1774,10 +1774,6 @@ msgstr "Your request has been deleted."
 msgid "Kontaktaufnahme"
 msgstr "First Contact"
 
-#: tenants/views.py:366
-msgid "Untermieter konnte nicht kontaktiert werden!"
-msgstr "Could not contact Subtenant!"
-
 #: tenants/views.py:371
 msgid ""
 "Untermieter wurde erfolgreich kontaktiert! Wir haben dir als Bestätigung der"
@@ -1872,3 +1868,7 @@ msgstr "Click the button to confirm your e-mail address. Afterwards you can log 
 #: tenants/templates/tenants/confirm_email_failed.html
 msgid "Diese E-Mail-Adresse ist bereits bestätigt. Du kannst dich einloggen."
 msgstr "This e-mail address is already confirmed. You can log in."
+
+#: tenants/views.py
+msgid "Diese Registrierung ist gerade schon eingegangen. Bitte logge dich ein oder fordere auf der Login-Seite einen neuen Bestätigungslink an."
+msgstr "This registration has just been received already. Please log in or request a new confirmation link on the login page."

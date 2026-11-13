@@ -1872,3 +1872,7 @@ msgstr "This e-mail address is already confirmed. You can log in."
 #: tenants/views.py
 msgid "Diese Registrierung ist gerade schon eingegangen. Bitte logge dich ein oder fordere auf der Login-Seite einen neuen Bestätigungslink an."
 msgstr "This registration has just been received already. Please log in or request a new confirmation link on the login page."
+
+#: tenants/views.py
+msgid "Du bist bereits registriert."
+msgstr "You are already registered."

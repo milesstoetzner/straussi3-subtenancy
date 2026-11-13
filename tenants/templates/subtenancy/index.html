@@ -13,11 +13,13 @@
         <a href="{% url 'Requests' %}" class="btn btn-success btn-block"><i
                 class="fas fa-file-alt icon-text"></i>{% trans "Anfragen von Untermietern" %}</a>
 
-        <a href="{% url 'MainTenantCreate' %}" class="btn btn-success btn-block"><i
-                class="fas fa-user-edit icon-text"></i>{% trans "Als Hauptmieter registrieren" %}</a>
+        {% if not user.is_authenticated or user.is_assistant %}
+            <a href="{% url 'MainTenantCreate' %}" class="btn btn-success btn-block"><i
+                    class="fas fa-user-edit icon-text"></i>{% trans "Als Hauptmieter registrieren" %}</a>
 
-        <a href="{% url 'SubTenantCreate' %}" class="btn btn-success btn-block"><i
-                class="fas fa-user-edit icon-text"></i>{% trans "Als Untermieter registrieren" %}</a>
+            <a href="{% url 'SubTenantCreate' %}" class="btn btn-success btn-block"><i
+                    class="fas fa-user-edit icon-text"></i>{% trans "Als Untermieter registrieren" %}</a>
+        {% endif %}
 
 
     </div>

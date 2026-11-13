@@ -44,6 +44,11 @@ def create_tenant(request, is_maintenant):
     was still uncommitted, so the database rejected it with a 500 instead of the form with an error.
     """
 
+    # Someone who is logged in has an account already. Only assistants register others (in the Sprechstunde).
+    if request.user.is_authenticated and not request.user.is_assistant():
+        messages.info(request, _('Du bist bereits registriert.'))
+        return redirect(reverse('Profile'))
+
     context = {}
 
     if request.method == 'GET':

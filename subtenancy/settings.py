@@ -168,10 +168,14 @@ LOGGING = {
     'handlers': {
         'console': {'class': 'logging.StreamHandler', 'formatter': 'standard'},
         'mail_admins': {'class': 'django.utils.log.AdminEmailHandler', 'level': 'ERROR'},
+        'null': {'class': 'logging.NullHandler'},
     },
     'root': {'handlers': ['console'], 'level': 'WARNING'},
     'loggers': {
         'django.request': {'handlers': ['console', 'mail_admins'], 'level': 'ERROR', 'propagate': False},
+        # Requests with a foreign Host header (scanners hitting the IP) are answered with 400 anyway; without this
+        # each one is an ERROR with a traceback in the log. Dropping it is what the Django docs recommend.
+        'django.security.DisallowedHost': {'handlers': ['null'], 'propagate': False},
         'tenants': {'handlers': ['console'], 'level': LOG_LEVEL, 'propagate': False},
         'contracts': {'handlers': ['console'], 'level': LOG_LEVEL, 'propagate': False},
         'subtenancy': {'handlers': ['console'], 'level': LOG_LEVEL, 'propagate': False},

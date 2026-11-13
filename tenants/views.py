@@ -161,7 +161,7 @@ def resend_confirmation(request):
     else:
         form = ResendConfirmationForm(request.POST)
         if form.is_valid():
-            user = User.objects.filter(email__iexact=form.cleaned_data['email']).first()
+            user = User.objects.filter(email=form.cleaned_data['email'].lower()).first()
             if user is not None and not user.is_email_confirmed():
                 send_confirmation_mail(request, user)
             messages.success(request, _('Falls zu dieser E-Mail-Adresse ein noch nicht bestätigter Account existiert, haben wir einen neuen Bestätigungslink geschickt. Bitte prüfe auch den Spam-Ordner.'))

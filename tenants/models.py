@@ -25,6 +25,18 @@ class User(AbstractUser):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def clean(self):
+        # the forms call this before they check the uniqueness, so that an address that another account has in
+        # another spelling is reported as taken
+        super().clean()
+        self.email = self.email.lower()
+
+    def save(self, *args, **kwargs):
+        # Addresses are stored in lowercase: the unique index then also holds for different spellings, and the login,
+        # which takes the address in any spelling, finds it by comparing with the lowercased input.
+        self.email = self.email.lower()
+        super().save(*args, **kwargs)
+
     def is_email_confirmed(self):
         return self.email_confirmed_at is not None
 

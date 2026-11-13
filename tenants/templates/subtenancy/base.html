@@ -50,8 +50,11 @@
 
             <a class="nav-link" href="{% url 'Index' %}" id="{% url 'Index' %}"><i class="fas fa-info-circle"></i>FAQ</a>
 
-            <a class="nav-link" href="{% url 'MainTenantCreate' %}" id="{% url 'MainTenantCreate' %}"><i class="fas fa-user-edit"></i>{% trans "Hauptmieter" %}</a>
-            <a class="nav-link" href="{% url 'SubTenantCreate' %}" id="{% url 'SubTenantCreate' %}"><i class="fas fa-user-edit"></i>{% trans "Untermieter" %}</a>
+            {# registration: for visitors, and for assistants who register tenants in the Sprechstunde #}
+            {% if not user.is_authenticated or user.is_assistant %}
+                <a class="nav-link" href="{% url 'MainTenantCreate' %}" id="{% url 'MainTenantCreate' %}"><i class="fas fa-user-edit"></i>{% trans "Hauptmieter" %}</a>
+                <a class="nav-link" href="{% url 'SubTenantCreate' %}" id="{% url 'SubTenantCreate' %}"><i class="fas fa-user-edit"></i>{% trans "Untermieter" %}</a>
+            {% endif %}
 
             <a class="nav-link" href="{% url 'Requests' %}" id="{% url 'Requests' %}"><i class="fas fa-file-alt"></i>{% trans "Anfragen" %}</a>
 

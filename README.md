@@ -11,6 +11,7 @@ Django app for administrating the subtenancy for the Straussi3.
 
 - [Screenshots](#screenshots)
 - [Architecture](#architecture)
+- [Commands](#commands)
 - [Development](#development)
   - [Setup](#setup)
   - [Tests](#tests)
@@ -51,6 +52,21 @@ Outgoing mail is rate limited per receiver, per acting user and globally.
 In production gunicorn runs the app and whitenoise serves the static files, both in one Docker container next to the
 PostgreSQL container, behind a reverse proxy that terminates TLS.
 
+## Commands
+
+Everything that is run by hand goes through the [Makefile](/Makefile): development, the management commands and the
+server operations. `make` lists all targets with their parameters, which are passed as `NAME=value`.
+
+```
+make                                  # list all targets
+make create-account USERNAME=... EMAIL=... FIRST_NAME=... LAST_NAME=...
+make manage CMD="changepassword admin"   # any other manage.py command
+```
+
+Management commands run locally (virtualenv and `.env.dev`) on a development machine and inside the backend container
+on the server, which is detected by `/etc/subtenancy/config/backend`; `DOCKER=1` or `DOCKER=0` forces one or the other.
+The targets wrap `manage.py` and the [scripts](/scripts), which can still be called directly (the cronjob does).
+
 ## Development
 
 ### Setup
@@ -58,24 +74,22 @@ PostgreSQL container, behind a reverse proxy that terminates TLS.
 Requires Python 3.13 and a local PostgreSQL (see the defaults in the environment table).
 
 ```
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python manage.py init_database --superuser admin --email admin@example.org
-scripts/develope.sh
+make install
+make init SUPERUSER=admin EMAIL=admin@example.org
+make dev
 ```
 
-`init_database` runs the migrations, creates the permission groups and a superuser for the admin (prints the password).
-`develope.sh` exports `.env.dev` and starts the development server on port 8000.
+`install` creates the virtualenv `venv` and installs the dependencies, including those of the tests.
+`init` (`init_database`) runs the migrations, creates the permission groups and a superuser for the admin (prints the password).
+`dev` exports `.env.dev` and starts the development server on port 8000.
 
 ### Tests
 
 End-to-end tests drive a real browser (Playwright) against Django's live test server and need a PostgreSQL.
 
 ```
-pip install -r requirements-dev.txt
-playwright install chromium
-pytest
+make test
+make test ARGS="-k contact -x"
 ```
 
 pytest-django creates a throwaway `test_subtenancy` database on the configured server.
@@ -89,8 +103,8 @@ Rebuild only after changing the source or using a Tailwind class in a template t
 (downloads the Tailwind standalone CLI on first use, no Node needed):
 
 ```
-scripts/build-css.sh          # once
-scripts/build-css.sh --watch  # while editing
+make css        # once
+make css-watch  # while editing
 ```
 
 ### Permissions
@@ -106,10 +120,10 @@ Registration puts every new account into `Maintenant` or `Subtenant`; `create_ac
 | `Assistant`  | view and edit users, maintenants and subtenants; view the blacklist; add, view and edit contracts; print the active contracts |
 | `External`   | print the active contracts                                                                       |
 
-The groups are defined in [tenants/groups.py](/tenants/groups.py) and created by `python manage.py sync_groups`,
+The groups are defined in [tenants/groups.py](/tenants/groups.py) and created by `make sync-groups` (`manage.py sync_groups`),
 which also resets their permissions to that definition (changes made in the admin do not survive it).
 The command is idempotent; `init_database`, the container entrypoint and [scripts/deploy.sh](/scripts/deploy.sh) run it after `migrate`.
-`sync_groups --dry-run` only prints which groups would be created and which permissions added or removed.
+`make sync-groups DRY_RUN=1` only prints which groups would be created and which permissions added or removed.
 
 ### Database
 
@@ -202,7 +216,7 @@ Releases are tags `vMAJOR.MINOR.PATCH`; a new major needs manual steps, see [Mig
 
 ```
 git tag -a v2.1.0 -m "v2.1.0" && git push origin v2.1.0   # developer
-scripts/deploy.sh v2.1.0                                   # server: checkout, build, restart, migrate, sync_groups
+make deploy REF=v2.1.0                                     # server: checkout, build, restart, migrate, sync_groups
 ```
 
 ## Deployment
@@ -216,7 +230,7 @@ Configuration is read from `/etc/subtenancy/config/backend` and `/etc/subtenancy
 Contract PDFs are stored in `/etc/subtenancy/contracts`, the database in `/etc/subtenancy/database`.
 
 ```
-docker compose up -d --build
+make up
 ```
 
 ### Reverse Proxy
@@ -265,7 +279,7 @@ otherwise, and nothing else, so it leaks no internal information.
 
 ### Installation
 
-A new server needs Docker, the repository and the data directories; everything else is created by the app.
+A new server needs Docker, make, the repository and the data directories; everything else is created by the app.
 
 1. Clone the repository to `/home/str3/straussi3-subtenancy`.
 2. Create `/etc/subtenancy/config`, `/etc/subtenancy/contracts` and `/etc/subtenancy/database`.
@@ -276,13 +290,13 @@ A new server needs Docker, the repository and the data directories; everything e
    (the command prints its password). To continue from a backup instead, see [Restore](#restore).
 
    ```
-   docker compose up -d --build
-   docker compose exec backend python manage.py init_database --superuser USERNAME --email EMAIL
+   make up
+   make init SUPERUSER=USERNAME EMAIL=EMAIL
    ```
 
 5. Install the [cronjob](/scripts/cronjob) and the [reverse proxy](#reverse-proxy).
 
-`init_database` can be run again at any time; it keeps existing data and creates the superuser only if there is none.
+`make init` can be run again at any time; it keeps existing data and creates the superuser only if there is none.
 
 ## Operations
 
@@ -293,7 +307,7 @@ It dumps the database through the database container and packs it together with 
 `subtenancy_backup_<timestamp>.tar.gz` in `/home/str3/backups`; archives older than 30 days are deleted.
 
 ```
-scripts/backup.sh [BACKUP_DIR]
+make backup [BACKUP_DIR=...]
 ```
 
 ### Restore
@@ -303,9 +317,9 @@ database already contains tables or the contracts directory is not empty.
 To restore over an existing installation, stop it and clear the data first.
 
 ```
-docker compose down
+make down
 sudo rm -rf /etc/subtenancy/database/* /etc/subtenancy/contracts/*
-scripts/restore.sh /home/str3/backups/subtenancy_backup_<timestamp>.tar.gz
+make restore ARCHIVE=/home/str3/backups/subtenancy_backup_<timestamp>.tar.gz
 ```
 
 The script starts the database, restores the dump and the PDFs, then starts the whole stack.
@@ -330,8 +344,8 @@ password and puts the account into the matching group, see [Permissions](#permis
 confirmation link and can log in once its e-mail address is confirmed.
 
 ```
-docker compose exec backend python manage.py create_account USERNAME EMAIL --first-name VORNAME --last-name NACHNAME
-docker compose exec backend python manage.py create_account USERNAME EMAIL --first-name VORNAME --last-name NACHNAME --role external
+make create-account USERNAME=... EMAIL=... FIRST_NAME=... LAST_NAME=...
+make create-account USERNAME=... EMAIL=... FIRST_NAME=... LAST_NAME=... ROLE=external
 ```
 
 ### Data Access Requests
@@ -341,22 +355,23 @@ The command collects everything the application holds about one user (account, t
 including the PDF file names) as JSON; identify the person by username, e-mail address or id.
 
 ```
-docker compose exec backend python manage.py export_personal_data USERNAME_OR_EMAIL                     # JSON to stdout
-docker compose exec backend python manage.py export_personal_data USERNAME_OR_EMAIL --pdf /tmp/auskunft.pdf
+make export-personal-data PERSON=USERNAME_OR_EMAIL                     # JSON to stdout
+make export-personal-data PERSON=USERNAME_OR_EMAIL PDF=auskunft.pdf
 ```
 
-The PDF is styled like the contract documents; `--output FILE` writes the JSON to a file instead.
+The PDF is styled like the contract documents; `OUTPUT=FILE` writes the JSON to a file instead.
+Both files are written on the host, also when the command runs in the container.
 
 Server logs and sent e-mails live with the hosting and mail provider and are not part of the export.
 
 ### Prune Stale Data
 
 Deletes contracts older than three years, tenants without contracts and other non-staff accounts that have not logged in for six months (or never logged in and were created more than six months ago, e.g. registrations that were never confirmed), the PDF files of the deleted contracts, and PDF files whose contract no longer exists (deleted in the admin).
-Without `--apply` the command is a dry run that only lists what it would delete.
+Without `APPLY=1` the command is a dry run that only lists what it would delete.
 
 ```
-python manage.py prune_stale_data          # dry run
-python manage.py prune_stale_data --apply  # delete
+make prune          # dry run
+make prune APPLY=1  # delete
 ```
 
 On the server the [cronjob](/scripts/cronjob) runs [scripts/prune-stale-data.sh](/scripts/prune-stale-data.sh) `--apply` every night at 03:20, an hour after the backup.
@@ -365,10 +380,10 @@ On the server the [cronjob](/scripts/cronjob) runs [scripts/prune-stale-data.sh]
 
 #### 1.x to 2.x
 
-1. Backup: `scripts/backup.sh` (the database model changes, migration `tenants.0066`).
+1. Backup: `make backup` (the database model changes, migration `tenants.0066`).
 2. Configure: `SUBTENANCY_TRUST_X_FORWARDED_FOR=1` in `/etc/subtenancy/config/backend`, see [Reverse Proxy](#reverse-proxy);
    drop `SUBTENANCY_CLEAN_DATABASE_WRITE`.
-3. Start the new version: fresh clone (the history was rewritten), `scripts/deploy.sh v2.0.0`.
+3. Start the new version: fresh clone (the history was rewritten), `make deploy REF=v2.0.0`.
 4. Install the [cronjob](/scripts/cronjob).
 
 ## Changelog

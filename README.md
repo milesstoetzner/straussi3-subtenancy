@@ -233,6 +233,16 @@ Contract PDFs are stored in `/etc/subtenancy/contracts`, the database in `/etc/s
 make up
 ```
 
+### Logs
+
+Both containers log to the system journal (`logging: driver: journald` in the compose file), so the logs survive
+deployments and reboots and are rotated by journald. `make logs` keeps working; the journal can also be
+read directly:
+
+```
+journalctl CONTAINER_NAME=straussi3-subtenancy-backend-1 --since "1 week ago"
+```
+
 ### Reverse Proxy
 
 The app listens on `127.0.0.1:8000` only.

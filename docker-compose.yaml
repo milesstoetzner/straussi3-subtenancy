@@ -1,7 +1,11 @@
+# Container logs go to the system journal (persistent in /var/log/journal, rotated by journald) instead of Docker's
+# json-file driver, whose files vanish whenever a container is recreated, i.e. on every deploy.
 services:
   backend:
     build: .
     restart: unless-stopped
+    logging:
+      driver: journald
     env_file: /etc/subtenancy/config/backend
     volumes:
       - /etc/subtenancy/contracts:/app/contracts/contracts
@@ -13,6 +17,8 @@ services:
   database:
     image: postgres:17.5
     restart: unless-stopped
+    logging:
+      driver: journald
     env_file: /etc/subtenancy/config/database
     volumes:
       - /etc/subtenancy/database:/var/lib/postgresql/data

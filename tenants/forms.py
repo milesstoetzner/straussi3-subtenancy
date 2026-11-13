@@ -10,11 +10,42 @@ BOOLEAN_CHOICES = ((False, _('Nein')), (True, _('Ja')))
 
 class LoginForm(AuthenticationForm):
     """
-    Login that additionally requires a confirmed e-mail address. The template shows a hint with the resend link when
-    email_unconfirmed is set.
+    Login with the username or the e-mail address, which additionally requires a confirmed e-mail address. The
+    template shows a hint with the resend link when email_unconfirmed is set.
     """
 
     email_unconfirmed = False
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].label = _('Benutzername oder E-Mail-Adresse')
+
+    def clean(self):
+        # Many people type their e-mail address into the username field (seen in the production log: most failed
+        # logins were addresses), so the input is tried as a username first and as an address second.
+        username = self.cleaned_data.get('username')
+        if username:
+            self.cleaned_data['username'] = self.find_username(username)
+        return super().clean()
+
+    @staticmethod
+    def find_username(username):
+        """
+        Returns the username of the account that the given username or e-mail address belongs to, or the input
+        itself if there is none.
+        """
+
+        # 1. the username; it wins because a few usernames are addresses themselves
+        if User.objects.filter(username=username).exists():
+            return username
+
+        # 2. the e-mail address; addresses are stored in lowercase (see User.save)
+        owner = User.objects.filter(email=username.lower()).first()
+        if owner is not None:
+            return owner.username
+
+        # 3. no such account, the authentication fails as usual
+        return username
 
     def confirm_login_allowed(self, user):
         super().confirm_login_allowed(user)

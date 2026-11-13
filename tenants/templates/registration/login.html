@@ -19,7 +19,7 @@
                         <a href="{% url 'ResendConfirmation' %}">{% trans "Bestätigungslink erneut senden" %}</a>
                     </div>
                 {% elif form.errors %}
-                    <div class="alert bg-danger text-white" role="alert">{% trans "Falscher Nutzername und/ oder Passwort!" %}
+                    <div class="alert bg-danger text-white" role="alert">{% trans "Falscher Nutzername bzw. falsche E-Mail-Adresse und/oder falsches Passwort!" %}
                     </div>
                 {% endif %}
 

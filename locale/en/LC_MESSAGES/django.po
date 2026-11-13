@@ -241,8 +241,8 @@ msgid "Einloggen"
 msgstr "Login"
 
 #: tenants/templates/registration/login.html:17
-msgid "Falscher Nutzername und/ oder Passwort!"
-msgstr "Wrong Username and/ or Password!"
+msgid "Falscher Nutzername bzw. falsche E-Mail-Adresse und/oder falsches Passwort!"
+msgstr "Wrong username or e-mail address and/or wrong password!"
 
 #: tenants/templates/registration/login.html:24
 msgid ""
@@ -1876,3 +1876,7 @@ msgstr "This registration has just been received already. Please log in or reque
 #: tenants/views.py
 msgid "Du bist bereits registriert."
 msgstr "You are already registered."
+
+#: tenants/forms.py
+msgid "Benutzername oder E-Mail-Adresse"
+msgstr "Username or e-mail address"
